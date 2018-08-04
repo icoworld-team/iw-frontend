@@ -6,3 +6,9 @@
 * Apollo
 * GraphQL
 * Office UI Fabric
+
+Запуск проекта:
+    $ git clone https://github.com/pyshopml2/iw-frontend
+    cd iw-frontend
+    npm install
+    npm start
