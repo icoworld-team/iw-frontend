@@ -1,0 +1,38 @@
+.header {
+  background-color: #042763;
+  width: 100%;
+  padding: 15px 0;
+  
+  .container {
+    width: 92%;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 1140px;
+  }
+}
+
+.header__left,
+.header__right {
+  width: 50%;
+}
+
+.header__right {
+  text-align: right;
+}
+
+.header__langBtn {
+  background-color: #fff;
+  color: #042763;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: .3s;
+  font-family: 'Roboto', sans-serif;
+  
+  &:hover {
+    background-color: #cccccc;
+  }
+}

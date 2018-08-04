@@ -1,0 +1,63 @@
+.signIn {
+  margin-top: 80px;
+}
+
+.form__cont {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.form__input {
+  border: 2px solid #042763;
+  margin-right: 60px;
+  text-align: center;
+  padding: 10px 10px;
+  width: 170px;
+  height: 40px;
+  outline: none;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.form__fields {
+  margin-right: 60px;
+}
+
+.form__buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form__btnSubmit {
+  background-color: #042763;
+  color: #fff;
+  border: none;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  padding: 8px 10px;
+  width: 166px;
+  height: 36px;
+  cursor: pointer;
+  outline: none;
+  margin-top: 2px;
+  margin-bottom: 9px;
+  font-size: 14px;
+  transition: .3s;
+
+  &:hover {
+    background-color: darken($color: #042763, $amount: 7%);
+  }
+}
+
+.form__btnLink {
+  margin-bottom: 9px;
+  color: #0054a5;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
