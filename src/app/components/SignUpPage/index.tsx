@@ -2,10 +2,13 @@ import React from 'react'
 import styles from './style.css'
 import SignUpForm from '../SignUpForm'
 import {Link} from 'react-router-dom'
+import Header from '../Header'
+import Footer from '../Footer'
 
 export function SignUpPage() {
     return (
         <div>
+          <Header/>
           <div className={styles['login-link']}>
             <p>Уже есть аккаунт в icoWorld? <Link to="/">Войти</Link></p>
           </div>
@@ -16,6 +19,7 @@ export function SignUpPage() {
             </div>
             <SignUpForm/>
           </div>
+          <Footer/>
         </div>
     )
 }
