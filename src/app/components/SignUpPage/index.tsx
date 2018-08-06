@@ -11,7 +11,7 @@ export function SignUpPage() {
           </div>
           <div className={styles.container}>
             <div className={styles.logo}>
-              <img src="../../assets/logo.png"/>
+              <img src="../../assets/img/earth.png"/>
               <h1 className={styles.title}>icoWorld</h1>
             </div>
             <SignUpForm/>

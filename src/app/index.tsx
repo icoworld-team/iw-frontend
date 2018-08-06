@@ -6,7 +6,7 @@ import {SignUpPage} from 'app/components/SignUpPage'
 
 export const App = hot(module)(() => (
   <Switch>
-    <Route path="/" component={Main} />
-    <Route path="/signup" component={SignUpPage} />
+    <Route exact path="/" component={Main} />
+    <Route exact path="/signup" component={SignUpPage} />
   </Switch>
 ));
