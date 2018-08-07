@@ -13,3 +13,13 @@
     cd iw-frontend
     npm install
     npm start
+
+
+
+## Как собрать и запустить docker-образ
+
+1. Установить docker
+2. git clone https://github.com/pyshopml2/iw-frontend
+3. cd iw-frontend
+4. docker build -t iw-frontend:0.1 .
+5. Приложение доступно - localhost:3000
