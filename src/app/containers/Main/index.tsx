@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import Header from '../../components/Header/';
 import Footer from '../../components/Footer/';
-import Form from '../../components/Form/';
+import Valid from '../../components/Form/';
 import Advantages from '../../components/Advantages/';
 import * as style from './style.scss';
 
@@ -78,7 +78,7 @@ class Main extends Component {
             </div>
           </div>
 
-          <Form />
+          <Valid />
 
           <div className={style.container}>
             <Advantages title="Преимущества для криптоинвесторов:" items={advantagesForInvestors} />

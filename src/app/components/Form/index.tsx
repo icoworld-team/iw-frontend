@@ -5,7 +5,6 @@ export namespace SignInTextInput {
   export interface Props {
     email?: string;
     password?: string;
-    // onSave: (email: string) => void;
   }
 
   export interface State {
@@ -18,19 +17,13 @@ class Form extends Component<SignInTextInput.Props, SignInTextInput.State> {
   constructor(props: SignInTextInput.Props) {
     super(props);
     this.state = {
-      email: '',
-      password: ''
+      email: props.email || '',
+      password: props.password || ''
     };
   }
 
-  // handleUserInput = (e) => {
-  //   const name = e.target.name;
-  //   const value = e.target.value;
-  //   this.setState({[name]: value});
-  // }
-
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const name = event.target.name;
+    // const name = event.target.name;
     const value = event.target.value;
     // this.setState({ [name]: value });
     // this.setState({ email: event.target.value });
