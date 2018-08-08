@@ -39,7 +39,6 @@
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
   padding: 8px 10px;
-  width: 166px;
   height: 36px;
   cursor: pointer;
   outline: none;
@@ -47,6 +46,7 @@
   margin-bottom: 9px;
   font-size: 14px;
   transition: .3s;
+  width: 166px;
 
   &:hover {
     background-color: darken($color: #042763, $amount: 7%);

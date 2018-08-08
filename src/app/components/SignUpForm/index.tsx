@@ -92,23 +92,23 @@ class SignUpForm extends Component {
             <div className={styles['signup-container']}>
               <form className={styles['signup-form']}>
                 <div>
-                  <input name="name" value={this.state.name} required={true} type="text" placeholder="Имя" onChange={this.handleChange}/>
+                  <input name="name" className={styles['signup-input']} value={this.state.name} required={true} type="text" placeholder="Имя" onChange={this.handleChange}/>
                   <p className={styles.invisible}>{errorMessages.name}</p>
                 </div>
                 <div>
-                  <input name="surname" value={this.state.surname} required={true} type="text" placeholder="Фамилия" onChange={this.handleChange}/>
+                  <input name="surname" className={styles['signup-input']} value={this.state.surname} required={true} type="text" placeholder="Фамилия" onChange={this.handleChange}/>
                   <p className={styles.invisible}>{errorMessages.surname}</p>
                 </div>
                 <div>
-                  <input name="email" value={this.state.email} required={true} type="text" placeholder="Email" onChange={this.handleChange}/>
+                  <input name="email" className={styles['signup-input']} value={this.state.email} required={true} type="text" placeholder="Email" onChange={this.handleChange}/>
                   <p className={styles.invisible}>{errorMessages.email}</p>
                 </div>
                 <div>
-                  <input name="password" value={this.state.password} required={true} type="password" placeholder="Пароль" onChange={this.handleChange}/>
+                  <input name="password" className={styles['signup-input']} value={this.state.password} required={true} type="password" placeholder="Пароль" onChange={this.handleChange}/>
                   <p className={styles.invisible}>{errorMessages.password}</p>
                 </div>
                 <div>
-                  <input name="confirmPassword" value={this.state.confirmPassword} required={true} type="password" placeholder="Повторите пароль" onChange={this.handleChange}/>
+                  <input name="confirmPassword" className={styles['signup-input']} value={this.state.confirmPassword} required={true} type="password" placeholder="Повторите пароль" onChange={this.handleChange}/>
                   <p className={styles.invisible}>{errorMessages.confirmPassword}</p>
                 </div>
                 <div>
@@ -118,7 +118,7 @@ class SignUpForm extends Component {
                   </label>
                 </div>
                 <div>
-                  <input type="submit" value="Регистрация" disabled={!formValid}/>
+                  <input type="submit" className={styles['signup-btn']} value="Регистрация" disabled={!formValid}/>
                 </div>
               </form>
             </div>

@@ -11,7 +11,8 @@
   margin: 20px;
 }
 
-.signup-form input[type=text],input[type=password],input[type=submit] {
+.signup-input,
+.signup-btn {
   text-align: center;
   font-weight: bold;
   width: 100%;
@@ -22,7 +23,7 @@
   padding: 12px;
 }
 
-.signup-form input[type=submit]{
+.signup-btn {
   background-color: #0a3399;
   color: #ffffff;
   font-size: 1.2em;

@@ -148,8 +148,7 @@ module.exports = {
     })
   ],
   devServer: {
-    //host: '127.0.0.1',
-    host: '0.0.0.0',
+    // host: '0.0.0.0',
     contentBase: sourcePath,
     hot: true,
     inline: true,
