@@ -19,8 +19,19 @@
 ## Как собрать и запустить docker-образ
 
 1. Установить docker
+
+   ```
+   https://docs.docker.com/install/
+   ```
+
+   
+
 2. git clone https://github.com/pyshopml2/iw-frontend
+
 3. cd iw-frontend
+
 4. docker build -t iw-frontend:0.1 .
+
 5. docker run -ti -d -p 3000:3000 iw-frontend:0.1
+
 6. Приложение доступно - localhost:3000
