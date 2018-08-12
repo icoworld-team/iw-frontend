@@ -10,6 +10,7 @@
     "@types/react-router-dom": "^4.3.0",
     "@types/react-router-redux": "^5.0.15",
     "@types/reactstrap": "^6.0.2",
+    "@types/recharts": "^1.0.26",
     "autoprefixer": "^8.6.5",
     "autosuggest-highlight": "^3.1.1",
     "bootstrap": "^4.1.2",
