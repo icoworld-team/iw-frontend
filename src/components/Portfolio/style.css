@@ -1,0 +1,13 @@
+.portfolio-heading {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.portfolio-title {
+    font-weight: 400;
+}
+
+.more-info {
+    margin: 10px;
+}
