@@ -26,7 +26,7 @@ const styles = (theme: Theme) => createStyles({
   }
 });
 
-function AutoGridNoWrap(props: any) {
+function PortfolioAbout(props: any) {
   const { classes } = props;
   const message = `A wonderful serenity has taken possession of
     my entire soul, like these sweet mornings of spring which I
@@ -106,4 +106,4 @@ function AutoGridNoWrap(props: any) {
   );
 }
 
-export default withStyles(styles)(AutoGridNoWrap);
+export default withStyles(styles)(PortfolioAbout);

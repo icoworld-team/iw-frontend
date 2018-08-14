@@ -1,11 +1,5 @@
-.app-bar {
-    display: flex;
-    justify-content: space-around;
-}
-
 .navigation-menu {
     list-style-type: none;
-
 }
 
 .navigation-menu li {
