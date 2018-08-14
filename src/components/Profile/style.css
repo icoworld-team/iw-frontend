@@ -13,7 +13,7 @@
 }
 
 .profile-pic {
-    background-color: #ffffff;
+    background-color: #fafafa;
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
@@ -22,14 +22,14 @@
 }
 
 .profile-name {
-    background-color: #ffffff;
+    background-color: #fafafa;
     padding: 20px;
     margin-bottom: 20px;
 }
 
 .profile-tabs {
     padding: 0 50px 50px 50px;
-    background-color: #ffffff;
+    background-color: #fafafa;
     width: 700px;
 }
 
