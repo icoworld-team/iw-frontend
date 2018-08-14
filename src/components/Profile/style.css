@@ -54,3 +54,7 @@
 .user-name {
     font-weight: 400;
 }
+
+.tabs-list {
+    border-bottom: 1px solid black;
+}

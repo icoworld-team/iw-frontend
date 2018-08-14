@@ -1,0 +1,13 @@
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list_item {
+  padding-bottom: 10px;
+}
+
+.list_item:last-child {
+  padding-bottom: 0;
+}

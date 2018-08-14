@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import Button from '@material-ui/core/Button'
-import AppBar from '@material-ui/core/AppBar';
+// import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import MainAppBar from '../MainAppBar'
 import ProfileStats from '../ProfileStats'
 import PortfolioList from '../PortfolioList'
+import PortfolioAbout from '../PortfolioAbout'
 import PostList from '../PostList'
 import './style.css'
 
@@ -45,16 +46,16 @@ class Profile extends Component {
                         </div>
                     </div>
                     <div className="profile-tabs">
-                        <AppBar position="static" color="inherit">
-                            <Tabs value={this.state.tab} onChange={this.handleChange} indicatorColor="primary" textColor="primary" fullWidth>
+                        <div className="tabs-list">
+                            <Tabs value={this.state.tab} onChange={this.handleChange} indicatorColor="primary" textColor="primary">
                                 <Tab label="Activity"/>
                                 <Tab label="Portfolio"/>
                                 <Tab label="About me"/>
                             </Tabs>
-                        </AppBar>
+                        </div>
                         {this.state.tab === 0 && <PostList/>}
                         {this.state.tab === 1 && <PortfolioList/>}
-                        {this.state.tab === 2 && <PostList/>}
+                        {this.state.tab === 2 && <PortfolioAbout/>}
                     </div>
                 </div>
 
