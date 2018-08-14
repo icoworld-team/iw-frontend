@@ -1,0 +1,46 @@
+.post {
+    margin: 20px;
+}
+
+.post-profileImg {
+    border-radius: 70%;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-left-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.sub-text {
+    font-weight: 200;
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.post-avatar {
+    border-radius: 70%;
+}
+
+.post-header-text {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-left: 5px;
+}
+
+.post-user-name {
+    font-weight: 400;
+    margin: 0;
+    margin-right: 5px;
+}
+
+.inline-flex {
+    display: inline-flex;
+}

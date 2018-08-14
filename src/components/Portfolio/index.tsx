@@ -9,6 +9,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Divider from '@material-ui/core/Divider'
 import PortfolioChart from '../PortfolioChart'
 import './style.css'
 
@@ -36,7 +37,7 @@ class Portfolio extends Component<any> {
     render(){
         const {item} = this.props;
         return (
-            <div>
+            <div className="portfolio">
                 <div className="portfolio-heading">
                     <h2 className="portfolio-title">{item.title}</h2>
                     <IconButton aria-label="More" aria-owns={this.state.anchorEl ? 'fade-menu' : undefined} aria-haspopup="true" onClick={this.handleClick}>
@@ -74,6 +75,22 @@ class Portfolio extends Component<any> {
                                 <TableCell>{item.tableData.amount}</TableCell>
                                 <TableCell>{item.tableData.amount}</TableCell>
                             </TableRow>
+                            <TableRow>
+                                <TableCell>{item.tableData.ticker}</TableCell>
+                                <TableCell>{item.tableData.price}</TableCell>
+                                <TableCell>{item.tableData.amount}</TableCell>
+                                <TableCell>{item.tableData.amount}</TableCell>
+                                <TableCell>{item.tableData.amount}</TableCell>
+                                <TableCell>{item.tableData.amount}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>{item.tableData.ticker}</TableCell>
+                                <TableCell>{item.tableData.price}</TableCell>
+                                <TableCell>{item.tableData.amount}</TableCell>
+                                <TableCell>{item.tableData.amount}</TableCell>
+                                <TableCell>{item.tableData.amount}</TableCell>
+                                <TableCell>{item.tableData.amount}</TableCell>
+                            </TableRow>
                         </TableBody>
                     </Table>
                     <div>
@@ -82,6 +99,7 @@ class Portfolio extends Component<any> {
                         </p>
                     </div>
                 </div>
+                <Divider/>
             </div>
         )
     }

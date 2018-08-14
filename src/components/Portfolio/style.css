@@ -1,3 +1,7 @@
+.portfolio {
+    margin-bottom: 20px;
+}
+
 .portfolio-heading {
     display: flex;
     justify-content: space-between;

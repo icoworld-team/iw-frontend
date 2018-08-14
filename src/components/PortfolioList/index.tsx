@@ -50,7 +50,7 @@ export default function PortfolioList () {
         ];
 
         const elements = sampleData.map(function (item) {
-            return <Portfolio item={item}/>
+            return <Portfolio key={item.id} item={item}/>
         });
         return (
             <div>

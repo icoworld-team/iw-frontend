@@ -81,7 +81,9 @@ class SignUpPage extends Component {
         let disabled = !notEmpty || invalid || !this.state.checked;
         return (
             <div className="page">
-                <LangugageSelector/>
+                <div className="language-selector">
+                    <LangugageSelector/>
+                </div>
                 <div className="container">
                     <div className="signup-container">
                         <h1 className="form-title">Регистрация</h1>

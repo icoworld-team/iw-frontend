@@ -18,11 +18,13 @@ export default class Index extends Component {
         this.setState({ anchorEl: null });
     };
 
+
+
     render() {
         return (
-            <div className="language-selector">
+            <div>
                 <Button color="inherit" aria-owns={this.state.anchorEl ? 'fade-menu' : undefined} aria-haspopup="true" onClick={this.handleClick}>
-                    RU
+                    <span className="language-selector-text">RU</span>
                 </Button>
                 <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
                       onClose={this.handleClose} TransitionComponent={Fade}>

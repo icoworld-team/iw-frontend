@@ -23,6 +23,11 @@
     margin-bottom: 150px;
 }
 
+.language-selector-text {
+    font-size: 1rem;
+    padding-top: 5px;
+}
+
 .container {
     display: flex;
     flex-wrap: wrap;
