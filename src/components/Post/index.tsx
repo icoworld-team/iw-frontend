@@ -28,6 +28,9 @@ const styles = () => createStyles({
     container: {
         overflow: 'hidden',
         transition: '.3s'
+    },
+    menu: {
+        transform: 'translateX(50%)'
     }
   });
 
@@ -82,7 +85,7 @@ class Post extends Component<any> {
                             <div><p className="sub-text">{post.date}</p></div>
                         </div>
                     </div>
-                    <IconButton aria-label="More" aria-owns={this.state.anchorEl ? 'fade-menu' : undefined} aria-haspopup="true" onClick={this.handleClick}>
+                    <IconButton className={classes.menu} aria-label="More" aria-owns={this.state.anchorEl ? 'fade-menu' : undefined} aria-haspopup="true" onClick={this.handleClick}>
                         <MoreVertIcon/>
                     </IconButton>
                     <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
