@@ -9,19 +9,21 @@
 .post-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
 }
 
 .post-left-header {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    margin-bottom: 5px;
 }
 
 .sub-text {
     font-weight: 200;
-    font-size: 0.9em;
+    /* font-size: 0.9em; */
     margin: 0;
+    font-size: 13px;
 }
 
 .post-avatar {
@@ -32,15 +34,17 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    margin-left: 5px;
+    margin-left: 10px;
 }
 
 .post-user-name {
     font-weight: 400;
     margin: 0;
     margin-right: 5px;
+    font-size: 16px;
 }
 
 .inline-flex {
     display: inline-flex;
+    align-items: flex-end;
 }
