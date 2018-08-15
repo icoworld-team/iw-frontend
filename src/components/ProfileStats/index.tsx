@@ -1,16 +1,23 @@
 import React from 'react'
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import {Link} from "react-router-dom";
+import './style.css'
 
 export default function ProfileStats ({stats}:any) {
 
     return (
-        <div>
-            <BottomNavigation showLabels>
-                <BottomNavigationAction label="Followers" icon={stats.followers}/>
-                <BottomNavigationAction label="Follow" icon={stats.follow}/>
-                <BottomNavigationAction label="Posts" icon={stats.posts}/>
-            </BottomNavigation>
+        <div className="profile-stats">
+            <Link className="stats-links" to="#">
+                <span className="stats-label">{stats.followers}</span>
+                <span>Followers</span>
+            </Link>
+            <Link className="stats-links" to="#">
+                <span className="stats-label">{stats.follow}</span>
+                <span>Follow</span>
+            </Link>
+            <Link className="stats-links" to="#">
+                <span className="stats-label">{stats.posts}</span>
+                <span>Posts</span>
+            </Link>
         </div>
     )
 }
