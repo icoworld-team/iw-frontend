@@ -41,9 +41,9 @@ class Profile extends Component {
                                     <small><p>@iyufedotov</p>
                                     <p>Russia, Kazan</p></small>
                                     <div className="social-icons">
-                                        <a className="social-link" href="#"><i className="fab fa-facebook-square fa-lg"></i></a>
-                                        <a className="social-link" href="#"><i className="fab fa-linkedin fa-lg"></i></a>
-                                        <a className="social-link" href="#"><i className="fab fa-twitter-square fa-lg"></i></a>
+                                        <a className="social-link" href="#"><img className="social-icon" src='./icons/facebook.png'></img></a>
+                                        <a className="social-link" href="#"><img className="social-icon" src='./icons/twitter.png'></img></a>
+                                        <a className="social-link" href="#"><img className="social-icon" src='./icons/linkedIn.png'></img></a>
                                     </div>
                                 </div>
                                 <div>
