@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button'
 import CheckBox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import '../style.css'
+import {handleErrors, fetchPost} from '../../api'
 
 class SignUpPage extends Component {
     state = {
@@ -65,6 +66,21 @@ class SignUpPage extends Component {
         }
     };
 
+    handleClick =()=> {
+        const url = 'http://icoworld.projects.oktend.com:3000/signup';
+        const data = {
+            firstname: this.state.name,
+            lastname: this.state.surname,
+            email: this.state.email,
+            password: this.state.password
+        };
+        fetchPost(url, data)
+            .then(response=>handleErrors(response))
+            .then(response=>response.json())
+            .then(json=>console.log(json))
+            .catch(error=>console.log(error));
+    };
+
     render() {
         const errorMessages = {
             name: 'Имя должно быть не короче двух символов и не содержать *, /, ~, “',
@@ -109,7 +125,7 @@ class SignUpPage extends Component {
                                     <Link to="/">Уже есть аккаунт?</Link>
                                 </div>
 
-                                <Button fullWidth variant="raised" color="primary" disabled={disabled}>
+                                <Button fullWidth variant="raised" color="primary" disabled={disabled} onClick={this.handleClick}>
                                     Регистрация
                                 </Button>
                                 <FormControlLabel classes={{root: 'policy'}} control={

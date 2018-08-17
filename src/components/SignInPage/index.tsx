@@ -4,6 +4,7 @@ import LangugageSelector from '../LanguageSelector'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import '../style.css'
+import {handleErrors, fetchPost} from '../../api'
 
 class SignInPage extends Component {
     state = {
@@ -38,6 +39,19 @@ class SignInPage extends Component {
         }
     };
 
+    handleClick = () => {
+        const url = 'http://icoworld.projects.oktend.com:3000/login';
+        const data = {
+            email: this.state.email,
+            password: this.state.password
+        };
+        fetchPost(url, data)
+            .then(response=>handleErrors(response))
+            .then(response=>response.json())
+            .then(json=>console.log(json))
+            .catch(error=>console.log(error));
+    };
+
     render() {
         return (
             <div className="page">
@@ -58,7 +72,7 @@ class SignInPage extends Component {
                                     <Link to="">Забыли пароль?</Link>
                                     <Link to="/signup">Регистрация</Link>
                                 </div>
-                                <Button fullWidth variant="raised" color="primary">
+                                <Button fullWidth variant="raised" color="primary" onClick={this.handleClick}>
                                     Войти
                                 </Button>
                             </form>
