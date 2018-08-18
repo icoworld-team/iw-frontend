@@ -1,11 +1,18 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
+import { createStyles, withStyles } from '@material-ui/core/styles';
 import {Link} from "react-router-dom";
-import LangugageSelector from '../LanguageSelector'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import '../style.css'
+import LangugageSelector from '../LanguageSelector';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import '../style.css';
 
-class SignInPage extends Component {
+const styles = () => createStyles({
+    signInBtn: {
+        textDecoration: 'none',
+    }
+});
+
+class SignInPage extends Component<any> {
     state = {
         email: '',
         password: '',
@@ -39,6 +46,7 @@ class SignInPage extends Component {
     };
 
     render() {
+        const { classes } = this.props;
         return (
             <div className="page">
                 <div className="language-selector">
@@ -58,9 +66,11 @@ class SignInPage extends Component {
                                     <Link to="">Забыли пароль?</Link>
                                     <Link to="/signup">Регистрация</Link>
                                 </div>
-                                <Button fullWidth variant="raised" color="primary">
-                                    Войти
-                                </Button>
+                                <Link to="/profile" className={classes.signInBtn}>
+                                    <Button fullWidth variant="raised" color="primary">
+                                        Войти
+                                    </Button>
+                                </Link>
                             </form>
                         </div>
                         <div className="form-footer">
@@ -78,4 +88,4 @@ class SignInPage extends Component {
     }
 }
 
-export default SignInPage
+export default withStyles(styles)(SignInPage);

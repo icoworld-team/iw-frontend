@@ -51,11 +51,11 @@ class MainAppBar extends Component<any> {
                                     <nav>
                                         <ul className="navigation-menu">
                                             <li><Link to="#">News</Link></li>
-                                            <li><Link to="#">Profile</Link></li>
+                                            <li><Link to="/profile">Profile</Link></li>
                                             <li><Link to="#">Messages</Link></li>
                                             <li><Link to="#">Investors</Link></li>
                                             <li><Link to="#">Projects</Link></li>
-                                            <li><Link to="#">Pools</Link></li>
+                                            <li><Link to="/pools">Pools</Link></li>
                                         </ul>
                                     </nav>
                                 </div>
