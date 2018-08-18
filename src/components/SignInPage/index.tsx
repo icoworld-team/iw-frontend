@@ -60,7 +60,7 @@ class SignInPage extends Component<any> {
     };
 
     render() {
-        const { classes } = this.props;
+        // const { classes } = this.props;
         return (
             <div className="page">
                 <div className="language-selector">
