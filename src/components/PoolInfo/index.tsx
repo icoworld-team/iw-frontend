@@ -55,6 +55,10 @@ const styles = () => createStyles({
     marginRight: '10px',
     width: '300px',
   },
+  investBtn: {
+    width: '126px',
+    marginRight: '10px',
+  },
 });
 
 class PoolInfo extends Component<any> {
@@ -145,7 +149,9 @@ class PoolInfo extends Component<any> {
               
               <div className={classes.investPool}>
                 <TextField className={classes.investInput} placeholder="sum" name="sum" />
-                <Button className={classes.marginBtn} variant="contained" color="primary">Invest</Button>
+                <Button className={classes.investBtn} variant="contained" color="primary">Invest</Button>
+                <Button className={classes.investBtn} variant="outlined" color="primary">Send money</Button>
+                <Button className={classes.investBtn} variant="outlined" color="primary">Cansel pool</Button>
               </div>
 
             </div>

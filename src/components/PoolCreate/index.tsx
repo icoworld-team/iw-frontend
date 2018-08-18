@@ -47,14 +47,14 @@ const styles = () => createStyles({
     minHeight: '32px'
   },
   formBtns: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    width: '190px',
-    margin: '30px auto 0 auto',
+    textAlign: 'center',
+    marginTop: '30px',
+  },
+  createFormBtn: {
+    width: '90px',
   },
   marginBtn: {
-    marginBottom: '10px',
+    marginRight: '10px',
   },
 });
 
@@ -136,12 +136,12 @@ class PoolCreate extends Component<any> {
                   </div>
 
                   <div className={classes.formBtns}>
-                    <Button className={classes.marginBtn} variant="contained" color="primary">
+                    <Button className={`${classes.createFormBtn} ${classes.marginBtn}`} variant="contained" color="primary">
                         Create
                     </Button>
 
-                    <Button variant="outlined" color="primary">
-                        Create special pool
+                    <Button className={classes.createFormBtn} variant="outlined" color="primary">
+                        More
                     </Button>
                   </div>
                 </form>
