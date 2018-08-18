@@ -5,6 +5,7 @@ import LangugageSelector from '../LanguageSelector';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import '../style.css';
+import {handleErrors, fetchPost} from '../../api'
 
 const styles = () => createStyles({
     signInBtn: {
@@ -45,6 +46,19 @@ class SignInPage extends Component<any> {
         }
     };
 
+    handleClick = () => {
+        const url = 'http://icoworld.projects.oktend.com:3000/login';
+        const data = {
+            email: this.state.email,
+            password: this.state.password
+        };
+        fetchPost(url, data)
+            .then(response=>handleErrors(response))
+            .then(response=>response.json())
+            .then(json=>console.log(json))
+            .catch(error=>console.log(error));
+    };
+
     render() {
         const { classes } = this.props;
         return (
@@ -66,11 +80,11 @@ class SignInPage extends Component<any> {
                                     <Link to="">Забыли пароль?</Link>
                                     <Link to="/signup">Регистрация</Link>
                                 </div>
-                                <Link to="/profile" className={classes.signInBtn}>
-                                    <Button fullWidth variant="raised" color="primary">
-                                        Войти
-                                    </Button>
-                                </Link>
+
+                                <Button fullWidth variant="raised" color="primary" onClick={this.handleClick}>
+                                    Войти
+                                </Button>
+
                             </form>
                         </div>
                         <div className="form-footer">
