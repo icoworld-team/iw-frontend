@@ -69,8 +69,8 @@ class SignUpPage extends Component {
     handleClick =()=> {
         const url = 'http://icoworld.projects.oktend.com:3000/signup';
         const data = {
-            firstname: this.state.name,
-            lastname: this.state.surname,
+            firstName: this.state.name,
+            lastName: this.state.surname,
             email: this.state.email,
             password: this.state.password
         };
