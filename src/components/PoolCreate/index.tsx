@@ -33,13 +33,6 @@ const styles = () => createStyles({
   input: {
     width: '200px',
   },
-  projectNameInput: {
-    width: '95px',
-    marginRight: '10px'
-  },
-  projectLinkInput: {
-    width: '95px',
-  },
   formRow: {
     marginBottom: '10px',
     display: 'flex',
@@ -85,9 +78,13 @@ class PoolCreate extends Component<any> {
                   </div>
 
                   <div className={classes.formRow}>
-                    <Typography className={classes.inputLabel}>Project</Typography>
-                    <TextField className={`${classes.input} ${classes.projectNameInput}`} placeholder="Name" name="projectName" />
-                    <TextField className={`${classes.input} ${classes.projectLinkInput}`} placeholder="Link" name="projectLink" />
+                    <Typography className={classes.inputLabel}>Project name</Typography>
+                    <TextField className={classes.input} name="projectName" />
+                  </div>
+
+                  <div className={classes.formRow}>
+                    <Typography className={classes.inputLabel}>Project link</Typography>
+                    <TextField className={classes.input} name="projectLink" />
                   </div>
 
                   <div className={classes.formRow}>
@@ -103,11 +100,6 @@ class PoolCreate extends Component<any> {
                   <div className={classes.formRow}>
                     <Typography className={classes.inputLabel}>Hard Cap of the pool</Typography>
                     <TextField className={classes.input} name="poolHardCap" />
-                  </div>
-
-                  <div className={classes.formRow}>
-                    <Typography className={classes.inputLabel}>Current progress</Typography>
-                    <TextField className={classes.input} name="currentProgress" />
                   </div>
 
                   <div className={classes.formRow}>
@@ -127,6 +119,11 @@ class PoolCreate extends Component<any> {
 
                   <div className={classes.formRow}>
                     <Typography className={classes.inputLabel}>Comission of pool's holder</Typography>
+                    <TextField className={classes.input} name="comission" />
+                  </div>
+
+                  <div className={classes.formRow}>
+                    <Typography className={classes.inputLabel}>Address for the comission payment</Typography>
                     <TextField className={classes.input} name="comission" />
                   </div>
 
