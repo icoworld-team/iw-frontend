@@ -15,8 +15,10 @@ import PostList from '../PostList';
 const styles = () => createStyles({
   news: {
     minWidth: '1000px',
-    marginTop: '20px',
     display: 'flex',
+    maxWidth: '1100px',
+    margin: '0 auto',
+    marginTop: '20px',
     marginBottom: '30px',
   },
   newsLeft: {
