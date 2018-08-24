@@ -10,6 +10,7 @@ import PoolSearch from './components/PoolSearch'
 import PoolCreate from './components/PoolCreate'
 import PoolInfo from './components/PoolInfo'
 import InvestorsPage from './components/InvestorsPage'
+import NewsPage from './components/NewsPage'
 import {store, history} from "./store";
 
 
@@ -25,6 +26,7 @@ export default function App() {
                     <Route exact path="/create-pool" component={PoolCreate}/>
                     <Route exact path="/pool-info" component={PoolInfo}/>
                     <Route exact path="/investors" component={InvestorsPage}/>
+                    <Route exact path="/news" component={NewsPage}/>
                 </Switch>
             </ConnectedRouter>
         </Provider>

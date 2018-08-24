@@ -8,6 +8,7 @@ import ProfileStats from '../ProfileStats';
 import PortfolioList from '../PortfolioList';
 import PortfolioAbout from '../PortfolioAbout';
 import PostList from '../PostList';
+import PostInput from '../PostInput';
 import './style.css';
 
 class Profile extends Component {
@@ -59,7 +60,12 @@ class Profile extends Component {
                                         <Tab label="About me"/>
                                     </Tabs>
                                 </div>
-                                {this.state.tab === 0 && <PostList/>}
+                                {this.state.tab === 0 &&
+                                    <>
+                                        <PostInput />
+                                        <PostList />
+                                    </>
+                                }
                                 {this.state.tab === 1 && <PortfolioList/>}
                                 {this.state.tab === 2 && <PortfolioAbout/>}
                             </div>

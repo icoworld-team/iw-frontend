@@ -1,7 +1,5 @@
 import React from 'react'
 import Post from '../Post'
-import PostInput from '../PostInput'
-
 
 export default function PostList () {
 
@@ -48,9 +46,8 @@ export default function PostList () {
     });
 
     return (
-        <div>
-            <PostInput/>
+        <>
             {posts}
-        </div>
+        </>
     )
 }
