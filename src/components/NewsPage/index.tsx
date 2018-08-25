@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withStyles, createStyles } from '@material-ui/core/styles';
+import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TextField from '@material-ui/core/TextField';
@@ -12,7 +12,7 @@ import Author from '../Author';
 
 import PostList from '../PostList';
 
-const styles = () => createStyles({
+const styles = (theme: Theme) => createStyles({
   news: {
     minWidth: '1000px',
     display: 'flex',
@@ -31,16 +31,40 @@ const styles = () => createStyles({
   },
   newsTabs: {
     backgroundColor: '#fafafa',
-    padding: '15px 30px',
+    padding: '15px 50px',
   },
   tabsList: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  tabsIndicator: {
+    backgroundColor: '#3f51b5',
+  },
+  tabRoot: {
+    textTransform: 'initial',
+    minWidth: 72,
+    fontWeight: theme.typography.fontWeightRegular,
+    marginRight: theme.spacing.unit * 4,
+    '&:hover': {
+      color: '#3f51b5',
+      opacity: 1,
+    },
+    '&$tabSelected': {
+      color: '#3f51b5',
+      fontWeight: theme.typography.fontWeightMedium,
+    },
+    '&:focus': {
+      color: '#3f51b5',
+    },
+  },
+  tabSelected: {},
+  search: {
+    width: '150px',
+  },
   tabContent: {
     backgroundColor: '#fafafa',
-    padding: '15px 30px',
+    padding: '15px 50px',
     marginTop: '20px',
   },
   card: {
@@ -143,14 +167,25 @@ class News extends Component<any> {
                     <Tabs
                       value={this.state.tab}
                       onChange={this.handleChange}
-                      indicatorColor="primary"
-                      textColor="primary"
+                      classes={{ indicator: classes.tabsIndicator }}
                     >
-                      <Tab label="Subscribed" />
-                      <Tab label="Popular" />
-                      <Tab label="New" />
+                      <Tab
+                        disableRipple
+                        classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+                        label="Subscribed"
+                      />
+                      <Tab
+                        disableRipple
+                        classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+                        label="Popular"
+                      />
+                      <Tab
+                        disableRipple
+                        classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+                        label="New"
+                      />
                     </Tabs>
-                    <TextField placeholder='Search' name='search' type='search' />
+                    <TextField className={classes.search} placeholder='Search' name='search' type='search' />
                   </div>
                 </div>
 

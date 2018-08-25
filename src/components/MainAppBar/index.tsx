@@ -18,6 +18,7 @@ const styles = () => createStyles({
         justifyContent: 'space-between',
         padding: 0,
         maxWidth: '1100px',
+        minWidth: '1000px',
         margin: '0 auto'
     }
 });

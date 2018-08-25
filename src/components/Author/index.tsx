@@ -18,6 +18,7 @@ const styles = () => createStyles({
     color: '#a2a2a2',
     margin: 0,
     fontSize: '11px',
+    lineHeight: '14px',
   },
   avatar: {
     borderRadius: '70%',
@@ -32,10 +33,6 @@ const styles = () => createStyles({
     marginRight: '4px',
     fontSize: '14px',
     lineHeight: '18px',
-  },
-  inlineFlex: {
-    display: 'inline-flex',
-    alignItems: 'flex-end',
   },
 });
 
@@ -54,11 +51,8 @@ class Author extends Component<any> {
               <img className={classes.avatar} src="profile.jpeg" width="35px"/>
             </div>
             <div className={classes.authorHeaderText}>
-              <div className={classes.inlineFlex}>
-                <Typography component='h3' className={classes.authorName}>Ivan Fedotov</Typography>
-                <Typography className={classes.subText}>@iyufedotov</Typography>
-              </div>
-                <div><p className={classes.subText}>25 minutes ago</p></div>
+              <Typography component='h3' className={classes.authorName}>Ivan Fedotov</Typography>
+              <Typography className={classes.subText}>@iyufedotov</Typography>
             </div>
           </div>
         
