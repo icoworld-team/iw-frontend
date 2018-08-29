@@ -53,7 +53,7 @@ class MainAppBar extends Component<any> {
                                         <ul className="navigation-menu">
                                             <li><Link to="/news">News</Link></li>
                                             <li><Link to="/profile">Profile</Link></li>
-                                            <li><Link to="#">Messages</Link></li>
+                                            <li><Link to="/messages">Messages</Link></li>
                                             <li><Link to="/investors">Investors</Link></li>
                                             <li><Link to="#">Projects</Link></li>
                                             <li><Link to="/pools">Pools</Link></li>
