@@ -13,7 +13,6 @@ import InvestorsPage from './components/InvestorsPage'
 import NewsPage from './components/NewsPage'
 import {store, history} from "./store";
 
-
 export default function App() {
     return (
         <Provider store={store}>
