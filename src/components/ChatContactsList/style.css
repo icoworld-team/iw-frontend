@@ -1,0 +1,54 @@
+.chat-sidenav-header {
+    display: flex;
+    flex-direction: column;
+    background-color: #fafafa;
+    padding: 25px 20px 12px;
+}
+
+.chat-main-user-block {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.chat-main-user-info {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.search-bar {
+    position: relative;
+}
+
+.search-form {
+    width: 100%;
+}
+
+.search-input {
+    height: 42px;
+    padding: 6px 16px 6px 42px;
+    border-radius: 0;
+    font-size: 14px;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 0px;
+    height: 42px;
+    padding: 0;
+    background-color: transparent;
+    color: #868e96;
+    width: 30px;
+    border: 0 none;
+    cursor: pointer;
+    outline: 0 none;
+}
+
+.contacts-tab {
+    text-align: center;
+    color: #3f51b5;
+    border-bottom: 2px solid #3f51b5;
+    padding: 6px 24px;
+}
