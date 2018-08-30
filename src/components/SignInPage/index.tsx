@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux'
+import { push } from "react-router-redux";
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import {Link} from "react-router-dom";
 import LangugageSelector from '../LanguageSelector';
@@ -6,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import '../style.css';
 import {handleErrors, fetchPost} from '../../api'
+import {userSignIn} from '../../actions'
 
 const styles = () => createStyles({
     signInBtn: {
@@ -55,7 +58,8 @@ class SignInPage extends Component<any> {
         fetchPost(url, data)
             .then(response=>handleErrors(response))
             .then(response=>response.json())
-            .then(json=>console.log(json))
+            .then(json=>this.props.signIn(json))
+            .then(this.props.push)
             .catch(error=>console.log(error));
     };
 
@@ -102,4 +106,17 @@ class SignInPage extends Component<any> {
     }
 }
 
-export default withStyles(styles)(SignInPage);
+const mapStateToProps = (state:any) => {
+    return {
+        authUser: state.authUser
+    }
+};
+
+const mapDispatchToProps = (dispatch:any) => {
+    return {
+        signIn: (user:any) => dispatch(userSignIn(user)),
+        push: () => dispatch(push('/news'))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SignInPage))

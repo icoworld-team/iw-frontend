@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
+import { push } from "react-router-redux";
 import {Link} from "react-router-dom";
 import LangugageSelector from '../LanguageSelector/index'
 import TextField from '@material-ui/core/TextField'
@@ -7,8 +9,9 @@ import CheckBox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import '../style.css'
 import {handleErrors, fetchPost} from '../../api'
+import {userSignIn} from "../../actions";
 
-class SignUpPage extends Component {
+class SignUpPage extends Component<any> {
     state = {
         name: '',
         surname: '',
@@ -77,7 +80,8 @@ class SignUpPage extends Component {
         fetchPost(url, data)
             .then(response=>handleErrors(response))
             .then(response=>response.json())
-            .then(json=>console.log(json))
+            .then(json=>this.props.signIn(json))
+            .then(this.props.push)
             .catch(error=>console.log(error));
     };
 
@@ -148,4 +152,17 @@ class SignUpPage extends Component {
     }
 }
 
-export default SignUpPage
+const mapStateToProps = (state:any) => {
+    return {
+        authUser: state.authUser
+    }
+};
+
+const mapDispatchToProps = (dispatch:any) => {
+    return {
+        signIn: (user:any) => dispatch(userSignIn(user)),
+        push: () => dispatch(push('/news'))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage)
