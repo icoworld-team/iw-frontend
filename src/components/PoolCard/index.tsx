@@ -32,29 +32,29 @@ const styles = () => createStyles({
   }
 });
 
-function SimpleCard(props: any) {
-  const { classes } = props;
+function SimpleCard({ classes, pool }: any) {
+    const date = new Date(pool.endDate).toLocaleDateString();
 
   return (
-    <Link to="/pool-info" className={classes.linkCard}>
+    <Link to={{pathname: "/pool-info", state: {id: pool.poolId}}} className={classes.linkCard}>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
 
           <Typography variant="subheading" align="center" component="h2">
-            №123-8/15/18
+              {`№${pool.poolName}`}
           </Typography>
 
           <Chip className={classes.cardAvatar}
             avatar={<Avatar src="/profile.jpeg" />}
-            label="Ivan Fedotov"
+            label={`${pool.ownerName}`}
           />
 
           <Typography className={classes.cardTether} component="p">
-            Tether
+              {pool.projectName}
           </Typography>
 
           <Typography className={classes.cardDate} component="p">
-            25 December 2017
+              {date}
           </Typography>
 
           <Typography className={classes.cardComission} component="p">

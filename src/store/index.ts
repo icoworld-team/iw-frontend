@@ -10,7 +10,8 @@ export const store = createStore(combineReducers({
     auth: auth,
     router: routerReducer
 }),
-    applyMiddleware(middleware)
+    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
+    applyMiddleware(middleware),
 );
 
 export { history }

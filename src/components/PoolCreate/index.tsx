@@ -7,6 +7,17 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import MainAppBar from '../MainAppBar';
+import gql from 'graphql-tag'
+import { Mutation } from 'react-apollo'
+import { push } from "react-router-redux";
+import {connect} from "react-redux";
+
+
+const CREATE_POOL = gql`
+  mutation createPool($input: PoolInput!) {
+    createPool(input: $input)
+  }
+`;
 
 const styles = () => createStyles({
   pools: {
@@ -52,8 +63,44 @@ const styles = () => createStyles({
 });
 
 class PoolCreate extends Component<any> {
+  state = {
+      projectName: '',
+      projectLink: '',
+      projectAddress: '',
+      poolSoftCap: '',
+      poolHardCap: '',
+      minDeposit: '',
+      maxDeposit: '',
+      endDate: '',
+      commission: '',
+      commissionAddress: ''
+  };
+
+  handleChange = (e:any) => {
+    this.setState({
+        [e.target.name]: e.target.value
+    });
+  };
+
+
   render() {
     const { classes } = this.props;
+    const { authUser } = this.props;
+    let poolInput = {
+        owner: this.props.authUser.id,
+        projectName: this.state.projectName,
+        projectLink: this.state.projectLink,
+        projectAdress: this.state.projectAddress,
+        poolSoftCap: +this.state.poolSoftCap,
+        poolHardCap: +this.state.poolHardCap,
+        minDeposit: +this.state.minDeposit,
+        maxDeposit: +this.state.maxDeposit,
+        endDate: this.state.endDate,
+        comissionOfHolder: +this.state.commission,
+        addressForComissionPayment: this.state.commissionAddress,
+        comissionOfIcoWorld: 1,
+    };
+
     return (
       <>
         <MainAppBar/>
@@ -63,8 +110,6 @@ class PoolCreate extends Component<any> {
           <Grid item xs={10}>
             <div className={classes.pools}>
 
-              <div className={classes.poolName}>The pool №123-8/15/18</div>
-
               <div className={classes.createPool}>
 
                 <form action="" method="post">
@@ -73,69 +118,76 @@ class PoolCreate extends Component<any> {
                     <Typography className={classes.inputLabel}>Pool's holder</Typography>
                     <Chip
                       avatar={<Avatar src="/profile.jpeg" />}
-                      label="Ivan Fedotov"
+                      label={authUser.name}
                     />
                   </div>
 
                   <div className={classes.formRow}>
                     <Typography className={classes.inputLabel}>Project name</Typography>
-                    <TextField className={classes.input} name="projectName" />
+                    <TextField className={classes.input} name="projectName" value={this.state.projectName} onChange={this.handleChange}/>
                   </div>
 
                   <div className={classes.formRow}>
                     <Typography className={classes.inputLabel}>Project link</Typography>
-                    <TextField className={classes.input} name="projectLink" />
+                    <TextField className={classes.input} name="projectLink" value={this.state.projectLink} onChange={this.handleChange}/>
                   </div>
 
                   <div className={classes.formRow}>
-                    <Typography className={classes.inputLabel}>Adress of the project</Typography>
-                    <TextField className={classes.input} name="projectAdress" />
+                    <Typography className={classes.inputLabel}>Address of the project</Typography>
+                    <TextField className={classes.input} name="projectAddress" value={this.state.projectAddress} onChange={this.handleChange}/>
                   </div>
 
                   <div className={classes.formRow}>
                     <Typography className={classes.inputLabel}>Soft Cap of the pool</Typography>
-                    <TextField className={classes.input} name="poolSoftCap" />
+                    <TextField className={classes.input} name="poolSoftCap" value={this.state.poolSoftCap} onChange={this.handleChange}/>
                   </div>
 
                   <div className={classes.formRow}>
                     <Typography className={classes.inputLabel}>Hard Cap of the pool</Typography>
-                    <TextField className={classes.input} name="poolHardCap" />
+                    <TextField className={classes.input} name="poolHardCap" value={this.state.poolHardCap} onChange={this.handleChange}/>
                   </div>
 
                   <div className={classes.formRow}>
                     <Typography className={classes.inputLabel}>Min deposit per participant</Typography>
-                    <TextField className={classes.input} name="minDeposit" />
+                    <TextField className={classes.input} name="minDeposit" value={this.state.minDeposit} onChange={this.handleChange}/>
                   </div>
 
                   <div className={classes.formRow}>
                     <Typography className={classes.inputLabel}>Max deposit per participant</Typography>
-                    <TextField className={classes.input} name="maxDeposit" />
+                    <TextField className={classes.input} name="maxDeposit" value={this.state.maxDeposit} onChange={this.handleChange}/>
                   </div>
 
                   <div className={classes.formRow}>
                     <Typography className={classes.inputLabel}>Date of the end</Typography>
-                    <TextField className={classes.input} name="endDate" />
+                    <TextField className={classes.input} type="date" name="endDate" value={this.state.endDate} onChange={this.handleChange}/>
                   </div>
 
                   <div className={classes.formRow}>
-                    <Typography className={classes.inputLabel}>Comission of pool's holder</Typography>
-                    <TextField className={classes.input} name="comission" />
+                    <Typography className={classes.inputLabel}>Commission of pool's holder</Typography>
+                    <TextField className={classes.input} name="commission" value={this.state.commission} onChange={this.handleChange}/>
                   </div>
 
                   <div className={classes.formRow}>
-                    <Typography className={classes.inputLabel}>Address for the comission payment</Typography>
-                    <TextField className={classes.input} name="comission" />
+                    <Typography className={classes.inputLabel}>Address for the commission payment</Typography>
+                    <TextField className={classes.input} name="commissionAddress" value={this.state.commissionAddress} onChange={this.handleChange}/>
                   </div>
 
                   <div className={classes.formRow}>
-                    <Typography className={classes.inputLabel}>Comission of icoWorld</Typography>
+                    <Typography className={classes.inputLabel}>Commission of icoWorld</Typography>
                     <Typography className={classes.inputLabel}>1%</Typography>
                   </div>
 
                   <div className={classes.formBtns}>
-                    <Button className={`${classes.createFormBtn} ${classes.marginBtn}`} variant="contained" color="primary">
-                        Create
-                    </Button>
+                    <Mutation mutation={CREATE_POOL} onCompleted={this.props.push} onError={(error)=>console.log(error)}>
+                        {createPool => {
+                            return (
+                                <Button className={`${classes.createFormBtn} ${classes.marginBtn}`} variant="contained" color="primary"
+                                    onClick={()=>createPool({variables: {input: poolInput}})}>
+                                Create
+                                </Button>
+                            )
+                        }}
+                    </Mutation>
 
                     <Button className={classes.createFormBtn} variant="outlined" color="primary">
                         More
@@ -154,4 +206,17 @@ class PoolCreate extends Component<any> {
   }
 }
 
-export default withStyles(styles)(PoolCreate);
+const mapStateToProps = ({auth}:any) => {
+    return {
+        authUser: auth.authUser
+    }
+};
+
+const mapDispatchToProps = (dispatch:any) => {
+    return {
+        push: () => dispatch(push('/pools'))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PoolCreate))
+// export default withStyles(styles)(PoolCreate);

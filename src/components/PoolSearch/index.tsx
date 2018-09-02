@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -8,6 +8,21 @@ import Grid from '@material-ui/core/Grid';
 
 import MainAppBar from '../MainAppBar';
 import PoolCard from '../PoolCard';
+import gql from 'graphql-tag'
+import { withApollo } from 'react-apollo'
+
+const POOL_SEARCH = gql`
+    query searchPool($poolName: String!) {
+        searchPool(poolName: $poolName) {
+            poolName
+            poolId
+            ownerId
+            ownerName
+            projectName
+            endDate
+        }
+    }
+`;
 
 const styles = () => createStyles({
   poolsBlock: {
@@ -65,82 +80,111 @@ const styles = () => createStyles({
   },
 });
 
-function poolsSearch(props: any) {
-  const { classes } = props;
+class poolsSearch extends Component<any> {
+    state = {
+        searchPoolName: '',
+        foundPools: []
+    };
 
-  return (
-    <div>
-      <MainAppBar/>
+    handleChange = (e:any) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    };
 
-      <Grid container spacing={0}>
-        <Grid item xs={1} />
+    executeSearch = async () => {
+        const poolName = this.state.searchPoolName;
+        console.log(poolName);
+        const result = await this.props.client.query({
+            query: POOL_SEARCH,
+            variables: { poolName }
+        });
+        const pools = result.data.searchPool;
+        console.log(pools);
+        this.setState({
+            foundPools: pools
+        });
+    };
 
-        <Grid item xs={10}>
-          <div className={classes.pools}>
-            <div className={classes.poolsLeft}>
+    render() {
+        const { classes } = this.props;
+        const pools = this.state.foundPools.map((pool, index)=> <PoolCard key={index} pool={pool}/>)
+        return (
+            <div>
+                <MainAppBar/>
 
-              <div className={`${classes.poolsBlock} ${classes.poolsSearch}`}>
-                <div className={classes.searchInputContainer}>
-                  <TextField className={classes.searchInput} type="search" placeholder="Search" name="search" />
-                </div>
-                <div>
-                  <Button className={`${classes.btn} ${classes.btnSearch}`} variant="raised" color="primary">Search</Button>
-                  <Link to="/create-pool" className={classes.linkBtn}>
-                    <Button className={classes.btn} variant="outlined" color="primary">Create pool</Button>
-                  </Link>
-                </div>
-              </div>
+                <Grid container spacing={0}>
+                    <Grid item xs={1} />
 
-              <div className={`${classes.poolsBlock} ${classes.poolsSearchResults}`}>
-                <Typography>No results found</Typography>
-              </div>
+                    <Grid item xs={10}>
+                        <div className={classes.pools}>
+                            <div className={classes.poolsLeft}>
 
-              <div className={`${classes.poolsBlock} ${classes.poolsInvested}`}>
-                <div className={classes.poolsBlockHeading}>
-                  <Typography className={classes.poolsBlockTitle}>I invested</Typography>
-                </div>
+                                <div className={`${classes.poolsBlock} ${classes.poolsSearch}`}>
+                                    <div className={classes.searchInputContainer}>
+                                        <TextField className={classes.searchInput} type="search" placeholder="Search" name="searchPoolName"
+                                                   value={this.state.searchPoolName} onChange={this.handleChange}/>
+                                    </div>
+                                    <div>
+                                        <Button className={`${classes.btn} ${classes.btnSearch}`}
+                                                variant="raised" color="primary" onClick={() => this.executeSearch()}>Search</Button>
+                                        <Link to="/create-pool" className={classes.linkBtn}>
+                                            <Button className={classes.btn} variant="outlined" color="primary">Create pool</Button>
+                                        </Link>
+                                    </div>
+                                </div>
 
-                <div className={classes.poolsBlockCards}>
-                  <PoolCard />
-                </div>
-              </div>
+                                <div className={`${classes.poolsBlock} ${classes.poolsSearchResults}`}>
+                                    <div className={classes.poolsBlockCards}>
+                                        {this.state.foundPools.length === 0 ? <Typography>No results found</Typography> : pools}
+                                    </div>
+                                </div>
 
-              <div className={`${classes.poolsBlock} ${classes.poolsCreated}`}>
-                <div className={classes.poolsBlockHeading}>
-                  <Typography className={classes.poolsBlockTitle}>I created</Typography>
-                </div>
+                                <div className={`${classes.poolsBlock} ${classes.poolsInvested}`}>
+                                    <div className={classes.poolsBlockHeading}>
+                                        <Typography className={classes.poolsBlockTitle}>I invested</Typography>
+                                    </div>
 
-                <div className={classes.poolsBlockCards}>
-                  <PoolCard />
-                </div>
-              </div>
-              
+                                    <div className={classes.poolsBlockCards}>
+
+                                    </div>
+                                </div>
+
+                                <div className={`${classes.poolsBlock} ${classes.poolsCreated}`}>
+                                    <div className={classes.poolsBlockHeading}>
+                                        <Typography className={classes.poolsBlockTitle}>I created</Typography>
+                                    </div>
+
+                                    <div className={classes.poolsBlockCards}>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div className={classes.poolsRight}>
+                                <div className={`${classes.poolsBlock} ${classes.poolsPopular}`}>
+                                    <div className={classes.poolsBlockHeading}>
+                                        <Typography align="center" className={classes.poolsBlockTitle} variant="headline" component="h2">Popular pools</Typography>
+                                    </div>
+
+                                    <div className={classes.poolsBlockCards}>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </Grid>
+
+                    <Grid item xs={1} />
+                </Grid>
             </div>
-
-            <div className={classes.poolsRight}>
-              <div className={`${classes.poolsBlock} ${classes.poolsPopular}`}>
-                <div className={classes.poolsBlockHeading}>
-                  <Typography align="center" className={classes.poolsBlockTitle} variant="headline" component="h2">Popular pools</Typography>
-                </div>
-
-                <div className={classes.poolsBlockCards}>
-                  <PoolCard />
-                  <PoolCard />
-                  <PoolCard />
-                  <PoolCard />
-                  <PoolCard />
-                  <PoolCard />
-                </div>
-              </div>
-            </div>
-
-          </div>
-          </Grid>
-
-          <Grid item xs={1} />
-      </Grid>
-    </div>
-  );
+        );
+    }
 }
 
-export default withStyles(styles)(poolsSearch);
+// const poolsSearchWithStyles = withStyles(styles)(poolsSearch);
+const apolloPoolsSearch = withApollo(poolsSearch);
+export default withStyles(styles)(apolloPoolsSearch)
+// export default withStyles(styles)(poolsSearch);
