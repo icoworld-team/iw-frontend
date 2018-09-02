@@ -78,6 +78,14 @@ const styles = () => createStyles({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
+  poolsSearchResults: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      '& a': {
+          marginRight: '8px',
+          marginLeft: '8px'
+      }
+  }
 });
 
 class poolsSearch extends Component<any> {
@@ -135,9 +143,7 @@ class poolsSearch extends Component<any> {
                                 </div>
 
                                 <div className={`${classes.poolsBlock} ${classes.poolsSearchResults}`}>
-                                    <div className={classes.poolsBlockCards}>
-                                        {this.state.foundPools.length === 0 ? <Typography>No results found</Typography> : pools}
-                                    </div>
+                                    {this.state.foundPools.length === 0 ? <Typography>No results found</Typography> : pools}
                                 </div>
 
                                 <div className={`${classes.poolsBlock} ${classes.poolsInvested}`}>
