@@ -14,23 +14,32 @@ import NewsPage from './components/NewsPage'
 import Chat from './components/Chat'
 import Contacts from './components/ContactsPage'
 import {store, history} from "./store";
+import ApolloClient from 'apollo-boost'
+import { ApolloProvider } from 'react-apollo'
+
+const client = new ApolloClient({
+    uri: "http://icoworld.projects.oktend.com:3000/graphql"
+});
 
 export default function App() {
     return (
         <Provider store={store}>
             <ConnectedRouter history={history}>
-                <Switch>
-                    <Route exact path="/" component={SignInPage}/>
-                    <Route exact path="/signup" component={SignUpPage}/>
-                    <Route exact path="/profile" component={Profile}/>
-                    <Route exact path="/pools" component={PoolSearch}/>
-                    <Route exact path="/create-pool" component={PoolCreate}/>
-                    <Route exact path="/pool-info" component={PoolInfo}/>
-                    <Route exact path="/investors" component={InvestorsPage}/>
-                    <Route exact path="/news" component={NewsPage}/>
-                    <Route exact path="/messages" component={Chat}/>
-                    <Route exact path="/contacts" component={Contacts}/>
-                </Switch>
+
+                <ApolloProvider client={client}>
+                    <Switch>
+                        <Route exact path="/" component={SignInPage}/>
+                        <Route exact path="/signup" component={SignUpPage}/>
+                        <Route exact path="/profile" component={Profile}/>
+                        <Route exact path="/pools" component={PoolSearch}/>
+                        <Route exact path="/create-pool" component={PoolCreate}/>
+                        <Route exact path="/pool-info" component={PoolInfo}/>
+                        <Route exact path="/investors" component={InvestorsPage}/>
+                        <Route exact path="/news" component={NewsPage}/>
+                        <Route exact path="/messages" component={Chat}/>
+                        <Route exact path="/contacts" component={Contacts}/>
+                    </Switch>
+                </ApolloProvider>
             </ConnectedRouter>
         </Provider>
     )
