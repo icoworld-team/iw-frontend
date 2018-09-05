@@ -68,7 +68,7 @@ const GET_POOL = gql`
         getPool(poolId: $poolId) {
             poolId
             poolName
-            verifyContractLink
+            status
             ownerId
             ownerName
             projectName
@@ -78,8 +78,8 @@ const GET_POOL = gql`
             minDeposit
             maxDeposit
             endDate
-            comissionOfHolder
-            comissionOfIcoWorld
+            ownerComission
+            iwComission
         }
     }
 `;
@@ -109,7 +109,7 @@ class PoolInfo extends Component<any> {
 
                                   <div className={classes.formRow}>
                                       <Typography className={classes.inputLabel}>Open code of smart-contract of the pool</Typography>
-                                      <Typography component="a">{pool.verifyContractLink}</Typography>
+                                      <Typography component="a">{pool.status}</Typography>
                                   </div>
 
                                   <div className={classes.formRow}>
@@ -166,13 +166,13 @@ class PoolInfo extends Component<any> {
                                   </div>
 
                                   <div className={classes.formRow}>
-                                      <Typography className={classes.inputLabel}>Comission of pool's holder</Typography>
-                                      <Typography>{pool.comissionOfHolder}</Typography>
+                                      <Typography className={classes.inputLabel}>Commission of pool's holder</Typography>
+                                      <Typography>{pool.ownerComission}</Typography>
                                   </div>
 
                                   <div className={classes.formRow}>
-                                      <Typography className={classes.inputLabel}>Comission of icoWorld</Typography>
-                                      <Typography>{pool.comissionOfIcoWorld}</Typography>
+                                      <Typography className={classes.inputLabel}>Commission of icoWorld</Typography>
+                                      <Typography>{pool.iwComission}</Typography>
                                   </div>
                               </div>
 

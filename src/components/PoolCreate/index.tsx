@@ -89,9 +89,9 @@ class PoolCreate extends Component<any> {
         minDeposit: +this.state.minDeposit,
         maxDeposit: +this.state.maxDeposit,
         endDate: this.state.endDate,
-        comissionOfHolder: +this.state.commission,
-        addressForComissionPayment: this.state.commissionAddress,
-        comissionOfIcoWorld: 1,
+        ownerComission: +this.state.commission,
+        comissionPaymentAddress: this.state.commissionAddress,
+        iwComission: 1
     };
 
     return (
