@@ -138,9 +138,9 @@ class SignUpPage extends Component<any> {
                             </form>
                         </div>
                         <div className="form-footer">
-                            <a href="#">Правила</a>
-                            <a href="#">Помощь</a>
-                            <a href="#">Контакты</a>
+                            <Link to="#">Правила</Link>
+                            <Link to="#">Помощь</Link>
+                            <Link to="/contacts">Контакты</Link>
                         </div>
                     </div>
                 </div>

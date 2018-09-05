@@ -3,16 +3,12 @@ import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar'
 import ToolBar from '@material-ui/core/Toolbar'
-import IconButton from '@material-ui/core/IconButton'
-import AccountCircle from '@material-ui/icons/AccountCircle'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import {Link} from "react-router-dom";
-import './style.css'
 import LanguageSelector from '../LanguageSelector'
-import HeaderMessagesPopper from '../HeaderMessagesPopper'
+import HeaderPopper from '../HeaderPopper'
+import HeaderAccountMenu from '../HeaderAccountMenu'
 
 const styles = (theme: Theme) => createStyles({
 	toolBar: {
@@ -40,6 +36,10 @@ const styles = (theme: Theme) => createStyles({
 	link: {
 		color: '#fff',
 		textDecoration: 'none',
+	},
+	barIcons: {
+    float: 'right',
+    display: "inline-flex",
 	}
 });
 
@@ -47,26 +47,25 @@ class MainAppBar extends Component<any> {
 	state = {
 		anchorEl: null,
 		value: 0,
-		open: false,
-		menuOpen: false,
+		// open: false,
 	};
 	
 	handleChange = (event: ChangeEvent, value: number) => {
 		this.setState({ value });
 	};
 
-	handleClick = (event:any)=> {
-		this.setState({ anchorEl: event.currentTarget });
-	};
+	// handleClick = (event:any)=> {
+	// 	this.setState({ anchorEl: event.currentTarget });
+	// };
 
-	handleClose =()=> {
-		this.setState({ anchorEl: null });
-	};
+	// handleClose =()=> {
+	// 	this.setState({ anchorEl: null });
+	// };
 
 	render() {
 		const { classes } = this.props;
 		const { value } = this.state;
-		const open = Boolean(this.state.anchorEl);
+		// const open = Boolean(this.state.anchorEl);
 
 		return (
 			<>
@@ -126,35 +125,11 @@ class MainAppBar extends Component<any> {
 										</Link>
 									</Tabs>
 								</div>
-								<div className="bar-icons">
+								<div className={classes.barIcons}>
 									<LanguageSelector/>
-									<HeaderMessagesPopper/>
-									
-									<IconButton
-										aria-owns={open ? 'menu-appbar' : undefined}
-										aria-haspopup="true"
-										onClick={this.handleClick}
-										color="inherit"
-									>
-										<AccountCircle/>
-									</IconButton>
-									<Menu
-										id="menu-appbar"
-										anchorEl={this.state.anchorEl}
-										anchorOrigin={{
-											vertical: 'top',
-											horizontal: 'right',
-										}}
-										transformOrigin={{
-											vertical: 'top',
-											horizontal: 'right',
-										}}
-										open={open}
-										onClose={this.handleClose}
-									>
-										<MenuItem onClick={this.handleClose}>Menu</MenuItem>
-										<MenuItem onClick={this.handleClose}>Menu</MenuItem>
-									</Menu>
+									<HeaderPopper variant='notify'/>
+									<HeaderPopper variant='messages'/>
+									<HeaderAccountMenu />
 								</div>
 							</ToolBar>
 						</Grid>

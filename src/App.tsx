@@ -12,6 +12,7 @@ import PoolInfo from './components/PoolInfo'
 import InvestorsPage from './components/InvestorsPage'
 import NewsPage from './components/NewsPage'
 import Chat from './components/Chat'
+import Contacts from './components/ContactsPage'
 import {store, history} from "./store";
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
                     <Route exact path="/investors" component={InvestorsPage}/>
                     <Route exact path="/news" component={NewsPage}/>
                     <Route exact path="/messages" component={Chat}/>
+                    <Route exact path="/contacts" component={Contacts}/>
                 </Switch>
             </ConnectedRouter>
         </Provider>

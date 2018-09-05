@@ -68,7 +68,6 @@ const styles = (theme: Theme) => createStyles({
     marginTop: '20px',
   },
   card: {
-    backgroundColor: '#fafafa',
     padding: '15px 30px',
   },
   cardHeading: {
@@ -90,9 +89,6 @@ const styles = (theme: Theme) => createStyles({
   author: {
     marginTop: '7px',
   },
-  tags: {
-    marginTop: '20px',
-  },
   tagList: {
     listStyle: 'none',
     margin: 0,
@@ -104,13 +100,11 @@ const styles = (theme: Theme) => createStyles({
     marginRight: '10px',
   },
   language: {
-    marginTop: '20px',
     backgroundColor: '#fafafa',
     padding: '15px 30px',
     display: 'inline-flex',
     alignItems: 'center',
     width: '100%',
-    boxSizing: 'border-box',
   },
   languageTitle: {
     marginRight: '5px',
@@ -162,7 +156,7 @@ class News extends Component<any> {
             <div className={classes.news}>
               
               <div className={classes.newsLeft}>
-                <div className={classes.newsTabs}>
+                <div className={`card ${classes.newsTabs}`}>
                   <div className={classes.tabsList}>
                     <Tabs
                       value={this.state.tab}
@@ -189,7 +183,7 @@ class News extends Component<any> {
                   </div>
                 </div>
 
-                <div className={classes.tabContent}>
+                <div className={`card ${classes.tabContent}`}>
                   {this.state.tab === 0 && <PostList />}
                   {this.state.tab === 1 && <PostList />}
                   {this.state.tab === 2 && <PostList />}
@@ -198,7 +192,7 @@ class News extends Component<any> {
 
               <div className={classes.newsRight}>
 
-                <div className={classes.card}>
+                <div className={`card ${classes.card}`}>
                   <div className={classes.cardHeading}>
                     <Typography className={classes.cardTitle}>Popular authors</Typography>
                   </div>
@@ -214,7 +208,7 @@ class News extends Component<any> {
                   </div>
                 </div>
 
-                <div className={`${classes.card} ${classes.tags}`}>
+                <div className={`card ${classes.card}`}>
                   <div className={classes.cardHeading}>
                     <Typography className={classes.cardTitle}>Tags</Typography>
                   </div>
@@ -228,7 +222,7 @@ class News extends Component<any> {
                   </div>
                 </div>
 
-                <div className={classes.language}>
+                <div className={`card ${classes.language}`}>
                   <span className={classes.languageTitle}>Language:</span>
                   <ul className={classes.languageList}>
                     <li className={classes.languageItem}>English</li>

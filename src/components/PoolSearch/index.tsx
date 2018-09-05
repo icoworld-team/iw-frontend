@@ -11,9 +11,7 @@ import PoolCard from '../PoolCard';
 
 const styles = () => createStyles({
   poolsBlock: {
-    backgroundColor: '#fafafa',
     padding: '40px 30px',
-    marginTop: '20px',
   },
   pools: {
     display: 'flex',
@@ -21,6 +19,7 @@ const styles = () => createStyles({
     maxWidth: '1100px',
     margin: '0 auto',
     marginBottom: '30px',
+    marginTop: '20px',
   },
   poolsLeft: {
     flex: 1,
@@ -79,7 +78,7 @@ function poolsSearch(props: any) {
           <div className={classes.pools}>
             <div className={classes.poolsLeft}>
 
-              <div className={`${classes.poolsBlock} ${classes.poolsSearch}`}>
+              <div className={`card ${classes.poolsBlock} ${classes.poolsSearch}`}>
                 <div className={classes.searchInputContainer}>
                   <TextField className={classes.searchInput} type="search" placeholder="Search" name="search" />
                 </div>
@@ -91,11 +90,11 @@ function poolsSearch(props: any) {
                 </div>
               </div>
 
-              <div className={`${classes.poolsBlock} ${classes.poolsSearchResults}`}>
+              <div className={`card ${classes.poolsBlock}`}>
                 <Typography>No results found</Typography>
               </div>
 
-              <div className={`${classes.poolsBlock} ${classes.poolsInvested}`}>
+              <div className={`card ${classes.poolsBlock}`}>
                 <div className={classes.poolsBlockHeading}>
                   <Typography className={classes.poolsBlockTitle}>I invested</Typography>
                 </div>
@@ -105,7 +104,7 @@ function poolsSearch(props: any) {
                 </div>
               </div>
 
-              <div className={`${classes.poolsBlock} ${classes.poolsCreated}`}>
+              <div className={`card ${classes.poolsBlock}`}>
                 <div className={classes.poolsBlockHeading}>
                   <Typography className={classes.poolsBlockTitle}>I created</Typography>
                 </div>
@@ -118,7 +117,7 @@ function poolsSearch(props: any) {
             </div>
 
             <div className={classes.poolsRight}>
-              <div className={`${classes.poolsBlock} ${classes.poolsPopular}`}>
+              <div className={`card ${classes.poolsBlock}`}>
                 <div className={classes.poolsBlockHeading}>
                   <Typography align="center" className={classes.poolsBlockTitle} variant="headline" component="h2">Popular pools</Typography>
                 </div>

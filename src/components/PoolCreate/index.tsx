@@ -14,14 +14,7 @@ const styles = () => createStyles({
     margin: '0 auto',
     marginBottom: '30px',
   },
-  poolName: {
-    backgroundColor: '#fafafa',
-    textAlign: 'center',
-    padding: '30px 0',
-    marginTop: '20px',
-  },
   createPool: {
-    backgroundColor: '#fafafa',
     padding: '50px 40px',
     marginTop: '20px',
   },
@@ -63,9 +56,7 @@ class PoolCreate extends Component<any> {
           <Grid item xs={10}>
             <div className={classes.pools}>
 
-              <div className={classes.poolName}>The pool №123-8/15/18</div>
-
-              <div className={classes.createPool}>
+              <div className={`card ${classes.createPool}`}>
 
                 <form action="" method="post">
 

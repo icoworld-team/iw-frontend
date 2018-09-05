@@ -81,10 +81,10 @@ const styles = (theme: Theme) => ({
     minWidth: '50px',
     minHeight: '23px',
     color: '#6c757d',
+    marginRight: '5px',
   },
   icon: {
     fontSize: 11,
-    marginRight: '5px',
     color: '#6c757d',
   },
 });
@@ -94,102 +94,78 @@ class HeaderMessages extends React.Component<any> {
   render() {
     const { classes } = this.props;
 
+    const databaseMessages = [
+      {
+          id: 1,
+          avatar: 'profile.jpeg',
+          amountOfUnreadMessages: '3',
+          author: 'Domnic Brown',
+          authorLink: 'javascript:void(0)',
+          time: '6:19 PM',
+          body: `There are many variations of passages of...`
+      },
+      {
+          id: 2,
+          avatar: 'profile.jpeg',
+          amountOfUnreadMessages: '0',
+          author: 'Ivan Fedotov',
+          authorLink: 'javascript:void(0)',
+          time: '8:44 AM',
+          body: `Lorem Ipsum is simply dummy text of the...`
+      },
+      {
+          id: 3,
+          avatar: 'profile.jpeg',
+          amountOfUnreadMessages: '8',
+          author: 'John Smith',
+          authorLink: 'javascript:void(0)',
+          time: '2:23 PM',
+          body: `The point of using Lorem Ipsum is that it has a...`
+      }
+  ];
+
+  const messages = databaseMessages.map(function (message) {
+    return (
+      <li key={message.id} className={classes.messagesItem}>
+        <div className={classes.avatar}>
+          {message.amountOfUnreadMessages >= '1' ?
+            <Badge color="secondary" badgeContent={message.amountOfUnreadMessages} classes={{ badge: classes.badge }}>
+              <Avatar src={message.avatar} />
+            </Badge> :
+            <Avatar src={message.avatar} />
+          }
+        </div>
+
+        <div className={classes.messageContent}>
+          <div className={classes.messageInfo}>
+            <a className={classes.messageAuthor} href={message.authorLink}>{message.author}</a>
+            <div className={classes.messageTime}>
+              <small>{message.time}</small>
+            </div>
+          </div>
+
+          <Typography className={classes.messageText}>{message.body}</Typography>
+
+          <Button variant="flat" size="small" className={classes.button}>
+            <ReplyIcon className={classes.icon} />
+            Reply
+          </Button>
+
+          <Button variant="flat" size="small" className={classes.button}>
+            <EyeIcon className={classes.icon} />
+            Read
+          </Button>
+        
+        </div>
+      </li>
+    )
+  });
+
     return (
       <>
-        <div className={classes.paperHeading}>Messages</div>
-        <div className={classes.paperContent}>
-          <ul className={classes.messagesList}>
-
-            <li className={classes.messagesItem}>
-              <div className={classes.avatar}>
-                <Badge color="secondary" badgeContent={5} classes={{ badge: classes.badge }}>
-                  <Avatar src="profile.jpeg" />
-                </Badge>
-              </div>
-
-              <div className={classes.messageContent}>
-                <div className={classes.messageInfo}>
-                  <a className={classes.messageAuthor} href='javascript:void(0)'>Domnic Brown</a>
-                  <div className={classes.messageTime}>
-                    <small>6:19 PM</small>
-                  </div>
-                </div>
-
-                <Typography className={classes.messageText}>There are many variations of passages of...</Typography>
-
-                <Button variant="flat" size="small" className={classes.button}>
-                  <ReplyIcon className={classes.icon} />
-                  Reply
-                </Button>
-
-                <Button variant="flat" size="small" className={classes.button}>
-                  <EyeIcon className={classes.icon} />
-                  Read
-                </Button>
-                
-              </div>
-            </li>
-
-            <li className={classes.messagesItem}>
-              <div className={classes.avatar}>
-                <Avatar src="profile.jpeg" />
-              </div>
-
-              <div className={classes.messageContent}>
-                <div className={classes.messageInfo}>
-                  <a className={classes.messageAuthor} href='javascript:void(0)'>Domnic Brown</a>
-                  <div className={classes.messageTime}>
-                    <small>6:19 PM</small>
-                  </div>
-                </div>
-
-                <Typography className={classes.messageText}>There are many variations of passages of...</Typography>
-
-                <Button variant="flat" size="small" className={classes.button}>
-                  <ReplyIcon className={classes.icon} />
-                  Reply
-                </Button>
-
-                <Button variant="flat" size="small" className={classes.button}>
-                  <EyeIcon className={classes.icon} />
-                  Read
-                </Button>
-
-              </div>
-            </li>
-
-            <li className={classes.messagesItem}>
-              <div className={classes.avatar}>
-                <Badge color="secondary" badgeContent={8} classes={{ badge: classes.badge }}>
-                  <Avatar src="profile.jpeg" />
-                </Badge>
-              </div>
-
-              <div className={classes.messageContent}>
-                <div className={classes.messageInfo}>
-                  <a className={classes.messageAuthor} href='javascript:void(0)'>Domnic Brown</a>
-                  <div className={classes.messageTime}>
-                    <small>6:19 PM</small>
-                  </div>
-                </div>
-
-                <Typography className={classes.messageText}>There are many variations of passages of...</Typography>
-
-                <Button variant="flat" size="small" className={classes.button}>
-                  <ReplyIcon className={classes.icon} />
-                  Reply
-                </Button>
-
-                <Button variant="flat" size="small" className={classes.button}>
-                  <EyeIcon className={classes.icon} />
-                  Read
-                </Button>
-                
-              </div>
-            </li>
-
-          </ul>
-        </div>
+        <ul className={classes.messagesList}>
+          {messages}
+        </ul>
       </>
     );
   }
