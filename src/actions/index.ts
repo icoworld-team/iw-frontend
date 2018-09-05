@@ -4,3 +4,10 @@ export const userSignIn = (user:any) => {
         payload: user
     }
 };
+
+export const investorsFilter = (filter:any) => {
+    return {
+        type: 'FILTER',
+        payload: filter
+    }
+};

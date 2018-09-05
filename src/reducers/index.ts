@@ -12,3 +12,16 @@ export const auth = (state=initialState, action:any) => {
             return state;
     }
 };
+
+export const investorsFilter = (state={
+    filter: {}
+}, action:any) => {
+    switch (action.type) {
+        case 'FILTER':
+            return {
+                filter: action.payload
+            };
+        default:
+            return state;
+    }
+};

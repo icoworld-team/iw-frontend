@@ -8,7 +8,9 @@ const styles = {
     card: {
         backgroundColor: '#fafafa',
         alignContent: 'center',
-        padding: '30px 30px 0 30px'
+        padding: '30px 30px 0 30px',
+        width: '185px',
+        height: '175px',
     },
     avatarBlock: {
         alignContent: 'center',
@@ -43,7 +45,7 @@ function InvestorCard (props:any) {
             <Typography className={classes.nameText} variant="title" align="center">{data.name}</Typography>
             <Typography className={classes.loginText} variant="caption" align="center">{data.login}</Typography>
             <Divider/>
-            <Typography className={classes.text} variant="body1" align="center">{data.followers} Followers</Typography>
+            <Typography className={classes.text} variant="body1" align="center">{data.countOfFollowers} Followers</Typography>
         </div>
     )
 }
