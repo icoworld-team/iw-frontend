@@ -7,7 +7,7 @@ pipeline {
                 sh 'docker ps -f name=frontend-master -q | xargs -r docker container stop'
                 sh 'docker ps -a -f name=frontend-master -q | xargs -r docker container rm'
                 echo "Building........"
-                sh 'docker-compose -f docker/docker-compose.yml up -d'
+                sh 'docker-compose up -d'
                 echo "FINISHED........"
             }
         }
