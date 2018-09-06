@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  front_app:
+    build: .
+    image: "front-${env.GIT_BRANCH}:${env.BUILD_ID}" 
+    ports:
+      - "3031:3000"
