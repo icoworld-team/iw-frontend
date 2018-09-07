@@ -13,6 +13,10 @@ import InfoIcon from '@material-ui/icons/Info';
 import HelpIcon from '@material-ui/icons/Help';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link } from "react-router-dom";
+import { handleErrors, fetchGet } from '../../api'
+import { push } from "react-router-redux";
+import { logOut } from "../../actions";
+import { connect } from "react-redux";
 
 const styles = (theme: Theme) => ({
   menuItem: {},
@@ -39,6 +43,16 @@ class SimpleMenu extends React.Component<any> {
 
   handleClose = () => {
     this.setState({ anchorEl: null });
+  };
+
+  handleLogOut = () => {
+      const url = 'http://icoworld.projects.oktend.com:3000/logout';
+      fetchGet(url)
+          .then(response => handleErrors(response))
+          .then(response => console.log(response))
+          .then(this.props.logOut)
+          .then(this.props.push)
+          .catch(error=>console.log(error));
   };
 
   render() {
@@ -96,12 +110,12 @@ class SimpleMenu extends React.Component<any> {
             <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Help" />
           </MenuItem>
           <MenuItem className={classes.menuItem} onClick={this.handleClose}>
-            <Link className={classes.menuLink} to="/">
-              <ListItemIcon className={classes.icon}>
-                <ExitToAppIcon />
-              </ListItemIcon>
-              <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Log out" />
-            </Link>
+            <IconButton onClick={this.handleLogOut}>
+                <ListItemIcon className={classes.icon}>
+                    <ExitToAppIcon />
+                </ListItemIcon>
+                <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Log out" />
+            </IconButton>
           </MenuItem>
         </Menu>
       </div>
@@ -109,4 +123,11 @@ class SimpleMenu extends React.Component<any> {
   }
 }
 
-export default withStyles(styles)(SimpleMenu);
+const mapDispatchToProps = (dispatch:any) => {
+    return {
+        logOut: () => dispatch(logOut()),
+        push: () => dispatch(push('/'))
+    }
+};
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(SimpleMenu));

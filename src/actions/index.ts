@@ -5,6 +5,12 @@ export const userSignIn = (user:any) => {
     }
 };
 
+export const logOut = () => {
+    return {
+        type: 'LOGOUT'
+    }
+};
+
 export const investorsFilter = (filter:any) => {
     return {
         type: 'FILTER',

@@ -8,6 +8,10 @@ export const auth = (state=initialState, action:any) => {
             return {
                 authUser: action.payload
             };
+        case 'LOGOUT':
+            return {
+                authUser: null
+            };
         default:
             return state;
     }
