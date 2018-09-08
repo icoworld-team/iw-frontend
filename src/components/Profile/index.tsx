@@ -10,6 +10,9 @@ import PortfolioAbout from '../PortfolioAbout';
 import PostList from '../PostList';
 import PostInput from '../PostInput';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { Query } from 'react-apollo'
+import gql from 'graphql-tag'
+import { connect } from "react-redux";
 
 const styles = (theme: Theme) => createStyles({
     profile: {
@@ -62,6 +65,19 @@ const styles = (theme: Theme) => createStyles({
     }
 });
 
+const SEARCH_POST = gql`
+    query searchPost($input: PostSearchingParamsInput!) {
+        searchPost(input: $input) {
+            postId
+            userId
+            userName
+            date
+            content
+            tags
+        }
+    }
+`;
+
 class Profile extends Component<any> {
     state={
       tab: 0
@@ -75,6 +91,51 @@ class Profile extends Component<any> {
 
     render() {
         const { classes } = this.props;
+        // const samplePosts = [
+        //     {
+        //         postId: 1,
+        //         userName: 'Ivan Fedotov',
+        //         userLogin: '@iyufedotov',
+        //         date: '01.09.2018',
+        //         content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia porro
+        //             impedit minus corrupti repellendus architecto alias voluptates, voluptate, ipsam
+        //             iste dolores sequi culpa et! Perferendis fuga tenetur labore nihil earum
+        //             architecto quod ducimus ratione quo repellendus, temporibus cum enim similique
+        //             nam facilis ipsa dignissimos. Temporibus tempora corporis vero ab harum?`
+        //     },
+        //     {
+        //         postId: 2,
+        //         userName: 'Ivan Fedotov',
+        //         userLogin: '@iyufedotov',
+        //         date: '01.09.2018',
+        //         content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit tempora nisi
+        //             necessitatibus distinctio iure, perspiciatis delectus pariatur ab velit exercitationem?`
+        //     },
+        //     {
+        //         postId: 3,
+        //         userName: 'Ivan Fedotov',
+        //         userLogin: '@iyufedotov',
+        //         date: '01.09.2018',
+        //         content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque, ducimus
+        //             magnam laborum possimus harum explicabo, placeat aliquid quod voluptatum mollitia
+        //             dicta voluptates optio, consequuntur consectetur. Sed dolores quod enim ipsum,
+        //             error fugiat officiis doloribus deleniti dolorum quidem mollitia dicta itaque
+        //             culpa libero possimus minus modi perferendis fugit unde pariatur? Beatae
+        //             consectetur aspernatur neque pariatur fugiat, esse cumque iusto tenetur magnam
+        //             fuga obcaecati aut numquam officia quasi exercitationem rem minima architecto
+        //             ad consequuntur sit totam optio! Laudantium suscipit, sequi illo optio ut ad,
+        //             natus officia dolore minima culpa eaque! Reiciendis animi commodi mollitia
+        //             voluptatibus cumque harum aut maxime optio, dolorem quae.`
+        //     }
+        // ];
+
+        const input = {
+          userId: this.props.authUser.id
+        };
+        console.log(this.props.authUser);
+        console.log(this.props.authUser.id);
+
+
 
         return (
             <div>
@@ -115,8 +176,16 @@ class Profile extends Component<any> {
                                 </div>
                                 {this.state.tab === 0 &&
                                     <>
-                                        <PostInput />
-                                        <PostList />
+                                        <PostInput authUserId={this.props.authUser.id}/>
+                                        <Query query={SEARCH_POST} variables={{input: input}}>
+                                            {({ loading, error, data }) => {
+                                                if(loading) return <div>Loading</div>;
+                                                if(error) return `Error: ${error}`;
+                                                return (
+                                                    <PostList posts={data.searchPost} authUserId={this.props.authUser.id}/>
+                                                )
+                                            }}
+                                        </Query>
                                     </>
                                 }
                                 {this.state.tab === 1 && <PortfolioList/>}
@@ -132,4 +201,10 @@ class Profile extends Component<any> {
     }
 }
 
-export default withStyles(styles)(Profile);
+const mapStateToProps = ({auth}:any) => {
+    return {
+        authUser: auth.authUser
+    }
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(Profile))

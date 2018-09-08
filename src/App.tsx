@@ -17,15 +17,26 @@ import {store, history} from "./store";
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 
+import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory';
+const cache = new InMemoryCache({
+    dataIdFromObject: object => {
+        switch (object.__typename) {
+            case 'PostEditResponse': return (object as any).postId;
+            case 'Post': return (object as any).postId;
+            default: return defaultDataIdFromObject(object);
+        }
+    }
+});
+
 const client = new ApolloClient({
-    uri: "http://icoworld.projects.oktend.com:3000/graphql"
+    uri: "http://icoworld.projects.oktend.com:3000/graphql",
+    cache
 });
 
 export default function App() {
     return (
         <Provider store={store}>
             <ConnectedRouter history={history}>
-
                 <ApolloProvider client={client}>
                     <Switch>
                         <Route exact path="/" component={SignInPage}/>

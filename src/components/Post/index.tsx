@@ -14,6 +14,41 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Input from '@material-ui/core/Input';
 import Send from '@material-ui/icons/Send';
+import Button from '@material-ui/core/Button'
+import gql from 'graphql-tag'
+import { Mutation } from 'react-apollo'
+
+
+const DELETE_POST = gql`
+  mutation deletePost($postId: ID!) {
+    deletePost(postId: $postId)
+  }
+`;
+
+const EDIT_POST = gql`
+  mutation editPost($input: PostEditInput!) {
+    editPost(input: $input) {
+        postId
+        userId
+        date
+        content
+        tags
+    }
+  }
+`;
+
+const SEARCH_POST = gql`
+    query searchPost($input: PostSearchingParamsInput!) {
+        searchPost(input: $input) {
+            postId
+            userId
+            userName
+            date
+            content
+            tags
+        }
+    }
+`;
 
 const styles = () => createStyles({
     textField: {
@@ -31,6 +66,16 @@ const styles = () => createStyles({
     },
     menu: {
         transform: 'translateX(50%)'
+    },
+    textArea: {
+        width: '100%',
+        outline: 'none',
+        resize: 'none',
+        fontFamily: 'inherit',
+        fontSize: 'inherit'
+    },
+    button: {
+        marginLeft: '5px'
     }
   });
 
@@ -38,7 +83,9 @@ class Post extends Component<any> {
     state = {
         anchorEl: undefined,
         comment: '',
-        showInput: false
+        showInput: false,
+        editMode: false,
+        postBody: this.props.post.content
     };
 
     handleClick = (event:any)=> {
@@ -49,26 +96,32 @@ class Post extends Component<any> {
         this.setState({ anchorEl: null});
     };
 
-    handleChange = (prop: any) => (event: any) => {
-        this.setState({ [prop]: event.target.value });
+    handleChange = (e:any) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
     };
 
     handleClickShowInput = () => {
         this.setState(state => ({ showInput: !this.state.showInput }));
-    }
+    };
 
     handleSendComment = () => {
         alert(`Введённое сообщение: ${this.state.comment}`);
-    }
+    };
 
     handleKeyDownSendComment = (event: any) => {
         if(event.keyCode == 13) {
             this.handleSendComment();
         }
-    }
+    };
+
+    handleEdit = () => {
+        this.setState({ anchorEl: null, editMode: !this.state.editMode});
+    };
 
     render() {
-        const { post } = this.props;
+        const { post, authUserId } = this.props;
         const { classes } = this.props;
         return (
             <div className="post">
@@ -79,25 +132,57 @@ class Post extends Component<any> {
                         </div>
                         <div className="post-header-text">
                             <div className="inline-flex">
-                                <div><h3 className="post-user-name">{post.username}</h3></div>
-                                <div><p className="sub-text">{post.login}</p></div>
+                                <div><h3 className="post-user-name">{post.userName}</h3></div>
+                                <div><p className="sub-text">{post.userName}</p></div>
                             </div>
-                            <div><p className="sub-text">{post.date}</p></div>
+                            <div><p className="sub-text">{new Date(post.date).toLocaleDateString()}</p></div>
                         </div>
                     </div>
                     <IconButton className={classes.menu} aria-label="More" aria-owns={this.state.anchorEl ? 'fade-menu' : undefined} aria-haspopup="true" onClick={this.handleClick}>
                         <MoreVertIcon/>
                     </IconButton>
-                    <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
-                          onClose={this.handleClose} TransitionComponent={Fade}>
-                        <MenuItem name="pin" id="pin" onClick={this.handleClose}>Pin to top</MenuItem>
-                        <MenuItem name="edit" id="edit" onClick={this.handleClose}>Edit</MenuItem>
-                        <MenuItem name="delete" id="delete" onClick={this.handleClose}>Delete</MenuItem>
-                    </Menu>
+                    {post.userId !== authUserId
+                        ? <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
+                              onClose={this.handleClose} TransitionComponent={Fade}>
+                            <MenuItem name="complain" id="complain" onClick={this.handleClose}>Complain</MenuItem>
+                        </Menu>
+                        : <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
+                                onClose={this.handleClose} TransitionComponent={Fade}>
+                            <MenuItem name="pin" id="pin" onClick={this.handleClose}>Pin to top</MenuItem>
+                            <MenuItem name="edit" id="edit" onClick={this.handleEdit}>Edit</MenuItem>
+                            <Mutation mutation={DELETE_POST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
+                                      update={(cache, {data: { deletePost }}) => {
+                                          console.log(deletePost);
+                                          const data = cache.readQuery({query: SEARCH_POST, variables: {input: {userId: authUserId}}});
+                                          console.log(data);
+                                          const posts = (data as any).searchPost.filter((post:any) => post.postId !== deletePost);
+                                          console.log(posts);
+                                          cache.writeQuery({query: SEARCH_POST, variables: {input: {userId: authUserId}}, data: {searchPost: posts}});
+                                      }}>
+                                {deletePost => {
+                                    return (
+                                        <MenuItem name="delete" id="delete" onClick={() => deletePost({variables: {postId: post.postId}})}>Delete</MenuItem>
+                                    )
+                                }}
+                            </Mutation>
+                        </Menu>
+                    }
                 </div>
-                <div className="post-body">
-                    {post.body}
-                </div>
+                    {this.state.editMode
+                        ? ( <div className="post-body">
+                                <textarea className={classes.textArea} name="postBody" rows={3} value={this.state.postBody} onChange={this.handleChange}></textarea>
+                                <div className="edit-buttons-block">
+                                    <Button variant="outlined" color="primary" onClick={this.handleEdit}>Cancel</Button>
+                                    <Mutation mutation={EDIT_POST} onCompleted={()=>this.setState({editMode: false})} onError={(error)=>console.log(error)}>
+                                        {editPost => {
+                                            return <Button className={classes.button} variant="raised" color="primary"
+                                                           onClick={() => editPost({variables: {input: {postId: post.postId, content: this.state.postBody, tags: []}}})}>Save</Button>
+                                        }}
+                                    </Mutation>
+                                </div>
+                            </div>
+                        )
+                        : <div className="post-body">{post.content}</div>}
                 <div className="post-footer">
                     <IconButton>
                         <Favorite color="primary"/>
@@ -116,9 +201,10 @@ class Post extends Component<any> {
                     <FormControl className={classes.textField}>
                         <Input
                             id="comment"
+                            name="comment"
                             type='text'
                             value={this.state.comment}
-                            onChange={this.handleChange('comment')}
+                            onChange={this.handleChange}
                             onKeyDown={this.handleKeyDownSendComment}
                             endAdornment={
                             <InputAdornment position="end">

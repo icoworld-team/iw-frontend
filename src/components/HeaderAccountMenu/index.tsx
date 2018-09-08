@@ -50,8 +50,8 @@ class SimpleMenu extends React.Component<any> {
       fetchGet(url)
           .then(response => handleErrors(response))
           .then(response => console.log(response))
-          .then(this.props.logOut)
           .then(this.props.push)
+          .then(this.props.logOut)
           .catch(error=>console.log(error));
   };
 
