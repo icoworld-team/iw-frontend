@@ -109,13 +109,11 @@ class SimpleMenu extends React.Component<any> {
             </ListItemIcon>
             <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Help" />
           </MenuItem>
-          <MenuItem className={classes.menuItem} onClick={this.handleClose}>
-            <IconButton onClick={this.handleLogOut}>
-                <ListItemIcon className={classes.icon}>
-                    <ExitToAppIcon />
-                </ListItemIcon>
-                <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Log out" />
-            </IconButton>
+          <MenuItem className={classes.menuItem} onClick={this.handleLogOut}>
+              <ListItemIcon className={classes.icon}>
+                  <ExitToAppIcon/>
+              </ListItemIcon>
+              <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Log out" />
           </MenuItem>
         </Menu>
       </div>
