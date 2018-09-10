@@ -13,6 +13,7 @@ import InvestorsPage from './components/InvestorsPage'
 import NewsPage from './components/NewsPage'
 import Chat from './components/Chat'
 import Contacts from './components/ContactsPage'
+import PrivateRoute from './components/PrivateRoute'
 import {store, history} from "./store";
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
@@ -41,13 +42,13 @@ export default function App() {
                     <Switch>
                         <Route exact path="/" component={SignInPage}/>
                         <Route exact path="/signup" component={SignUpPage}/>
-                        <Route exact path="/profile" component={Profile}/>
-                        <Route exact path="/pools" component={PoolSearch}/>
-                        <Route exact path="/create-pool" component={PoolCreate}/>
-                        <Route exact path="/pool-info" component={PoolInfo}/>
-                        <Route exact path="/investors" component={InvestorsPage}/>
-                        <Route exact path="/news" component={NewsPage}/>
-                        <Route exact path="/messages" component={Chat}/>
+                        <PrivateRoute exact path="/profile" component={Profile}/>
+                        <PrivateRoute exact path="/pools" component={PoolSearch}/>
+                        <PrivateRoute exact path="/create-pool" component={PoolCreate}/>
+                        <PrivateRoute exact path="/pool-info" component={PoolInfo}/>
+                        <PrivateRoute exact path="/investors" component={InvestorsPage}/>
+                        <PrivateRoute exact path="/news" component={NewsPage}/>
+                        <PrivateRoute exact path="/messages" component={Chat}/>
                         <Route exact path="/contacts" component={Contacts}/>
                     </Switch>
                 </ApolloProvider>
