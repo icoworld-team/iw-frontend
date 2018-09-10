@@ -70,10 +70,12 @@ class SimpleMenu extends React.Component<any> {
           onClose={this.handleClose}
         >
           <MenuItem className={classes.menuItem} onClick={this.handleClose}>
-            <ListItemIcon className={classes.icon}>
-              <EditIcon />
-            </ListItemIcon>
-            <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Edit profile" />
+            <Link className={classes.menuLink} to="/settings">
+              <ListItemIcon className={classes.icon}>
+                <EditIcon />
+              </ListItemIcon>
+              <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Edit profile" />
+            </Link>
           </MenuItem>
           <MenuItem className={classes.menuItem} onClick={this.handleClose}>
             <ListItemIcon className={classes.icon}>

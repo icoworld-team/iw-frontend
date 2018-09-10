@@ -13,6 +13,8 @@ import InvestorsPage from './components/InvestorsPage'
 import NewsPage from './components/NewsPage'
 import Chat from './components/Chat'
 import Contacts from './components/ContactsPage'
+import Settings from './components/ProfileSettings'
+import PasswordRecovery from './components/PasswordRecovery'
 import {store, history} from "./store";
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
@@ -38,6 +40,8 @@ export default function App() {
                         <Route exact path="/news" component={NewsPage}/>
                         <Route exact path="/messages" component={Chat}/>
                         <Route exact path="/contacts" component={Contacts}/>
+                        <Route exact path="/settings" component={Settings}/>
+                        <Route exact path="/password-recovery" component={PasswordRecovery}/>
                     </Switch>
                 </ApolloProvider>
             </ConnectedRouter>

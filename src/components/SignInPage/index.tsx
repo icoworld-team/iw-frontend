@@ -81,7 +81,7 @@ class SignInPage extends Component<any> {
                                 <TextField name="password" type="password" fullWidth label="Пароль" margin="normal"
                                            value={this.state.password} onChange={this.handleChange}/>
                                 <div className="form-links">
-                                    <Link to="">Забыли пароль?</Link>
+                                    <Link to="/password-recovery">Забыли пароль?</Link>
                                     <Link to="/signup">Регистрация</Link>
                                 </div>
 

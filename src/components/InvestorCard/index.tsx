@@ -1,49 +1,84 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
+import Button from '@material-ui/core/Button'
 import Avatar from '@material-ui/core/Avatar'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 
-const styles = {
+const styles = () => createStyles({
     card: {
-        backgroundColor: '#fafafa',
-        alignContent: 'center',
-        padding: '30px 30px 0 30px'
+        padding: '20px 20px 10px 20px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
     },
     avatarBlock: {
         alignContent: 'center',
         display: 'flex',
         justifyContent: 'center',
+        marginBottom: '10px',
     },
     avatar: {
-      height: '60px',
-      width: '60px'
-    },
-    text: {
-        paddingTop: '10px',
-        paddingBottom: '10px'
+      height: '85px',
+      width: '85px',
     },
     nameText: {
-        marginTop: '8px',
-        fontWeight: 400
+        marginBottom: '3px',
+        fontWeight: 600,
+        fontFamily: 'Open Sans',
+        fontSize: '16px',
+        lineHeight: '20px',
     },
-    loginText: {
-        marginBottom: '25px'
-    }
-};
+    cardText: {
+        fontFamily: 'Open Sans',
+        fontSize: '14px',
+        lineHeight: '16px',
+        marginBottom: '5px',
+    },
+    cardBtns: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '75px',
+    },
+    button: {
+        padding: '0px',
+        fontSize: '10px',
+        fontFamily: 'Open Sans',
+        textTransform: 'none',
+        minHeight: '20px',
+    },
+    followButton: {
+        marginBottom: '10px',
+        backgroundColor: '#980000',
+    },
+    messageButton: {
+        borderColor: '#980000',
+        color: '#980000',
+    },
+});
 
 function InvestorCard (props:any) {
     const {classes, data} = props;
 
     return (
         <div className={classes.card}>
-            <div className={classes.avatarBlock}>
-                <Avatar className={classes.avatar} src="profile.jpeg"/>
+            <div className={classes.userInfo}>
+                <div className={classes.avatarBlock}>
+                    <Avatar className={classes.avatar} src="profile.jpeg"/>
+                </div>
+                <Typography className={classes.nameText} variant="title" align="center">{data.name}</Typography>
+                <Typography className={classes.cardText} variant="caption" align="center">{data.login}</Typography>
+                <Typography className={classes.cardText} variant="caption" align="center">{data.followers} Followers</Typography>
             </div>
-            <Typography className={classes.nameText} variant="title" align="center">{data.name}</Typography>
-            <Typography className={classes.loginText} variant="caption" align="center">{data.login}</Typography>
-            <Divider/>
-            <Typography className={classes.text} variant="body1" align="center">{data.followers} Followers</Typography>
+            <div className={classes.cardBtns}>
+                <Button variant="contained" color="secondary" size="small" className={`${classes.button} ${classes.followButton}`}>
+                    Follow
+                </Button>
+                <Button variant="outlined" color="secondary" size="small" className={`${classes.button} ${classes.messageButton}`}>
+                    Message
+                </Button>
+            </div>
         </div>
     )
 }
