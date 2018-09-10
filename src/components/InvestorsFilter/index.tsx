@@ -9,6 +9,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import { connect } from 'react-redux'
+import { investorsFilter } from "../../actions";
 import { withStyles, createStyles } from '@material-ui/core/styles';
 
 const styles = () => createStyles({
@@ -88,17 +90,28 @@ const styles = () => createStyles({
     hidden: {
         display: 'none',
     },
-  });
+});
 
 class InvestorsFilter extends Component<any> {
     state = {
-        sortBy: 'followers',
+        sortBy: 'NUMBER_OF_FOLLOWERS',
+        country: '',
+        fromFollowers: '',
+        toFollowers: '',
         advanced: false
     };
 
-    handleChange = (event:any)=> {
-        this.setState({
+    handleChange = async (event:React.ChangeEvent<HTMLInputElement>)=> {
+        await this.setState({
             [event.target.name]: event.target.value
+        });
+        this.props.filter({
+            country: this.state.country,
+            followersRangeFilter: {
+                from: +this.state.fromFollowers,
+                to: +this.state.toFollowers
+            },
+            sortBy: this.state.sortBy
         });
     };
 
@@ -116,16 +129,18 @@ class InvestorsFilter extends Component<any> {
                 <div className={classes.filtersRow}>
                     <Typography className={classes.inputLabel}>Country</Typography>
                     <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
-                        name="country"/>
+                        name="country" value={this.state.country} onChange={this.handleChange} />
                 </div>
                 <div className={classes.filtersRow}>
                     <Typography className={classes.inputLabel}>Number of followers</Typography>
                     <div className={classes.fromToInputs}>
                         <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
-                            className={classes.minInput} name="fromFollowers" placeholder="From" />
+                            className={classes.minInput} name="fromFollowers" placeholder="From"
+                            value={this.state.fromFollowers} onChange={this.handleChange} />
                         <p className={classes.marginText}>—</p>
                         <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
-                            className={classes.minInput} name="toFollowers" placeholder="To" />
+                            className={classes.minInput} name="toFollowers" placeholder="To"
+                            value={this.state.toFollowers} onChange={this.handleChange} />
                     </div>
                 </div>
 
@@ -216,43 +231,50 @@ class InvestorsFilter extends Component<any> {
                     <FormControl component="fieldset">
                         <FormLabel className={`${classes.inputLabel} ${classes.RadioGroupLabel}`} component="legend">Sort by</FormLabel>
                         <RadioGroup value={this.state.sortBy} onChange={this.handleChange} name="sortBy">
-                            
+   
                             <FormControlLabel
                                 classes={{label: classes.inputLabel}}
                                 className={classes.radioBtnRow}
-                                value="followers"
+                                value="NUMBER_OF_FOLLOWERS"
                                 control={<Radio color="primary" className={classes.radioBtn} />}
                                 label="Number of followers"
                             />
                             <FormControlLabel
                                 classes={{label: classes.inputLabel}}
                                 className={classes.radioBtnRow}
-                                value="capitalAmount"
+                                value="CAPITAL_AMOUNT"
                                 control={<Radio color="primary" className={classes.radioBtn} />}
                                 label="Capital Amount"
                             />
                             <FormControlLabel
                                 classes={{label: classes.inputLabel}}
                                 className={classes.radioBtnRow}
-                                value="profitLevel"
+                                value="PROFIT_LEVEL"
                                 control={<Radio color="primary" className={classes.radioBtn} />}
                                 label="Profit Level"
                             />
                             <FormControlLabel
                                 classes={{label: classes.inputLabel}}
                                 className={classes.radioBtnRow}
-                                value="investments"
+                                value="PERCENTAGE_OF_PROFITABLE_INVESTMENTS"
                                 control={<Radio color="primary" className={classes.radioBtn} />}
                                 label="Percentage of profitable investments"
                             />
                         
+
                         </RadioGroup>
                     </FormControl>
                 </div>
-
             </div>
         )
     }
 }
 
-export default withStyles(styles)(InvestorsFilter);
+const mapDispatchToProps = (dispatch:any) => {
+    return {
+        filter: (filter:any) => dispatch(investorsFilter(filter))
+    }
+};
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(InvestorsFilter))
+

@@ -81,8 +81,8 @@ const styles = () => createStyles({
       display: 'flex',
       flexWrap: 'wrap',
       '& a': {
-          marginRight: '8px',
-          marginLeft: '8px'
+          marginRight: '15px',
+          marginLeft: '15px'
       }
   }
 });
@@ -141,7 +141,7 @@ class poolsSearch extends Component<any> {
                                     </div>
                                 </div>
 
-                                <div className={`card ${classes.poolsBlock}`}>
+                                <div className={`card ${classes.poolsBlock} ${classes.poolsSearchResults}`}>
                                     {this.state.foundPools.length === 0 ? <Typography>No results found</Typography> : pools}
                                 </div>
 

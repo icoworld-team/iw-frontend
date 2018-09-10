@@ -6,6 +6,8 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import AddCircleOutline from '@material-ui/icons/AddCircleOutline'
+import gql from 'graphql-tag'
+import { Query } from 'react-apollo'
 
 import MainAppBar from '../MainAppBar';
 import Author from '../Author';
@@ -130,20 +132,42 @@ const styles = (theme: Theme) => createStyles({
   },
 });
 
+const SEARCH_POST = gql`
+    query searchPost($input: PostSearchingParamsInput!) {
+        searchPost(input: $input) {
+            postId
+            userId
+            userName
+            date
+            content
+            tags
+        }
+    }
+`;
+
 class News extends Component<any> {
   state={
-    tab: 0
+    tab: 0,
+    searchText: ""
   };
 
-  handleChange =(event:any, value:any)=>{
+  handleChange =(event:any, value:any) => {
     this.setState({
         tab: value
+    });
+  };
+
+  handleSearch = (e:any) => {
+    this.setState({
+        searchText: e.target.value
     });
   };
   
   render() {
     const { classes } = this.props;
-    // const { post } = this.props;
+    const input = {
+      searchText: this.state.searchText
+    };
 
     return (
       <>
@@ -179,14 +203,41 @@ class News extends Component<any> {
                         label="New"
                       />
                     </Tabs>
-                    <TextField className={classes.search} placeholder='Search' name='search' type='search' />
+                    <TextField className={classes.search} placeholder='Search' name='searchText' type='search' value={this.state.searchText} onChange={this.handleSearch}/>
                   </div>
                 </div>
 
                 <div className={`card ${classes.tabContent}`}>
-                  {this.state.tab === 0 && <PostList />}
-                  {this.state.tab === 1 && <PostList />}
-                  {this.state.tab === 2 && <PostList />}
+                  {this.state.tab === 0 &&
+                  <Query query={SEARCH_POST} variables={{input: input}}>
+                      {({ loading, error, data }) => {
+                          if(loading) return <div>Loading</div>;
+                          if(error) return `Error: ${error}`;
+                          return (
+                              <PostList posts={data.searchPost}/>
+                          )
+                      }}
+                  </Query>}
+                  {this.state.tab === 1 &&
+                  <Query query={SEARCH_POST} variables={{input: {}}}>
+                      {({ loading, error, data }) => {
+                          if(loading) return <div>Loading</div>;
+                          if(error) return `Error: ${error}`;
+                          return (
+                              <PostList posts={data.searchPost}/>
+                          )
+                      }}
+                  </Query>}
+                  {this.state.tab === 2 &&
+                  <Query query={SEARCH_POST} variables={{input: {}}}>
+                      {({ loading, error, data }) => {
+                          if(loading) return <div>Loading</div>;
+                          if(error) return `Error: ${error}`;
+                          return (
+                              <PostList posts={data.searchPost} authUserId={null}/>
+                          )
+                      }}
+                  </Query>}
                 </div>
               </div>
 

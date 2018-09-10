@@ -68,8 +68,9 @@ function InvestorCard (props:any) {
                     <Avatar className={classes.avatar} src="profile.jpeg"/>
                 </div>
                 <Typography className={classes.nameText} variant="title" align="center">{data.name}</Typography>
-                <Typography className={classes.cardText} variant="caption" align="center">{data.login}</Typography>
-                <Typography className={classes.cardText} variant="caption" align="center">{data.followers} Followers</Typography>
+                {/* <Typography className={classes.cardText} variant="caption" align="center">{data.login}</Typography> */}
+                <Typography className={classes.cardText} variant="caption" align="center">@hardcode_login</Typography>
+                <Typography className={classes.cardText} variant="caption" align="center">{data.countOfFollowers} Followers</Typography>
             </div>
             <div className={classes.cardBtns}>
                 <Button variant="contained" color="secondary" size="small" className={`${classes.button} ${classes.followButton}`}>

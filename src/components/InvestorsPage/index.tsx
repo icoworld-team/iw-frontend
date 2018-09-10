@@ -5,6 +5,9 @@ import InvestorCard from '../InvestorCard'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import InvestorsFilter from '../InvestorsFilter'
+import gql from 'graphql-tag'
+import { Query } from 'react-apollo'
+import { connect } from 'react-redux'
 import { withStyles, createStyles } from '@material-ui/core/styles';
 
 const styles = () => createStyles({
@@ -79,42 +82,64 @@ const styles = () => createStyles({
     },
   });
 
+const GET_INVESTORS = gql`
+    query getInvestors($input: InvestorsFilterParamsInput!) {
+        getInvestors(input: $input) {
+            id
+            name
+            login
+            countOfFollowers
+        }
+    }
+`;
+
 class InvestorsPage extends React.Component<any> {
     render() {
         const { classes } = this.props;
 
-        const data = {
-            name: 'Paul Smith',
-            login: '@paul',
-            followers: 75
-        };
-
+        // const data = {
+        //     name: 'Paul Smith',
+        //     login: '@paul',
+        //     followers: 75
+        // };
+        console.log(this.props.filter);
+        const input = {...this.props.filter};
+        Object.keys(input).forEach((key) => (input[key] == "") && delete input[key]);
         return (
             <div>
                 <MainAppBar/>
                 <Grid container spacing={0}>
                     <Grid item xs={1}></Grid>
                     <Grid item xs={10}>
+
                         <div className={classes.pageContent}>
-                            <div className={`card ${classes.investorsBlock} ${classes.investors}`}>
-                                <div className={classes.investorsBlockHeading}>
-                                    <Typography className={classes.investorsBlockTitle} variant="subheading">403 investors, 20 shows</Typography>
-                                    <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
-                                        className={classes.searchInput} name="toFollowers" placeholder="Search" />
-                                </div>
-                                <div className={classes.investorsContent}>
-                                    <ul className={classes.investorsList}>
-                                        <li className={classes.investorsItem}><InvestorCard data={data}/></li>
-                                        <li className={classes.investorsItem}><InvestorCard data={data}/></li>
-                                        <li className={classes.investorsItem}><InvestorCard data={data}/></li>
-                                        <li className={classes.investorsItem}><InvestorCard data={data}/></li>
-                                        <li className={classes.investorsItem}><InvestorCard data={data}/></li>
-                                        <li className={classes.investorsItem}><InvestorCard data={data}/></li>
-                                        <li className={classes.investorsItem}><InvestorCard data={data}/></li>
-                                        <li className={classes.investorsItem}><InvestorCard data={data}/></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <Query query={GET_INVESTORS} variables={{input: input}}>
+                                {({ loading, error, data }) => {
+                                    if(loading) return (
+                                        <div className={`card ${classes.investorsBlock} ${classes.investors}`}>
+                                            <div className="block-label">
+                                                <Typography variant="subheading" align='center'>Loading</Typography>
+                                            </div>
+                                        </div>
+                                    );
+                                    if(error) return `Error: ${error}`;
+                                    const investors = data.getInvestors.map((investor:any) => <li key={investor.id} className={classes.investorsItem}><InvestorCard data={investor}/></li>);
+                                    return (
+                                        <div className={`card ${classes.investorsBlock} ${classes.investors}`}>
+                                            <div className={classes.investorsBlockHeading}>
+                                                <Typography className={classes.investorsBlockTitle} variant="subheading">{`${data.getInvestors.length} investors`}</Typography>
+                                                <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                                                    className={classes.searchInput} name="toFollowers" placeholder="Search" />
+                                            </div>
+                                            <div className={classes.investorsContent}>
+                                                <ul className={classes.investorsList}>
+                                                    {investors}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    )
+                                }}
+                            </Query>
                             <div className={`card ${classes.investorsBlock} ${classes.investorsFilter}`}>
                                 <div className={classes.investorsBlockHeading}>
                                     <Typography className={classes.investorsBlockTitle} variant="subheading">Filters</Typography>
@@ -130,4 +155,11 @@ class InvestorsPage extends React.Component<any> {
     }
 }
 
-export default withStyles(styles)(InvestorsPage);
+
+const mapStateToProps = ({investorsFilter}:any) => {
+    return {
+        filter: investorsFilter.filter
+    }
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(InvestorsPage))

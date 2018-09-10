@@ -16,3 +16,14 @@ export const fetchPost = (url:string, data:object) => {
         }
     });
 };
+
+export const fetchGet =  (url:string) => {
+    return fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: "include",
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    });
+};
