@@ -52,6 +52,7 @@ class SimpleMenu extends React.Component<any> {
           .then(response => console.log(response))
           .then(this.props.push)
           .then(this.props.logOut)
+          .then(() => localStorage.removeItem("user"))
           .catch(error=>console.log(error));
   };
 

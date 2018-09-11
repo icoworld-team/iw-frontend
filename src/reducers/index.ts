@@ -1,8 +1,8 @@
-const initialState = {
-  auth: null
+const authInitialState = {
+  authUser: JSON.parse((localStorage.getItem('user')) as string)
 };
 
-export const auth = (state=initialState, action:any) => {
+export const auth = (state=authInitialState, action:any) => {
     switch (action.type) {
         case 'SIGNIN':
             return {

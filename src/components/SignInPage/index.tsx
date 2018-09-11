@@ -58,7 +58,10 @@ class SignInPage extends Component<any> {
         fetchPost(url, data)
             .then(response=>handleErrors(response))
             .then(response=>response.json())
-            .then(json=>this.props.signIn(json))
+            .then(json => {
+                localStorage.setItem("user", JSON.stringify(json));
+                this.props.signIn(json)
+            })
             .then(this.props.push)
             .catch(error=>console.log(error));
     };
