@@ -26,12 +26,10 @@ const styles = () => createStyles({
     nameText: {
         marginBottom: '3px',
         fontWeight: 600,
-        fontFamily: 'Open Sans',
         fontSize: '16px',
         lineHeight: '20px',
     },
     cardText: {
-        fontFamily: 'Open Sans',
         fontSize: '14px',
         lineHeight: '16px',
         marginBottom: '5px',
@@ -44,7 +42,6 @@ const styles = () => createStyles({
     button: {
         padding: '0px',
         fontSize: '10px',
-        fontFamily: 'Open Sans',
         textTransform: 'none',
         minHeight: '20px',
     },

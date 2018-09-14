@@ -8,8 +8,26 @@
 
 /* styles */
 
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.page-content {
+  display: flex;
+  width: 1100px;
+  margin: 20px auto;
+  align-items: flex-start;
+}
+
+.page-content * {
+  font-family: 'Open Sans'!important;
+  box-sizing: border-box!important;
+}
+
 .card {
-  padding: 18px 24px;
+  /* padding: 18px 24px; */
   box-shadow: 0 1px 4px 0 rgba(0,0,0,.15);
   margin-bottom: 24px;
   background-color: #fafafa;
@@ -17,4 +35,39 @@
   position: relative;
   box-sizing: border-box;
   flex: 1;
+  border: 1px solid rgba(193, 193, 193, 1);
+}
+
+.card-heading {
+  border-bottom: 1px solid rgba(193, 193, 193, 1);
+  padding: 5px 15px;
+  display: flex;
+  align-items: center;
+  min-height: 46px;
+}
+
+.card-title {
+  font-size: 18px!important;
+  line-height: 20px!important;
+}
+
+.input {
+  font-size: 12px!important;
+  border-radius: 3px;
+  box-sizing: border-box!important;
+}
+
+.input:focus {
+  outline: #a6c8ff auto 5px!important;
+}
+
+.heading-input {
+  margin-left: auto!important;
+}
+
+.search-input {
+  width: 175px;
+  height: 35px;
+  padding: 8px 10px!important;
+  background-color: #ebebeb!important;
 }

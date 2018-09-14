@@ -9,7 +9,6 @@ import Fade from "@material-ui/core/Fade";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
-import Button from '@material-ui/core/Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
@@ -19,41 +18,6 @@ import Comment from '@material-ui/icons/Comment';
 import Repeat from '@material-ui/icons/Repeat';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Send from '@material-ui/icons/Send';
-
-import gql from 'graphql-tag'
-import { Mutation } from 'react-apollo'
-
-
-const DELETE_POST = gql`
-  mutation deletePost($postId: ID!) {
-    deletePost(postId: $postId)
-  }
-`;
-
-const EDIT_POST = gql`
-  mutation editPost($input: PostEditInput!) {
-    editPost(input: $input) {
-        postId
-        userId
-        date
-        content
-        tags
-    }
-  }
-`;
-
-const SEARCH_POST = gql`
-    query searchPost($input: PostSearchingParamsInput!) {
-        searchPost(input: $input) {
-            postId
-            userId
-            userName
-            date
-            content
-            tags
-        }
-    }
-`;
 
 const styles = () => createStyles({
     postCard: {
@@ -197,9 +161,6 @@ const styles = () => createStyles({
     },
     button: {
         marginLeft: '5px'
-    },
-    editButtonsBlock: {
-        float: 'right',
     }
 });
 
@@ -208,8 +169,6 @@ class Post extends Component<any> {
         anchorEl: undefined,
         comment: '',
         showInput: false,
-        editMode: false,
-        postBody: this.props.post.content
     };
 
     handleClick = (event:any)=> {
@@ -240,12 +199,7 @@ class Post extends Component<any> {
         }
     };
 
-    handleEdit = () => {
-        this.setState({ anchorEl: null, editMode: !this.state.editMode});
-    };
-
     render() {
-        const { post, authUserId } = this.props;
         const { classes } = this.props;
 
         return (
@@ -258,62 +212,35 @@ class Post extends Component<any> {
 
                             <div className={classes.postHeaderText}>
                                 <div className={classes.userInfo}>
-                                    <Typography className={classes.userName}>{post.userName}</Typography>
-                                    <Typography className={classes.userLogin}>{`@${post.userName}`}</Typography>
+                                    <Typography className={classes.userName}>Ivan Fedotov</Typography>
+                                    <Typography className={classes.userLogin}>@iyufedotov</Typography>
                                 </div>
-                                <Typography className={classes.postDate}>{new Date(post.date).toLocaleDateString()}</Typography>
+                                <Typography className={classes.postDate}>27 October, 14:56</Typography>
                             </div>
                         </div>
 
                         <IconButton disableRipple classes={{ label: classes.postMenuLabel }} className={classes.postMenu} aria-label="More" aria-owns={this.state.anchorEl ? 'fade-menu' : undefined} aria-haspopup="true" onClick={this.handleClick}>
                             <MoreHorizIcon className={classes.postMenuIcon} />
                         </IconButton>
-                        {post.userId !== authUserId
-                            ? <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
-                                onClose={this.handleClose} TransitionComponent={Fade}>
-                                <MenuItem name="complain" id="complain" onClick={this.handleClose}>Complain</MenuItem>
-                            </Menu>
-                            : <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
-                                    onClose={this.handleClose} TransitionComponent={Fade}>
-                                <MenuItem name="pin" id="pin" onClick={this.handleClose}>Pin to top</MenuItem>
-                                <MenuItem name="edit" id="edit" onClick={this.handleEdit}>Edit</MenuItem>
-                                <Mutation mutation={DELETE_POST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
-                                        update={(cache, {data: { deletePost }}) => {
-                                            console.log(deletePost);
-                                            const data = cache.readQuery({query: SEARCH_POST, variables: {input: {userId: authUserId}}});
-                                            console.log(data);
-                                            const posts = (data as any).searchPost.filter((post:any) => post.postId !== deletePost);
-                                            console.log(posts);
-                                            cache.writeQuery({query: SEARCH_POST, variables: {input: {userId: authUserId}}, data: {searchPost: posts}});
-                                        }}>
-                                    {deletePost => {
-                                        return (
-                                            <MenuItem name="delete" id="delete" onClick={() => deletePost({variables: {postId: post.postId}})}>Delete</MenuItem>
-                                        )
-                                    }}
-                                </Mutation>
-                            </Menu>
-                        }
+                        <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
+                            onClose={this.handleClose} TransitionComponent={Fade}>
+
+                            <MenuItem name="pin" id="pin" onClick={this.handleClose}>Pin to top</MenuItem>
+                            <MenuItem name="edit" id="edit" onClick={this.handleClose}>Edit</MenuItem>
+                            <MenuItem name="delete" id="delete" onClick={this.handleClose}>Delete</MenuItem>
+                            
+                        </Menu>
 
                     </div>
 
-                        {this.state.editMode
-                            ? ( <div className={classes.postContent}>
-                                    <textarea className={classes.textArea} name="postBody" rows={3} value={this.state.postBody} onChange={this.handleChange}></textarea>
-                                    <div className={classes.editButtonsBlock}>
-                                        <Button variant="outlined" color="primary" onClick={this.handleEdit}>Cancel</Button>
-                                        <Mutation mutation={EDIT_POST} onCompleted={()=>this.setState({editMode: false})} onError={(error)=>console.log(error)}>
-                                            {editPost => {
-                                                return <Button className={classes.button} variant="raised" color="primary"
-                                                            onClick={() => editPost({variables: {input: {postId: post.postId, content: this.state.postBody, tags: []}}})}>Save</Button>
-                                            }}
-                                        </Mutation>
-                                    </div>
-                                </div>
-                            )
-                            : <Typography className={classes.postContent}>{post.content}</Typography>}
+                    <Typography className={classes.postContent}>
+                        Bitfinex retail shorts on the left, professional money shorts on the right.
+                        The pros have the least short exposure since January, and the retail (dumb money) is more short than ever.
+                        Somebody 'bout to get REKT
+                    </Typography>
+
                     <div className={classes.postFooter}>
-                    <FormControlLabel
+                        <FormControlLabel
                             className={classes.footerIconLabel}
                             control={
                                 <Checkbox
@@ -322,11 +249,11 @@ class Post extends Component<any> {
                                         root: classes.iconRoot,
                                     }}
                                     icon={<FavoriteBorder className={classes.footerIcon} />}
-                                    checkedIcon={<Favorite className={`${classes.footerIcon} ${classes.checkedIcon}`} />}
+                                    checkedIcon={<Favorite className={`${classes.footerIcon} ${classes.checkedIcon}`}/>}
                                     value="like"
                                 />
                             }
-                            label="1"
+                            label="256"
                         />
 
                         <FormControlLabel
@@ -338,7 +265,7 @@ class Post extends Component<any> {
                                     onClick={this.handleClickShowInput}
                             />
                             }
-                            label="1"
+                            label="10"
                         />
 
                         <FormControlLabel

@@ -19,13 +19,14 @@ const styles = () => createStyles({
     },
     filtersRow: {
         display: 'flex',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         justifyContent: 'space-between',
         marginBottom: '15px',
     },
     fromToInputs: {
         display: 'flex',
         alignItems: 'center',
+        width: '110px',
     },
     inputLabel: {
         fontFamily: 'Open Sans',
@@ -34,32 +35,26 @@ const styles = () => createStyles({
         color: '#171717',
     },
     input: {
-        fontFamily: 'Open Sans',
-        width: '100px',
-        fontSize: '12px',
+        width: '110px',
         padding: '1px 5px',
-        borderRadius: '3px',
         border: '1px solid #c1c1c1',
-        '&:focus': {
-            outline: '#a6c8ff auto 5px',
-        },
     },
     minInput: {
         width: '45px',
+        flex: 1,
     },
     marginRightText: {
         marginRight: '5px',
     },
     marginText: {
         margin: '0 5px',
-        marginTop: '6px',
     },
     filtersChecboxRow: {
         marginTop: '30px',
     },
     filtersCheckbox: {
         margin: 0,
-        alignItems: 'flex-end',
+        alignItems: 'center',
     },
     checkboxLabel: {
         marginRight: '10px',
@@ -128,17 +123,17 @@ class InvestorsFilter extends Component<any> {
             <div className={classes.filters}>
                 <div className={classes.filtersRow}>
                     <Typography className={classes.inputLabel}>Country</Typography>
-                    <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                    <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} input`} }}
                         name="country" value={this.state.country} onChange={this.handleChange} />
                 </div>
                 <div className={classes.filtersRow}>
                     <Typography className={classes.inputLabel}>Number of followers</Typography>
                     <div className={classes.fromToInputs}>
-                        <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                        <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                             className={classes.minInput} name="fromFollowers" placeholder="From"
                             value={this.state.fromFollowers} onChange={this.handleChange} />
-                        <p className={classes.marginText}>—</p>
-                        <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                        <p className={classes.marginText}>–</p>
+                        <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                             className={classes.minInput} name="toFollowers" placeholder="To"
                             value={this.state.toFollowers} onChange={this.handleChange} />
                     </div>
@@ -167,60 +162,60 @@ class InvestorsFilter extends Component<any> {
                     <div className={classes.filtersRow}>
                         <Typography className={classes.inputLabel}>Capital amount, $</Typography>
                         <div className={classes.fromToInputs}>
-                            <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                                 className={classes.minInput} name="fromCapitalAmount" placeholder="From" />
-                            <p className={classes.marginText}>—</p>
-                            <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                            <p className={classes.marginText}>–</p>
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                                 className={classes.minInput} name="toCapitalAmount" placeholder="To" />
                         </div>
                     </div>
                     <div className={classes.filtersRow}>
                         <Typography className={classes.inputLabel}>Profit level (per year), %</Typography>
                         <div className={classes.fromToInputs}>
-                            <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                                 className={classes.minInput} name="fromProfitLevel" placeholder="From" />
-                            <p className={classes.marginText}>—</p>
-                            <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                            <p className={classes.marginText}>–</p>
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                                 className={classes.minInput} name="toProfitLevel" placeholder="To" />
                         </div>
                     </div>
                     <div className={classes.filtersRow}>
                         <Typography className={classes.inputLabel}>Max drawdown, %</Typography>
                         <div className={classes.fromToInputs}>
-                            <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                                 className={classes.minInput} name="fromMaxDrawdown" placeholder="From" />
-                            <p className={classes.marginText}>—</p>
-                            <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                            <p className={classes.marginText}>–</p>
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                                 className={classes.minInput} name="toMaxDrawdown" placeholder="To" />
                         </div>
                     </div>
                     <div className={classes.filtersRow}>
                         <Typography className={classes.inputLabel}>Average investment, $</Typography>
                         <div className={classes.fromToInputs}>
-                            <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                                 className={classes.minInput} name="fromAverageInvestment" placeholder="From" />
-                            <p className={classes.marginText}>—</p>
-                            <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                            <p className={classes.marginText}>–</p>
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                                 className={classes.minInput} name="toAverageInvestment" placeholder="To" />
                         </div>
                     </div>
                     <div className={classes.filtersRow}>
                         <Typography className={classes.inputLabel}>Average duration of investment, month</Typography>
                         <div className={classes.fromToInputs}>
-                            <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                                 className={classes.minInput} name="fromAverageDuration" placeholder="From" />
-                            <p className={classes.marginText}>—</p>
-                            <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                            <p className={classes.marginText}>–</p>
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                                 className={classes.minInput} name="toAverageDuration" placeholder="To" />
                         </div>
                     </div>
                     <div className={classes.filtersRow}>
                         <Typography className={classes.inputLabel}>Percentage of profitable investments, %</Typography>
                         <div className={classes.fromToInputs}>
-                            <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                                 className={classes.minInput} name="fromPercentageOfProfitable" placeholder="From" />
-                            <p className={classes.marginText}>—</p>
-                            <TextField InputProps={{ disableUnderline: true, classes: {input: classes.input} }} 
+                            <p className={classes.marginText}>–</p>
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} input`} }}
                                 className={classes.minInput} name="toPercentageOfProfitable" placeholder="To" />
                         </div>
                     </div>
@@ -260,7 +255,6 @@ class InvestorsFilter extends Component<any> {
                                 control={<Radio color="primary" className={classes.radioBtn} />}
                                 label="Percentage of profitable investments"
                             />
-                        
 
                         </RadioGroup>
                     </FormControl>
