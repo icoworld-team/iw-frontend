@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Avatar from '@material-ui/core/Avatar'
 import { withStyles, createStyles } from '@material-ui/core/styles'
+
+import { socket } from '../../api'
+import ModalSendMessage from '../ModalSendMessage'
 
 const styles = () => createStyles({
     card: {
@@ -55,30 +58,66 @@ const styles = () => createStyles({
     },
 });
 
-function InvestorCard (props:any) {
-    const {classes, data} = props;
+class InvestorCard extends Component<any> {
+    state = {
+        modalOpen: false,
+        message: ''
+    };
 
-    return (
-        <div className={classes.card}>
-            <div className={classes.userInfo}>
-                <div className={classes.avatarBlock}>
-                    <Avatar className={classes.avatar} src="profile.jpeg"/>
+    handleOpen = () => {
+        this.setState({
+            modalOpen: true
+        })
+    };
+
+    handleClose = () => {
+        this.setState({
+            modalOpen: false
+        })
+    };
+
+    handleChange = (e:any) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    };
+
+    sendMessage = () => {
+        socket.emit('newMessage', {
+            text: this.state.message,
+            partnerId: this.props.data.id
+        });
+        this.setState({
+            message: '',
+            modalOpen: false
+        });
+    };
+
+    render() {
+        const { classes, data } = this.props;
+        return (
+            <div className={classes.card}>
+                <div className={classes.userInfo}>
+                    <div className={classes.avatarBlock}>
+                        <Avatar className={classes.avatar} src="profile.jpeg"/>
+                    </div>
+                    <Typography className={classes.nameText} variant="title" align="center">{data.name}</Typography>
+                    {/* <Typography className={classes.cardText} variant="caption" align="center">{data.login}</Typography> */}
+                    <Typography className={classes.cardText} variant="caption" align="center">@hardcode_login</Typography>
+                    <Typography className={classes.cardText} variant="caption" align="center">{data.countOfFollowers} Followers</Typography>
                 </div>
-                <Typography className={classes.nameText} variant="title" align="center">{data.name}</Typography>
-                {/* <Typography className={classes.cardText} variant="caption" align="center">{data.login}</Typography> */}
-                <Typography className={classes.cardText} variant="caption" align="center">@hardcode_login</Typography>
-                <Typography className={classes.cardText} variant="caption" align="center">{data.countOfFollowers} Followers</Typography>
+                <div className={classes.cardBtns}>
+                    <Button variant="contained" color="secondary" size="small" className={`${classes.button} ${classes.followButton}`}>
+                        Follow
+                    </Button>
+                    <Button variant="outlined" color="secondary" size="small" className={`${classes.button} ${classes.messageButton}`} onClick={this.handleOpen}>
+                        Message
+                    </Button>
+                </div>
+                <ModalSendMessage partnerId={data.id} open={this.state.modalOpen} onClose={this.handleClose}/>
             </div>
-            <div className={classes.cardBtns}>
-                <Button variant="contained" color="secondary" size="small" className={`${classes.button} ${classes.followButton}`}>
-                    Follow
-                </Button>
-                <Button variant="outlined" color="secondary" size="small" className={`${classes.button} ${classes.messageButton}`}>
-                    Message
-                </Button>
-            </div>
-        </div>
-    )
+        )
+    }
 }
 
 export default withStyles(styles)(InvestorCard);

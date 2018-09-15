@@ -12,6 +12,7 @@
     "@types/react-router-redux": "^5.0.15",
     "@types/reactstrap": "^6.0.2",
     "@types/recharts": "^1.0.26",
+    "@types/socket.io-client": "^1.4.32",
     "apollo-boost": "^0.1.15",
     "autoprefixer": "^8.6.5",
     "autosuggest-highlight": "^3.1.1",
@@ -70,7 +71,8 @@
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.16.0",
-    "sass": "^1.9.2"
+    "sass": "^1.9.2",
+    "socket.io-client": "^2.1.1"
   },
   "scripts": {
     "start": "cross-env NODE_PATH=src react-scripts-ts start",
