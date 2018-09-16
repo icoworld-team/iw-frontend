@@ -95,37 +95,6 @@ const styles = (theme: Theme) => createStyles({
 		padding: '0 15px',
 		marginBottom: '5px',
 	},
-	tabsRoot: {
-		minHeight: '44px',
-	},
-	tabsIndicator: {
-    backgroundColor: '#980000',
-  },
-  tabRoot: {
-    textTransform: 'initial',
-		minWidth: '45px',
-		minHeight: '44px',
-    '&:hover': {
-      color: '#171717',
-      opacity: 1,
-    },
-    '&$tabSelected': {
-      color: '#171717',
-    },
-    '&:focus': {
-      color: '#171717',
-    },
-	},
-	tabLabelContainer: {
-		paddingLeft: '10px',
-		paddingRight: '10px',
-		paddingTop: '10px',
-		paddingBottom: '10px',
-	},
-	tabLabel: {
-		fontSize: '18px',
-		fontWeight: 400,
-	},
 	
 	followersCard: {
 		marginBottom: '15px',
@@ -171,28 +140,19 @@ const styles = (theme: Theme) => createStyles({
 		display: 'flex',
 		marginTop: '10px',
 	},
-	button: {
-		padding: '0px',
-		fontSize: '14px',
-		fontWeight: 600,
-		textTransform: 'none',
-	},
-	fillButton: {
-		backgroundColor: '#980000',
-	},
-	outlineButton: {
-		borderColor: '#980000',
-		color: '#980000',
-	},
 	followButton: {
 		marginRight: '9px',
 		minWidth: '85px',
 		minHeight: '25px',
+		fontWeight: 600,
+		fontSize: '14px',
 	},
 	messageButton: {
 		marginRight: '9px',
 		minWidth: '85px',
 		minHeight: '25px',
+		fontWeight: 600,
+		fontSize: '14px',
 	},
 	moreButton: {
 		minWidth: '30px',
@@ -209,7 +169,6 @@ const SEARCH_POST = gql`
 			postId
 			userId
 			userName
-			date
 			content
 			tags
 		}
@@ -256,13 +215,13 @@ class Profile extends Component<any> {
 										<Typography className={classes.userInfoText}>Russia, Kazan</Typography>
 
 										<div className={classes.cardBtns}>
-											<Button variant="contained" color="secondary" size="small" className={`${classes.button} ${classes.fillButton} ${classes.followButton}`}>
+											<Button variant="contained" color="secondary" size="small" className={`button fill-button ${classes.followButton}`}>
 												Follow
 											</Button>
-											<Button variant="outlined" color="secondary" size="small" className={`${classes.button} ${classes.outlineButton} ${classes.messageButton}`}>
+											<Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.messageButton}`}>
 												Message
 											</Button>
-											<Button variant="outlined" color="secondary" size="small" className={`${classes.button} ${classes.outlineButton} ${classes.moreButton}`}>
+											<Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.moreButton}`}>
 												<MoreHorizIcon className={classes.moreButtonIcon} />
 											</Button>
             				</div>
@@ -309,23 +268,23 @@ class Profile extends Component<any> {
 									<Tabs
                       value={this.state.tab}
                       onChange={this.handleChange}
-                      classes={{ indicator: classes.tabsIndicator, root: classes.tabsRoot }}
+                      classes={{ indicator: `tabs-indicator`, root: `tabs-root` }}
                     >
                       <Tab
                         disableRipple
                         classes={{
-													root: classes.tabRoot,
-													label: classes.tabLabel,
-													labelContainer: classes.tabLabelContainer
+													root: `tab-root`,
+													label: `tab-label`,
+													labelContainer: `tab-label-container`
 												}}
                         label="Activity"
                       />
                       <Tab
                         disableRipple
                         classes={{
-													root: classes.tabRoot,
-													label: classes.tabLabel,
-													labelContainer: classes.tabLabelContainer
+													root: `tab-root`,
+													label: `tab-label`,
+													labelContainer: `tab-label-container`
 												}}
                         label="Portfolio"
                       />

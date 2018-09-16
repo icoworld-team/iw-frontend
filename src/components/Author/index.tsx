@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
 // import { Link } from "react-router-dom";
 
 const styles = () => createStyles({
@@ -14,26 +15,31 @@ const styles = () => createStyles({
     display: 'flex',
     alignItems: 'center',
   },
-  subText: {
-    color: '#a2a2a2',
-    margin: 0,
-    fontSize: '11px',
-    lineHeight: '14px',
-  },
   avatar: {
-    borderRadius: '70%',
+    width: '35px',
+    height: '35px',
   },
   authorHeaderText: {
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'wrap',
-    marginLeft: '10px',
+    marginLeft: '5px',
   },
   authorName: {
-    marginRight: '4px',
+    fontSize: '14px',
+    lineHeight: '18px',
+    color: '#171717',
+  },
+  subText: {
+    color: '#8b8b8b',
     fontSize: '14px',
     lineHeight: '18px',
   },
+  followButton: {
+		minWidth: '75px',
+		minHeight: '20px',
+		fontSize: '10px',
+	},
 });
 
 class Author extends Component<any> {
@@ -48,19 +54,17 @@ class Author extends Component<any> {
         <div className={classes.author}>
           <div className={classes.authorInfo}>
             <div>
-              <img className={classes.avatar} src="profile.jpeg" width="35px"/>
+              <Avatar className={classes.avatar} src="profile.jpeg" />
             </div>
             <div className={classes.authorHeaderText}>
               <Typography component='h3' className={classes.authorName}>Ivan Fedotov</Typography>
-              <Typography className={classes.subText}>@iyufedotov</Typography>
+              <Typography className={classes.subText}>123 followers</Typography>
             </div>
           </div>
         
-          <div className={classes.authorFollow}>
-            <Button className={classes.authorFollowBtn} size="small" color="primary">
-              Follow
-            </Button>
-          </div>
+          <Button variant="contained" color="secondary" size="small" className={`button fill-button ${classes.followButton}`}>
+            Follow
+          </Button>
         </div>
 
       </>

@@ -71,3 +71,52 @@ ul {
   padding: 8px 10px!important;
   background-color: #ebebeb!important;
 }
+
+.button {
+  padding: 0px!important;
+  text-transform: none!important;
+}
+
+.fill-button {
+  background-color: #980000!important;
+}
+
+.outline-button {
+  border-color: #980000!important;
+  color: #980000!important;
+}
+
+.tabs-root {
+  min-height: 44px!important;
+}
+
+.tabs-indicator {
+  background-color: #980000!important;
+}
+
+.tab-label-container {
+  padding-left: 10px!important;
+  padding-right: 10px!important;
+  padding-top: 10px!important;
+  padding-bottom: 10px!important;
+}
+
+.tab-label {
+  font-size: 18px!important;
+  font-weight: 400!important;
+}
+
+.tab-root {
+  text-transform: initial!important;
+  min-width: 45px!important;
+  min-height: 44px!important;
+}
+
+.tab-root:hover {
+  color: #171717!important;
+  opacity: 1!important;
+}
+
+.tab-root:focus {
+  color: #171717;
+}

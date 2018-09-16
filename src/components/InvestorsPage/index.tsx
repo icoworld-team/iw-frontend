@@ -17,9 +17,9 @@ const styles = () => createStyles({
         marginBottom: 0,
     },
     investors: {
-        maxWidth: '789px',
+        maxWidth: '786px',
         marginRight: '15px',
-        flexBasis: '789px',
+        flexBasis: '786px',
     },
     investorsFilter: {
         flex: 1,
@@ -43,9 +43,9 @@ const styles = () => createStyles({
         '&:nth-child(4n)': {
             borderRight: 'none',
         },
-        '&:nth-last-child(-n+4)': {
-            borderBottom: 'none',
-        },
+        // '&:nth-last-child(-n+4)': {
+        //     borderBottom: 'none',
+        // },
     },
     filter: {
         flex: 1,

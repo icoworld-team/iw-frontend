@@ -20,6 +20,8 @@ import Repeat from '@material-ui/icons/Repeat';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Send from '@material-ui/icons/Send';
 
+import PostComments from '../PostComments';
+
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 
@@ -143,41 +145,28 @@ const styles = () => createStyles({
     iconRoot: {
         width: '27px',
         height: '27px',
-        '&$checked': {
-            color: '#ff0000',
-          },
         '&:hover': {
             backgroundColor: 'transparent',
         },
     },
 
-    postComments: {
-        padding: '10px 15px'
-    },
-    commentsItem: {
+    hideComments: {
         display: 'flex',
-        borderBottom: '1px solid #edeef0',
-        paddingBottom: '10px',
-        marginBottom: '10px',
-        '&:last-child': {
-            borderBottom: 'none',
-            paddingBottom: 0,
-            marginBottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '10px',
+        cursor: 'pointer',
+        transition: '.3s',
+        '&:hover': {
+            backgroundColor: '#efefef',
         },
     },
-    commentContent: {
-        marginLeft: '10px',
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    commentText: {
+    hideCommentsText: {
         fontSize: '14px',
-        color: '#171717',
+        lineHeight: '19px',
+        color: '#8b8b8b',
     },
 
-    textField: {
-      width: '100%',
-    },
     show: {
       height: '32px',
     },
@@ -209,7 +198,8 @@ class Post extends Component<any> {
         comment: '',
         showInput: false,
         editMode: false,
-        postBody: this.props.post.content
+        postBody: this.props.post.content,
+        showComments: false,
     };
 
     handleClick = (event:any)=> {
@@ -244,6 +234,10 @@ class Post extends Component<any> {
         this.setState({ anchorEl: null, editMode: !this.state.editMode});
     };
 
+    handleShowComments = () => {
+        this.setState(state => ({ showComments: !this.state.showComments }));
+    }
+
     render() {
         const { post, authUserId } = this.props;
         const { classes } = this.props;
@@ -261,6 +255,7 @@ class Post extends Component<any> {
                                     <Typography className={classes.userName}>{post.userName}</Typography>
                                     <Typography className={classes.userLogin}>{`@${post.userName}`}</Typography>
                                 </div>
+                                {/* <Typography className={classes.postDate}>27 October, 14:56</Typography> */}
                                 <Typography className={classes.postDate}>{new Date(post.date).toLocaleDateString()}</Typography>
                             </div>
                         </div>
@@ -353,7 +348,7 @@ class Post extends Component<any> {
                         />
                     </div>
                     <div className={`${classes.container} ${this.state.showInput ? classes.show : classes.hidden}`}>
-                        <FormControl className={classes.textField}>
+                        <FormControl fullWidth className={classes.textField}>
                             <Input
                                 id="comment"
                                 name="comment"
@@ -375,32 +370,11 @@ class Post extends Component<any> {
                         </FormControl>
                     </div>
                 </div>
-                <div className={classes.postComments}>
-                    <ul className={classes.commentsList}>
-                        <li className={classes.commentsItem}>
-                            <Avatar className={classes.postAvatar} src="profile.jpeg" />
-                            <div className={classes.commentContent}>
-                                <div className={classes.userInfo}>
-                                    <Typography className={classes.userName}>Jason Born</Typography>
-                                    <Typography className={classes.userLogin}>@born</Typography>
-                                </div>
-                                <Typography className={classes.commentText}>This will be the first answer</Typography>
-                                <Typography className={classes.postDate}>27 October, 14:56</Typography>
-                            </div>
-                        </li>
-                        <li className={classes.commentsItem}>
-                            <Avatar className={classes.postAvatar} src="profile.jpeg" />
-                            <div className={classes.commentContent}>
-                                <div className={classes.userInfo}>
-                                    <Typography className={classes.userName}>Jason Born</Typography>
-                                    <Typography className={classes.userLogin}>@born</Typography>
-                                </div>
-                                <Typography className={classes.commentText}>This will be the first answer</Typography>
-                                <Typography className={classes.postDate}>27 October, 14:56</Typography>
-                            </div>
-                        </li>
-                    </ul>
+                {this.state.showComments === false
+                    ? <div className={classes.hideComments} onClick={this.handleShowComments}>
+                    <Typography className={classes.hideCommentsText}>See comments</Typography>
                 </div>
+                : <PostComments />}
             </div>
         )
     }

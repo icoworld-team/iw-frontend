@@ -5,65 +5,54 @@ import Tab from '@material-ui/core/Tab';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import AddCircleOutline from '@material-ui/icons/AddCircleOutline'
-import gql from 'graphql-tag'
-import { Query } from 'react-apollo'
+import Button from '@material-ui/core/Button';
+
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 
 import MainAppBar from '../MainAppBar';
 import Author from '../Author';
-
 import PostList from '../PostList';
 
 const styles = (theme: Theme) => createStyles({
-  news: {
-    minWidth: '1000px',
-    display: 'flex',
-    maxWidth: '1100px',
-    margin: '0 auto',
-    marginTop: '20px',
-    marginBottom: '30px',
-  },
-  newsLeft: {
-    marginRight: '20px',
-  },
-  newsRight: {
-    width: '325px',
-    minWidth: '325px',
-    flex: 1,
-  },
-  newsTabs: {
-    backgroundColor: '#fafafa',
-    padding: '15px 50px',
-  },
-  tabsList: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  tabsIndicator: {
-    backgroundColor: '#3f51b5',
-  },
-  tabRoot: {
-    textTransform: 'initial',
-    minWidth: 72,
-    fontWeight: theme.typography.fontWeightRegular,
-    marginRight: theme.spacing.unit * 4,
-    '&:hover': {
-      color: '#3f51b5',
-      opacity: 1,
-    },
-    '&$tabSelected': {
-      color: '#3f51b5',
-      fontWeight: theme.typography.fontWeightMedium,
-    },
-    '&:focus': {
-      color: '#3f51b5',
+  newsOfProject: {
+    marginRight: '15px',
+    marginBottom: 0,
+    width: '260px',
+	},
+	newsOfProjectList: {
+		padding: '15px',
+	},
+	newsOfProjectItem: {
+    borderBottom: '1px solid #edeef0',
+    paddingBottom: '15px',
+    marginBottom: '15px',
+		'&:last-child': {
+      borderBottom: 'none',
+      paddingBottom: 0,
+      marginBottom: 0,
     },
   },
-  tabSelected: {},
-  search: {
-    width: '150px',
+  newsOfProjectDate: {
+    fontSize: '14px',
+    lineHeight: '19px',
+    color: '#8b8b8b',
   },
+  newsOfProjectText: {
+    fontSize: '14px',
+    lineHeight: '19px',
+    color: '#171717',
+  },
+  
+  newsContent: {
+		width: '555px',
+		maxWidth: '555px',
+		marginRight: '15px',
+	},
+  newsTabsList: {
+		padding: '0 15px',
+		marginBottom: '5px',
+	},
   tabContent: {
     backgroundColor: '#fafafa',
     padding: '15px 50px',
@@ -80,27 +69,33 @@ const styles = (theme: Theme) => createStyles({
     marginBottom: '5px',
     fontSize: '18px',
   },
-  cardContent: {
-    marginTop: '10px',
+
+  newsRight: {
+    width: '255px',
   },
-  authorsList: {
-    listStyle: 'none',
-    margin: 0,
-    padding: 0,
+  popularInvestorsList: {
+    padding: '15px',
   },
-  author: {
-    marginTop: '7px',
+  popularInvestorsItem: {
+    marginBottom: '10px',
+    '&:last-child': {
+      marginBottom: 0,
+    },
   },
+
   tagList: {
-    listStyle: 'none',
-    margin: 0,
-    padding: 0,
+    padding: '15px',
     display: 'inline-flex',
     flexWrap: 'wrap',
   },
   tagItem: {
     marginRight: '10px',
   },
+  tagItemText: {
+    color: '#4a86e8',
+    cursor: 'pointer',
+  },
+
   language: {
     backgroundColor: '#fafafa',
     padding: '15px 30px',
@@ -108,27 +103,33 @@ const styles = (theme: Theme) => createStyles({
     alignItems: 'center',
     width: '100%',
   },
-  languageTitle: {
-    marginRight: '5px',
+  languageContent: {
+    padding: '15px',
+    display: 'flex',
+    flexWrap: 'wrap',
   },
   languageList: {
-    listStyle: 'none',
-    margin: 0,
-    padding: 0,
     display: 'inline-flex',
+    flexWrap: 'wrap',
   },
   languageItem: {
-    marginRight: '5px',
-    '&:last-child': {
-      marginRight: 0,
-    },
+    marginRight: '10px',
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: '14px',
+    lineHeight: '19px',
     '&::after': {
-      content: '","'
+      content: '"x"',
+      marginLeft: '4px',
+      fontSize: '10px',
+      cursor: 'pointer',
     },
   },
-  languageAdd: {
-    marginLeft: '5px',
-    fill: '#4a86e8',
+  addButton: {
+    minWidth: '35px',
+    minHeight: '20px',
+    fontSize: '10px',
+    fontWeight: 600,
   },
 });
 
@@ -138,7 +139,6 @@ const SEARCH_POST = gql`
             postId
             userId
             userName
-            date
             content
             tags
         }
@@ -177,109 +177,134 @@ class News extends Component<any> {
           <Grid item xs={1} />
 
           <Grid item xs={10}>
-            <div className={classes.news}>
-              
-              <div className={classes.newsLeft}>
-                <div className={`card ${classes.newsTabs}`}>
-                  <div className={classes.tabsList}>
-                    <Tabs
+            <div className={`page-content`}>
+
+              <div className={`card ${classes.newsOfProject}`}>
+                <div className={`card-heading`}>
+                  <Typography className={`card-title`}>News of the icoWorld</Typography>
+                </div>
+                <ul className={classes.newsOfProjectList}>
+                  <li className={classes.newsOfProjectItem}>
+                    <Typography className={classes.newsOfProjectDate}>12 September 2018:</Typography>
+                    <Typography className={classes.newsOfProjectText}>We realised our MVP. You can look it and try it.</Typography>
+                  </li>
+                  <li className={classes.newsOfProjectItem}>
+                    <Typography className={classes.newsOfProjectDate}>12 September 2018:</Typography>
+                    <Typography className={classes.newsOfProjectText}>We realised our MVP. You can look it and try it.</Typography>
+                  </li>
+                </ul>
+              </div>
+
+              <div className={classes.newsContent}>
+                <div className={`card card-heading ${classes.newsTabsList}`}>
+                  <Tabs
                       value={this.state.tab}
                       onChange={this.handleChange}
-                      classes={{ indicator: classes.tabsIndicator }}
+                      classes={{ indicator: `tabs-indicator`, root: `tabs-root` }}
                     >
                       <Tab
                         disableRipple
-                        classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+                        classes={{
+                          root: `tab-root`,
+                          label: `tab-label`,
+                          labelContainer: `tab-label-container`
+                        }}
                         label="Subscribed"
                       />
                       <Tab
                         disableRipple
-                        classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+                        classes={{
+                          root: `tab-root`,
+                          label: `tab-label`,
+                          labelContainer: `tab-label-container`
+                        }}
                         label="Popular"
                       />
                       <Tab
                         disableRipple
-                        classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+                        classes={{
+                          root: `tab-root`,
+                          label: `tab-label`,
+                          labelContainer: `tab-label-container`
+                        }}
                         label="New"
                       />
                     </Tabs>
-                    <TextField className={classes.search} placeholder='Search' name='searchText' type='search' value={this.state.searchText} onChange={this.handleSearch}/>
-                  </div>
+                  <TextField InputProps={{ disableUnderline: true, classes: {input: `search-input input`} }} 
+                    className={`heading-input`} name="toFollowers" placeholder="Search" />
                 </div>
 
-                <div className={`card ${classes.tabContent}`}>
-                  {this.state.tab === 0 &&
-                  <Query query={SEARCH_POST} variables={{input: input}}>
-                      {({ loading, error, data }) => {
-                          if(loading) return <div>Loading</div>;
-                          if(error) return `Error: ${error}`;
-                          return (
-                              <PostList posts={data.searchPost}/>
-                          )
-                      }}
-                  </Query>}
-                  {this.state.tab === 1 &&
-                  <Query query={SEARCH_POST} variables={{input: {}}}>
-                      {({ loading, error, data }) => {
-                          if(loading) return <div>Loading</div>;
-                          if(error) return `Error: ${error}`;
-                          return (
-                              <PostList posts={data.searchPost}/>
-                          )
-                      }}
-                  </Query>}
-                  {this.state.tab === 2 &&
-                  <Query query={SEARCH_POST} variables={{input: {}}}>
-                      {({ loading, error, data }) => {
-                          if(loading) return <div>Loading</div>;
-                          if(error) return `Error: ${error}`;
-                          return (
-                              <PostList posts={data.searchPost} authUserId={null}/>
-                          )
-                      }}
-                  </Query>}
-                </div>
+                {this.state.tab === 0 &&
+                <Query query={SEARCH_POST} variables={{input: input}}>
+                    {({ loading, error, data }) => {
+                        if(loading) return <div>Loading</div>;
+                        if(error) return `Error: ${error}`;
+                        return (
+                            <PostList posts={data.searchPost}/>
+                        )
+                    }}
+                </Query>}
+                {this.state.tab === 1 &&
+                <Query query={SEARCH_POST} variables={{input: {}}}>
+                    {({ loading, error, data }) => {
+                        if(loading) return <div>Loading</div>;
+                        if(error) return `Error: ${error}`;
+                        return (
+                            <PostList posts={data.searchPost}/>
+                        )
+                    }}
+                </Query>}
+                {this.state.tab === 2 &&
+                <Query query={SEARCH_POST} variables={{input: {}}}>
+                    {({ loading, error, data }) => {
+                        if(loading) return <div>Loading</div>;
+                        if(error) return `Error: ${error}`;
+                        return (
+                            <PostList posts={data.searchPost} authUserId={null}/>
+                        )
+                    }}
+                </Query>}
+
               </div>
 
               <div className={classes.newsRight}>
 
-                <div className={`card ${classes.card}`}>
-                  <div className={classes.cardHeading}>
-                    <Typography className={classes.cardTitle}>Popular authors</Typography>
+                <div className={`card`}>
+                  <div className={`card-heading`}>
+                    <Typography className={`card-title`}>Popular Investors</Typography>
                   </div>
-                  <div className={classes.cardContent}>
-                    <ul className={classes.authorsList}>
-                      <li className={classes.author}><Author /></li>
-                      <li className={classes.author}><Author /></li>
-                      <li className={classes.author}><Author /></li>
-                      <li className={classes.author}><Author /></li>
-                      <li className={classes.author}><Author /></li>
-                      <li className={classes.author}><Author /></li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className={`card ${classes.card}`}>
-                  <div className={classes.cardHeading}>
-                    <Typography className={classes.cardTitle}>Tags</Typography>
-                  </div>
-                  <div className={classes.cardContent}>
-                    <ul className={classes.tagList}>
-                      <li className={classes.tagItem}>#news</li>
-                      <li className={classes.tagItem}>#blockchain</li>
-                      <li className={classes.tagItem}>#investments</li>
-                      <li className={classes.tagItem}>#projects</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className={`card ${classes.language}`}>
-                  <span className={classes.languageTitle}>Language:</span>
-                  <ul className={classes.languageList}>
-                    <li className={classes.languageItem}>English</li>
-                    <li className={classes.languageItem}>Русский</li>
+                  <ul className={classes.popularInvestorsList}>
+                    <li className={classes.popularInvestorsItem}><Author /></li>
+                    <li className={classes.popularInvestorsItem}><Author /></li>
+                    <li className={classes.popularInvestorsItem}><Author /></li>
+                    <li className={classes.popularInvestorsItem}><Author /></li>
+                    <li className={classes.popularInvestorsItem}><Author /></li>
                   </ul>
-                  <AddCircleOutline className={classes.languageAdd} />
+                </div>
+
+                <div className={`card`}>
+                  <div className={`card-heading`}>
+                    <Typography className={`card-title`}>Tags</Typography>
+                  </div>
+                  <ul className={classes.tagList}>
+                    <li className={classes.tagItem}><Typography className={classes.tagItemText}>#crypto</Typography></li>
+                    <li className={classes.tagItem}><Typography className={classes.tagItemText}>#blockchain</Typography></li>
+                  </ul>
+                </div>
+
+                <div className={`card`}>
+                  <div className={`card-heading`}>
+                    <Typography className={`card-title`}>Language</Typography>
+                  </div>
+                  <div className={classes.languageContent}>
+                    <ul className={classes.languageList}>
+                      <li className={classes.languageItem}>English</li>
+                      <li className={classes.languageItem}>Русский</li>
+                    </ul>
+                    <Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.addButton}`}>
+                      Add
+                    </Button>
+                  </div>
                 </div>
 
               </div>
