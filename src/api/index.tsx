@@ -27,3 +27,6 @@ export const fetchGet =  (url:string) => {
         }
     });
 };
+
+import io from 'socket.io-client'
+export const socket = io('http://icoworld.projects.oktend.com:3000', { transports: ['websocket'] });
