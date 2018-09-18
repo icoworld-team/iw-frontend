@@ -184,11 +184,17 @@ const styles = () => createStyles({
         fontFamily: 'inherit',
         fontSize: 'inherit'
     },
-    button: {
-        marginLeft: '5px'
-    },
     editButtonsBlock: {
         float: 'right',
+        '& button': {
+            minWidth: '85px',
+            minHeight: '30px',
+            fontSize: '14px',
+            marginTop: '7px'
+        }
+    },
+    saveButton: {
+        marginLeft: '5px',
     }
 });
 
@@ -221,7 +227,7 @@ class Post extends Component<any> {
     };
 
     handleSendComment = () => {
-        alert(`Введённое сообщение: ${this.state.comment}`);
+
     };
 
     handleKeyDownSendComment = (event: any) => {
@@ -236,7 +242,7 @@ class Post extends Component<any> {
 
     handleShowComments = () => {
         this.setState(state => ({ showComments: !this.state.showComments }));
-    }
+    };
 
     render() {
         const { post, authUserId } = this.props;
@@ -296,10 +302,10 @@ class Post extends Component<any> {
                             ? ( <div className={classes.postContent}>
                                     <textarea className={classes.textArea} name="postBody" rows={3} value={this.state.postBody} onChange={this.handleChange}></textarea>
                                     <div className={classes.editButtonsBlock}>
-                                        <Button variant="outlined" color="primary" onClick={this.handleEdit}>Cancel</Button>
+                                        <Button variant="outlined" color="secondary" size="small" className={`button outline-button`} onClick={this.handleEdit}>Cancel</Button>
                                         <Mutation mutation={EDIT_POST} onCompleted={()=>this.setState({editMode: false})} onError={(error)=>console.log(error)}>
                                             {editPost => {
-                                                return <Button className={classes.button} variant="raised" color="primary"
+                                                return <Button className={`button fill-button ${classes.saveButton}`} variant="raised" color="primary"
                                                             onClick={() => editPost({variables: {input: {postId: post.postId, content: this.state.postBody, tags: []}}})}>Save</Button>
                                             }}
                                         </Mutation>
