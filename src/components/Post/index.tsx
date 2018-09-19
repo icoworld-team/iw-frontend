@@ -24,6 +24,7 @@ import PostComments from '../PostComments';
 
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
+import {connect} from "react-redux";
 
 
 const DELETE_POST = gql`
@@ -55,6 +56,36 @@ const SEARCH_POST = gql`
             tags
         }
     }
+`;
+
+const CREATE_COMMENT = gql`
+  mutation createComment($input: CommentInput!) {
+    createComment(input: $input) {
+        Id
+        userId
+        postId
+        userName
+        userLogin
+        date
+        edited
+        content
+    }
+  }
+`;
+
+const GET_COMMENTS = gql`
+	query getComments($postId: ID!) {
+		getComments(postId: $postId) {
+			Id
+			userId
+			postId
+			userName
+			userLogin
+			date
+			edited
+			content
+		}
+	}
 `;
 
 const styles = () => createStyles({
@@ -245,8 +276,9 @@ class Post extends Component<any> {
     };
 
     render() {
-        const { post, authUserId } = this.props;
+        const { post, authUser } = this.props;
         const { classes } = this.props;
+        // console.log(post.postId);
 
         return (
             <div className={`card ${classes.postCard}`}>
@@ -269,7 +301,7 @@ class Post extends Component<any> {
                         <IconButton disableRipple classes={{ label: classes.postMenuLabel }} className={classes.postMenu} aria-label="More" aria-owns={this.state.anchorEl ? 'fade-menu' : undefined} aria-haspopup="true" onClick={this.handleClick}>
                             <MoreHorizIcon className={classes.postMenuIcon} />
                         </IconButton>
-                        {post.userId !== authUserId
+                        {post.userId !== authUser.id
                             ? <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
                                 onClose={this.handleClose} TransitionComponent={Fade}>
                                 <MenuItem name="complain" id="complain" onClick={this.handleClose}>Complain</MenuItem>
@@ -281,11 +313,11 @@ class Post extends Component<any> {
                                 <Mutation mutation={DELETE_POST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
                                         update={(cache, {data: { deletePost }}) => {
                                             console.log(deletePost);
-                                            const data = cache.readQuery({query: SEARCH_POST, variables: {input: {userId: authUserId}}});
+                                            const data = cache.readQuery({query: SEARCH_POST, variables: {input: {userId: authUser.id}}});
                                             console.log(data);
                                             const posts = (data as any).searchPost.filter((post:any) => post.postId !== deletePost);
                                             console.log(posts);
-                                            cache.writeQuery({query: SEARCH_POST, variables: {input: {userId: authUserId}}, data: {searchPost: posts}});
+                                            cache.writeQuery({query: SEARCH_POST, variables: {input: {userId: authUser.id}}, data: {searchPost: posts}});
                                         }}>
                                     {deletePost => {
                                         return (
@@ -364,12 +396,23 @@ class Post extends Component<any> {
                                 onKeyDown={this.handleKeyDownSendComment}
                                 endAdornment={
                                 <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="Toggle comment input"
-                                        onClick={this.handleSendComment}
-                                    >
-                                    <Send />
-                                    </IconButton>
+                                    <Mutation mutation={CREATE_COMMENT} onCompleted={() => this.setState({comment: ''})} onError={(error)=>console.log(error)}
+                                              update={(cache, {data: { createComment }}) => {
+                                                  const data = cache.readQuery({query: GET_COMMENTS, variables: {postId: post.postId}});
+                                                  const comments = (data as any).getComments.concat(createComment);
+                                                  cache.writeQuery({query: GET_COMMENTS, variables: {postId: post.postId}, data: {getComments: comments}});
+                                              }}>
+                                        {createComment => {
+                                            return (
+                                                <IconButton
+                                                    aria-label="Toggle comment input"
+                                                    onClick={() => createComment({variables: {input: {userId: authUser.id, postId: post.postId, content: this.state.comment}}})}
+                                                >
+                                                    <Send />
+                                                </IconButton>
+                                                )
+                                        }}
+                                    </Mutation>
                                 </InputAdornment>
                                 }
                             />
@@ -380,11 +423,17 @@ class Post extends Component<any> {
                     ? <div className={classes.hideComments} onClick={this.handleShowComments}>
                     <Typography className={classes.hideCommentsText}>See comments</Typography>
                 </div>
-                : <PostComments />}
+                : <PostComments postId={post.postId} />}
             </div>
         )
     }
 
 }
 
-export default withStyles(styles)(Post);
+const mapStateToProps = ({auth}:any) => {
+    return {
+        authUser: auth.authUser
+    }
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(Post))

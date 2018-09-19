@@ -1,7 +1,23 @@
 import React, { Component } from 'react';
 import { createStyles, withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar'
-import Typography from '@material-ui/core/Typography'
+import gql from 'graphql-tag'
+import { Query } from 'react-apollo'
+import Comment from '../Comment'
+
+const GET_COMMENTS = gql`
+	query getComments($postId: ID!) {
+		getComments(postId: $postId) {
+			Id
+			userId
+			postId
+			userName
+			userLogin
+			date
+			edited
+			content
+		}
+	}
+`;
 
 const styles = () => createStyles({
   postComments: {
@@ -61,33 +77,23 @@ class PostComments extends Component<any> {
       const { classes } = this.props;
 
     return (
+        <Query query={GET_COMMENTS} variables={{postId: this.props.postId}}>
+            {({ loading, error, data }) => {
+                if(loading) return <div>Loading</div>;
+                if(error) return `Error: ${error}`;
 
-      <div className={classes.postComments}>
-        <ul className={classes.commentsList}>
-          <li className={classes.commentsItem}>
-            <Avatar className={classes.postAvatar} src="profile.jpeg" />
-            <div className={classes.commentContent}>
-              <div className={classes.userInfo}>
-                <Typography className={classes.userName}>Jason Born</Typography>
-                <Typography className={classes.userLogin}>@born</Typography>
-              </div>
-              <Typography className={classes.commentText}>This will be the first answer</Typography>
-              <Typography className={classes.postDate}>27 October, 14:56</Typography>
-            </div>
-          </li>
-          <li className={classes.commentsItem}>
-            <Avatar className={classes.postAvatar} src="profile.jpeg" />
-            <div className={classes.commentContent}>
-              <div className={classes.userInfo}>
-                <Typography className={classes.userName}>Jason Born</Typography>
-                <Typography className={classes.userLogin}>@born</Typography>
-              </div>
-              <Typography className={classes.commentText}>This will be the first answer</Typography>
-              <Typography className={classes.postDate}>27 October, 14:56</Typography>
-            </div>
-          </li>
-        </ul>
-      </div>
+                const comments = data.getComments.slice().reverse().map((comment:any) => (
+                    <Comment comment={comment}/>
+                ));
+                return (
+                    <div className={classes.postComments}>
+                        <ul className={classes.commentsList}>
+                            {comments}
+                        </ul>
+                    </div>
+                )
+            }}
+        </Query>
     )
   }
 }

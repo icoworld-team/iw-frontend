@@ -173,7 +173,11 @@ const styles = (theme: Theme) => createStyles({
     },
     link: {
         textDecoration: 'none'
-    }
+    },
+    noActivity: {
+		textAlign: 'center',
+		padding: '10px'
+	}
 });
 
 const SEARCH_POST = gql`
@@ -382,8 +386,9 @@ class Profile extends Component<any> {
 												{({ loading, error, data }) => {
 													if(loading) return <div>Loading</div>;
 													if(error) return `Error: ${error}`;
+													if(data.searchPost.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No activity</Typography></div>
 													return (
-														<PostList posts={data.searchPost} authUserId={this.props.authUser.id}/>
+														<PostList posts={data.searchPost}/>
 													)
 												}}
 											</Query>
