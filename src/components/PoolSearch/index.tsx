@@ -5,6 +5,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Link } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 import MainAppBar from '../MainAppBar';
 import PoolCard from '../PoolCard';
@@ -12,181 +16,232 @@ import gql from 'graphql-tag'
 import { withApollo } from 'react-apollo'
 
 const POOL_SEARCH = gql`
-    query searchPool($poolName: String!) {
-        searchPool(poolName: $poolName) {
-            poolName
-            poolId
-            ownerId
-            ownerName
-            projectName
-            endDate
-        }
-    }
+	query searchPool($poolName: String!) {
+		searchPool(poolName: $poolName) {
+			poolName
+			poolId
+			ownerId
+			ownerName
+			projectName
+			endDate
+		}
+	}
 `;
 
 const styles = () => createStyles({
-  poolsBlock: {
-    padding: '40px 30px',
+  subHeader: {
+    padding: '10px 0',
+    backgroundColor: '#fff',
   },
-  pools: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    maxWidth: '1100px',
-    margin: '0 auto',
-    marginBottom: '30px',
-    marginTop: '20px',
-  },
-  poolsLeft: {
-    flex: 1,
-    marginRight: '25px'
-  },
-  poolsRight: {
-    width: '415px',
-  },
-  poolsSearch: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  searchInputContainer: {
-    marginRight: '10px',
-    flex: '1',
-  },
-  searchInput: {
-    width: '100%'
-  },
-  btn: {
-    width: '125px',
-  },
-  btnSearch: {
-    marginRight: '10px',
-  },
-  linkBtn: {
+  subHeaderContainer: {
+		textAlign: 'right',
+		margin: '0 auto',
+		maxWidth: '1100px',
+	},
+	linkBtn: {
     textDecoration: 'none',
+	},
+  createPullButton: {
+    minWidth: '95px',
+    minHeight: '35px',
+    fontSize: '12px',
+    fontWeight: 500,
   },
-  poolsBlockHeading: {
-    borderBottom: '1px solid #000',
+
+  poolsLeft: {
+    width: '782px',
+    marginRight: '15px'
   },
-  poolsBlockTitle: {
-    fontSize: '18px',
-    marginBottom: '10px',
-    marginLeft: '5px',
-  },
-  poolsBlockCards: {
-    marginTop: '40px',
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  poolsSearchResults: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      '& a': {
-          marginRight: '15px',
-          marginLeft: '15px'
-      }
-  }
+  poolsFilter: {
+    flex: 1,
+	},
+	
+	pools: {},
+	poolsList: {
+		display: 'flex',
+		flexWrap: 'wrap',
+	},
+	poolsItem: {
+		width: '195px',
+		borderRight: '1px solid #c1c1c1',
+		textAlign: 'center',
+		'&:nth-child(4n)': {
+			borderRight: 'none',
+		},
+	},
+	poolsFilterContent: {
+		padding: '15px',
+	},
+	inputLabel: {
+		fontFamily: 'Open Sans',
+		fontSize: '14px',
+		lineHeight: '19px',
+		color: '#171717',
+	},
+	filtersRadio: {},
+	RadioGroupLabel: {
+		color: '#8b8b8b',
+	},
+	radioBtn: {
+		width: '20px',
+		height: '20px',
+		marginRight: '10px',
+	},
+	radioBtnRow: {
+		marginTop: '10px',
+		marginLeft: 0,
+		'&:first-child': {
+			marginTop: 0,
+		},
+	},
+
+	noResults: {
+		padding: '15px',
+	},
 });
   
 class poolsSearch extends Component<any> {
-    state = {
-        searchPoolName: '',
-        foundPools: []
-    };
+	state = {
+		searchPoolName: '',
+		foundPools: []
+	};
 
-    handleChange = (e:any) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    };
+	handleChange = (e:any) => {
+		this.setState({
+			[e.target.name]: e.target.value
+		});
+	};
 
-    executeSearch = async () => {
-        const poolName = this.state.searchPoolName;
-        console.log(poolName);
-        const result = await this.props.client.query({
-            query: POOL_SEARCH,
-            variables: { poolName }
-        });
-        const pools = result.data.searchPool;
-        console.log(pools);
-        this.setState({
-            foundPools: pools
-        });
-    };
+	executeSearch = async () => {
+		const poolName = this.state.searchPoolName;
+		console.log(poolName);
+		const result = await this.props.client.query({
+			query: POOL_SEARCH,
+			variables: { poolName }
+		});
+		const pools = result.data.searchPool;
+		console.log(pools);
+		this.setState({
+			foundPools: pools
+		});
+	};
 
-    render() {
-        const { classes } = this.props;
-        const pools = this.state.foundPools.map((pool, index)=> <PoolCard key={index} pool={pool}/>)
-        return (
-            <div>
-                <MainAppBar/>
+	render() {
+		const { classes } = this.props;
+		const pools = this.state.foundPools.map((pool, index)=> <li className={classes.poolsItem}><PoolCard key={index} pool={pool}/></li>)
 
-                <Grid container spacing={0}>
-                    <Grid item xs={1} />
+		return (
+			<>
+				<MainAppBar/>
 
-                    <Grid item xs={10}>
-                        <div className={classes.pools}>
-                            <div className={classes.poolsLeft}>
+				<div className={classes.subHeader}>
+					<Grid container spacing={0}>
+						<Grid item xs={1} />
 
-                                <div className={`card ${classes.poolsBlock} ${classes.poolsSearch}`}>
-                                    <div className={classes.searchInputContainer}>
-                                        <TextField className={classes.searchInput} type="search" placeholder="Search" name="searchPoolName"
-                                                   value={this.state.searchPoolName} onChange={this.handleChange}/>
-                                    </div>
-                                    <div>
-                                        <Button className={`${classes.btn} ${classes.btnSearch}`}
-                                                variant="raised" color="primary" onClick={() => this.executeSearch()}>Search</Button>
-                                        <Link to="/create-pool" className={classes.linkBtn}>
-                                            <Button className={classes.btn} variant="outlined" color="primary">Create pool</Button>
-                                        </Link>
-                                    </div>
-                                </div>
+						<Grid item xs={10} className={classes.subHeaderContainer}>
+							<Link to="/create-pool" className={classes.linkBtn}>
+								<Button variant="contained" color="secondary" size="small" className={`button fill-button ${classes.createPullButton}`}>
+									Create a Pull
+								</Button>
+							</Link>
+						</Grid>
 
-                                <div className={`card ${classes.poolsBlock} ${classes.poolsSearchResults}`}>
-                                    {this.state.foundPools.length === 0 ? <Typography>No results found</Typography> : pools}
-                                </div>
+						<Grid item xs={1} />
+					</Grid>
+				</div>
 
-                                <div className={`card ${classes.poolsBlock}`}>
-                                    <div className={classes.poolsBlockHeading}>
-                                        <Typography className={classes.poolsBlockTitle}>I invested</Typography>
-                                    </div>
+				<Grid container spacing={0}>
+					<Grid item xs={1} />
 
-                                    <div className={classes.poolsBlockCards}>
-                                    
-                                    </div>
-                                </div>
+					<Grid item xs={10}>
+						<div className={`page-content`}>
+							<div className={classes.poolsLeft}>
 
-                                <div className={`card ${classes.poolsBlock}`}>
-                                    <div className={classes.poolsBlockHeading}>
-                                        <Typography className={classes.poolsBlockTitle}>I created</Typography>
-                                    </div>
+								<div className={`card`}>
+									<div className={`card-heading`}>
+										<Typography className={`card-title`}>Category name</Typography>
+									</div>
+									<div className={classes.pools}>
 
-                                    <div className={classes.poolsBlockCards}>
+										<ul className={classes.poolsList}>
+											{this.state.foundPools.length === 0 ? <Typography className={`text ${classes.noResults}`}>No results found</Typography> : pools}
+										</ul>
 
-                                    </div>
-                                </div>
+									</div>
 
-                            </div>
+								</div>
 
-                            <div className={classes.poolsRight}>
-                                <div className={`card ${classes.poolsBlock}`}>
-                                    <div className={classes.poolsBlockHeading}>
-                                        <Typography align="center" className={classes.poolsBlockTitle} variant="headline" component="h2">Popular pools</Typography>
-                                    </div>
+								<div className={`card ${classes.poolsBlock} ${classes.poolsSearch}`}>
+									<div className={classes.searchInputContainer}>
+										<TextField className={classes.searchInput} type="search" placeholder="Search" name="searchPoolName"
+											value={this.state.searchPoolName} onChange={this.handleChange}/>
+									</div>
+									<div>
+										<Button className={`${classes.btn} ${classes.btnSearch}`}
+											variant="raised" color="primary" onClick={() => this.executeSearch()}>Search</Button>
+									</div>
+								</div>
 
-                                    <div className={classes.poolsBlockCards}>
+							</div>
 
-                                    </div>
-                                </div>
-                            </div>
+							<div className={classes.poolsFilter}>
+								<div className={`card`}>
+									<div className={`card-heading`}>
+										<Typography className={`card-title`}>Filter</Typography>
+									</div>
 
-                        </div>
-                    </Grid>
+									<div className={classes.poolsFilterContent}>
 
-                    <Grid item xs={1} />
-                </Grid>
-            </div>
-        );
-    }
+										<div className={classes.filtersRadio}>
+											<FormControl component="fieldset">
+												<RadioGroup name="sortBy">
+	
+													<FormControlLabel
+														classes={{label: classes.inputLabel}}
+														className={classes.radioBtnRow}
+														value="POPULAR_POOLS"
+														control={<Radio color="primary" className={classes.radioBtn} />}
+														label="Popular pools"
+													/>
+													<FormControlLabel
+														classes={{label: classes.inputLabel}}
+														className={classes.radioBtnRow}
+														value="ALL_POOLS"
+														control={<Radio color="primary" className={classes.radioBtn} />}
+														label="All pools"
+													/>
+													<FormControlLabel
+														classes={{label: classes.inputLabel}}
+														className={classes.radioBtnRow}
+														value="I_INVESTED"
+														control={<Radio color="primary" className={classes.radioBtn} />}
+														label="I invested"
+													/>
+													<FormControlLabel
+														classes={{label: classes.inputLabel}}
+														className={classes.radioBtnRow}
+														value="I_CREATED"
+														control={<Radio color="primary" className={classes.radioBtn} />}
+														label="I created"
+													/>
+
+												</RadioGroup>
+											</FormControl>
+										</div>
+
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+					</Grid>
+
+					<Grid item xs={1} />
+				</Grid>
+			</>
+		);
+	}
 }
 
 // const poolsSearchWithStyles = withStyles(styles)(poolsSearch);
