@@ -64,6 +64,7 @@ const styles = () => createStyles({
 	poolsItem: {
 		width: '195px',
 		borderRight: '1px solid #c1c1c1',
+		borderBottom: '1px solid #c1c1c1',
 		textAlign: 'center',
 		'&:nth-child(4n)': {
 			borderRight: 'none',
@@ -103,12 +104,19 @@ const styles = () => createStyles({
 class poolsSearch extends Component<any> {
 	state = {
 		searchPoolName: '',
-		foundPools: []
+		foundPools: [],
+		sortBy: 'Popular pools',
 	};
 
 	handleChange = (e:any) => {
 		this.setState({
 			[e.target.name]: e.target.value
+		});
+	};
+
+	sortChange = (event: any)=> {
+		this.setState({
+			[event.target.name]: event.target.value
 		});
 	};
 
@@ -159,7 +167,7 @@ class poolsSearch extends Component<any> {
 
 								<div className={`card`}>
 									<div className={`card-heading`}>
-										<Typography className={`card-title`}>Category name</Typography>
+										<Typography className={`card-title`}>{this.state.sortBy}</Typography>
 									</div>
 									<div className={classes.pools}>
 
@@ -194,33 +202,33 @@ class poolsSearch extends Component<any> {
 
 										<div className={classes.filtersRadio}>
 											<FormControl component="fieldset">
-												<RadioGroup name="sortBy">
+												<RadioGroup value={this.state.sortBy} onChange={this.sortChange} name="sortBy">
 	
 													<FormControlLabel
 														classes={{label: classes.inputLabel}}
 														className={classes.radioBtnRow}
-														value="POPULAR_POOLS"
+														value="Popular pools"
 														control={<Radio color="primary" className={classes.radioBtn} />}
 														label="Popular pools"
 													/>
 													<FormControlLabel
 														classes={{label: classes.inputLabel}}
 														className={classes.radioBtnRow}
-														value="ALL_POOLS"
+														value="All pools"
 														control={<Radio color="primary" className={classes.radioBtn} />}
 														label="All pools"
 													/>
 													<FormControlLabel
 														classes={{label: classes.inputLabel}}
 														className={classes.radioBtnRow}
-														value="I_INVESTED"
+														value="I invested"
 														control={<Radio color="primary" className={classes.radioBtn} />}
 														label="I invested"
 													/>
 													<FormControlLabel
 														classes={{label: classes.inputLabel}}
 														className={classes.radioBtnRow}
-														value="I_CREATED"
+														value="I created"
 														control={<Radio color="primary" className={classes.radioBtn} />}
 														label="I created"
 													/>
