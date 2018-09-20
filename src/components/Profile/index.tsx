@@ -13,13 +13,14 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import MainAppBar from '../MainAppBar';
 import PortfolioList from '../PortfolioList';
 import PostList from '../PostList';
-// import PostInput from '../PostInput';
+import PostInput from '../PostInput';
 
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-import TestPost from '../testPost';
+// import TestPost from '../testPost';
 
 const styles = (theme: Theme) => createStyles({
 	profile: {
@@ -161,6 +162,22 @@ const styles = (theme: Theme) => createStyles({
 	moreButtonIcon: {
 		fontSize: '23px',
 	},
+    editButton: {
+        minWidth: '85px',
+        minHeight: '25px',
+        fontSize: '14px'
+    },
+    editCard: {
+        display: 'block',
+        marginTop: '10px'
+    },
+    link: {
+        textDecoration: 'none'
+    },
+    noActivity: {
+		textAlign: 'center',
+		padding: '10px'
+	}
 });
 
 const SEARCH_POST = gql`
@@ -169,8 +186,46 @@ const SEARCH_POST = gql`
 			postId
 			userId
 			userName
+			date
+			edited
 			content
 			tags
+		}
+	}
+`;
+
+const GET_USER = gql`
+	query getUser($userId: ID!) {
+		getUser(userId: $userId) {
+			id
+			name
+			login
+			email
+			phone
+			
+			country
+			city
+			education
+			
+			follows
+		}
+	}
+`;
+
+const GET_SUBSCRIBERS = gql`
+	query getSubscribers($userId: ID!) {
+		getSubscribers(userId: $userId) {
+			id
+			name
+		}
+	}
+`;
+
+const GET_FOLLOWS = gql`
+	query getFollows($userId: ID!) {
+		getFollows(userId: $userId) {
+			id
+			name
 		}
 	}
 `;
@@ -189,11 +244,25 @@ class Profile extends Component<any> {
 	render() {
 		const { classes } = this.props;
 
+        let ownPage:boolean;
+        let id:string;
+        if (!this.props.location.state || this.props.location.state.id == this.props.authUser.id) {
+            ownPage = true;
+            id = this.props.authUser.id
+        }
+        else {
+            ownPage = false;
+            id = this.props.location.state.id;
+        }
+
 		const input = {
-			userId: this.props.authUser.id
+			userId: id
 		};
-		console.log(this.props.authUser);
-		console.log(this.props.authUser.id);
+        // console.log(this.props.authUser);
+        // console.log(this.props.authUser.id);
+        //
+        // console.log(this.props.state);
+
 
 		return (
 			<>
@@ -205,65 +274,80 @@ class Profile extends Component<any> {
 						<div className={`page-content`}>
 
 							<div className={`card ${classes.profileInfo}`} >
-								<ul className={classes.profileInfoList}>
+								<Query query={GET_USER} variables={{userId: id}}>
+									{({ loading, error, data }) => {
+                                        if(loading) return null;
+                                        if(error) return `Error: ${error}`;
+                                        const user = data.getUser;
+                                        return (
+                                            <ul className={classes.profileInfoList}>
 
-									<li className={classes.profileInfoItem}>
-										<img className={classes.avatar} src="profile.jpeg" />
+                                                <li className={classes.profileInfoItem}>
+                                                    <img className={classes.avatar} src="profile.jpeg" />
 
-										<Typography className={classes.userName}>Ivan Fedotov</Typography>
-										<Typography className={classes.userInfoText}>@iyufedotov</Typography>
-										<Typography className={classes.userInfoText}>Russia, Kazan</Typography>
+                                                    <Typography className={classes.userName}>{user.name}</Typography>
+                                                    <Typography className={classes.userInfoText}>{user.name}</Typography>
+                                                    <Typography className={classes.userInfoText}>{user.country}</Typography>
+													{ownPage
+														? <div className={classes.editCard}>
+                                                            <Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.editButton}`}>Edit profile</Button>
+                                                        </div>
+														: <div className={classes.cardBtns}>
+                                                            <Button variant="contained" color="secondary" size="small" className={`button fill-button ${classes.followButton}`}>
+                                                                Follow
+                                                            </Button>
+                                                            <Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.messageButton}`}>
+                                                                Message
+                                                            </Button>
+                                                            <Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.moreButton}`}>
+                                                                <MoreHorizIcon className={classes.moreButtonIcon} />
+                                                            </Button>
+                                                        </div>
+													}
+                                                </li>
 
-										<div className={classes.cardBtns}>
-											<Button variant="contained" color="secondary" size="small" className={`button fill-button ${classes.followButton}`}>
-												Follow
-											</Button>
-											<Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.messageButton}`}>
-												Message
-											</Button>
-											<Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.moreButton}`}>
-												<MoreHorizIcon className={classes.moreButtonIcon} />
-											</Button>
-            				</div>
-									</li>
+                                                <li className={classes.profileInfoItem}>
+                                                    <Typography className={classes.itemTitle} align="center">About:</Typography>
+                                                    <Typography className={`${classes.itemText} ${classes.aboutText}`}>
+                                                        Bitfinex retail shorts on the left, professional money shorts on the
+                                                        right.  The pros have the least short exposure since January, and the
+                                                        retail (dumb money) is more short than ever.  Somebody'bout to get REKT
+                                                    </Typography>
+                                                </li>
 
-									<li className={classes.profileInfoItem}>
-										<Typography className={classes.itemTitle} align="center">About:</Typography>
-										<Typography className={`${classes.itemText} ${classes.aboutText}`}>
-											Bitfinex retail shorts on the left, professional money shorts on the
-											right.  The pros have the least short exposure since January, and the
-											retail (dumb money) is more short than ever.  Somebody'bout to get REKT
-										</Typography>
-									</li>
+                                                <li className={classes.profileInfoItem}>
+                                                    <Typography className={classes.itemTitle} align="center">Education:</Typography>
+                                                    <ul className={classes.subList}>
+                                                        <li className={classes.subItem}>
+                                                            <Typography className={classes.itemText}>KNITU</Typography>
+                                                            <Typography className={classes.itemText}>2011-2015</Typography>
+                                                        </li>
+                                                    </ul>
+                                                </li>
 
-									<li className={classes.profileInfoItem}>
-										<Typography className={classes.itemTitle} align="center">Education:</Typography>
-										<ul className={classes.subList}>
-											<li className={classes.subItem}>
-												<Typography className={classes.itemText}>KNITU</Typography>
-												<Typography className={classes.itemText}>2011-2015</Typography>
-											</li>
-										</ul>
-									</li>
+                                                <li className={classes.profileInfoItem}>
+                                                    <Typography className={classes.itemTitle} align="center">Experience:</Typography>
+                                                    <ul className={classes.subList}>
+                                                        <li className={classes.subItem}>
+                                                            <Typography className={classes.itemText}>Alfa-bank, Corporate department</Typography>
+                                                            <Typography className={classes.itemText}>2015-2018</Typography>
+                                                        </li>
+                                                        <li className={classes.subItem}>
+                                                            <Typography className={classes.itemText}>Citi, Corporate department</Typography>
+                                                            <Typography className={classes.itemText}>2015-2018</Typography>
+                                                        </li>
+                                                    </ul>
+                                                </li>
 
-									<li className={classes.profileInfoItem}>
-										<Typography className={classes.itemTitle} align="center">Expiriense:</Typography>
-										<ul className={classes.subList}>
-											<li className={classes.subItem}>
-												<Typography className={classes.itemText}>Alfa-bank, Corporate department</Typography>
-												<Typography className={classes.itemText}>2015-2018</Typography>
-											</li>
-											<li className={classes.subItem}>
-												<Typography className={classes.itemText}>Citi, Corporate department</Typography>
-												<Typography className={classes.itemText}>2015-2018</Typography>
-											</li>
-										</ul>
-									</li>
+                                            </ul>
+										)
+									}}
+								</Query>
 
-								</ul>
 							</div>
 
 							<div className={classes.profileContent}>
+                                {ownPage ? <PostInput authUserId={id} authUser={this.props.authUser}/> : null}
 								<div className={`card card-heading ${classes.profileTabsList}`}>
 									<Tabs
                       value={this.state.tab}
@@ -297,13 +381,14 @@ class Profile extends Component<any> {
 									{this.state.tab === 0 &&
 										<>
 											{/* <PostInput authUserId={this.props.authUser.id}/> */}
-											<TestPost />
+
 											<Query query={SEARCH_POST} variables={{input: input}}>
 												{({ loading, error, data }) => {
 													if(loading) return <div>Loading</div>;
 													if(error) return `Error: ${error}`;
+													if(data.searchPost.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No activity</Typography></div>
 													return (
-														<PostList posts={data.searchPost} authUserId={this.props.authUser.id}/>
+														<PostList posts={data.searchPost}/>
 													)
 												}}
 											</Query>
@@ -320,42 +405,24 @@ class Profile extends Component<any> {
 										<Typography className={`card-title`}>Followers</Typography>
 									</div>
 									<ul className={classes.followersList}>
-										<li className={classes.followersItem}>
-											<Avatar className={classes.followerAvatar} src="profile.jpeg" />
-											<Typography align="center" className={classes.followerName}>Ivan Fedotov</Typography>
-										</li>
-										<li className={classes.followersItem}>
-											<Avatar className={classes.followerAvatar} src="profile.jpeg" />
-											<Typography align="center" className={classes.followerName}>Ivan Fedotov</Typography>
-										</li>
-										<li className={classes.followersItem}>
-											<Avatar className={classes.followerAvatar} src="profile.jpeg" />
-											<Typography align="center" className={classes.followerName}>Ivan Fedotov</Typography>
-										</li>
-										<li className={classes.followersItem}>
-											<Avatar className={classes.followerAvatar} src="profile.jpeg" />
-											<Typography align="center" className={classes.followerName}>Ivan Fedotov</Typography>
-										</li>
-										<li className={classes.followersItem}>
-											<Avatar className={classes.followerAvatar} src="profile.jpeg" />
-											<Typography align="center" className={classes.followerName}>Ivan Fedotov</Typography>
-										</li>
-										<li className={classes.followersItem}>
-											<Avatar className={classes.followerAvatar} src="profile.jpeg" />
-											<Typography align="center" className={classes.followerName}>Ivan Fedotov</Typography>
-										</li>
-										<li className={classes.followersItem}>
-											<Avatar className={classes.followerAvatar} src="profile.jpeg" />
-											<Typography align="center" className={classes.followerName}>Ivan Fedotov</Typography>
-										</li>
-										<li className={classes.followersItem}>
-											<Avatar className={classes.followerAvatar} src="profile.jpeg" />
-											<Typography align="center" className={classes.followerName}>Ivan Fedotov</Typography>
-										</li>
-										<li className={classes.followersItem}>
-											<Avatar className={classes.followerAvatar} src="profile.jpeg" />
-											<Typography align="center" className={classes.followerName}>Ivan Fedotov</Typography>
-										</li>
+                                        <Query query={GET_SUBSCRIBERS} variables={{userId: id}}>
+                                            {({ loading, error, data }) => {
+                                                if(loading) return <div>Loading</div>;
+                                                if(error) return `Error: ${error}`;
+
+                                                if(data.getSubscribers.length == 0) return <Typography className={classes.followerEmptyText}>No followers</Typography>
+
+                                                const followers = data.getSubscribers.map((user:any) => (
+                                                    <Link to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
+                                                        <li className={classes.followersItem}>
+                                                            <Avatar className={classes.followerAvatar} src="profile.jpeg" />
+                                                            <Typography align="center" className={classes.followerName}>{user.name}</Typography>
+                                                        </li>
+                                                    </Link>
+                                                ));
+                                                return followers;
+                                            }}
+                                        </Query>
 									</ul>
 								</div>
 								
@@ -364,7 +431,24 @@ class Profile extends Component<any> {
 										<Typography className={`card-title`}>Follows</Typography>
 									</div>
 									<ul className={classes.followersList}>
-										<Typography className={classes.followerEmptyText}>No follows</Typography>
+                                        <Query query={GET_FOLLOWS} variables={{userId: id}}>
+                                            {({ loading, error, data }) => {
+                                                if(loading) return <div>Loading</div>;
+                                                if(error) return `Error: ${error}`;
+
+                                                if(data.getFollows.length == 0) return <Typography className={classes.followerEmptyText}>No follows</Typography>
+
+                                                const follows = data.getSubscribers.map((user:any) => (
+                                                    <Link to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
+                                                        <li className={classes.followersItem}>
+                                                            <Avatar className={classes.followerAvatar} src="profile.jpeg" />
+                                                            <Typography align="center" className={classes.followerName}>{user.name}</Typography>
+                                                        </li>
+                                                    </Link>
+                                                ));
+                                                return follows;
+                                            }}
+                                        </Query>
 									</ul>
 								</div>
 							</div>

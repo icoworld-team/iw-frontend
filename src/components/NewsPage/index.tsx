@@ -139,6 +139,8 @@ const SEARCH_POST = gql`
             postId
             userId
             userName
+            date
+            edited
             content
             tags
         }

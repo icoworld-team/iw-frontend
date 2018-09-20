@@ -6,6 +6,7 @@ import { withStyles, createStyles } from '@material-ui/core/styles'
 
 import { socket } from '../../api'
 import ModalSendMessage from '../ModalSendMessage'
+import { Link } from "react-router-dom";
 
 const styles = () => createStyles({
     card: {
@@ -56,6 +57,9 @@ const styles = () => createStyles({
         borderColor: '#980000',
         color: '#980000',
     },
+    link: {
+        textDecoration: 'none'
+    }
 });
 
 class InvestorCard extends Component<any> {
@@ -97,15 +101,17 @@ class InvestorCard extends Component<any> {
         const { classes, data } = this.props;
         return (
             <div className={classes.card}>
-                <div className={classes.userInfo}>
-                    <div className={classes.avatarBlock}>
-                        <Avatar className={classes.avatar} src="profile.jpeg"/>
+                <Link to={{pathname: "/profile", state: {id: data.id}}} className={classes.link}>
+                    <div className={classes.userInfo}>
+                        <div className={classes.avatarBlock}>
+                            <Avatar className={classes.avatar} src="profile.jpeg"/>
+                        </div>
+                        <Typography className={classes.nameText} variant="title" align="center">{data.name}</Typography>
+                        {/* <Typography className={classes.cardText} variant="caption" align="center">{data.login}</Typography> */}
+                        <Typography className={classes.cardText} variant="caption" align="center">@hardcode_login</Typography>
+                        <Typography className={classes.cardText} variant="caption" align="center">{data.countOfFollowers} Followers</Typography>
                     </div>
-                    <Typography className={classes.nameText} variant="title" align="center">{data.name}</Typography>
-                    {/* <Typography className={classes.cardText} variant="caption" align="center">{data.login}</Typography> */}
-                    <Typography className={classes.cardText} variant="caption" align="center">@hardcode_login</Typography>
-                    <Typography className={classes.cardText} variant="caption" align="center">{data.countOfFollowers} Followers</Typography>
-                </div>
+                </Link>
                 <div className={classes.cardBtns}>
                     <Button variant="contained" color="secondary" size="small" className={`${classes.button} ${classes.followButton}`}>
                         Follow
