@@ -30,13 +30,13 @@ const styles = () => createStyles({
     },
     inputLabel: {
         fontFamily: 'Open Sans',
-        fontSize: '12px',
+        fontSize: '14px',
         lineHeight: '14px',
         color: '#171717',
     },
     input: {
         width: '110px',
-        fontSize: '12px',
+        fontSize: '14px',
     },
     minInput: {
         minWidth: '45px',

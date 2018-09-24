@@ -9,7 +9,7 @@ import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import { connect } from 'react-redux'
 import { withStyles, createStyles } from '@material-ui/core/styles';
-import { socket } from "../../api"
+// import { socket } from "../../api"
 
 const styles = () => createStyles({
     investorsBlock: {
@@ -70,8 +70,8 @@ class InvestorsPage extends React.Component<any> {
     };
 
     componentDidMount() {
-        socket.on("newMessage", (data:any) => console.log(data));
-        socket.on("error", (error:any) => console.log('error:' + error));
+        // socket.on("newMessage", (data:any) => console.log(data));
+        // socket.on("error", (error:any) => console.log('error:' + error));
     }
 
     handleChange = (e:any) => {

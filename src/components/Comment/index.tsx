@@ -59,7 +59,7 @@ function Comment ({classes, comment}:any) {
             <div className={classes.commentContent}>
                 <div className={classes.userInfo}>
                     <Typography className={classes.userName}>{comment.userName}</Typography>
-                    <Typography className={classes.userLogin}>{comment.userLogin}</Typography>
+                    <Typography className={classes.userLogin}>@{comment.userLogin}</Typography>
                 </div>
                 <Typography className={classes.commentText}>{comment.content}</Typography>
                 <Typography className={classes.postDate}>{new Date(comment.date).toLocaleDateString()}</Typography>
