@@ -45,18 +45,18 @@ const EDIT_POST = gql`
   }
 `;
 
-const SEARCH_POST = gql`
-    query searchPost($input: PostSearchingParamsInput!) {
-        searchPost(input: $input) {
-            postId
-            userId
-            userName
-            date
-            content
-            tags
-        }
-    }
-`;
+// const SEARCH_POST = gql`
+//     query searchPost($input: PostSearchingParamsInput!) {
+//         searchPost(input: $input) {
+//             postId
+//             userId
+//             userName
+//             date
+//             content
+//             tags
+//         }
+//     }
+// `;
 
 const CREATE_COMMENT = gql`
   mutation createComment($input: CommentInput!) {
@@ -84,6 +84,34 @@ const GET_COMMENTS = gql`
 			date
 			edited
 			content
+		}
+	}
+`;
+
+const SEARCH_POST_IN_PROFILE = gql`
+	query searchPostInProfile($userId: ID!, $searchText: String!) {
+		searchPostInProfile(userId: $userId, searchText: $searchText) {
+			posts {
+				postId
+				userId
+				userName
+				userLogin
+				date
+				edited
+				content
+				tags
+			}
+			reposts {
+				postId
+				userId
+				userName
+				userLogin
+				date
+				edited
+				content
+				tags
+				reposted
+			}
 		}
 	}
 `;
@@ -313,11 +341,18 @@ class Post extends Component<any> {
                                 <Mutation mutation={DELETE_POST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
                                         update={(cache, {data: { deletePost }}) => {
                                             console.log(deletePost);
-                                            const data = cache.readQuery({query: SEARCH_POST, variables: {input: {userId: authUser.id}}});
+                                            const data = cache.readQuery({
+                                                query: SEARCH_POST_IN_PROFILE,
+                                                variables: {userId: authUser.id, searchText: ""}
+                                            });
                                             console.log(data);
-                                            const posts = (data as any).searchPost.filter((post:any) => post.postId !== deletePost);
+                                            const posts = (data as any).searchPostInProfile.posts.filter((post:any) => post.postId !== deletePost);
                                             console.log(posts);
-                                            cache.writeQuery({query: SEARCH_POST, variables: {input: {userId: authUser.id}}, data: {searchPost: posts}});
+                                            cache.writeQuery({query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}, data: {
+                                                searchPostInProfile: {
+                                                    ...(data as any).searchPostInProfile,
+                                                    posts: posts,
+                                                    }}});
                                         }}>
                                     {deletePost => {
                                         return (

@@ -15,6 +15,7 @@ const CREATE_POST = gql`
         postId
         userId
         userName
+        userLogin
         date
         edited
         content
@@ -23,17 +24,45 @@ const CREATE_POST = gql`
   }
 `;
 
-const SEARCH_POST = gql`
-    query searchPost($input: PostSearchingParamsInput!) {
-        searchPost(input: $input) {
-            postId
-            userId
-            userName
-            date
-            content
-            tags
-        }
-    }
+// const SEARCH_POST = gql`
+//     query searchPost($input: PostSearchingParamsInput!) {
+//         searchPost(input: $input) {
+//             postId
+//             userId
+//             userName
+//             date
+//             content
+//             tags
+//         }
+//     }
+// `;
+
+const SEARCH_POST_IN_PROFILE = gql`
+	query searchPostInProfile($userId: ID!, $searchText: String!) {
+		searchPostInProfile(userId: $userId, searchText: $searchText) {
+			posts {
+				postId
+				userId
+				userName
+				userLogin
+				date
+				edited
+				content
+				tags
+			}
+			reposts {
+				postId
+				userId
+				userName
+				userLogin
+				date
+				edited
+				content
+				tags
+				reposted
+			}
+		}
+	}
 `;
 
 const styles = () => createStyles({
@@ -100,17 +129,17 @@ const styles = () => createStyles({
 
 class PostInput extends Component<any> {
     state = {
-      postBody: ''
+        postBody: ''
     };
 
-    handleChange = (e:any) => {
+    handleChange = (e: any) => {
         this.setState({
             [e.target.name]: e.target.value
         });
     };
 
     render() {
-        const { classes, authUserId } = this.props;
+        const {classes, authUserId} = this.props;
         const postInput = {
             userId: authUserId,
             content: this.state.postBody
@@ -119,7 +148,7 @@ class PostInput extends Component<any> {
             <div className={`card ${classes.postInput}`}>
                 {/* <TextField className={classes.textInput} fullWidth multiline rows="6"/> */}
                 <div className={classes.inputHeader}>
-                    <Avatar className={classes.avatar} src="profile.jpeg" />
+                    <Avatar className={classes.avatar} src="profile.jpeg"/>
                     <div className={classes.inputHeaderText}>
                         <div className={classes.userInfo}>
                             <Typography className={classes.userName}>{this.props.authUser.name}</Typography>
@@ -129,19 +158,32 @@ class PostInput extends Component<any> {
                 </div>
                 <textarea name="postBody" id="postTextarea" className={classes.postTextarea} rows={6}
                           value={this.state.postBody} onChange={this.handleChange}></textarea>
-                <Mutation mutation={CREATE_POST} onCompleted={() => this.setState({postBody: ''})} onError={(error)=>console.log(error)}
-                          update={(cache, {data: { createPost }}) => {
+                <Mutation mutation={CREATE_POST} onCompleted={() => this.setState({postBody: ''})}
+                          onError={(error) => console.log(error)}
+                          update={(cache, {data: {createPost}}) => {
                               console.log(createPost);
-                              const data = cache.readQuery({query: SEARCH_POST, variables: {input: {userId: authUserId}}});
+                              const data = cache.readQuery({
+                                  query: SEARCH_POST_IN_PROFILE,
+                                  variables: {userId: authUserId, searchText: ""}
+                              });
                               console.log(data);
-                              const posts = (data as any).searchPost.concat(createPost);
+                              const posts = (data as any).searchPostInProfile.posts.concat(createPost);
                               console.log(posts);
                               // posts.push(createPost);
                               // console.log(posts);
-                              cache.writeQuery({query: SEARCH_POST, variables: {input: {userId: authUserId}}, data: {searchPost: posts}});
+                              cache.writeQuery({
+                                  query: SEARCH_POST_IN_PROFILE,
+                                  variables: {userId: authUserId, searchText: ""},
+                                  data: {searchPostInProfile: {
+                                          ...(data as any).searchPostInProfile,
+                                          posts: posts,
+                                      }}
+                              });
                           }}>
                     {createPost => {
-                        return <Button className={`button fill-button ${classes.postButton}`} variant="raised" color="primary" onClick={()=> createPost({variables: {input: postInput}})}>Post</Button>
+                        return <Button className={`button fill-button ${classes.postButton}`} variant="raised"
+                                       color="primary"
+                                       onClick={() => createPost({variables: {input: postInput}})}>Post</Button>
                     }}
                 </Mutation>
                 <input className={classes.attachment} id="image-file" type="file" accept="image/*"/>
