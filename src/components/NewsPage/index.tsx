@@ -134,8 +134,8 @@ const styles = (theme: Theme) => createStyles({
 });
 
 const SEARCH_POST = gql`
-    query searchPost($input: PostSearchingParamsInput!) {
-        searchPost(input: $input) {
+    query searchPost($searchText: String!) {
+        searchPost(searchText: $searchText) {
             postId
             userId
             userName
@@ -237,7 +237,7 @@ class News extends Component<any> {
                 </div>
 
                 {this.state.tab === 0 &&
-                <Query query={SEARCH_POST} variables={{input: input}}>
+                <Query query={SEARCH_POST} variables={input}>
                     {({ loading, error, data }) => {
                         if(loading) return <div>Loading</div>;
                         if(error) return `Error: ${error}`;
@@ -247,7 +247,7 @@ class News extends Component<any> {
                     }}
                 </Query>}
                 {this.state.tab === 1 &&
-                <Query query={SEARCH_POST} variables={{input: {}}}>
+                <Query query={SEARCH_POST} variables={input}>
                     {({ loading, error, data }) => {
                         if(loading) return <div>Loading</div>;
                         if(error) return `Error: ${error}`;
@@ -257,7 +257,7 @@ class News extends Component<any> {
                     }}
                 </Query>}
                 {this.state.tab === 2 &&
-                <Query query={SEARCH_POST} variables={{input: {}}}>
+                <Query query={SEARCH_POST} variables={input}>
                     {({ loading, error, data }) => {
                         if(loading) return <div>Loading</div>;
                         if(error) return `Error: ${error}`;

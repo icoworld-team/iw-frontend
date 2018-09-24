@@ -180,16 +180,30 @@ const styles = (theme: Theme) => createStyles({
 	}
 });
 
-const SEARCH_POST = gql`
-	query searchPost($input: PostSearchingParamsInput!) {
-		searchPost(input: $input) {
-			postId
-			userId
-			userName
-			date
-			edited
-			content
-			tags
+const SEARCH_POST_IN_PROFILE = gql`
+	query searchPostInProfile($userId: ID!, $searchText: String!) {
+		searchPostInProfile(userId: $userId, searchText: $searchText) {
+			posts {
+				postId
+				userId
+				userName
+				userLogin
+				date
+				edited
+				content
+				tags
+			}
+			reposts {
+				postId
+				userId
+				userName
+				userLogin
+				date
+				edited
+				content
+				tags
+				reposted
+			}
 		}
 	}
 `;
@@ -202,12 +216,25 @@ const GET_USER = gql`
 			login
 			email
 			phone
-			
 			country
 			city
-			education
-			
-			follows
+			educations {
+				name
+				from
+				to
+			}
+			jobs {
+				name
+				from
+				to
+			}
+			wallets {
+				id
+				kind
+				address
+			}
+			notifications
+			language
 		}
 	}
 `;
@@ -256,7 +283,8 @@ class Profile extends Component<any> {
         }
 
 		const input = {
-			userId: id
+			userId: id,
+			searchText: ""
 		};
         // console.log(this.props.authUser);
         // console.log(this.props.authUser.id);
@@ -382,13 +410,13 @@ class Profile extends Component<any> {
 										<>
 											{/* <PostInput authUserId={this.props.authUser.id}/> */}
 
-											<Query query={SEARCH_POST} variables={{input: input}}>
+											<Query query={SEARCH_POST_IN_PROFILE} variables={input}>
 												{({ loading, error, data }) => {
 													if(loading) return <div>Loading</div>;
 													if(error) return `Error: ${error}`;
-													if(data.searchPost.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No activity</Typography></div>
+													if(data.searchPostInProfile.posts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No activity</Typography></div>
 													return (
-														<PostList posts={data.searchPost}/>
+														<PostList posts={data.searchPostInProfile.posts}/>
 													)
 												}}
 											</Query>
