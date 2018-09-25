@@ -7,17 +7,11 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import MainAppBar from '../MainAppBar';
-import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import { push } from "react-router-redux";
 import {connect} from "react-redux";
+import { CREATE_POOL } from '../../api/graphql'
 
-
-const CREATE_POOL = gql`
-  mutation createPool($input: PoolInput!) {
-    createPool(input: $input)
-  }
-`;
 
 const styles = () => createStyles({
   poolsCreate: {

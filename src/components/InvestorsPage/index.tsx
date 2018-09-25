@@ -5,11 +5,11 @@ import InvestorCard from '../InvestorCard'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import InvestorsFilter from '../InvestorsFilter'
-import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import { connect } from 'react-redux'
 import { withStyles, createStyles } from '@material-ui/core/styles';
-import { socket } from "../../api"
+import { GET_INVESTORS } from '../../api/graphql'
+// import { socket } from "../../api"
 
 const styles = () => createStyles({
     investorsBlock: {
@@ -53,29 +53,32 @@ const styles = () => createStyles({
     },
   });
 
-const GET_INVESTORS = gql`
-    query getInvestors($input: InvestorsFilterParamsInput!) {
-        getInvestors(input: $input) {
-            id
-            name
-            login
-            countOfFollowers
-        }
-    }
-`;
 
 class InvestorsPage extends React.Component<any> {
+    state = {
+        searchText: ""
+    };
 
     componentDidMount() {
-        socket.on("newMessage", (data:any) => console.log(data));
-        socket.on("error", (error:any) => console.log('error:' + error));
+        // socket.on("newMessage", (data:any) => console.log(data));
+        // socket.on("error", (error:any) => console.log('error:' + error));
     }
+
+    handleChange = (e:any) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    };
+
 
     render() {
         const { classes } = this.props;
 
         console.log(this.props.filter);
-        const input = {...this.props.filter};
+        const input = {
+            name: this.state.searchText,
+            ...this.props.filter
+        };
         Object.keys(input).forEach((key) => (input[key] == "") && delete input[key]);
 
         return (
@@ -101,7 +104,8 @@ class InvestorsPage extends React.Component<any> {
                                                 <div className={`card-heading`}>
                                                     <Typography className={`card-title`} variant="subheading">{`${data.getInvestors.length} investors`}</Typography>
                                                     <TextField InputProps={{ disableUnderline: true, classes: {input: `search-input input`} }} 
-                                                        className={`heading-input`} name="toFollowers" placeholder="Search" />
+                                                        className={`heading-input`} name="searchText" placeholder="Search"
+                                                               value={this.state.searchText} onChange={this.handleChange} autoFocus/>
                                                 </div>
                                                 <div className={classes.investorsContent}>
                                                     <ul className={classes.investorsList}>

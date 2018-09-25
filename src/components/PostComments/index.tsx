@@ -1,23 +1,9 @@
 import React, { Component } from 'react';
 import { createStyles, withStyles } from '@material-ui/core/styles';
-import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
+import { GET_COMMENTS } from '../../api/graphql'
 import Comment from '../Comment'
 
-const GET_COMMENTS = gql`
-	query getComments($postId: ID!) {
-		getComments(postId: $postId) {
-			Id
-			userId
-			postId
-			userName
-			userLogin
-			date
-			edited
-			content
-		}
-	}
-`;
 
 const styles = () => createStyles({
   postComments: {

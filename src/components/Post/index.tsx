@@ -22,71 +22,10 @@ import Send from '@material-ui/icons/Send';
 
 import PostComments from '../PostComments';
 
-import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
-import {connect} from "react-redux";
+import { connect } from "react-redux";
+import { DELETE_POST, EDIT_POST, CREATE_COMMENT, GET_COMMENTS, SEARCH_POST_IN_PROFILE } from '../../api/graphql'
 
-
-const DELETE_POST = gql`
-  mutation deletePost($postId: ID!) {
-    deletePost(postId: $postId)
-  }
-`;
-
-const EDIT_POST = gql`
-  mutation editPost($input: PostEditInput!) {
-    editPost(input: $input) {
-        postId
-        userId
-        date
-        content
-        tags
-    }
-  }
-`;
-
-const SEARCH_POST = gql`
-    query searchPost($input: PostSearchingParamsInput!) {
-        searchPost(input: $input) {
-            postId
-            userId
-            userName
-            date
-            content
-            tags
-        }
-    }
-`;
-
-const CREATE_COMMENT = gql`
-  mutation createComment($input: CommentInput!) {
-    createComment(input: $input) {
-        Id
-        userId
-        postId
-        userName
-        userLogin
-        date
-        edited
-        content
-    }
-  }
-`;
-
-const GET_COMMENTS = gql`
-	query getComments($postId: ID!) {
-		getComments(postId: $postId) {
-			Id
-			userId
-			postId
-			userName
-			userLogin
-			date
-			edited
-			content
-		}
-	}
-`;
 
 const styles = () => createStyles({
     postCard: {
@@ -313,11 +252,18 @@ class Post extends Component<any> {
                                 <Mutation mutation={DELETE_POST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
                                         update={(cache, {data: { deletePost }}) => {
                                             console.log(deletePost);
-                                            const data = cache.readQuery({query: SEARCH_POST, variables: {input: {userId: authUser.id}}});
+                                            const data = cache.readQuery({
+                                                query: SEARCH_POST_IN_PROFILE,
+                                                variables: {userId: authUser.id, searchText: ""}
+                                            });
                                             console.log(data);
-                                            const posts = (data as any).searchPost.filter((post:any) => post.postId !== deletePost);
+                                            const posts = (data as any).searchPostInProfile.posts.filter((post:any) => post.postId !== deletePost);
                                             console.log(posts);
-                                            cache.writeQuery({query: SEARCH_POST, variables: {input: {userId: authUser.id}}, data: {searchPost: posts}});
+                                            cache.writeQuery({query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}, data: {
+                                                searchPostInProfile: {
+                                                    ...(data as any).searchPostInProfile,
+                                                    posts: posts,
+                                                    }}});
                                         }}>
                                     {deletePost => {
                                         return (

@@ -16,7 +16,7 @@ import PostList from '../PostList';
 import PostInput from '../PostInput';
 
 import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
+import { SEARCH_POST_IN_PROFILE, GET_USER, GET_SUBSCRIBERS, GET_FOLLOWS } from '../../api/graphql'
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -180,56 +180,6 @@ const styles = (theme: Theme) => createStyles({
 	}
 });
 
-const SEARCH_POST = gql`
-	query searchPost($input: PostSearchingParamsInput!) {
-		searchPost(input: $input) {
-			postId
-			userId
-			userName
-			date
-			edited
-			content
-			tags
-		}
-	}
-`;
-
-const GET_USER = gql`
-	query getUser($userId: ID!) {
-		getUser(userId: $userId) {
-			id
-			name
-			login
-			email
-			phone
-			
-			country
-			city
-			education
-			
-			follows
-		}
-	}
-`;
-
-const GET_SUBSCRIBERS = gql`
-	query getSubscribers($userId: ID!) {
-		getSubscribers(userId: $userId) {
-			id
-			name
-		}
-	}
-`;
-
-const GET_FOLLOWS = gql`
-	query getFollows($userId: ID!) {
-		getFollows(userId: $userId) {
-			id
-			name
-		}
-	}
-`;
-
 class Profile extends Component<any> {
 	state={
 		tab: 0
@@ -256,7 +206,8 @@ class Profile extends Component<any> {
         }
 
 		const input = {
-			userId: id
+			userId: id,
+			searchText: ""
 		};
         // console.log(this.props.authUser);
         // console.log(this.props.authUser.id);
@@ -382,13 +333,13 @@ class Profile extends Component<any> {
 										<>
 											{/* <PostInput authUserId={this.props.authUser.id}/> */}
 
-											<Query query={SEARCH_POST} variables={{input: input}}>
+											<Query query={SEARCH_POST_IN_PROFILE} variables={input}>
 												{({ loading, error, data }) => {
 													if(loading) return <div>Loading</div>;
 													if(error) return `Error: ${error}`;
-													if(data.searchPost.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No activity</Typography></div>
+													if(data.searchPostInProfile.posts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No activity</Typography></div>
 													return (
-														<PostList posts={data.searchPost}/>
+														<PostList posts={data.searchPostInProfile.posts}/>
 													)
 												}}
 											</Query>

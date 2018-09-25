@@ -8,8 +8,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import MainAppBar from '../MainAppBar';
-import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
+import { GET_POOL } from '../../api/graphql'
 
 const styles = () => createStyles({
 	subHeader: {
@@ -103,27 +103,6 @@ const styles = () => createStyles({
 		width: '175px',
 	},
 });
-
-const GET_POOL = gql`
-	query getPool($poolId: ID!) {
-		getPool(poolId: $poolId) {
-			poolId
-			poolName
-			status
-			ownerId
-			ownerName
-			projectName
-			projectAdress
-			poolSoftCap
-			poolHardCap
-			minDeposit
-			maxDeposit
-			endDate
-			ownerComission
-			iwComission
-		}
-	}
-`;
 
 class PoolInfo extends Component<any> {
   render() {

@@ -12,21 +12,9 @@ import FormControl from '@material-ui/core/FormControl';
 
 import MainAppBar from '../MainAppBar';
 import PoolCard from '../PoolCard';
-import gql from 'graphql-tag'
 import { withApollo } from 'react-apollo'
+import { POOL_SEARCH } from '../../api/graphql'
 
-const POOL_SEARCH = gql`
-	query searchPool($poolName: String!) {
-		searchPool(poolName: $poolName) {
-			poolName
-			poolId
-			ownerId
-			ownerName
-			projectName
-			endDate
-		}
-	}
-`;
 
 const styles = () => createStyles({
   subHeader: {
