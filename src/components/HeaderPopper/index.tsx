@@ -27,6 +27,11 @@ const styles = (theme: Theme) => createStyles({
       animation: 'pulse 2s infinite',
     },
   },
+  iconRoot: {
+    '&:hover': {
+      background: 'none',
+    },
+  },
 	paper: {
     // marginTop: '7px',
 		width: '350px',
@@ -114,6 +119,8 @@ class HeaderMessagesPopper extends Component<Props> {
       <>
         <IconButton
           className={classes.icon}
+          disableRipple
+          classes={{root: classes.iconRoot}}
           buttonRef={node => {
             this.anchorEl = node;
           }}

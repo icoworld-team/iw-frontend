@@ -6,7 +6,7 @@ import ToolBar from '@material-ui/core/Toolbar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import {Link} from "react-router-dom";
-import LanguageSelector from '../LanguageSelector'
+// import LanguageSelector from '../LanguageSelector'
 import HeaderPopper from '../HeaderPopper'
 import HeaderAccountMenu from '../HeaderAccountMenu'
 
@@ -31,7 +31,8 @@ const styles = (theme: Theme) => createStyles({
 		padding: '8px',
 	},
 	label: {
-		fontSize: '16px',
+		fontSize: '18px',
+		fontFamily: 'Open Sans',
 	},
 	link: {
 		color: '#fff',
@@ -69,12 +70,15 @@ class MainAppBar extends Component<any> {
 
 		return (
 			<>
-				<AppBar position="static">
+				<AppBar style={{backgroundColor: 'rgb(48, 53, 70)'}} position="static">
 					<Grid container>
 						<Grid item xs={1} />
 						<Grid item xs={10}>
 							<ToolBar className={classes.toolBar}>
-								<h2>icoWorld</h2>
+								<a href='/news' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
+									<img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
+									<h2 style={{fontFamily: 'HelveticaNeueCyr'}}>icoWorld</h2>
+								</a>
 								<div className="bar-menu">
 									<Tabs
 											value={value}
@@ -126,7 +130,7 @@ class MainAppBar extends Component<any> {
 									</Tabs>
 								</div>
 								<div className={classes.barIcons}>
-									<LanguageSelector/>
+									{/* <LanguageSelector/> */}
 									<HeaderPopper variant='notify'/>
 									<HeaderPopper variant='messages'/>
 									<HeaderAccountMenu />

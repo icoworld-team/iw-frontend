@@ -8,10 +8,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import EditIcon from '@material-ui/icons/Edit';
-import SettingsIcon from '@material-ui/icons/Settings';
 import InfoIcon from '@material-ui/icons/Info';
-import HelpIcon from '@material-ui/icons/Help';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
 import { Link } from "react-router-dom";
 import { handleErrors, fetchGet } from '../../api'
 import { push } from "react-router-redux";
@@ -29,6 +28,11 @@ const styles = (theme: Theme) => ({
   },
   icon: {
     marginRight: '5px',
+  },
+  iconRoot: {
+    '&:hover': {
+      background: 'none',
+    },
   },
 });
 
@@ -65,6 +69,8 @@ class SimpleMenu extends React.Component<any> {
         <IconButton
           aria-owns={open ? 'menu-appbar' : undefined}
           aria-haspopup="true"
+          classes={{root: classes.iconRoot}}
+          disableRipple
           onClick={this.handleClick}
           color="inherit"
         >
@@ -89,35 +95,26 @@ class SimpleMenu extends React.Component<any> {
               <ListItemIcon className={classes.icon}>
                 <EditIcon />
               </ListItemIcon>
-              <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Edit profile" />
+              <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Settings" />
             </Link>
           </MenuItem>
-          <MenuItem className={classes.menuItem} onClick={this.handleClose}>
-            <ListItemIcon className={classes.icon}>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Settings" />
-          </MenuItem>
+
           <MenuItem className={classes.menuItem} onClick={this.handleClose}>
             <Link className={classes.menuLink} to="/contacts">
               <ListItemIcon className={classes.icon}>
                 <InfoIcon />
               </ListItemIcon>
-              <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="About icoWorld" />
+              <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Help" />
             </Link>
           </MenuItem>
-          <MenuItem className={classes.menuItem} onClick={this.handleClose}>
-            <ListItemIcon className={classes.icon}>
-              <HelpIcon />
-            </ListItemIcon>
-            <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Help" />
-          </MenuItem>
+
           <MenuItem className={classes.menuItem} onClick={this.handleLogOut}>
               <ListItemIcon className={classes.icon}>
                   <ExitToAppIcon/>
               </ListItemIcon>
               <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Log out" />
           </MenuItem>
+
         </Menu>
       </div>
     );
