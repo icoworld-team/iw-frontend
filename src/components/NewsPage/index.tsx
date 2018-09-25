@@ -6,8 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
-import gql from 'graphql-tag';
+import { SEARCH_POST } from '../../api/graphql'
 import { Query } from 'react-apollo';
 
 import MainAppBar from '../MainAppBar';
@@ -133,19 +132,6 @@ const styles = (theme: Theme) => createStyles({
   },
 });
 
-const SEARCH_POST = gql`
-    query searchPost($searchText: String!) {
-        searchPost(searchText: $searchText) {
-            postId
-            userId
-            userName
-            date
-            edited
-            content
-            tags
-        }
-    }
-`;
 
 class News extends Component<any> {
   state={

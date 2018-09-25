@@ -5,10 +5,10 @@ import InvestorCard from '../InvestorCard'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import InvestorsFilter from '../InvestorsFilter'
-import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import { connect } from 'react-redux'
 import { withStyles, createStyles } from '@material-ui/core/styles';
+import { GET_INVESTORS } from '../../api/graphql'
 // import { socket } from "../../api"
 
 const styles = () => createStyles({
@@ -53,16 +53,6 @@ const styles = () => createStyles({
     },
   });
 
-const GET_INVESTORS = gql`
-    query getInvestors($input: InvestorsFilterParamsInput!) {
-        getInvestors(input: $input) {
-            id
-            name
-            login
-            countOfFollowers
-        }
-    }
-`;
 
 class InvestorsPage extends React.Component<any> {
     state = {

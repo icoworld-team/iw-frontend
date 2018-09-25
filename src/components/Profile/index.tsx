@@ -16,7 +16,7 @@ import PostList from '../PostList';
 import PostInput from '../PostInput';
 
 import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
+import { SEARCH_POST_IN_PROFILE, GET_USER, GET_SUBSCRIBERS, GET_FOLLOWS } from '../../api/graphql'
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -179,83 +179,6 @@ const styles = (theme: Theme) => createStyles({
 		padding: '10px'
 	}
 });
-
-const SEARCH_POST_IN_PROFILE = gql`
-	query searchPostInProfile($userId: ID!, $searchText: String!) {
-		searchPostInProfile(userId: $userId, searchText: $searchText) {
-			posts {
-				postId
-				userId
-				userName
-				userLogin
-				date
-				edited
-				content
-				tags
-			}
-			reposts {
-				postId
-				userId
-				userName
-				userLogin
-				date
-				edited
-				content
-				tags
-				reposted
-			}
-		}
-	}
-`;
-
-const GET_USER = gql`
-	query getUser($userId: ID!) {
-		getUser(userId: $userId) {
-			id
-			name
-			login
-			email
-			phone
-			country
-			city
-			educations {
-				name
-				from
-				to
-			}
-			jobs {
-				name
-				from
-				to
-			}
-			wallets {
-				id
-				kind
-				address
-			}
-			notifications
-			language
-		}
-	}
-`;
-
-const GET_SUBSCRIBERS = gql`
-	query getSubscribers($userId: ID!) {
-		getSubscribers(userId: $userId) {
-			id
-			name
-		}
-	}
-`;
-
-const GET_FOLLOWS = gql`
-	query getFollows($userId: ID!) {
-		getFollows(userId: $userId) {
-			id
-			name
-		}
-	}
-`;
 
 class Profile extends Component<any> {
 	state={

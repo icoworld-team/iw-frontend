@@ -6,64 +6,9 @@ import InsertPhoto from '@material-ui/icons/InsertPhoto'
 import InsertDriveFile from '@material-ui/icons/InsertDriveFile'
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
-import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
+import { CREATE_POST, SEARCH_POST_IN_PROFILE } from '../../api/graphql'
 
-const CREATE_POST = gql`
-  mutation createPost($input: PostInput!) {
-    createPost(input: $input){
-        postId
-        userId
-        userName
-        userLogin
-        date
-        edited
-        content
-        tags
-    }
-  }
-`;
-
-// const SEARCH_POST = gql`
-//     query searchPost($input: PostSearchingParamsInput!) {
-//         searchPost(input: $input) {
-//             postId
-//             userId
-//             userName
-//             date
-//             content
-//             tags
-//         }
-//     }
-// `;
-
-const SEARCH_POST_IN_PROFILE = gql`
-	query searchPostInProfile($userId: ID!, $searchText: String!) {
-		searchPostInProfile(userId: $userId, searchText: $searchText) {
-			posts {
-				postId
-				userId
-				userName
-				userLogin
-				date
-				edited
-				content
-				tags
-			}
-			reposts {
-				postId
-				userId
-				userName
-				userLogin
-				date
-				edited
-				content
-				tags
-				reposted
-			}
-		}
-	}
-`;
 
 const styles = () => createStyles({
     postInput: {

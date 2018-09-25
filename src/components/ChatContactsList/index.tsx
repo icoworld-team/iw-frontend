@@ -2,31 +2,10 @@ import React, { Component } from 'react'
 import ChatUser from '../ChatUser'
 import './style.css'
 import { connect } from "react-redux";
-import gql from 'graphql-tag'
 import { withApollo } from 'react-apollo'
 import { setContacts, addContact } from "../../actions";
+import { GET_CHATS } from '../../api/graphql'
 // import {socket} from "../../api";
-
-const GET_CHATS = gql`
-    query getChats($userId: ID!) {
-        getChats(userId: $userId) {
-            chatId
-            parnter {
-                id
-                name
-            }
-            lastMessage {
-                id
-                author {
-                    id
-                    name
-                }
-                content
-                date
-            }
-        }
-    }
-`;
 
 
 class ChatContactsList extends Component<any> {

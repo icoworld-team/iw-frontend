@@ -3,24 +3,11 @@ import IconButton from '@material-ui/core/IconButton'
 import Scrollbars from 'react-custom-scrollbars';
 import Conversation from '../Conversation'
 import {socket} from "../../api";
-import gql from 'graphql-tag'
 import { withApollo } from 'react-apollo';
 import {connect} from "react-redux";
 import { addMessage, setMessages, addOlderMessages } from "../../actions";
+import { GET_CHAT_MESSAGES } from '../../api/graphql'
 
-const GET_CHAT_MESSAGES = gql`
-    query getChatMessages($input: ChatInput!) {
-        getChatMessages(input: $input) {
-            id
-            author {
-                id
-                name
-            }
-            content
-            date
-        }
-    }
-`;
 
 const fetchMessages = async (client:any, chatId:any) => {
     const result = await client.query({
