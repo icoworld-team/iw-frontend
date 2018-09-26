@@ -86,9 +86,7 @@ const styles = () => createStyles({
 class InvestorsFilter extends Component<any> {
     state = {
         sortBy: 'REGISTRATION_DATE',
-        country: '',
-        fromFollowers: '',
-        toFollowers: ''
+        country: ''
     };
 
     handleChange = async (event:React.ChangeEvent<HTMLInputElement>)=> {
@@ -97,23 +95,12 @@ class InvestorsFilter extends Component<any> {
         });
         this.props.filter({
             country: this.state.country,
-            followersRangeFilter: {
-                from: +this.state.fromFollowers,
-                to: +this.state.toFollowers
-            },
             sortBy: this.state.sortBy
         });
     };
 
-    // showAdvanced = ()=> {
-    //     this.setState({
-    //         advanced: !this.state.advanced
-    //     })
-    // };
-
     render() {
         const { classes } = this.props;
-
         return (
             <div className={classes.filters}>
                 <div className={classes.filtersRow}>
@@ -121,25 +108,10 @@ class InvestorsFilter extends Component<any> {
                     <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} border-input input`} }}
                         name="country" value={this.state.country} onChange={this.handleChange} />
                 </div>
-                <div className={classes.filtersRow}>
-                    <Typography className={classes.inputLabel}>Number of followers</Typography>
-                    <div className={classes.fromToInputs}>
-                        <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} border-input input`} }}
-                            name="fromFollowers" placeholder="From"
-                            value={this.state.fromFollowers} onChange={this.handleChange} />
-                        <p className={classes.marginText}>–</p>
-                        <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} ${classes.minInput} border-input input`} }}
-                            name="toFollowers" placeholder="To"
-                            value={this.state.toFollowers} onChange={this.handleChange} />
-                    </div>
-                </div>
-
-
                 <div className={classes.filtersRadio}>
                     <FormControl component="fieldset">
                         <FormLabel className={`${classes.inputLabel} ${classes.RadioGroupLabel}`} component="legend">Sort by</FormLabel>
                         <RadioGroup value={this.state.sortBy} onChange={this.handleChange} name="sortBy">
-
                             <FormControlLabel
                                 classes={{label: classes.inputLabel}}
                                 className={classes.radioBtnRow}
@@ -154,29 +126,6 @@ class InvestorsFilter extends Component<any> {
                                 control={<Radio color="primary" className={classes.radioBtn} />}
                                 label="Number of followers"
                             />
-                            <FormControlLabel
-                                classes={{label: classes.inputLabel}}
-                                className={classes.radioBtnRow}
-                                value="CAPITAL_AMOUNT"
-                                control={<Radio color="primary" className={classes.radioBtn} />}
-                                label="Capital Amount"
-                            />
-                            <FormControlLabel
-                                classes={{label: classes.inputLabel}}
-                                className={classes.radioBtnRow}
-                                value="PROFIT_LEVEL"
-                                control={<Radio color="primary" className={classes.radioBtn} />}
-                                label="Profit Level"
-                            />
-                            <FormControlLabel
-                                classes={{label: classes.inputLabel}}
-                                className={classes.radioBtnRow}
-                                value="PERCENTAGE_OF_PROFITABLE_INVESTMENTS"
-                                control={<Radio color="primary" className={classes.radioBtn} />}
-                                label="Percentage of profitable investments"
-                            />
-
-
                         </RadioGroup>
                     </FormControl>
                 </div>
@@ -192,4 +141,3 @@ const mapDispatchToProps = (dispatch:any) => {
 };
 
 export default connect(null, mapDispatchToProps)(withStyles(styles)(InvestorsFilter))
-
