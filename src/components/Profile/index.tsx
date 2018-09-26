@@ -7,20 +7,18 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 import MainAppBar from '../MainAppBar';
 import PortfolioList from '../PortfolioList';
 import PostList from '../PostList';
 import PostInput from '../PostInput';
+import FollowButton from '../FollowButton'
 
 import { Query } from 'react-apollo'
 import { SEARCH_POST_IN_PROFILE, GET_USER, GET_SUBSCRIBERS, GET_FOLLOWS } from '../../api/graphql'
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-
-// import TestPost from '../testPost';
 
 const styles = (theme: Theme) => createStyles({
 	profile: {
@@ -182,7 +180,8 @@ const styles = (theme: Theme) => createStyles({
 
 class Profile extends Component<any> {
 	state={
-		tab: 0
+		tab: 0,
+        searchText: ""
 	};
 
 	handleChange =(event:any, value:any)=>{
@@ -190,6 +189,12 @@ class Profile extends Component<any> {
 			tab: value
 		});
 	};
+
+    handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            searchText: e.target.value
+        });
+    };
 
 	render() {
 		const { classes } = this.props;
@@ -207,7 +212,7 @@ class Profile extends Component<any> {
 
 		const input = {
 			userId: id,
-			searchText: ""
+			searchText: this.state.searchText
 		};
         // console.log(this.props.authUser);
         // console.log(this.props.authUser.id);
@@ -244,9 +249,13 @@ class Profile extends Component<any> {
                                                             <Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.editButton}`}>Edit profile</Button>
                                                         </div>
 														: <div className={classes.cardBtns}>
-                                                            <Button variant="contained" color="secondary" size="small" className={`button fill-button ${classes.followButton}`}>
-                                                                Follow
-                                                            </Button>
+                                                            <Query query={GET_SUBSCRIBERS} variables={{userId: user.id}}>
+                                                                {(({ loading, error, data }) => {
+                                                                    if(loading) return null;
+                                                                    if(error) return `Error: ${error}`;
+                                                                    return <FollowButton id={user.id} followers={data.getSubscribers} style={classes.followButton}/>
+                                                                })}
+                                                            </Query>
                                                             <Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.messageButton}`}>
                                                                 Message
                                                             </Button>
@@ -325,7 +334,7 @@ class Profile extends Component<any> {
                       />
                     </Tabs>
 									<TextField InputProps={{ disableUnderline: true, classes: {input: `search-input input`} }} 
-										className={`heading-input`} name="toFollowers" placeholder="Search" />
+										className={`heading-input`} name="searchText" placeholder="Search" value={this.state.searchText} onChange={this.handleSearch}/>
 								</div>
 
 								<div className={`${classes.profileTabs}`}>
@@ -360,6 +369,8 @@ class Profile extends Component<any> {
                                             {({ loading, error, data }) => {
                                                 if(loading) return <div>Loading</div>;
                                                 if(error) return `Error: ${error}`;
+                                                console.log('data');
+                                                console.log(data);
 
                                                 if(data.getSubscribers.length == 0) return <Typography className={classes.followerEmptyText}>No followers</Typography>
 
@@ -389,7 +400,7 @@ class Profile extends Component<any> {
 
                                                 if(data.getFollows.length == 0) return <Typography className={classes.followerEmptyText}>No follows</Typography>
 
-                                                const follows = data.getSubscribers.map((user:any) => (
+                                                const follows = data.getFollows.map((user:any) => (
                                                     <Link to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
                                                         <li className={classes.followersItem}>
                                                             <Avatar className={classes.followerAvatar} src="profile.jpeg" />
