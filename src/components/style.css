@@ -1,0 +1,85 @@
+.page {
+    background: url("../assets/images/signp.jpg");
+    background-size: cover;
+    height: 100%;
+}
+
+.page-footer {
+    font-family: "Roboto", sans-serif;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 200px;
+}
+
+.copyright {
+    font-weight: normal;
+}
+
+.language-selector {
+    display: flex;
+    justify-content: flex-end;
+    font-family: "Roboto", sans-serif;
+    color: #ffffff;
+    margin-bottom: 150px;
+}
+
+.language-selector-text {
+    font-size: 1rem;
+    padding-top: 5px;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 150px;
+    justify-content: space-around;
+    margin: auto;
+}
+
+.signup-container {
+    background-color: #ffffff;
+    width: 420px;
+    padding: 50px;
+}
+
+.form-title{
+    text-align: center;
+    font-weight: normal;
+    font-family: "Roboto", sans-serif;
+}
+
+.form-text {
+    text-align: center;
+    font-weight: normal;
+    font-family: "Roboto", sans-serif;
+}
+
+.form-footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.form-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.signup-form {
+
+}
+
+.policy {
+    margin-top: 10px;
+}
+
+.invisible {
+    opacity: 0;
+}
+
+.visible {
+    opacity: 1;
+}
+
