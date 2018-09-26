@@ -18,7 +18,9 @@ export const auth = (state=authInitialState, action:any) => {
 };
 
 export const investorsFilter = (state={
-    filter: {}
+    filter: {
+        sortBy: "REGISTRATION_DATE"
+    }
 }, action:any) => {
     switch (action.type) {
         case 'FILTER':
