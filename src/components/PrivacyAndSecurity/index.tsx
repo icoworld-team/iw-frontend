@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { withStyles, createStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import SettingsPopup from '../SettingsPopup';
 
-const styles = (theme: Theme) => createStyles({
+const styles = () => createStyles({
   formItemHeading: {
     color: '#8b8b8b',
     fontSize: '24px',
@@ -52,8 +53,9 @@ const styles = (theme: Theme) => createStyles({
 
 class PrivacyAndSecurity extends Component<any> {
   state={
-    tab: 0,
     checked: false,
+    open: false,
+    selectedValue: '',
   };
 
   switchChange = (name: any) => (event: any) => {
@@ -62,8 +64,18 @@ class PrivacyAndSecurity extends Component<any> {
 
   handleChange =(event:any, value:any)=>{
     this.setState({
-        tab: value
+      tab: value
     });
+  };
+
+  handleClickOpen = () => {
+    this.setState({
+      open: true
+    });
+  };
+
+  handleClose = (value: any) => {
+    this.setState({ selectedValue: value, open: false });
   };
 
   render() {
@@ -81,19 +93,32 @@ class PrivacyAndSecurity extends Component<any> {
               <div className={classes.profileSettingsItemCenter}>
                 <Typography className={classes.profileSettingsItemInfo}>All users</Typography>
               </div>
-              <Typography className={classes.profileSettingsItemBtn}>Change/Cancel</Typography>
+              <Typography className={classes.profileSettingsItemBtn}>Change</Typography>
             </li>
 
             <li className={classes.profileSettingsItem}>
               <Typography className={classes.profileSettingsItemLabel}>Who can comment my posts?</Typography>
               <div className={classes.profileSettingsItemCenter}>
-                <Typography className={classes.profileSettingsItemInfo}>Nobody</Typography>
+                <Typography className={classes.profileSettingsItemInfo}>
+                  {this.state.selectedValue}
+                </Typography>
               </div>
-              <Typography className={classes.profileSettingsItemBtn}>Change/Cancel</Typography>
+              <Typography
+                className={classes.profileSettingsItemBtn}
+                onClick={this.handleClickOpen}
+              >
+                Change
+              </Typography>
             </li>
 
           </ul>
         </div>
+
+        <SettingsPopup
+          selectedValue={this.state.selectedValue}
+          open={this.state.open}
+          onClose={this.handleClose}
+        />
 
         <div className={classes.profileSettingsContent} style={{marginTop: '45px'}}>
           <ul className={classes.profileSettingsList}>
@@ -123,7 +148,6 @@ class PrivacyAndSecurity extends Component<any> {
                   label="by number +7 *** *** ** 01"
                 />
               </div>
-              <Typography className={classes.profileSettingsItemBtn}>Change/Cancel</Typography>
             </li>
 
           </ul>

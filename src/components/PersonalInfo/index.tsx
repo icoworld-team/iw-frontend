@@ -23,6 +23,7 @@ const styles = (theme: Theme) => createStyles({
     fontSize: '24px',
     lineHeight: '30px',
     marginBottom: '10px',
+    textTransform: 'capitalize',
   },
   formItemContent: {},
   formRow: {
@@ -97,6 +98,9 @@ class PersonalInfo extends Component<any> {
   render() {
     const { classes } = this.props;
 
+    // const Input = <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }}
+    //   className={classes.input} name="facebook" placeholder="Facebook" />
+
     return (
       <>
         <div className={classes.profileSettingsContent}>
@@ -148,13 +152,14 @@ class PersonalInfo extends Component<any> {
                   <div className={`${classes.formRow} ${classes.formTextarea}`}>
                     <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }}
                       className={classes.bigInput} multiline rows="6" name="aboutMe" placeholder="About me" />
+                      {/* {Input} */}
                   </div>
 
                 </div>
               </li>
 
               <li className={classes.formItem}>
-                <div className={classes.formItemHeading}><span className={classes.formItemTitle}>Experience</span></div>
+                <div className={classes.formItemHeading}><span className={classes.formItemTitle}>experience</span></div>
                 <div className={classes.formItemContent}>
 
                   <div className={`${classes.formRow} ${classes.formGroupRow}`}>

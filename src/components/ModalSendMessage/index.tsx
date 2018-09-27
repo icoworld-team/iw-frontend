@@ -11,7 +11,8 @@ const styles = () => createStyles({
         left: '50%',
         backgroundColor: '#fafafa',
         width: '400px',
-        borderRadius: '10px'
+        borderRadius: '10px',
+        transform: 'translate(-50%, -50%)',
     },
     modalTitle: {
         backgroundColor: '#3f51b5',

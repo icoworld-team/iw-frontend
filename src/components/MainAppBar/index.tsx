@@ -70,7 +70,7 @@ class MainAppBar extends Component<any> {
 
 		return (
 			<>
-				<AppBar style={{backgroundColor: 'rgb(48, 53, 70)'}} position="static">
+				<AppBar style={{backgroundColor: 'rgb(48, 53, 70)', zIndex: 300}} position="static">
 					<Grid container>
 						<Grid item xs={1} />
 						<Grid item xs={10}>

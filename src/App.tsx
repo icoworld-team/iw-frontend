@@ -3,6 +3,10 @@ import { Switch } from "react-router";
 import { Route } from 'react-router-dom'
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "react-router-redux";
+import {store, history} from "./store";
+import ApolloClient from 'apollo-boost'
+import { ApolloProvider } from 'react-apollo'
+
 import SignInPage from './components/SignInPage'
 import SignUpPage from './components/SignUpPage'
 import Profile from './components/Profile'
@@ -16,9 +20,6 @@ import Contacts from './components/ContactsPage'
 import Settings from './components/ProfileSettings'
 import PasswordRecovery from './components/PasswordRecovery'
 import PrivateRoute from './components/PrivateRoute'
-import {store, history} from "./store";
-import ApolloClient from 'apollo-boost'
-import { ApolloProvider } from 'react-apollo'
 
 import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory';
 const cache = new InMemoryCache({

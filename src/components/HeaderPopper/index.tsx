@@ -136,6 +136,7 @@ class HeaderMessagesPopper extends Component<Props> {
           placement="bottom-end"
           transition
           disablePortal={false}
+          style={{zIndex: 500}}
         >
           {({ TransitionProps }) => (
             <Grow

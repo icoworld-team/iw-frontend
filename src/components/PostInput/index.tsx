@@ -1,13 +1,14 @@
-import React,{Component} from 'react'
+import React,{Component} from 'react';
 import { createStyles, withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import InsertPhoto from '@material-ui/icons/InsertPhoto'
-import InsertDriveFile from '@material-ui/icons/InsertDriveFile'
-import Avatar from '@material-ui/core/Avatar'
-import Typography from '@material-ui/core/Typography'
-import { Mutation } from 'react-apollo'
-import { CREATE_POST, SEARCH_POST_IN_PROFILE } from '../../api/graphql'
+import InsertPhoto from '@material-ui/icons/InsertPhoto';
+import InsertDriveFile from '@material-ui/icons/InsertDriveFile';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import { Mutation } from 'react-apollo';
+import { CREATE_POST, SEARCH_POST_IN_PROFILE } from '../../api/graphql';
 
 
 const styles = () => createStyles({
@@ -19,11 +20,6 @@ const styles = () => createStyles({
     },
     postTextarea: {
         width: '100%',
-        margin: '0 auto',
-        outline: 'none',
-        resize: 'none',
-        padding: '7px 10px',
-        boxSizing: 'border-box'
     },
     attachment: {
         display: 'none',
@@ -101,8 +97,11 @@ class PostInput extends Component<any> {
                         <Typography className={classes.userLogin}>{`@${this.props.authUser.name}`}</Typography>
                     </div>
                 </div>
-                <textarea name="postBody" id="postTextarea" className={classes.postTextarea} rows={6}
-                          value={this.state.postBody} onChange={this.handleChange}></textarea>
+
+                <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }}
+                    name="postBody" id="postTextarea" value={this.state.postBody} onChange={this.handleChange}
+                    className={classes.postTextarea} multiline rows="6" placeholder="Write something..." />
+
                 <Mutation mutation={CREATE_POST} onCompleted={() => this.setState({postBody: ''})}
                           onError={(error) => console.log(error)}
                           update={(cache, {data: {createPost}}) => {
