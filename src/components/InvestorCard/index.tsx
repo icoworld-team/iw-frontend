@@ -8,6 +8,10 @@ import { socket } from '../../api'
 import ModalSendMessage from '../ModalSendMessage'
 import { Link } from "react-router-dom";
 
+import { Query } from 'react-apollo'
+import { GET_SUBSCRIBERS } from '../../api/graphql'
+import FollowButton from '../FollowButton'
+
 const styles = () => createStyles({
     card: {
         padding: '20px 20px 10px 20px',
@@ -48,14 +52,16 @@ const styles = () => createStyles({
         fontSize: '10px',
         textTransform: 'none',
         minHeight: '20px',
+        marginBottom: '10px'
     },
     followButton: {
-        marginBottom: '10px',
+
         backgroundColor: '#980000',
     },
     messageButton: {
         borderColor: '#980000',
         color: '#980000',
+        marginBottom: '0px'
     },
     link: {
         textDecoration: 'none'
@@ -113,9 +119,13 @@ class InvestorCard extends Component<any> {
                     </div>
                 </Link>
                 <div className={classes.cardBtns}>
-                    <Button variant="contained" color="secondary" size="small" className={`${classes.button} ${classes.followButton}`}>
-                        Follow
-                    </Button>
+                    <Query query={GET_SUBSCRIBERS} variables={{userId: data.id}}>
+                        {(({ loading, error, data }) => {
+                            if(loading) return null;
+                            if(error) return `Error: ${error}`;
+                            return <FollowButton id={this.props.data.id} followers={data.getSubscribers} style={classes.button}/>
+                        })}
+                    </Query>
                     <Button variant="outlined" color="secondary" size="small" className={`${classes.button} ${classes.messageButton}`} onClick={this.handleOpen}>
                         Message
                     </Button>

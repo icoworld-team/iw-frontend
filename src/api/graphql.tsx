@@ -239,3 +239,15 @@ export const GET_FOLLOWS = gql`
 		}
 	}
 `;
+
+export const FOLLOW_USER = gql`
+	mutation followUser($userId: ID!, $fanId: ID!) {
+		followUser(userId: $userId, fanId: $fanId)
+	}
+`;
+
+export const UNFOLLOW_USER = gql`
+	mutation unfollowUser($userId: ID!, $fanId: ID!) {
+		unfollowUser(userId: $userId, fanId: $fanId)
+	}
+`;

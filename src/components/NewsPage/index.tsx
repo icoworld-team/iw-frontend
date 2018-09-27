@@ -145,7 +145,7 @@ class News extends Component<any> {
     });
   };
 
-  handleSearch = (e:any) => {
+  handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
         searchText: e.target.value
     });
@@ -219,7 +219,7 @@ class News extends Component<any> {
                       />
                     </Tabs>
                   <TextField InputProps={{ disableUnderline: true, classes: {input: `search-input input`} }} 
-                    className={`heading-input`} name="toFollowers" placeholder="Search" />
+                    className={`heading-input`} name="searchText" placeholder="Search" value={this.state.searchText} onChange={this.handleSearch}/>
                 </div>
 
                 {this.state.tab === 0 &&
