@@ -52,9 +52,11 @@ export const SEARCH_POST = gql`
             postId
             userId
             userName
+            userLogin
             date
             edited
             content
+            likes
             tags
         }
     }
@@ -174,6 +176,7 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				date
 				edited
 				content
+				likes
 				tags
 			}
 			reposts {
@@ -201,6 +204,7 @@ export const CREATE_POST = gql`
             date
             edited
             content
+            likes
             tags
         }
     }
@@ -216,12 +220,20 @@ export const GET_USER = gql`
 			phone
 			country
 			city
+			site
+			clinks {
+			    fb
+			    linkedin
+			    twitter
+			}
 			educations {
+			    id
 				name
 				from
 				to
 			}
 			jobs {
+				id
 				name
 				from
 				to
@@ -232,6 +244,7 @@ export const GET_USER = gql`
 				address
 			}
 			notifications
+			about
 			language
 		}
 	}
@@ -264,5 +277,81 @@ export const FOLLOW_USER = gql`
 export const UNFOLLOW_USER = gql`
 	mutation unfollowUser($userId: ID!, $fanId: ID!) {
 		unfollowUser(userId: $userId, fanId: $fanId)
+	}
+`;
+
+export const UPDATE_USER = gql`
+	mutation updateUser($input: UserInput!) {
+		updateUser(input: $input) {
+		    id
+			name
+			login
+			email
+			phone
+			country
+			city
+			site
+			clinks {
+			    fb
+			    linkedin
+			    twitter
+			}
+			educations {
+				id
+				name
+				from
+				to
+			}
+			jobs {
+				id
+				name
+				from
+				to
+			}
+			wallets {
+				id
+				kind
+				address
+			}
+			notifications
+			about
+			language
+		}
+	}
+`;
+
+export const ADD_JOB = gql`
+	mutation addJob($input: ExpirienceInput!,) {
+		addJob(input: $input)
+	}
+`;
+
+export const REMOVE_JOB = gql`
+	mutation removeJob($userId: ID!, $id: ID!) {
+		removeJob(userId: $userId, id: $id)
+	}
+`;
+
+export const ADD_EDUCATION = gql`
+	mutation addEducation($input: ExpirienceInput!,) {
+		addEducation(input: $input)
+	}
+`;
+
+export const REMOVE_EDUCATION = gql`
+	mutation removeEducation($userId: ID!, $id: ID!) {
+		removeEducation(userId: $userId, id: $id)
+	}
+`;
+
+export const LIKE_POST = gql`
+	mutation likePost($input: PostLikeInput!) {
+		likePost(input: $input)
+	}
+`;
+
+export const REPOST = gql`
+	mutation rePost($userId: ID!, $postId: ID!) {
+		rePost(userId: $userId, postId: $postId)
 	}
 `;

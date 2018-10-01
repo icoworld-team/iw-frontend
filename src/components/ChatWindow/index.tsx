@@ -47,7 +47,9 @@ class ChatWindow extends Component<any> {
             };
             this.props.setMessages(chatMessages);
         }
-
+        else if (this.props.chatMessages[this.props.user.chatId].length < 10) {
+            this.fetchMore()
+        }
         this.scrollArea.scrollToBottom();
     }
 
@@ -55,6 +57,10 @@ class ChatWindow extends Component<any> {
         if(this.props.user.chatId !== prevProps.user.chatId && this.props.chatMessages[this.props.user.chatId] === undefined){
             fetchMessages(this.props.client, this.props.user.chatId)
                 .then((chatMessages) => this.props.setMessages(chatMessages));
+        }
+
+        if (this.props.chatMessages[this.props.user.chatId] !== undefined && this.props.chatMessages[this.props.user.chatId].length < 10) {
+            this.fetchMore()
         }
         // if(this.props.user.chatId !== prevProps.user.chatId){
         //     if(this.props.chatMessages[this.props.user.chatId] === undefined) {

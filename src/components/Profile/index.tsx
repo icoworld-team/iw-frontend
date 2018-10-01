@@ -242,7 +242,7 @@ class Profile extends Component<any> {
                                                     <img className={classes.avatar} src="profile.jpeg" />
 
                                                     <Typography className={classes.userName}>{user.name}</Typography>
-                                                    <Typography className={classes.userInfoText}>{user.name}</Typography>
+                                                    <Typography className={classes.userInfoText}>{user.login}</Typography>
                                                     <Typography className={classes.userInfoText}>{user.country}</Typography>
 													{ownPage
 														? <div className={classes.editCard}>
@@ -269,36 +269,33 @@ class Profile extends Component<any> {
                                                 <li className={classes.profileInfoItem}>
                                                     <Typography className={classes.itemTitle} align="center">About:</Typography>
                                                     <Typography className={`${classes.itemText} ${classes.aboutText}`}>
-                                                        Bitfinex retail shorts on the left, professional money shorts on the
-                                                        right.  The pros have the least short exposure since January, and the
-                                                        retail (dumb money) is more short than ever.  Somebody'bout to get REKT
+														{user.about}
                                                     </Typography>
                                                 </li>
 
                                                 <li className={classes.profileInfoItem}>
                                                     <Typography className={classes.itemTitle} align="center">Education:</Typography>
                                                     <ul className={classes.subList}>
-                                                        <li className={classes.subItem}>
-                                                            <Typography className={classes.itemText}>KNITU</Typography>
-                                                            <Typography className={classes.itemText}>2011-2015</Typography>
-                                                        </li>
+														{user.educations.map((education:any) => (
+                                                            <li key={education.id} className={classes.subItem}>
+                                                                <Typography className={classes.itemText}>{education.name}</Typography>
+                                                                <Typography className={classes.itemText}>{`${new Date(education.from).getFullYear()}-${new Date(education.to).getFullYear()}`}</Typography>
+                                                            </li>
+														))}
                                                     </ul>
                                                 </li>
 
                                                 <li className={classes.profileInfoItem}>
                                                     <Typography className={classes.itemTitle} align="center">Experience:</Typography>
                                                     <ul className={classes.subList}>
-                                                        <li className={classes.subItem}>
-                                                            <Typography className={classes.itemText}>Alfa-bank, Corporate department</Typography>
-                                                            <Typography className={classes.itemText}>2015-2018</Typography>
-                                                        </li>
-                                                        <li className={classes.subItem}>
-                                                            <Typography className={classes.itemText}>Citi, Corporate department</Typography>
-                                                            <Typography className={classes.itemText}>2015-2018</Typography>
-                                                        </li>
+                                                        {user.jobs.map((job:any) => (
+                                                            <li key={job.id} className={classes.subItem}>
+                                                                <Typography className={classes.itemText}>{job.name}</Typography>
+                                                                <Typography className={classes.itemText}>{`${new Date(job.from).getFullYear()}-${new Date(job.to).getFullYear()}`}</Typography>
+                                                            </li>
+                                                        ))}
                                                     </ul>
                                                 </li>
-
                                             </ul>
 										)
 									}}
@@ -346,9 +343,9 @@ class Profile extends Component<any> {
 												{({ loading, error, data }) => {
 													if(loading) return <div>Loading</div>;
 													if(error) return `Error: ${error}`;
-													if(data.searchPostInProfile.posts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No activity</Typography></div>
+													if(data.searchPostInProfile.posts.length == 0 && data.searchPostInProfile.reposts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No activity</Typography></div>
 													return (
-														<PostList posts={data.searchPostInProfile.posts}/>
+														<PostList posts={data.searchPostInProfile.posts.concat(data.searchPostInProfile.reposts)}/>
 													)
 												}}
 											</Query>
@@ -375,7 +372,7 @@ class Profile extends Component<any> {
                                                 if(data.getSubscribers.length == 0) return <Typography className={classes.followerEmptyText}>No followers</Typography>
 
                                                 const followers = data.getSubscribers.map((user:any) => (
-                                                    <Link to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
+                                                    <Link key={user.id} to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
                                                         <li className={classes.followersItem}>
                                                             <Avatar className={classes.followerAvatar} src="profile.jpeg" />
                                                             <Typography align="center" className={classes.followerName}>{user.name}</Typography>
@@ -401,7 +398,7 @@ class Profile extends Component<any> {
                                                 if(data.getFollows.length == 0) return <Typography className={classes.followerEmptyText}>No follows</Typography>
 
                                                 const follows = data.getFollows.map((user:any) => (
-                                                    <Link to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
+                                                    <Link key={user.id} to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
                                                         <li className={classes.followersItem}>
                                                             <Avatar className={classes.followerAvatar} src="profile.jpeg" />
                                                             <Typography align="center" className={classes.followerName}>{user.name}</Typography>

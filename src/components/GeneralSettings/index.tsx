@@ -3,6 +3,8 @@ import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { UPDATE_USER } from '../../api/graphql'
+import { Mutation } from 'react-apollo'
 
 const styles = (theme: Theme) => createStyles({
   formItemHeading: {
@@ -57,6 +59,12 @@ const styles = (theme: Theme) => createStyles({
   },
 });
 
+function languageToFullWord (language:string) {
+    if (language === 'en') return 'English';
+    if (language === 'ru') return 'Russian';
+    return language;
+}
+
 class generalSettings extends Component<any> {
   state={
     checked: false,
@@ -64,32 +72,34 @@ class generalSettings extends Component<any> {
     isChangePassword: false,
     isChangePhone: false,
     isChangeLanguage: false,
+    newEmail: '',
+    newNumber: ''
   };
 
-  handleChange =(event:any, value:any)=>{
+  handleChange =(e:React.ChangeEvent<HTMLInputElement>) =>{
     this.setState({
-        tab: value
+        [e.target.name]: e.target.value
     });
   };
 
   settingsChangeEmail = () => {
     this.setState({ isChangeEmail: !this.state.isChangeEmail });
-  }
+  };
 
   settingsChangePassword = () => {
     this.setState({ isChangePassword: !this.state.isChangePassword });
-  }
+  };
 
   settingsChangePhone = () => {
     this.setState({ isChangePhone: !this.state.isChangePhone });
-  }
+  };
 
   settingsChangeLanguage = () => {
     this.setState({ isChangeLanguage: !this.state.isChangeLanguage });
-  }
+  };
 
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
 
     return (
       <>
@@ -108,16 +118,22 @@ class generalSettings extends Component<any> {
                   {marginBottom: '10px'}}
                   className={classes.profileSettingsItemInfo}
                 >
-                  b****ey@gmail.com
+                    {user.email}
                 </Typography>
 
                 {this.state.isChangeEmail === false ? '' :
                   <>
                     <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }}
-                      className={classes.profileSettingsItemInput} name="email" placeholder="Enter new address" />
-                    <Button variant="contained" color="secondary" className={`button fill-button ${classes.profileSettingsItemSave}`}>
-                      Save
-                    </Button>
+                      className={classes.profileSettingsItemInput} name="newEmail" placeholder="Enter new address"
+                               value={this.state.newEmail} onChange={this.handleChange}/>
+                    <Mutation mutation={UPDATE_USER} onCompleted={() => this.setState({newEmail: '', isChangeEmail: false})} onError={(error)=>console.log(error)}>
+                        {updateUser => (
+                            <Button variant="contained" color="secondary" className={`button fill-button ${classes.profileSettingsItemSave}`}
+                                    onClick={() => updateUser({variables: {input: {id: user.id, email: this.state.newEmail}}})}>
+                                Save
+                            </Button>
+                        )}
+                    </Mutation>
                   </>
                 }
               </div>
@@ -170,18 +186,24 @@ class generalSettings extends Component<any> {
                   {marginBottom: '10px'}}
                   className={classes.profileSettingsItemInfo}
                 >
-                  +7 *** *** ** 01
+                    {user.phone}
                 </Typography>
 
                 {this.state.isChangePhone === false ? '' :
                   <>
                     <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }}
-                      className={classes.profileSettingsItemInput} name="phone" placeholder="Enter new phone number" />
+                      className={classes.profileSettingsItemInput} name="newNumber" placeholder="Enter new phone number"
+                               value={this.state.newNumber} onChange={this.handleChange} />
                     <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }}
                       className={classes.profileSettingsItemInput} name="smsCode" placeholder="Enter SMS code" />
-                    <Button variant="contained" color="secondary" className={`button fill-button ${classes.profileSettingsItemSave}`}>
-                      Save
-                    </Button>
+                    <Mutation mutation={UPDATE_USER} onCompleted={() => this.setState({newNumber: '', isChangePhone: false})} onError={(error)=>console.log(error)}>
+                        {updateUser => (
+                            <Button variant="contained" color="secondary" className={`button fill-button ${classes.profileSettingsItemSave}`}
+                                    onClick={() => updateUser({variables: {input: {id: user.id, phone: this.state.newNumber}}})}>
+                                Save
+                            </Button>
+                        )}
+                    </Mutation>
                   </>
                 }
               </div>
@@ -195,7 +217,7 @@ class generalSettings extends Component<any> {
               <Typography className={classes.profileSettingsItemLabel}>Language</Typography>
               <div className={classes.profileSettingsItemCenter}>
                 <Typography className={classes.profileSettingsItemInfo}>
-                  English
+                    {languageToFullWord(user.language)}
                 </Typography>
               </div>
 
@@ -212,6 +234,6 @@ class generalSettings extends Component<any> {
       </>
     );
   }
-};
+}
 
 export default withStyles(styles)(generalSettings);
