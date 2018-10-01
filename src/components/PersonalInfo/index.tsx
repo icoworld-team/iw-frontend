@@ -92,7 +92,7 @@ class PersonalInfo extends Component<any> {
       site: this.props.user.site,
       facebook: this.props.user.clinks.fb,
       twitter: this.props.user.clinks.twitter,
-      linkedIn: this.props.user.login.linkedin,
+      linkedIn: this.props.user.clinks.linkedin,
       about: this.props.user.about,
       educations: this.props.user.educations.length > 0 ? this.props.user.educations : [{name: '', from: '', to: ''}],
       jobs: this.props.user.jobs.length > 0 ? this.props.user.jobs : [{name: '', from: '', to: ''}],
