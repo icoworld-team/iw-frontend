@@ -66,7 +66,7 @@ export const chat = (state=chatInitialState, action:any) => {
             console.log(state.chatMessages[action.payload.chatId]);
             const newMessages = {
                 ...state.chatMessages,
-                [action.payload.chatId]: (state.chatMessages[action.payload.chatId] as any).concat(action.payload)
+                [action.payload.chatId]: state.chatMessages[action.payload.chatId] ? (state.chatMessages[action.payload.chatId] as any).concat(action.payload) : [].concat(action.payload)
             };
             console.log('newMessages');
             console.log(newMessages);
