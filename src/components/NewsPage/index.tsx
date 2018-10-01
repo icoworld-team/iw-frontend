@@ -7,7 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { SEARCH_POST } from '../../api/graphql'
+import { GET_FOLLOWS_POSTS } from '../../api/graphql'
 import { Query } from 'react-apollo';
+import { connect } from "react-redux";
 
 import MainAppBar from '../MainAppBar';
 import Author from '../Author';
@@ -154,7 +156,11 @@ class News extends Component<any> {
   render() {
     const { classes } = this.props;
     const input = {
-      searchText: this.state.searchText
+      searchText: this.state.searchText,
+    };
+
+    const id = {
+      userId: this.props.authUser.id,
     };
 
     return (
@@ -223,15 +229,16 @@ class News extends Component<any> {
                 </div>
 
                 {this.state.tab === 0 &&
-                <Query query={SEARCH_POST} variables={input}>
+                <Query query={GET_FOLLOWS_POSTS} variables={id}>
                     {({ loading, error, data }) => {
                         if(loading) return <div>Loading</div>;
                         if(error) return `Error: ${error}`;
                         return (
-                            <PostList posts={data.searchPost}/>
+                            <PostList posts={data.getFollowsPosts}/>
                         )
                     }}
                 </Query>}
+
                 {this.state.tab === 1 &&
                 <Query query={SEARCH_POST} variables={input}>
                     {({ loading, error, data }) => {
@@ -242,6 +249,7 @@ class News extends Component<any> {
                         )
                     }}
                 </Query>}
+                
                 {this.state.tab === 2 &&
                 <Query query={SEARCH_POST} variables={input}>
                     {({ loading, error, data }) => {
@@ -307,4 +315,10 @@ class News extends Component<any> {
   }
 }
 
-export default withStyles(styles)(News);
+const mapStateToProps = ({auth}:any) => {
+  return {
+    authUser: auth.authUser
+  }
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(News));

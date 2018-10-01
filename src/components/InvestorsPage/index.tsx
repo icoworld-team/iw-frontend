@@ -56,7 +56,8 @@ const styles = () => createStyles({
 
 class InvestorsPage extends React.Component<any> {
     state = {
-        searchText: ""
+        searchText: "",
+        investorsAmount: 0,
     };
 
     componentDidMount() {
@@ -90,6 +91,7 @@ class InvestorsPage extends React.Component<any> {
 
                         <div className={`page-content`}>
                             <div className={`card ${classes.investorsBlock} ${classes.investors}`}>
+                                
                                 <Query query={GET_INVESTORS} variables={{input: input}}>
                                     {({ loading, error, data }) => {
                                         if(loading) return (

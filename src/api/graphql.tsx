@@ -60,6 +60,21 @@ export const SEARCH_POST = gql`
     }
 `;
 
+export const GET_FOLLOWS_POSTS = gql`
+    query getFollowsPosts($userId: ID!) {
+        getFollowsPosts(userId: $userId) {
+            postId
+            userId
+			userName
+			userLogin
+            date
+            edited
+            content
+            tags
+        }
+    }
+`;
+
 export const CREATE_POOL = gql`
     mutation createPool($input: PoolInput!) {
         createPool(input: $input)
