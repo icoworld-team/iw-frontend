@@ -269,9 +269,7 @@ class Profile extends Component<any> {
                                                 <li className={classes.profileInfoItem}>
                                                     <Typography className={classes.itemTitle} align="center">About:</Typography>
                                                     <Typography className={`${classes.itemText} ${classes.aboutText}`}>
-                                                        Bitfinex retail shorts on the left, professional money shorts on the
-                                                        right.  The pros have the least short exposure since January, and the
-                                                        retail (dumb money) is more short than ever.  Somebody'bout to get REKT
+														{user.about}
                                                     </Typography>
                                                 </li>
 

@@ -229,6 +229,7 @@ export const GET_USER = gql`
 				address
 			}
 			notifications
+			about
 			language
 		}
 	}
@@ -298,6 +299,7 @@ export const UPDATE_USER = gql`
 				address
 			}
 			notifications
+			about
 			language
 		}
 	}
