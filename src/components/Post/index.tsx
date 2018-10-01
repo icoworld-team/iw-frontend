@@ -21,10 +21,17 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Send from '@material-ui/icons/Send';
 
 import PostComments from '../PostComments';
-
+import SnackBar from '@material-ui/core/Snackbar'
 import { Mutation } from 'react-apollo'
 import { connect } from "react-redux";
-import { DELETE_POST, EDIT_POST, CREATE_COMMENT, GET_COMMENTS, SEARCH_POST_IN_PROFILE } from '../../api/graphql'
+import {
+    DELETE_POST,
+    EDIT_POST,
+    CREATE_COMMENT,
+    GET_COMMENTS,
+    SEARCH_POST_IN_PROFILE,
+    LIKE_POST, SEARCH_POST, REPOST
+} from '../../api/graphql'
 
 
 const styles = () => createStyles({
@@ -176,6 +183,8 @@ class Post extends Component<any> {
         editMode: false,
         postBody: this.props.post.content,
         showComments: false,
+        isLiked: this.props.post.likes ? this.props.post.likes.includes(this.props.authUser.id) : false,
+        snackBarOpen: false
     };
 
     handleClick = (event:any)=> {
@@ -214,6 +223,16 @@ class Post extends Component<any> {
         this.setState(state => ({ showComments: !this.state.showComments }));
     };
 
+    handleSnackBar = () => {
+        this.setState({snackBarOpen: false})
+    };
+
+    handleLike = () => {
+        this.setState((state:any) => ({
+            isLiked: !state.isLiked
+        }))
+    };
+
     render() {
         const { post, authUser } = this.props;
         const { classes } = this.props;
@@ -230,7 +249,7 @@ class Post extends Component<any> {
                             <div className={classes.postHeaderText}>
                                 <div className={classes.userInfo}>
                                     <Typography className={classes.userName}>{post.userName}</Typography>
-                                    <Typography className={classes.userLogin}>{`@${post.userName}`}</Typography>
+                                    <Typography className={classes.userLogin}>{`@${post.userLogin}`}</Typography>
                                 </div>
                                 {/* <Typography className={classes.postDate}>27 October, 14:56</Typography> */}
                                 <Typography className={classes.postDate}>{new Date(post.date).toLocaleDateString()}</Typography>
@@ -295,17 +314,24 @@ class Post extends Component<any> {
                     <FormControlLabel
                             className={classes.footerIconLabel}
                             control={
-                                <Checkbox
-                                    disableRipple
-                                    classes={{
-                                        root: classes.iconRoot,
-                                    }}
-                                    icon={<FavoriteBorder className={classes.footerIcon} />}
-                                    checkedIcon={<Favorite className={`${classes.footerIcon} ${classes.checkedIcon}`} />}
-                                    value="like"
-                                />
+                                <Mutation mutation={LIKE_POST} onCompleted={() => this.setState((state:any) => ({isLiked: !state.isLiked}))} onError={(error)=>console.log(error)}
+                                          refetchQueries={[{query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}}, {query: SEARCH_POST, variables: {searchText: ""}}]}>
+                                    {likePost => (
+                                        <Checkbox
+                                            disableRipple
+                                            classes={{
+                                                root: classes.iconRoot,
+                                            }}
+                                            icon={<FavoriteBorder className={classes.footerIcon} />}
+                                            checkedIcon={<Favorite className={`${classes.footerIcon} ${classes.checkedIcon}`} />}
+                                            value="like"
+                                            checked={this.state.isLiked}
+                                            onChange={() => likePost({variables: {input: {userId: authUser.id, postId: post.postId, like: !this.state.isLiked}}})}
+                                        />
+                                    )}
+                                </Mutation>
                             }
-                            label="1"
+                            label={post.likes ? post.likes.length : 0}
                         />
 
                         <FormControlLabel
@@ -323,10 +349,15 @@ class Post extends Component<any> {
                         <FormControlLabel
                             className={classes.footerIconLabel}
                             control={
-                                <Repeat
-                                    className={classes.footerIcon}
-                                    color="primary"
-                            />
+                                <Mutation mutation={REPOST} onCompleted={() => this.setState({snackBarOpen: true})} onError={(error)=>console.log(error)}>
+                                    {rePost => (
+                                        <Repeat
+                                            className={classes.footerIcon}
+                                            color="primary"
+                                            onClick={() => rePost({variables: {userId: authUser.id, postId: post.postId}})}
+                                        />
+                                    )}
+                                </Mutation>
                             }
                             label="1"
                         />
@@ -370,6 +401,8 @@ class Post extends Component<any> {
                     <Typography className={classes.hideCommentsText}>See comments</Typography>
                 </div>
                 : <PostComments postId={post.postId} />}
+                <SnackBar open={this.state.snackBarOpen} anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                          onClose={this.handleSnackBar} message={<span>Reposted</span>}/>
             </div>
         )
     }
