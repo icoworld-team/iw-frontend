@@ -343,7 +343,7 @@ class Profile extends Component<any> {
 												{({ loading, error, data }) => {
 													if(loading) return <div>Loading</div>;
 													if(error) return `Error: ${error}`;
-													if(data.searchPostInProfile.posts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No activity</Typography></div>
+													if(data.searchPostInProfile.posts.length == 0 && data.searchPostInProfile.reposts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No activity</Typography></div>
 													return (
 														<PostList posts={data.searchPostInProfile.posts.concat(data.searchPostInProfile.reposts)}/>
 													)
