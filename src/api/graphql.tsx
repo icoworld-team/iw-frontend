@@ -77,6 +77,19 @@ export const GET_FOLLOWS_POSTS = gql`
     }
 `;
 
+export const GET_TOP_USERS = gql`
+    query getTopUsers($flag: Boolean!) {
+        getTopUsers(flag: $flag) {
+            id
+			name
+			login
+			country
+			city
+			top
+        }
+    }
+`;
+
 export const CREATE_POOL = gql`
     mutation createPool($input: PoolInput!) {
         createPool(input: $input)
@@ -268,6 +281,16 @@ export const GET_FOLLOWS = gql`
 	}
 `;
 
+export const GET_NEWS = gql`
+	query getNews {
+		getNews {
+			id
+			title
+			date
+		}
+	}
+`;
+
 export const FOLLOW_USER = gql`
 	mutation followUser($userId: ID!, $fanId: ID!) {
 		followUser(userId: $userId, fanId: $fanId)
@@ -355,3 +378,4 @@ export const REPOST = gql`
 		rePost(userId: $userId, postId: $postId)
 	}
 `;
+

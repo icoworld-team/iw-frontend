@@ -383,7 +383,11 @@ class Post extends Component<any> {
                                             return (
                                                 <IconButton
                                                     aria-label="Toggle comment input"
-                                                    onClick={() => createComment({variables: {input: {userId: authUser.id, postId: post.postId, content: this.state.comment}}})}
+                                                    onClick={() => {if (this.state.comment.length) 
+                                                        {
+                                                            createComment({variables: {input: {userId: authUser.id, postId: post.postId, content: this.state.comment}}})
+                                                        }
+                                                    }}
                                                 >
                                                     <Send />
                                                 </IconButton>

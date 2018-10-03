@@ -126,7 +126,7 @@ class InvestorCard extends Component<any> {
                             return <FollowButton id={this.props.data.id} followers={data.getSubscribers} style={classes.button}/>
                         })}
                     </Query>
-                    <Button variant="outlined" color="secondary" size="small" className={`${classes.button} ${classes.messageButton}`} onClick={this.handleOpen}>
+                    <Button variant="outlined" color="secondary" className={`${classes.button} ${classes.messageButton}`} onClick={this.handleOpen}>
                         Message
                     </Button>
                 </div>

@@ -6,8 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { SEARCH_POST } from '../../api/graphql'
-import { GET_FOLLOWS_POSTS } from '../../api/graphql'
+import { SEARCH_POST, GET_TOP_USERS, GET_FOLLOWS_POSTS, GET_NEWS } from '../../api/graphql'
 import { Query } from 'react-apollo';
 import { connect } from "react-redux";
 
@@ -178,13 +177,23 @@ class News extends Component<any> {
                   <Typography className={`card-title`}>News of the icoWorld</Typography>
                 </div>
                 <ul className={classes.newsOfProjectList}>
-                  <li className={classes.newsOfProjectItem}>
-                    <Typography className={classes.newsOfProjectDate}>12 September 2018:</Typography>
-                    <Typography className={classes.newsOfProjectText}>We realised our MVP. You can look it and try it.</Typography>
-                  </li>
-                  <li className={classes.newsOfProjectItem}>
-                    <Typography className={classes.newsOfProjectDate}>12 September 2018:</Typography>
-                    <Typography className={classes.newsOfProjectText}>We realised our MVP. You can look it and try it.</Typography>
+                  <li>
+                    <Query query={GET_NEWS}>
+                      {({ loading, error, data }) => {
+                        if(loading) return <div>Loading</div>;
+                        if(error) return `Error: ${error}`;
+                        return (
+                          <>
+                            {data.getNews.map((news:any) => (
+                              <li key={news.id} className={classes.newsOfProjectItem}>
+                                <Typography className={classes.newsOfProjectDate}>{new Date(news.date).toLocaleDateString()}</Typography>
+                                <Typography className={classes.newsOfProjectText}>{news.title}</Typography>
+                              </li>
+                            ))}
+                          </>
+                        )
+                      }}
+                    </Query>
                   </li>
                 </ul>
               </div>
@@ -270,11 +279,21 @@ class News extends Component<any> {
                     <Typography className={`card-title`}>Popular Investors</Typography>
                   </div>
                   <ul className={classes.popularInvestorsList}>
-                    <li className={classes.popularInvestorsItem}><Author /></li>
-                    <li className={classes.popularInvestorsItem}><Author /></li>
-                    <li className={classes.popularInvestorsItem}><Author /></li>
-                    <li className={classes.popularInvestorsItem}><Author /></li>
-                    <li className={classes.popularInvestorsItem}><Author /></li>
+                    <Query query={GET_TOP_USERS} variables={{flag: true}}>
+                        {({ loading, error, data }) => {
+                            if(loading) return <div>Loading</div>;
+                            if(error) return `Error: ${error}`;
+                            return (
+                              <>
+                                {data.getTopUsers.map((user:any) => (
+                                    <li key={user.id} className={classes.popularInvestorsItem}>
+                                        <Author populars={user} />
+                                    </li>
+														    ))}
+                              </>
+                            )
+                        }}
+                    </Query>
                   </ul>
                 </div>
 

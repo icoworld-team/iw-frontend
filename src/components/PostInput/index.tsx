@@ -13,10 +13,8 @@ import { CREATE_POST, SEARCH_POST_IN_PROFILE } from '../../api/graphql';
 
 const styles = () => createStyles({
     postInput: {
-        /*marginTop: '25px',*/
         marginBottom: '15px',
         padding: '20px 15px 10px 15px',
-        /*paddingBottom: '5px'*/
     },
     postTextarea: {
         width: '100%',
@@ -103,31 +101,31 @@ class PostInput extends Component<any> {
                     className={classes.postTextarea} multiline rows="6" placeholder="Write something..." />
 
                 <Mutation mutation={CREATE_POST} onCompleted={() => this.setState({postBody: ''})}
-                          onError={(error) => console.log(error)}
-                          update={(cache, {data: {createPost}}) => {
-                              console.log(createPost);
-                              const data = cache.readQuery({
-                                  query: SEARCH_POST_IN_PROFILE,
-                                  variables: {userId: authUserId, searchText: ""}
-                              });
-                              console.log(data);
-                              const posts = (data as any).searchPostInProfile.posts.concat(createPost);
-                              console.log(posts);
-                              // posts.push(createPost);
-                              // console.log(posts);
-                              cache.writeQuery({
-                                  query: SEARCH_POST_IN_PROFILE,
-                                  variables: {userId: authUserId, searchText: ""},
-                                  data: {searchPostInProfile: {
-                                          ...(data as any).searchPostInProfile,
-                                          posts: posts,
-                                      }}
-                              });
-                          }}>
+                    onError={(error) => console.log(error)}
+                    update={(cache, {data: {createPost}}) => {
+                        console.log(createPost.content);
+                        const data = cache.readQuery({
+                            query: SEARCH_POST_IN_PROFILE,
+                            variables: {userId: authUserId, searchText: ""}
+                        });
+                        const posts = (data as any).searchPostInProfile.posts.concat(createPost);
+                        cache.writeQuery({
+                            query: SEARCH_POST_IN_PROFILE,
+                            variables: {userId: authUserId, searchText: ""},
+                            data: {searchPostInProfile: {
+                                    ...(data as any).searchPostInProfile,
+                                    posts: posts,
+                            }}
+                        });
+                    }}>
                     {createPost => {
                         return <Button className={`button fill-button ${classes.postButton}`} variant="raised"
-                                       color="primary"
-                                       onClick={() => createPost({variables: {input: postInput}})}>Post</Button>
+                            color="primary"
+                            onClick={() => {if (this.state.postBody.length) 
+                                {
+                                    createPost({ variables: { input: postInput } })
+                                }
+                            }}>Post</Button>
                     }}
                 </Mutation>
                 <input className={classes.attachment} id="image-file" type="file" accept="image/*"/>

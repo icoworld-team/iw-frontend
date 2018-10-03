@@ -134,7 +134,6 @@ const styles = (theme: Theme) => createStyles({
 		lineHeight: '18px',
 	},
 
-
 	cardBtns: {
 		display: 'flex',
 		marginTop: '10px',
@@ -307,29 +306,29 @@ class Profile extends Component<any> {
                                 {ownPage ? <PostInput authUserId={id} authUser={this.props.authUser}/> : null}
 								<div className={`card card-heading ${classes.profileTabsList}`}>
 									<Tabs
-                      value={this.state.tab}
-                      onChange={this.handleChange}
-                      classes={{ indicator: `tabs-indicator`, root: `tabs-root` }}
-                    >
-                      <Tab
-                        disableRipple
-                        classes={{
-													root: `tab-root`,
-													label: `tab-label`,
-													labelContainer: `tab-label-container`
-												}}
-                        label="Activity"
-                      />
-                      <Tab
-                        disableRipple
-                        classes={{
-													root: `tab-root`,
-													label: `tab-label`,
-													labelContainer: `tab-label-container`
-												}}
-                        label="Portfolio"
-                      />
-                    </Tabs>
+										value={this.state.tab}
+										onChange={this.handleChange}
+										classes={{ indicator: `tabs-indicator`, root: `tabs-root` }}
+										>
+										<Tab
+											disableRipple
+											classes={{
+												root: `tab-root`,
+												label: `tab-label`,
+												labelContainer: `tab-label-container`
+											}}
+											label="Activity"
+										/>
+										<Tab
+											disableRipple
+											classes={{
+												root: `tab-root`,
+												label: `tab-label`,
+												labelContainer: `tab-label-container`
+											}}
+											label="Portfolio"
+										/>
+									</Tabs>
 									<TextField InputProps={{ disableUnderline: true, classes: {input: `search-input input`} }} 
 										className={`heading-input`} name="searchText" placeholder="Search" value={this.state.searchText} onChange={this.handleSearch}/>
 								</div>
@@ -352,7 +351,6 @@ class Profile extends Component<any> {
 										</>
 									}
 									{this.state.tab === 1 && <PortfolioList/>}
-									{/* {this.state.tab === 2 && <PortfolioAbout/>} */}
 								</div>
 							</div>
 
@@ -366,8 +364,6 @@ class Profile extends Component<any> {
                                             {({ loading, error, data }) => {
                                                 if(loading) return <div>Loading</div>;
                                                 if(error) return `Error: ${error}`;
-                                                console.log('data');
-                                                console.log(data);
 
                                                 if(data.getSubscribers.length == 0) return <Typography className={classes.followerEmptyText}>No followers</Typography>
 

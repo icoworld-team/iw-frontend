@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { withStyles, createStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-// import { Link } from "react-router-dom";
+import { GET_SUBSCRIBERS } from '../../api/graphql'
+import { Query } from 'react-apollo';
+import FollowButton from '../FollowButton'
+import { Link } from "react-router-dom";
 
 const styles = () => createStyles({
   author: {
@@ -39,34 +42,51 @@ const styles = () => createStyles({
 		minWidth: '75px',
 		minHeight: '20px',
 		fontSize: '10px',
-	},
+  },
+  link: {
+    textDecoration: 'none'
+  }
 });
 
 class Author extends Component<any> {
  
   render() {
     const { classes } = this.props;
-    // const { post } = this.props;
+    const { populars } = this.props;
 
     return (
       <>
+        
+          <div className={classes.author}>
+            <Query query={GET_SUBSCRIBERS} variables={{userId: populars.id}}>
+              {({ loading, error, data }) => {
+                if(loading) return <div>Loading</div>;
+                if(error) return `Error: ${error}`;
+                return (
+                  <>
+                    <Link to={{pathname: "/profile", state: {id: populars.id}}} className={classes.link}>
+                      <div className={classes.authorInfo}>
+                        <div>
+                          <Avatar className={classes.avatar} src="profile.jpeg" />
+                        </div>
 
-        <div className={classes.author}>
-          <div className={classes.authorInfo}>
-            <div>
-              <Avatar className={classes.avatar} src="profile.jpeg" />
-            </div>
-            <div className={classes.authorHeaderText}>
-              <Typography component='h3' className={classes.authorName}>Ivan Fedotov</Typography>
-              <Typography className={classes.subText}>123 followers</Typography>
-            </div>
+                        <div className={classes.authorHeaderText}>
+                          <Typography component='h3' className={classes.authorName}>{populars.name}</Typography>
+                          <Typography className={classes.subText}>{data.getSubscribers.length} followers</Typography>
+                        </div>
+                      </div>
+                    </Link>
+
+                    <FollowButton id={populars.id} followers={data.getSubscribers} style={classes.followButton}/>
+                  </>
+                )
+              }}
+            </Query>
+            {/* <Button variant="contained" color="secondary" size="small" className={`button fill-button ${classes.followButton}`}>
+              Follow
+            </Button> */}
           </div>
         
-          <Button variant="contained" color="secondary" size="small" className={`button fill-button ${classes.followButton}`}>
-            Follow
-          </Button>
-        </div>
-
       </>
     );
   }

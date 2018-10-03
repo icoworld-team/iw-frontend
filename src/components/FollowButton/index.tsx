@@ -22,7 +22,7 @@ class FollowButton extends Component<any> {
                 }));
             }} onError={(error)=>console.log(error)}>
                 {followUser => (
-                    <Button variant={variant} color="secondary" size="small" className={`button ${this.props.style} ${color}`}
+                    <Button variant={variant} color="secondary" className={`button ${this.props.style} ${color}`}
                             onClick={() => followUser({variables: {userId: this.props.id, fanId: this.props.authUser.id}})}>
                         {text}
                     </Button>
