@@ -234,6 +234,7 @@ class Profile extends Component<any> {
                                         if(loading) return null;
                                         if(error) return `Error: ${error}`;
                                         const user = data.getUser;
+                                        console.log(data.getUser.city);
                                         return (
                                             <ul className={classes.profileInfoList}>
 
@@ -242,10 +243,10 @@ class Profile extends Component<any> {
 
                                                     <Typography className={classes.userName}>{user.name}</Typography>
                                                     <Typography className={classes.userInfoText}>{user.login}</Typography>
-                                                    <Typography className={classes.userInfoText}>{user.country}</Typography>
+                                                    <Typography className={classes.userInfoText}>{user.city ? `${user.country}, ${user.city}` : user.country}</Typography>
 													{ownPage
 														? <div className={classes.editCard}>
-                                                            <Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.editButton}`}>Edit profile</Button>
+                                                            <Link to="/settings" className={classes.link}><Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.editButton}`}>Edit profile</Button></Link>
                                                         </div>
 														: <div className={classes.cardBtns}>
                                                             <Query query={GET_SUBSCRIBERS} variables={{userId: user.id}}>

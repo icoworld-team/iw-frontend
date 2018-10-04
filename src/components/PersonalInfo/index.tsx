@@ -3,9 +3,19 @@ import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 // import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import SnackBar from '@material-ui/core/Snackbar'
 // import { Mutation } from 'react-apollo'
-import { UPDATE_USER, ADD_JOB, REMOVE_JOB, REMOVE_EDUCATION, ADD_EDUCATION } from '../../api/graphql'
+import {
+    UPDATE_USER,
+    ADD_JOB,
+    REMOVE_JOB,
+    REMOVE_EDUCATION,
+    ADD_EDUCATION,
+    UPDATE_JOB,
+    UPDATE_EDUCATION
+} from '../../api/graphql'
 import { withApollo } from 'react-apollo'
+
 const styles = (theme: Theme) => createStyles({
   profileSettingsLeft: {
     width: '380px',
@@ -84,6 +94,7 @@ const styles = (theme: Theme) => createStyles({
 class PersonalInfo extends Component<any> {
   state = {
       tab: 0,
+      snackBarOpen: false,
       checked: false,
       firstName: this.props.user.name.substring(0, this.props.user.name.indexOf(" ")),
       lastName: this.props.user.name.substring(this.props.user.name.indexOf(" ")+1),
@@ -97,8 +108,10 @@ class PersonalInfo extends Component<any> {
       about: this.props.user.about,
       educations: this.props.user.educations.length > 0 ? this.props.user.educations : [{name: '', from: '', to: ''}],
       jobs: this.props.user.jobs.length > 0 ? this.props.user.jobs : [{name: '', from: '', to: ''}],
+  };
 
-
+  handleSnackBar = () => {
+    this.setState({snackBarOpen: false})
   };
 
   switchChange = (name: any) => (event: any) => {
@@ -113,7 +126,7 @@ class PersonalInfo extends Component<any> {
 
   handleExperienceChange = (index:number) => (e:any) => {
     const newExperience = this.state.jobs.map((job:any, idx:number) => (
-        index !== idx ? job : {...job, [e.target.name]: e.target.value}
+        index !== idx ? job : {...job, [e.target.name]: e.target.value, edited: true}
     ));
     this.setState({
         jobs: newExperience
@@ -122,7 +135,7 @@ class PersonalInfo extends Component<any> {
 
   handleEducationChange = (index:number) => (e:any) => {
     const newEducation = this.state.educations.map((education:any, idx:number) => (
-        index !== idx ? education : {...education, [e.target.name]: e.target.value}
+        index !== idx ? education : {...education, [e.target.name]: e.target.value, edited: true}
     ));
     this.setState({
         educations: newEducation
@@ -198,7 +211,10 @@ class PersonalInfo extends Component<any> {
                 },
                 about: this.state.about
             }},
-    }).then((data:any) => console.log(data));
+    }).then((data:any) => console.log('update user'))
+      .then(this.setState({
+            snackBarOpen: true
+        }));
 
     this.state.jobs.forEach((job:any, index:number) => {
         if (job.id === undefined) {
@@ -210,7 +226,21 @@ class PersonalInfo extends Component<any> {
                         from: job.from,
                         to: job.to
                     }}
-            }).then((data:any) => console.log(data));
+            }).then((data:any) => console.log('add job'));
+        }
+        else if (job.edited !== undefined) {
+            this.props.client.mutate({
+                mutation: UPDATE_JOB,
+                variables: {
+                    userId: this.props.user.id,
+                    id: job.id,
+                    input: {
+                        name: job.name,
+                        from: job.from,
+                        to: job.to
+                    }
+                }
+            }).then((data:any) => console.log('update job'));
         }
     });
 
@@ -224,9 +254,23 @@ class PersonalInfo extends Component<any> {
                         from: education.from,
                         to: education.to
                     }}
-            }).then((data:any) => console.log(data));
+            }).then((data:any) => console.log('add edu'));
         }
-    })
+        else if (education.edited !== undefined) {
+            this.props.client.mutate({
+                mutation: UPDATE_EDUCATION,
+                variables: {
+                    userId: this.props.user.id,
+                    id: education.id,
+                    input: {
+                        name: education.name,
+                        from: education.from,
+                        to: education.to
+                    }
+                }
+            }).then((data:any) => console.log('update edu'));
+        }
+    });
   };
 
   // handleChange =(event:any, value:any)=>{
@@ -356,35 +400,8 @@ class PersonalInfo extends Component<any> {
               </li>
 
               <li className={classes.formItem}>
-                <div className={classes.formItemHeading}><span className={classes.formItemTitle}>experience</span></div>
-                {/* <div className={classes.formItemContent}>
-
-                  <div className={`${classes.formRow} ${classes.formGroupRow}`}>
-                    <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }}
-                      className={classes.bigInput} name="experience" placeholder="Experience" />
-                  </div>
-                  <div className={`${classes.formRow} ${classes.formGroupRow}`}>
-                    <div className={classes.formGroupYearsInputs}>
-                      <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }}
-                        className={classes.minInput} name="experienceYearsFrom" placeholder="From" />
-                      <span style={{margin: '0 5px'}}>—</span>
-                      <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }}
-                        className={classes.minInput} name="experienceYearsTo" placeholder="To" />
-                    </div>
-                    <div>
-                      <Button style={{marginRight: '10px'}} variant="outlined" color="secondary" className={`button outline-button ${classes.formGroupBtn}`}>
-                        Delete
-                      </Button>
-                      <Button variant="outlined" color="secondary" className={`button outline-button ${classes.formGroupBtn}`}>
-                        Add
-                      </Button>
-                    </div>
-                  </div>
-
-                </div> */}
                 <div className={classes.formItemHeading}><span className={classes.formItemTitle}>Experience</span></div>
                   {jobs}
-
               </li>
 
               <li className={classes.formItem}>
@@ -402,6 +419,8 @@ class PersonalInfo extends Component<any> {
 
             </ul>
           </form>
+          <SnackBar open={this.state.snackBarOpen} anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                    onClose={this.handleSnackBar} message={<span>Settings saved</span>}/>
         </div>
       </>
     );
