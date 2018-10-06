@@ -9,7 +9,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-import MainAppBar from '../MainAppBar';
 import PortfolioList from '../PortfolioList';
 import PostList from '../PostList';
 import PostInput from '../PostInput';
@@ -220,9 +219,6 @@ class Profile extends Component<any> {
 
 
 		return (
-			<>
-				<MainAppBar/>
-
 				<Grid container spacing={0}>
 					<Grid item xs={1} />
 					<Grid item xs={10}>
@@ -412,7 +408,6 @@ class Profile extends Component<any> {
 					</Grid>
 					<Grid item xs={1} />
 				</Grid>
-			</>
 		)
 	}
 }

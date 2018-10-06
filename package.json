@@ -19,6 +19,7 @@
     "bootstrap": "^4.1.2",
     "bootstrap-v4-rtl": "^4.1.1-0",
     "cross-env": "^5.2.0",
+    "date-fns": "^1.29.0",
     "downshift": "^2.0.14",
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.4",

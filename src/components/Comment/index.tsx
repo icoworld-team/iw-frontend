@@ -2,6 +2,7 @@ import React from 'react'
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
+import { relativeTime } from '../../utils'
 
 const styles = () => createStyles({
     commentsItem: {
@@ -62,7 +63,7 @@ function Comment ({classes, comment}:any) {
                     <Typography className={classes.userLogin}>@{comment.userLogin}</Typography>
                 </div>
                 <Typography className={classes.commentText}>{comment.content}</Typography>
-                <Typography className={classes.postDate}>{new Date(comment.date).toLocaleDateString()}</Typography>
+                <Typography className={classes.postDate}>{relativeTime(comment.date)}</Typography>
             </div>
         </li>
     )

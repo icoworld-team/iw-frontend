@@ -10,7 +10,6 @@ import { SEARCH_POST, GET_TOP_USERS, GET_FOLLOWS_POSTS, GET_NEWS } from '../../a
 import { Query } from 'react-apollo';
 import { connect } from "react-redux";
 
-import MainAppBar from '../MainAppBar';
 import Author from '../Author';
 import PostList from '../PostList';
 
@@ -164,8 +163,6 @@ class News extends Component<any> {
 
     return (
       <>
-        <MainAppBar/>
-
         <Grid container spacing={0}>
           <Grid item xs={1} />
 

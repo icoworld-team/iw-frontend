@@ -6,7 +6,6 @@ import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import MainAppBar from '../MainAppBar';
 import { Mutation } from 'react-apollo'
 import { push } from "react-router-redux";
 import {connect} from "react-redux";
@@ -137,9 +136,6 @@ class PoolCreate extends Component<any> {
     };
 
     return (
-      <>
-        <MainAppBar/>
-
         <Grid container spacing={0}>
           <Grid item xs={1} />
           <Grid item xs={10}>
@@ -275,7 +271,6 @@ class PoolCreate extends Component<any> {
           </Grid>
           <Grid item xs={1} />
         </Grid>
-      </>
     )
   }
 }
