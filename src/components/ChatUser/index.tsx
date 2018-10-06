@@ -1,6 +1,6 @@
 import React from 'react'
 import './style.css'
-import { relativeTime } from '../../utils'
+import { chatTime } from '../../utils'
 
 export default function ChatUser({user, onSelectUser}:any) {
         return (
@@ -14,7 +14,7 @@ export default function ChatUser({user, onSelectUser}:any) {
                 <div className="chat-user-info">
                     <span className="user-info-name">{user.parnter.name}</span>
                     <div className="last-message-info">{user.lastMessage.content.length > 25 ? user.lastMessage.content.substring(0,25) + "..." : user.lastMessage.content}</div>
-                    <div className="last-message-time">{relativeTime(user.lastMessage.date)}</div>
+                    <div className="last-message-time">{chatTime(user.lastMessage.date)}</div>
                 </div>
                 <div className="messages-badge-block">
                     <div className="messages-badge">{user.unreadMessages}</div>

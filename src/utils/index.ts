@@ -8,3 +8,10 @@ export const relativeTime = (date:string) => {
     }
     return distanceInWorldsStrict(new Date(), date, {addSuffix: true});
 };
+
+export const chatTime = (date:string) => {
+    if(differenceInHours(new Date(), date) > 23) {
+        return format(date, 'D MMMM YYYY HH:mm');
+    }
+    return format(date, 'HH:mm');
+};
