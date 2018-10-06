@@ -60,6 +60,11 @@ class SimpleMenu extends React.Component<any> {
           .catch(error=>console.log(error));
   };
 
+  handlePushToSettings = () => {
+      this.props.toSettings();
+      this.handleClose();
+  };
+
   render() {
     const { classes } = this.props;
     const { anchorEl } = this.state;
@@ -90,13 +95,11 @@ class SimpleMenu extends React.Component<any> {
           }}
           onClose={this.handleClose}
         >
-          <MenuItem className={classes.menuItem} onClick={this.handleClose}>
-            <Link className={classes.menuLink} to="/settings">
+          <MenuItem className={classes.menuItem} onClick={this.handlePushToSettings}>
               <ListItemIcon className={classes.icon}>
                 <EditIcon />
               </ListItemIcon>
               <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Settings" />
-            </Link>
           </MenuItem>
 
           <MenuItem className={classes.menuItem} onClick={this.handleClose}>
@@ -124,7 +127,8 @@ class SimpleMenu extends React.Component<any> {
 const mapDispatchToProps = (dispatch:any) => {
     return {
         logOut: () => dispatch(logOut()),
-        push: () => dispatch(push('/'))
+        push: () => dispatch(push('/')),
+        toSettings: () => dispatch(push('/settings'))
     }
 };
 
