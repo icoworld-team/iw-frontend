@@ -72,6 +72,7 @@ export const GET_FOLLOWS_POSTS = gql`
             date
             edited
             content
+            likes
             tags
         }
     }
