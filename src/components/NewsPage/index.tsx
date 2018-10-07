@@ -9,8 +9,8 @@ import Button from '@material-ui/core/Button';
 import { SEARCH_POST, GET_TOP_USERS, GET_FOLLOWS_POSTS, GET_NEWS } from '../../api/graphql'
 import { Query } from 'react-apollo';
 import { connect } from "react-redux";
+import { relativeTime } from '../../utils'
 
-import MainAppBar from '../MainAppBar';
 import Author from '../Author';
 import PostList from '../PostList';
 
@@ -164,8 +164,6 @@ class News extends Component<any> {
 
     return (
       <>
-        <MainAppBar/>
-
         <Grid container spacing={0}>
           <Grid item xs={1} />
 
@@ -186,7 +184,7 @@ class News extends Component<any> {
                           <>
                             {data.getNews.map((news:any) => (
                               <li key={news.id} className={classes.newsOfProjectItem}>
-                                <Typography className={classes.newsOfProjectDate}>{new Date(news.date).toLocaleDateString()}</Typography>
+                                <Typography className={classes.newsOfProjectDate}>{relativeTime(news.date)}</Typography>
                                 <Typography className={classes.newsOfProjectText}>{news.title}</Typography>
                               </li>
                             )).reverse()}

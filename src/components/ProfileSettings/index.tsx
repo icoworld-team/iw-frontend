@@ -4,7 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import MainAppBar from '../MainAppBar';
 import PersonalInfo from '../PersonalInfo';
 import GeneralSettings from '../GeneralSettings';
 import PrivacyAndSecurity from '../PrivacyAndSecurity';
@@ -112,9 +111,6 @@ class ProfileSettings extends Component<any> {
     const { classes } = this.props;
 
     return (
-      <>
-        <MainAppBar/>
-
           <Query query={GET_USER} variables={{userId: this.props.authUser.id}}>
               {({ loading, error, data}) => {
                   if(loading) return null;
@@ -199,8 +195,6 @@ class ProfileSettings extends Component<any> {
                   )
               }}
           </Query>
-
-      </>
     );
   }
 }

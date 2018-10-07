@@ -4,25 +4,24 @@ import './style.css'
 import { connect } from "react-redux";
 import { withApollo } from 'react-apollo'
 import { setContacts, addContact } from "../../actions";
-import { GET_CHATS } from '../../api/graphql'
 // import {socket} from "../../api";
+import Scrollbars from 'react-custom-scrollbars';
 
 
 class ChatContactsList extends Component<any> {
 
-    async componentDidMount() {
-        const result = await this.props.client.query({
-            query: GET_CHATS,
-            variables: {userId: this.props.authUser.id},
-            fetchPolicy: 'network-only'
-        });
-        const contacts = result.data.getChats.slice().reverse();
-        this.props.setContacts(contacts);
-    }
-
     render() {
-        const { authUser, onSelectUser, contactsList } = this.props;
-        const contacts = contactsList.map((contact:any) => (
+        const { authUser, onSelectUser, contactsList, chatMessages} = this.props;
+        const updatedContacts = contactsList.map((contact:any) => (
+            {
+                ...contact,
+                lastMessage: chatMessages[contact.chatId] ? chatMessages[contact.chatId][chatMessages[contact.chatId].length-1] : contact.lastMessage
+            }
+        ));
+        const sortedContacts = updatedContacts.slice().sort((a:any, b:any) => {
+            return new Date(b.lastMessage.date).getTime() - new Date(a.lastMessage.date).getTime();
+        });
+        const contacts = sortedContacts.map((contact:any) => (
             <ChatUser key={contact.chatId} user={contact} onSelectUser={onSelectUser}/>
         ));
         return (
@@ -52,7 +51,9 @@ class ChatContactsList extends Component<any> {
                 <div className="contacts-tab">
                     <span>Contacts</span>
                 </div>
-                {contacts}
+                <Scrollbars autoHide style={{height: 650}}>
+                    {contacts}
+                </Scrollbars>
             </div>
         )
     }
@@ -61,7 +62,8 @@ class ChatContactsList extends Component<any> {
 const mapStateToProps = ({auth, chat}:any) => {
     return {
         authUser: auth.authUser,
-        contactsList: chat.contactsList
+        contactsList: chat.contactsList,
+        chatMessages: chat.chatMessages
     }
 };
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import MainAppBar from '../MainAppBar'
 import Grid from '@material-ui/core/Grid'
 import InvestorCard from '../InvestorCard'
 import Typography from '@material-ui/core/Typography'
@@ -84,7 +83,6 @@ class InvestorsPage extends React.Component<any> {
 
         return (
             <div>
-                <MainAppBar/>
                 <Grid container spacing={0}>
                     <Grid item xs={1}></Grid>
                     <Grid item xs={10}>

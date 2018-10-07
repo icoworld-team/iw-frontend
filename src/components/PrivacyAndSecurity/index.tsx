@@ -4,6 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import SettingsPopup from '../SettingsPopup';
+import { Mutation } from 'react-apollo'
+import { SET_COMMENTERS, SET_PM_SENDERS, UPDATE_USER } from "../../api/graphql";
+import { withApollo } from 'react-apollo'
 
 const styles = () => createStyles({
   formItemHeading: {
@@ -51,35 +54,58 @@ const styles = () => createStyles({
   },
 });
 
+const settings = ["All users", "Only verified", "Only my follows", "Nobody"];
+
 class PrivacyAndSecurity extends Component<any> {
   state={
-    checked: false,
+    twoFactorAuth: this.props.user.twoFactorAuth,
     open: false,
-    selectedValue: '',
+    pmSenders: this.props.user.pmsenders,
+    commenters: this.props.user.commenters,
+    fieldForChange: ''
   };
 
-  switchChange = (name: any) => (event: any) => {
-    this.setState({ [name]: event.target.checked });
-  };
+  // switchChange = (name: any) => (event: any) => {
+  //   this.setState({ [name]: event.target.checked });
+  // };
+  //
+  // handleChange =(event:any, value:any)=>{
+  //   this.setState({
+  //     tab: value
+  //   });
+  // };
 
-  handleChange =(event:any, value:any)=>{
+  handleClickOpen = (field:string) => () => {
     this.setState({
-      tab: value
-    });
-  };
-
-  handleClickOpen = () => {
-    this.setState({
+      fieldForChange: field,
       open: true
     });
   };
 
-  handleClose = (value: any) => {
-    this.setState({ selectedValue: value, open: false });
+  handleClose = (value:string) => {
+    if(this.state.fieldForChange === 'pmSenders') {
+      this.props.client.mutate({
+          mutation: SET_PM_SENDERS,
+          variables: {
+            userId: this.props.user.id,
+            mode: value
+          }
+      }).then((data:any)=> console.log(data));
+    }
+    if(this.state.fieldForChange === 'commenters') {
+      this.props.client.mutate({
+          mutation: SET_COMMENTERS,
+          variables: {
+            userId: this.props.user.id,
+            mode: value
+          }
+      }).then((data:any)=> console.log(data));
+    }
+    this.setState((state:any) => ({ [state.fieldForChange]: value, open: false}));
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
 
     return (
       <>
@@ -91,21 +117,21 @@ class PrivacyAndSecurity extends Component<any> {
             <li className={classes.profileSettingsItem}>
               <Typography className={classes.profileSettingsItemLabel}>Who can send me PM?</Typography>
               <div className={classes.profileSettingsItemCenter}>
-                <Typography className={classes.profileSettingsItemInfo}>All users</Typography>
+                <Typography className={classes.profileSettingsItemInfo}>{this.state.pmSenders}</Typography>
               </div>
-              <Typography className={classes.profileSettingsItemBtn}>Change</Typography>
+              <Typography className={classes.profileSettingsItemBtn} onClick={this.handleClickOpen('pmSenders')}>Change</Typography>
             </li>
 
             <li className={classes.profileSettingsItem}>
               <Typography className={classes.profileSettingsItemLabel}>Who can comment my posts?</Typography>
               <div className={classes.profileSettingsItemCenter}>
                 <Typography className={classes.profileSettingsItemInfo}>
-                  {this.state.selectedValue}
+                  {this.state.commenters}
                 </Typography>
               </div>
               <Typography
                 className={classes.profileSettingsItemBtn}
-                onClick={this.handleClickOpen}
+                onClick={this.handleClickOpen('commenters')}
               >
                 Change
               </Typography>
@@ -115,9 +141,10 @@ class PrivacyAndSecurity extends Component<any> {
         </div>
 
         <SettingsPopup
-          selectedValue={this.state.selectedValue}
+          selectedValue={this.state[this.state.fieldForChange]}
           open={this.state.open}
           onClose={this.handleClose}
+          settings={settings}
         />
 
         <div className={classes.profileSettingsContent} style={{marginTop: '45px'}}>
@@ -138,14 +165,18 @@ class PrivacyAndSecurity extends Component<any> {
                 <FormControlLabel
                   className={`${classes.profileSettingsItemInfo} ${classes.profileSettingsItemSwitcher}`}
                   control={
-                    <Switch
-                      checked={this.state.checked}
-                      onChange={this.switchChange('checked')}
-                      value="checked"
-                      color="primary"
-                    />
+                      <Mutation mutation={UPDATE_USER} onCompleted={() => this.setState((state:any) => ({twoFactorAuth: !state.twoFactorAuth}))} onError={(error)=>console.log(error)}>
+                          {updateUser => (
+                              <Switch
+                                  checked={this.state.twoFactorAuth}
+                                  value="checked"
+                                  color="primary"
+                                  onChange={() => updateUser({variables: {input: {id: user.id, twoFactorAuth: !this.state.twoFactorAuth}}})}
+                              />
+                          )}
+                      </Mutation>
                   }
-                  label="by number +7 *** *** ** 01"
+                  label={`by number ${user.phone}`}
                 />
               </div>
             </li>
@@ -155,6 +186,6 @@ class PrivacyAndSecurity extends Component<any> {
       </>
     );
   }
-};
+}
 
-export default withStyles(styles)(PrivacyAndSecurity);
+export default withStyles(styles)(withApollo(PrivacyAndSecurity));

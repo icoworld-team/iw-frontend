@@ -6,19 +6,21 @@ import { ConnectedRouter } from "react-router-redux";
 import {store, history} from "./store";
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
-
+import MainApp from './components/MainApp'
 import SignInPage from './components/SignInPage'
 import SignUpPage from './components/SignUpPage'
-import Profile from './components/Profile'
-import PoolSearch from './components/PoolSearch'
-import PoolCreate from './components/PoolCreate'
-import PoolInfo from './components/PoolInfo'
-import InvestorsPage from './components/InvestorsPage'
-import NewsPage from './components/NewsPage'
-import Chat from './components/Chat'
 import Contacts from './components/ContactsPage'
-import Settings from './components/ProfileSettings'
 import PasswordRecovery from './components/PasswordRecovery'
+// import Profile from './components/Profile'
+// import PoolSearch from './components/PoolSearch'
+// import PoolCreate from './components/PoolCreate'
+// import PoolInfo from './components/PoolInfo'
+// import InvestorsPage from './components/InvestorsPage'
+// import NewsPage from './components/NewsPage'
+// import Chat from './components/Chat'
+//
+// import Settings from './components/ProfileSettings'
+//
 import PrivateRoute from './components/PrivateRoute'
 
 import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory';
@@ -43,18 +45,11 @@ export default function App() {
             <ConnectedRouter history={history}>
                 <ApolloProvider client={client}>
                     <Switch>
-                        <Route exact path="/" component={SignInPage}/>
-                        <Route exact path="/signup" component={SignUpPage}/>
-                        <PrivateRoute exact path="/profile" component={Profile}/>
-                        <PrivateRoute exact path="/pools" component={PoolSearch}/>
-                        <PrivateRoute exact path="/create-pool" component={PoolCreate}/>
-                        <PrivateRoute exact path="/pool-info" component={PoolInfo}/>
-                        <PrivateRoute exact path="/investors" component={InvestorsPage}/>
-                        <PrivateRoute exact path="/news" component={NewsPage}/>
-                        <PrivateRoute exact path="/messages" component={Chat}/>
-                        <Route exact path="/contacts" component={Contacts}/>
-                        <Route exact path="/settings" component={Settings}/>
-                        <Route exact path="/password-recovery" component={PasswordRecovery}/>
+                        <Route path="/signin" component={SignInPage}/>
+                        <Route path="/signup" component={SignUpPage}/>
+                        <Route path="/contacts" component={Contacts}/>
+                        <Route path="/password-recovery" component={PasswordRecovery}/>
+                        <PrivateRoute path="/" component={MainApp}/>
                     </Switch>
                 </ApolloProvider>
             </ConnectedRouter>

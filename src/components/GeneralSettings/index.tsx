@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { UPDATE_USER } from '../../api/graphql'
 import { Mutation } from 'react-apollo'
+import SettingsPopup from '../SettingsPopup'
+import { withApollo } from 'react-apollo'
 
 const styles = (theme: Theme) => createStyles({
   formItemHeading: {
@@ -59,13 +61,15 @@ const styles = (theme: Theme) => createStyles({
   },
 });
 
+const settings = ["English", "Russian"];
+
 function languageToFullWord (language:string) {
     if (language === 'en') return 'English';
     if (language === 'ru') return 'Russian';
     return language;
 }
 
-class generalSettings extends Component<any> {
+class GeneralSettings extends Component<any> {
   state={
     checked: false,
     isChangeEmail: false,
@@ -73,7 +77,26 @@ class generalSettings extends Component<any> {
     isChangePhone: false,
     isChangeLanguage: false,
     newEmail: '',
-    newNumber: ''
+    newNumber: '',
+    language: this.props.user.language,
+    open: false
+  };
+
+  handleClickOpen = () => {
+    this.setState({
+        open: true
+    });
+  };
+
+  handleClose = (value:string) => {
+    this.props.client.mutate({
+      mutation: UPDATE_USER,
+      variables: {input: {
+              id: this.props.user.id,
+              language: value
+          }}
+      }).then((data:any) => console.log('update language'));
+    this.setState({ language: value, open: false});
   };
 
   handleChange =(e:React.ChangeEvent<HTMLInputElement>) =>{
@@ -94,13 +117,12 @@ class generalSettings extends Component<any> {
     this.setState({ isChangePhone: !this.state.isChangePhone });
   };
 
-  settingsChangeLanguage = () => {
-    this.setState({ isChangeLanguage: !this.state.isChangeLanguage });
-  };
+  // settingsChangeLanguage = () => {
+  //   this.setState({ isChangeLanguage: !this.state.isChangeLanguage });
+  // };
 
   render() {
     const { classes, user } = this.props;
-
     return (
       <>
         <div className={classes.profileSettingsContent}>
@@ -153,7 +175,7 @@ class generalSettings extends Component<any> {
                   {marginBottom: '10px'}}
                   className={classes.profileSettingsItemInfo}
                 >
-                  Changed 7 mounth ago
+                  Changed 7 months ago
                 </Typography>
 
                 {this.state.isChangePassword === false ? '' :
@@ -217,14 +239,20 @@ class generalSettings extends Component<any> {
               <Typography className={classes.profileSettingsItemLabel}>Language</Typography>
               <div className={classes.profileSettingsItemCenter}>
                 <Typography className={classes.profileSettingsItemInfo}>
-                    {languageToFullWord(user.language)}
+                    {languageToFullWord(this.state.language)}
                 </Typography>
               </div>
-
-              <Typography onClick={this.settingsChangeLanguage} className={classes.profileSettingsItemBtn}>
-                {this.state.isChangeLanguage === false ? 'Change' : 'Cancel'}
+              <Typography onClick={this.handleClickOpen} className={classes.profileSettingsItemBtn}>
+                Change
               </Typography>
             </li>
+
+            <SettingsPopup
+              selectedValue={this.state.language}
+              open={this.state.open}
+              onClose={this.handleClose}
+              settings={settings}
+            />
 
             {/* <li className={classes.profileSettingsItem}>
               <Typography className={classes.inputLabel}>You can <span className={classes.profileSettingsItemBtn}>delete your profile</span>.</Typography>
@@ -236,4 +264,4 @@ class generalSettings extends Component<any> {
   }
 }
 
-export default withStyles(styles)(generalSettings);
+export default withStyles(styles)(withApollo(GeneralSettings));

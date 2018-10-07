@@ -32,6 +32,7 @@ import {
     SEARCH_POST_IN_PROFILE,
     LIKE_POST, SEARCH_POST, REPOST
 } from '../../api/graphql'
+import { relativeTime } from '../../utils'
 
 
 const styles = () => createStyles({
@@ -268,7 +269,8 @@ class Post extends Component<any> {
                                     <Typography className={classes.userName}>{post.userName}</Typography>
                                     <Typography className={classes.userLogin}>{`@${post.userLogin}`}</Typography>
                                 </div>
-                                <Typography className={classes.postDate}>{new Date(post.date).toLocaleDateString()}</Typography>
+
+                                <Typography className={classes.postDate}>{relativeTime(post.date)}</Typography>
                             </div>
                         </div>
 

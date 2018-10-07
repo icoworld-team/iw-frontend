@@ -5,14 +5,14 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 
-const settings = ["All users", "Only verified", "Only my follows", "Nobody"];
+// const settings = ["All users", "Only verified", "Only my follows", "Nobody"];
 
 class SimpleDialog extends React.Component<any> {
   handleClose = () => {
     this.props.onClose(this.props.selectedValue);
   };
 
-  handleListItemClick = (value: any) => {
+  handleListItemClick = (value: string) => {
     this.props.onClose(value);
   };
 
@@ -22,7 +22,7 @@ class SimpleDialog extends React.Component<any> {
         <DialogTitle id="simple-dialog-title">Select value</DialogTitle>
         <div>
           <List>
-            {settings.map(setting => (
+            {this.props.settings.map((setting:any) => (
               <ListItem
                 button
                 onClick={() => this.handleListItemClick(setting)}

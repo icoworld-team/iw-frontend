@@ -72,6 +72,7 @@ export const GET_FOLLOWS_POSTS = gql`
             date
             edited
             content
+            likes
             tags
         }
     }
@@ -257,6 +258,9 @@ export const GET_USER = gql`
 				address
 			}
 			notifications
+			pmsenders
+			commenters
+			twoFactorAuth
 			about
 			language
 		}
@@ -337,6 +341,9 @@ export const UPDATE_USER = gql`
 				address
 			}
 			notifications
+			pmsenders
+			commenters
+			twoFactorAuth
 			about
 			language
 		}
@@ -349,6 +356,12 @@ export const ADD_JOB = gql`
 	}
 `;
 
+export const UPDATE_JOB = gql`
+	mutation updateJob($userId: ID!, $id: ID!, $input: ExpirienceInput!) {
+		updateJob(userId: $userId, id: $id, input: $input)
+	}
+`;
+
 export const REMOVE_JOB = gql`
 	mutation removeJob($userId: ID!, $id: ID!) {
 		removeJob(userId: $userId, id: $id)
@@ -358,6 +371,12 @@ export const REMOVE_JOB = gql`
 export const ADD_EDUCATION = gql`
 	mutation addEducation($input: ExpirienceInput!,) {
 		addEducation(input: $input)
+	}
+`;
+
+export const UPDATE_EDUCATION = gql`
+	mutation updateEducation($userId: ID!, $id: ID!, $input: ExpirienceInput!) {
+		updateEducation(userId: $userId, id: $id, input: $input)
 	}
 `;
 
@@ -379,3 +398,14 @@ export const REPOST = gql`
 	}
 `;
 
+export const SET_PM_SENDERS = gql`
+	mutation setPMSendersMode($userId: ID!, $mode: String!) {
+		setPMSendersMode(userId: $userId, mode: $mode)
+	}
+`;
+
+export const SET_COMMENTERS = gql`
+	mutation setCommentersMode($userId: ID!, $mode: String!) {
+		setCommentersMode(userId: $userId, mode: $mode)
+	}
+`;

@@ -114,7 +114,7 @@ class InvestorCard extends Component<any> {
                         </div>
                         <Typography className={classes.nameText} variant="title" align="center">{data.name}</Typography>
                         {/* <Typography className={classes.cardText} variant="caption" align="center">{data.login}</Typography> */}
-                        <Typography className={classes.cardText} variant="caption" align="center">@hardcode_login</Typography>
+                        <Typography className={classes.cardText} variant="caption" align="center">@{data.login}</Typography>
                         <Typography className={classes.cardText} variant="caption" align="center">{data.countOfFollowers} Followers</Typography>
                     </div>
                 </Link>
