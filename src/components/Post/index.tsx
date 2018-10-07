@@ -172,7 +172,11 @@ const styles = () => createStyles({
     },
     saveButton: {
         marginLeft: '5px',
-    }
+    },
+
+    tag: {
+        color: 'red',
+    },
 });
 
 class Post extends Component<any> {
@@ -184,7 +188,8 @@ class Post extends Component<any> {
         postBody: this.props.post.content,
         showComments: false,
         isLiked: this.props.post.likes ? this.props.post.likes.includes(this.props.authUser.id) : false,
-        snackBarOpen: false
+        snackBarOpen: false,
+        postText: '',
     };
 
     handleClick = (event:any)=> {
@@ -236,7 +241,19 @@ class Post extends Component<any> {
     render() {
         const { post, authUser } = this.props;
         const { classes } = this.props;
-        // console.log(post.postId);
+
+        const postReplacer = (text: String, tags: Array<string>) => {
+            let textWithTags = text;
+
+            tags.forEach(function(item) {
+                let pattern = new RegExp('(' + item + ')', 'g')
+                textWithTags = textWithTags.replace(pattern, `<span class="tag">$1</span>`)
+            })
+
+            return (
+                textWithTags
+            )
+        }
 
         return (
             <div className={`card ${classes.postCard}`}>
@@ -251,7 +268,6 @@ class Post extends Component<any> {
                                     <Typography className={classes.userName}>{post.userName}</Typography>
                                     <Typography className={classes.userLogin}>{`@${post.userLogin}`}</Typography>
                                 </div>
-                                {/* <Typography className={classes.postDate}>27 October, 14:56</Typography> */}
                                 <Typography className={classes.postDate}>{new Date(post.date).toLocaleDateString()}</Typography>
                             </div>
                         </div>
@@ -270,14 +286,11 @@ class Post extends Component<any> {
                                 <MenuItem name="edit" id="edit" onClick={this.handleEdit}>Edit</MenuItem>
                                 <Mutation mutation={DELETE_POST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
                                         update={(cache, {data: { deletePost }}) => {
-                                            console.log(deletePost);
                                             const data = cache.readQuery({
                                                 query: SEARCH_POST_IN_PROFILE,
                                                 variables: {userId: authUser.id, searchText: ""}
                                             });
-                                            console.log(data);
                                             const posts = (data as any).searchPostInProfile.posts.filter((post:any) => post.postId !== deletePost);
-                                            console.log(posts);
                                             cache.writeQuery({query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}, data: {
                                                 searchPostInProfile: {
                                                     ...(data as any).searchPostInProfile,
@@ -294,7 +307,6 @@ class Post extends Component<any> {
                         }
 
                     </div>
-
                         {this.state.editMode
                             ? ( <div className={classes.postContent}>
                                     <textarea className={classes.textArea} name="postBody" rows={3} value={this.state.postBody} onChange={this.handleChange}></textarea>
@@ -309,7 +321,8 @@ class Post extends Component<any> {
                                     </div>
                                 </div>
                             )
-                            : <Typography className={classes.postContent}>{post.content}</Typography>}
+                            : <Typography className={classes.postContent} dangerouslySetInnerHTML={{ __html: post.tags.length ? postReplacer(post.content, post.tags) : post.content }}></Typography>}
+
                     <div className={classes.postFooter}>
                     <FormControlLabel
                             className={classes.footerIconLabel}

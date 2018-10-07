@@ -189,7 +189,7 @@ class News extends Component<any> {
                                 <Typography className={classes.newsOfProjectDate}>{new Date(news.date).toLocaleDateString()}</Typography>
                                 <Typography className={classes.newsOfProjectText}>{news.title}</Typography>
                               </li>
-                            ))}
+                            )).reverse()}
                           </>
                         )
                       }}

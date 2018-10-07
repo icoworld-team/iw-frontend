@@ -174,13 +174,15 @@ const styles = (theme: Theme) => createStyles({
     noActivity: {
 		textAlign: 'center',
 		padding: '10px'
-	}
+	},
 });
 
 class Profile extends Component<any> {
 	state={
 		tab: 0,
-        searchText: ""
+		searchText: "",
+		hInput: "",
+		tags: [],
 	};
 
 	handleChange =(event:any, value:any)=>{
@@ -193,7 +195,7 @@ class Profile extends Component<any> {
         this.setState({
             searchText: e.target.value
         });
-    };
+	};
 
 	render() {
 		const { classes } = this.props;

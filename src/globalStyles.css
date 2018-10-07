@@ -163,3 +163,8 @@ ul {
   color: #8b8b8b!important;
   line-height: 14px!important;
 }
+
+.tag {
+  color: #4a86e8;
+  cursor: pointer;
+}

@@ -68,24 +68,38 @@ const styles = () => createStyles({
 
 class PostInput extends Component<any> {
     state = {
-        postBody: ''
+        postBody: '',
+        tags: [],
     };
 
     handleChange = (e: any) => {
         this.setState({
             [e.target.name]: e.target.value
         });
+
+        let pattern = /(#[\w|а-яА-ЯёЁ]+)/g;
+        let arr: Array<String> = e.target.value.match(pattern);
+        
+        if(arr) {
+            this.setState({
+                tags: arr
+            });
+        } else {
+            this.setState({
+                tags: []
+            });
+		}
     };
 
     render() {
         const {classes, authUserId} = this.props;
         const postInput = {
             userId: authUserId,
-            content: this.state.postBody
+            content: this.state.postBody,
+            tags: this.state.tags,
         };
         return (
             <div className={`card ${classes.postInput}`}>
-                {/* <TextField className={classes.textInput} fullWidth multiline rows="6"/> */}
                 <div className={classes.inputHeader}>
                     <Avatar className={classes.avatar} src="profile.jpeg"/>
                     <div className={classes.inputHeaderText}>
@@ -103,7 +117,6 @@ class PostInput extends Component<any> {
                 <Mutation mutation={CREATE_POST} onCompleted={() => this.setState({postBody: ''})}
                     onError={(error) => console.log(error)}
                     update={(cache, {data: {createPost}}) => {
-                        console.log(createPost.content);
                         const data = cache.readQuery({
                             query: SEARCH_POST_IN_PROFILE,
                             variables: {userId: authUserId, searchText: ""}
