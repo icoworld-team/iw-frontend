@@ -2,13 +2,19 @@ import React, { Component } from 'react'
 import ChatUser from '../ChatUser'
 import './style.css'
 import { connect } from "react-redux";
-import { withApollo } from 'react-apollo'
-import { setContacts, addContact } from "../../actions";
-// import {socket} from "../../api";
 import Scrollbars from 'react-custom-scrollbars';
 
 
 class ChatContactsList extends Component<any> {
+    state = {
+        searchText: '',
+    };
+
+    handleChange =(e:React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+    };
 
     render() {
         const { authUser, onSelectUser, contactsList, chatMessages} = this.props;
@@ -18,7 +24,8 @@ class ChatContactsList extends Component<any> {
                 lastMessage: chatMessages[contact.chatId] ? chatMessages[contact.chatId][chatMessages[contact.chatId].length-1] : contact.lastMessage
             }
         ));
-        const sortedContacts = updatedContacts.slice().sort((a:any, b:any) => {
+        const filteredContacts = updatedContacts.filter((chat:any) => chat.parnter.name.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1);
+        const sortedContacts = filteredContacts.slice().sort((a:any, b:any) => {
             return new Date(b.lastMessage.date).getTime() - new Date(a.lastMessage.date).getTime();
         });
         const contacts = sortedContacts.map((contact:any) => (
@@ -42,7 +49,7 @@ class ChatContactsList extends Component<any> {
                     <div className="search-wrapper">
                         <div className="search-bar">
                             <div className="search-form">
-                                <input className="chat-search-input" type="search" placeholder="Search" />
+                                <input className="chat-search-input" type="search" name="searchText" placeholder="Search" onChange={this.handleChange}/>
                                 <button className="search-icon"><i className="zmdi zmdi-search zmdi-hc-lg"/></button>
                             </div>
                         </div>
@@ -67,12 +74,5 @@ const mapStateToProps = ({auth, chat}:any) => {
     }
 };
 
-const mapDispatchToProps = (dispatch:any) => {
-    return {
-        setContacts: (contacts:any) => dispatch(setContacts(contacts)),
-        addContact: (contact:any) => dispatch(addContact(contact))
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withApollo(ChatContactsList))
+export default connect(mapStateToProps)(ChatContactsList)
 

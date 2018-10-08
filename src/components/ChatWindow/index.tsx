@@ -15,7 +15,7 @@ const fetchMessages = async (client:any, chatId:any) => {
         variables: {input: {chatId: chatId, skip: 0}},
         fetchPolicy: 'network-only'
     });
-    const messages = result.data.getChatMessages.slice().reverse();
+    const messages = result.data.getChatMessages.messages.slice().reverse();
     // console.log(messages);
     const chatMessages = {
         id: chatId,
@@ -39,7 +39,7 @@ class ChatWindow extends Component<any> {
                 variables: {input: {chatId: this.props.user.chatId, skip: 0}},
                 fetchPolicy: 'network-only'
             });
-            const messages = result.data.getChatMessages.slice().reverse();
+            const messages = result.data.getChatMessages.messages.slice().reverse();
             // console.log(messages);
             const chatMessages = {
                 id: this.props.user.chatId,
@@ -82,8 +82,8 @@ class ChatWindow extends Component<any> {
                 variables: {input: {chatId: chatId, skip: chatMessages.length}},
                 fetchPolicy: 'network-only'
             });
-            if(result.data.getChatMessages.length > 0){
-                const messages = result.data.getChatMessages.slice().reverse();
+            if(result.data.getChatMessages.messages.length > 0){
+                const messages = result.data.getChatMessages.messages.slice().reverse();
                 const fetchedMessages = {
                     id: this.props.user.chatId,
                     messages: messages
