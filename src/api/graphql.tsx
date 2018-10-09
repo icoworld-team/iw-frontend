@@ -402,6 +402,12 @@ export const REPOST = gql`
 	}
 `;
 
+export const DELETE_REPOST = gql`
+	mutation deleteRePost($id: ID!) {
+		deleteRePost(id: $id)
+	}
+`;
+
 export const SET_PM_SENDERS = gql`
 	mutation setPMSendersMode($userId: ID!, $mode: String!) {
 		setPMSendersMode(userId: $userId, mode: $mode)
@@ -411,5 +417,11 @@ export const SET_PM_SENDERS = gql`
 export const SET_COMMENTERS = gql`
 	mutation setCommentersMode($userId: ID!, $mode: String!) {
 		setCommentersMode(userId: $userId, mode: $mode)
+	}
+`;
+
+export const UPLOAD_FILE = gql`
+	mutation uploadFile($userId: ID!, $file: Upload!) {
+		uploadFile(userId: $userId, file: $file)
 	}
 `;

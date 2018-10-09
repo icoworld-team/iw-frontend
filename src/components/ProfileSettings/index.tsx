@@ -10,6 +10,7 @@ import PrivacyAndSecurity from '../PrivacyAndSecurity';
 import { Query } from 'react-apollo'
 import { GET_USER } from '../../api/graphql'
 import { connect } from "react-redux";
+import ModalUploadPhoto from '../ModalUploadPhoto'
 
 const styles = (theme: Theme) => createStyles({
   subHeader: {
@@ -95,11 +96,24 @@ class ProfileSettings extends Component<any> {
   state={
     tab: 0,
     checked: false,
+    modalOpen: false,
   };
 
-  switchChange = (name: any) => (event: any) => {
-    this.setState({ [name]: event.target.checked });
+  handleOpen = () => {
+    this.setState({
+        modalOpen: true
+    })
   };
+
+  handleClose = () => {
+    this.setState({
+       modalOpen: false
+    })
+  };
+
+  // switchChange = (name: any) => (event: any) => {
+  //   this.setState({ [name]: event.target.checked });
+  // };
 
   handleChange =(event:any, value:any)=>{
     this.setState({
@@ -123,13 +137,13 @@ class ProfileSettings extends Component<any> {
                                   <Grid item xs={1} />
 
                                   <Grid item xs={10} className={classes.subHeaderContainer}>
-                                      <img className={classes.avatar} src="profile.jpeg" />
+                                      <img onClick={this.handleOpen} className={classes.avatar} src="profile.jpeg" />
                                       <div className={classes.userInfo}>
                                           <Typography className={classes.userName}>{user.name}</Typography>
                                           <Typography className={classes.userLogin}>@{user.login}</Typography>
                                       </div>
                                   </Grid>
-
+                                  <ModalUploadPhoto id={this.props.authUser.id} open={this.state.modalOpen} onClose={this.handleClose}/>
                                   <Grid item xs={1} />
                               </Grid>
                           </div>
