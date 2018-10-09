@@ -214,11 +214,6 @@ class Profile extends Component<any> {
 			userId: id,
 			searchText: this.state.searchText
 		};
-        // console.log(this.props.authUser);
-        // console.log(this.props.authUser.id);
-        //
-        // console.log(this.props.state);
-
 
 		return (
 				<Grid container spacing={0}>
@@ -232,7 +227,6 @@ class Profile extends Component<any> {
                                         if(loading) return null;
                                         if(error) return `Error: ${error}`;
                                         const user = data.getUser;
-                                        console.log(data.getUser.city);
                                         return (
                                             <ul className={classes.profileInfoList}>
 

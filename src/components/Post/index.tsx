@@ -243,16 +243,37 @@ class Post extends Component<any> {
         const { post, authUser } = this.props;
         const { classes } = this.props;
 
-        const postReplacer = (text: String, tags: Array<string>) => {
-            let textWithTags = text;
+        const postWithTagsReplacer = (text: string, tags: Array<string>) => {
+            let replaceredText = text;
 
             tags.forEach(function(item) {
                 let pattern = new RegExp('(' + item + ')', 'g')
-                textWithTags = textWithTags.replace(pattern, `<span class="tag">$1</span>`)
+                replaceredText = replaceredText.replace(pattern, `<span class="tag">$1</span>`)
             })
 
+            replaceredText = postReplacer(replaceredText);
+
             return (
-                textWithTags
+                replaceredText
+            )
+        }
+
+        const postReplacer = (text: string) => {
+            let replaceredText = text;
+
+            let linksRegExp = /(https?:\/\/[\w\/?.&-=]+)/g;
+            let newParagraphRegExp = new RegExp('\n', 'g')
+
+            if(linksRegExp.test(replaceredText)) {
+                replaceredText = replaceredText.replace(linksRegExp, `<a href="$1">$1</a>`);
+            }
+
+            if(newParagraphRegExp.test(replaceredText)) {
+                replaceredText = replaceredText.replace(newParagraphRegExp, `</br>`);
+            }
+
+            return (
+                replaceredText
             )
         }
 
@@ -323,7 +344,7 @@ class Post extends Component<any> {
                                     </div>
                                 </div>
                             )
-                            : <Typography className={classes.postContent} dangerouslySetInnerHTML={{ __html: post.tags.length ? postReplacer(post.content, post.tags) : post.content }}></Typography>}
+                            : <Typography className={classes.postContent} dangerouslySetInnerHTML={{ __html: post.tags.length ? postWithTagsReplacer(post.content, post.tags) : postReplacer(post.content) }}></Typography>}
 
                     <div className={classes.postFooter}>
                     <FormControlLabel
