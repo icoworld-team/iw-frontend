@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button'
 import CheckBox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import '../style.css'
-import {handleErrors, fetchPost} from '../../api'
+import {handleErrors, fetchPost, endpoint} from '../../api'
 import {userSignIn} from "../../actions";
 
 class SignUpPage extends Component<any> {
@@ -70,7 +70,7 @@ class SignUpPage extends Component<any> {
     };
 
     handleClick =()=> {
-        const url = 'http://icoworld.projects.oktend.com:3000/signup';
+        const url = `${endpoint}/signup`;
         const data = {
             firstName: this.state.name,
             lastName: this.state.surname,

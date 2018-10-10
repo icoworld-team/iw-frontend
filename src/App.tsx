@@ -12,7 +12,7 @@ import SignUpPage from './components/SignUpPage'
 import Contacts from './components/ContactsPage'
 import PasswordRecovery from './components/PasswordRecovery'
 import PrivateRoute from './components/PrivateRoute'
-
+import {endpoint} from "./api";
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { onError } from 'apollo-link-error'
@@ -39,7 +39,7 @@ const client = new ApolloClient({
             if (networkError) console.log(`[Network error]: ${networkError}`);
         }),
         new HttpLink({
-            uri: "http://icoworld.projects.oktend.com:3000/graphql"
+            uri: `${endpoint}/graphql`
         }),
         createUploadLink()
     ]),

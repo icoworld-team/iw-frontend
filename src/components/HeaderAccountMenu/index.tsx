@@ -12,7 +12,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import { Link } from "react-router-dom";
-import { handleErrors, fetchGet } from '../../api'
+import { handleErrors, fetchGet, endpoint } from '../../api'
 import { push } from "react-router-redux";
 import { logOut } from "../../actions";
 import { connect } from "react-redux";
@@ -50,7 +50,7 @@ class SimpleMenu extends React.Component<any> {
   };
 
   handleLogOut = () => {
-      const url = 'http://icoworld.projects.oktend.com:3000/logout';
+      const url = `${endpoint}/logout`;
       fetchGet(url)
           .then(response => handleErrors(response))
           .then(response => console.log(response))

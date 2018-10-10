@@ -32,6 +32,7 @@ export const GET_CHAT_MESSAGES = gql`
                     name
                 }
                 content
+                read
                 date
             }
             
@@ -426,5 +427,11 @@ export const SET_COMMENTERS = gql`
 export const UPLOAD_FILE = gql`
 	mutation uploadFile($userId: ID!, $file: Upload!) {
 		uploadFile(userId: $userId, file: $file)
+	}
+`;
+
+export const LIKE_REPOST = gql`
+	mutation likeRePost($id: ID!, $userId: ID!, $like: Boolean!) {
+		likeRePost(id: $id, userId: $userId, like: $like)
 	}
 `;
