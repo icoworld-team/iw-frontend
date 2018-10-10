@@ -291,7 +291,7 @@ class Post extends Component<any> {
                                     <Typography className={classes.userLogin}>{`@${post.userLogin}`}</Typography>
                                 </div>
 
-                                <Typography className={classes.postDate}>{relativeTime(post.date)}</Typography>
+                                <Typography className={classes.postDate}>{`${relativeTime(post.date)} ${post.__typename === 'Repost' ? '*' + post.__typename : ''}`}</Typography>
                             </div>
                         </div>
 
@@ -347,7 +347,7 @@ class Post extends Component<any> {
                             : <Typography className={classes.postContent} dangerouslySetInnerHTML={{ __html: post.tags.length ? postWithTagsReplacer(post.content, post.tags) : postReplacer(post.content) }}></Typography>}
 
                     <div className={classes.postFooter}>
-                    <FormControlLabel
+                        <FormControlLabel
                             className={classes.footerIconLabel}
                             control={
                                 <Mutation mutation={LIKE_POST} onCompleted={() => this.setState((state:any) => ({isLiked: !state.isLiked}))} onError={(error)=>console.log(error)}
@@ -379,7 +379,7 @@ class Post extends Component<any> {
                                     onClick={this.handleClickShowInput}
                             />
                             }
-                            label="1"
+                            label={post.comments ? post.comments.length : 0}
                         />
 
                         <FormControlLabel
@@ -436,11 +436,12 @@ class Post extends Component<any> {
                         </FormControl>
                     </div>
                 </div>
-                {this.state.showComments === false
+                {post.comments ? (post.comments.length ? (this.state.showComments === false
                     ? <div className={classes.hideComments} onClick={this.handleShowComments}>
-                    <Typography className={classes.hideCommentsText}>See comments</Typography>
-                </div>
-                : <PostComments postId={post.postId} />}
+                        <Typography className={classes.hideCommentsText}>See comments</Typography>
+                    </div>
+                    : <PostComments postId={post.postId} />) : '') : ''}
+                    
                 <SnackBar open={this.state.snackBarOpen} anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
                           onClose={this.handleSnackBar} message={<span>Reposted</span>}/>
             </div>

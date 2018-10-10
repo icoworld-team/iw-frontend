@@ -59,7 +59,8 @@ export const SEARCH_POST = gql`
             userLogin
             date
             edited
-            content
+			content
+			comments
             likes
             tags
         }
@@ -75,7 +76,8 @@ export const GET_FOLLOWS_POSTS = gql`
 			userLogin
             date
             edited
-            content
+			content
+			comments
             likes
             tags
         }
@@ -195,6 +197,7 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				edited
 				content
 				likes
+				comments
 				tags
 			}
 			reposts {
