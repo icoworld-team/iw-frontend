@@ -40,7 +40,7 @@ class ModalSendMessage extends Component<any> {
         if(validity.valid) {
             this.props.client.mutate({
                 mutation: UPLOAD_FILE,
-                variables: {userId: this.props.id, file }
+                variables: {userId: this.props.id, file: file || {text: '123123'} }
             }).then((data:any) => {
                 console.log(data);
                 this.props.client.mutate({
