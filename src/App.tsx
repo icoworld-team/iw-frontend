@@ -14,7 +14,7 @@ import PasswordRecovery from './components/PasswordRecovery'
 import PrivateRoute from './components/PrivateRoute'
 import {endpoint} from "./api";
 import { ApolloClient } from 'apollo-client'
-import { HttpLink } from 'apollo-link-http'
+// import { HttpLink } from 'apollo-link-http'
 import { onError } from 'apollo-link-error'
 import { ApolloLink } from 'apollo-link'
 import { createUploadLink } from 'apollo-upload-client'
@@ -38,10 +38,12 @@ const client = new ApolloClient({
                     console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`));
             if (networkError) console.log(`[Network error]: ${networkError}`);
         }),
-        new HttpLink({
+        // new HttpLink({
+        //     uri: `${endpoint}/graphql`
+        // }),
+        createUploadLink({
             uri: `${endpoint}/graphql`
-        }),
-        createUploadLink()
+        })
     ]),
     cache: cache
 });
