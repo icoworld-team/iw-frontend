@@ -4,6 +4,7 @@ export const GET_CHATS = gql`
     query getChats($userId: ID!) {
         getChats(userId: $userId) {
             chatId
+            countUnreadMessages
             parnter {
                 id
                 name
@@ -425,8 +426,8 @@ export const SET_COMMENTERS = gql`
 `;
 
 export const UPLOAD_FILE = gql`
-	mutation uploadFile($userId: ID!, $file: Upload!) {
-		uploadFile(userId: $userId, file: $file)
+	mutation uploadFile($file: Upload!) {
+		uploadFile(file: $file)
 	}
 `;
 

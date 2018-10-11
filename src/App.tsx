@@ -42,7 +42,8 @@ const client = new ApolloClient({
         //     uri: `${endpoint}/graphql`
         // }),
         createUploadLink({
-            uri: `${endpoint}/graphql`
+            uri: `${endpoint}/graphql`,
+            credentials: 'include'
         })
     ]),
     cache: cache
