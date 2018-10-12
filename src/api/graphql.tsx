@@ -227,6 +227,7 @@ export const CREATE_POST = gql`
             date
             edited
             content
+            comments
             likes
             tags
         }
@@ -241,6 +242,8 @@ export const GET_USER = gql`
 			login
 			email
 			phone
+			photo
+			avatar
 			country
 			city
 			site
@@ -324,6 +327,8 @@ export const UPDATE_USER = gql`
 			login
 			email
 			phone
+			photo
+			avatar
 			country
 			city
 			site
