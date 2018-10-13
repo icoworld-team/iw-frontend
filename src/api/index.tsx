@@ -1,3 +1,5 @@
+export const endpoint = 'http://icoworld.projects.oktend.com:3000';
+
 export const handleErrors = (response:any) => {
     if(!response.ok){
         throw Error(response.statusText);
@@ -29,4 +31,4 @@ export const fetchGet =  (url:string) => {
 };
 
 import io from 'socket.io-client'
-export const socket = io('http://icoworld.projects.oktend.com:3000', { transports: ['websocket'], autoConnect: false });
+export const socket = io(endpoint, { transports: ['websocket'], autoConnect: false });

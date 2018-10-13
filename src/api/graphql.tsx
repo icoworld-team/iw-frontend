@@ -4,6 +4,7 @@ export const GET_CHATS = gql`
     query getChats($userId: ID!) {
         getChats(userId: $userId) {
             chatId
+            countUnreadMessages
             parnter {
                 id
                 name
@@ -32,6 +33,7 @@ export const GET_CHAT_MESSAGES = gql`
                     name
                 }
                 content
+                read
                 date
             }
             
@@ -225,6 +227,7 @@ export const CREATE_POST = gql`
             date
             edited
             content
+            comments
             likes
             tags
         }
@@ -239,6 +242,8 @@ export const GET_USER = gql`
 			login
 			email
 			phone
+			photo
+			avatar
 			country
 			city
 			site
@@ -322,6 +327,8 @@ export const UPDATE_USER = gql`
 			login
 			email
 			phone
+			photo
+			avatar
 			country
 			city
 			site
@@ -424,7 +431,13 @@ export const SET_COMMENTERS = gql`
 `;
 
 export const UPLOAD_FILE = gql`
-	mutation uploadFile($userId: ID!, $file: Upload!) {
-		uploadFile(userId: $userId, file: $file)
+	mutation uploadFile($file: Upload!) {
+		uploadFile(file: $file)
+	}
+`;
+
+export const LIKE_REPOST = gql`
+	mutation likeRePost($id: ID!, $userId: ID!, $like: Boolean!) {
+		likeRePost(id: $id, userId: $userId, like: $like)
 	}
 `;

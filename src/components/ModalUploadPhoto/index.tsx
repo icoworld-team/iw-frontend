@@ -40,7 +40,7 @@ class ModalSendMessage extends Component<any> {
         if(validity.valid) {
             this.props.client.mutate({
                 mutation: UPLOAD_FILE,
-                variables: {userId: this.props.id, file: file }
+                variables: {file: file}
             }).then((data:any) => {
                 console.log(data);
                 this.props.client.mutate({
@@ -61,7 +61,7 @@ class ModalSendMessage extends Component<any> {
                 <div className={classes.modal}>
                     <div className={classes.modalTitle}>Upload Photo</div>
                     <div className={classes.modalBody}>
-                        <input className={classes.attachment} id="image" type="file" required accept="image/*"
+                        <input className={classes.attachment} id="image" type="file"
                                onChange={this.handleChange}/>
                         <label htmlFor="image">
                             <Button color="primary" component="span">Select photo</Button>
