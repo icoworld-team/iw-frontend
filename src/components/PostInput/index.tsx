@@ -6,7 +6,7 @@ import InsertPhoto from '@material-ui/icons/InsertPhoto';
 import InsertDriveFile from '@material-ui/icons/InsertDriveFile';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 import { Mutation } from 'react-apollo';
 import { CREATE_POST, SEARCH_POST_IN_PROFILE } from '../../api/graphql';
 
@@ -18,6 +18,7 @@ const styles = () => createStyles({
     },
     postTextarea: {
         width: '100%',
+        resize: 'none',
     },
     attachment: {
         display: 'none',
@@ -66,20 +67,21 @@ const styles = () => createStyles({
     }
 });
 
+
 class PostInput extends Component<any> {
     state = {
         postBody: '',
         tags: [],
+        textareaHeight: 58,
     };
 
     handleChange = (e: any) => {
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
 
         let pattern = /(#[\w|а-яА-ЯёЁ]+)/g;
         let arr: Array<String> = e.target.value.match(pattern);
-        
         if(arr) {
             this.setState({
                 tags: arr
@@ -88,7 +90,14 @@ class PostInput extends Component<any> {
             this.setState({
                 tags: []
             });
-		}
+        }
+
+        let postShadowTextarea: any = document.getElementById('postShadowTextarea');
+        postShadowTextarea.value = e.target.value;
+        let height = postShadowTextarea.scrollHeight;
+        this.setState({
+            textareaHeight: height + 20
+        });
     };
 
     render() {
@@ -109,10 +118,21 @@ class PostInput extends Component<any> {
                         <Typography className={classes.userLogin}>{`@${this.props.authUser.name}`}</Typography>
                     </div>
                 </div>
+                
+                <div style={{position: 'relative'}}>
+                    <textarea className={`input border-input ${classes.postTextarea}`}
+                        name="postBody" id="postTextarea" value={this.state.postBody} onChange={this.handleChange}
+                        placeholder="Write something..." style={{minHeight: 58, height: this.state.textareaHeight}} />
 
-                <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }}
-                    name="postBody" id="postTextarea" value={this.state.postBody} onChange={this.handleChange}
-                    className={classes.postTextarea} multiline rows="6" placeholder="Write something..." />
+                    <textarea className={`input border-input ${classes.postTextarea}`}
+                        name="postShadowBody" id="postShadowTextarea" value={this.state.postBody}
+                        placeholder="Write something..." 
+                        style={{
+                            overflow: 'hidden',
+                            position: 'absolute',
+                            visibility: 'hidden',
+                            whiteSpace: 'pre-wrap'}} rows={1} tabIndex={-1} />
+                </div>
 
                 <Mutation mutation={CREATE_POST} onCompleted={() => this.setState({postBody: ''})}
                     onError={(error) => console.log(error)}

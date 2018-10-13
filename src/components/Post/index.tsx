@@ -162,6 +162,10 @@ const styles = () => createStyles({
         fontFamily: 'inherit',
         fontSize: 'inherit'
     },
+    postTextarea: {
+        width: '100%',
+        resize: 'none',
+    },
     editButtonsBlock: {
         float: 'right',
         '& button': {
@@ -191,6 +195,8 @@ class Post extends Component<any> {
         isLiked: this.props.post.likes ? this.props.post.likes.includes(this.props.authUser.id) : false,
         snackBarOpen: false,
         postText: '',
+        tags: [],
+        textareaHeight: 58,
     };
 
     handleClick = (event:any)=> {
@@ -204,6 +210,30 @@ class Post extends Component<any> {
     handleChange = (e:any) => {
         this.setState({
             [e.target.name]: e.target.value
+        });
+    };
+    handleTextareaChange = (e:any) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+        
+        let pattern = /(#[\w|а-яА-ЯёЁ]+)/g;
+        let arr: Array<String> = e.target.value.match(pattern);
+        if(arr) {
+            this.setState({
+                tags: arr
+            });
+        } else {
+            this.setState({
+                tags: []
+            });
+        }
+
+        let postShadowTextarea: any = document.getElementById('postShadowTextarea');
+        postShadowTextarea.value = e.target.value;
+        let height = postShadowTextarea.scrollHeight;
+        this.setState({
+            textareaHeight: height + 20
         });
     };
 
@@ -332,13 +362,27 @@ class Post extends Component<any> {
                     </div>
                         {this.state.editMode
                             ? ( <div className={classes.postContent}>
-                                    <textarea className={classes.textArea} name="postBody" rows={3} value={this.state.postBody} onChange={this.handleChange}></textarea>
+                                    <div style={{position: 'relative'}}>
+                                        <textarea className={`input border-input ${classes.postTextarea}`}
+                                            name="postBody" id="postTextarea" value={this.state.postBody} onChange={this.handleTextareaChange}
+                                            placeholder="Write something..." style={{minHeight: 58, height: this.state.textareaHeight}} />
+
+                                        <textarea className={`input border-input ${classes.postTextarea}`}
+                                            name="postShadowBody" id="postShadowTextarea" value={this.state.postBody}
+                                            placeholder="Write something..." 
+                                            style={{
+                                                overflow: 'hidden',
+                                                position: 'absolute',
+                                                visibility: 'hidden',
+                                                whiteSpace: 'pre-wrap'}} rows={1} tabIndex={-1} />
+                                    </div>
+                                    {/* <textarea className={classes.textArea} name="postBody" rows={3} value={this.state.postBody} onChange={this.handleChange}></textarea> */}
                                     <div className={classes.editButtonsBlock}>
                                         <Button variant="outlined" color="secondary" size="small" className={`button outline-button`} onClick={this.handleEdit}>Cancel</Button>
                                         <Mutation mutation={EDIT_POST} onCompleted={()=>this.setState({editMode: false})} onError={(error)=>console.log(error)}>
                                             {editPost => {
                                                 return <Button className={`button fill-button ${classes.saveButton}`} variant="raised" color="primary"
-                                                            onClick={() => editPost({variables: {input: {postId: post.postId, content: this.state.postBody, tags: []}}})}>Save</Button>
+                                                            onClick={() => editPost({variables: {input: {postId: post.postId, content: this.state.postBody, tags: this.state.tags}}})}>Save</Button>
                                             }}
                                         </Mutation>
                                     </div>
