@@ -30,7 +30,7 @@ import {
     CREATE_COMMENT,
     GET_COMMENTS,
     SEARCH_POST_IN_PROFILE,
-    LIKE_POST, SEARCH_POST, REPOST
+    LIKE_POST, SEARCH_POST, REPOST, DELETE_REPOST, LIKE_REPOST
 } from '../../api/graphql'
 import { relativeTime } from '../../utils'
 
@@ -184,6 +184,40 @@ const styles = () => createStyles({
     },
 });
 
+const postWithTagsReplacer = (text: string, tags: Array<string>) => {
+    let replaceredText = text;
+
+    tags.forEach(function(item) {
+        let pattern = new RegExp('(' + item + ')', 'g')
+        replaceredText = replaceredText.replace(pattern, `<span class="tag">$1</span>`)
+    })
+
+    replaceredText = postReplacer(replaceredText);
+
+    return (
+        replaceredText
+    )
+}
+
+const postReplacer = (text: string) => {
+    let replaceredText = text;
+
+    let linksRegExp = /(https?:\/\/[\w\/?.&-=]+)/g;
+    let newParagraphRegExp = new RegExp('\n', 'g')
+
+    if(linksRegExp.test(replaceredText)) {
+        replaceredText = replaceredText.replace(linksRegExp, `<a href="$1">$1</a>`);
+    }
+
+    if(newParagraphRegExp.test(replaceredText)) {
+        replaceredText = replaceredText.replace(newParagraphRegExp, `</br>`);
+    }
+
+    return (
+        replaceredText
+    )
+}
+
 class Post extends Component<any> {
     state = {
         anchorEl: undefined,
@@ -238,7 +272,7 @@ class Post extends Component<any> {
     };
 
     handleClickShowInput = () => {
-        this.setState(state => ({ showInput: !this.state.showInput }));
+        this.setState((state:any) => ({ showInput: !state.showInput }));
     };
 
     handleSendComment = () => {
@@ -256,56 +290,16 @@ class Post extends Component<any> {
     };
 
     handleShowComments = () => {
-        this.setState(state => ({ showComments: !this.state.showComments }));
+        this.setState((state:any) => ({ showComments: !state.showComments }));
     };
 
     handleSnackBar = () => {
         this.setState({snackBarOpen: false})
     };
 
-    handleLike = () => {
-        this.setState((state:any) => ({
-            isLiked: !state.isLiked
-        }))
-    };
-
     render() {
         const { post, authUser } = this.props;
         const { classes } = this.props;
-
-        const postWithTagsReplacer = (text: string, tags: Array<string>) => {
-            let replaceredText = text;
-
-            tags.forEach(function(item) {
-                let pattern = new RegExp('(' + item + ')', 'g')
-                replaceredText = replaceredText.replace(pattern, `<span class="tag">$1</span>`)
-            })
-
-            replaceredText = postReplacer(replaceredText);
-
-            return (
-                replaceredText
-            )
-        }
-
-        const postReplacer = (text: string) => {
-            let replaceredText = text;
-
-            let linksRegExp = /(https?:\/\/[\w\/?.&-=]+)/g;
-            let newParagraphRegExp = new RegExp('\n', 'g')
-
-            if(linksRegExp.test(replaceredText)) {
-                replaceredText = replaceredText.replace(linksRegExp, `<a href="$1">$1</a>`);
-            }
-
-            if(newParagraphRegExp.test(replaceredText)) {
-                replaceredText = replaceredText.replace(newParagraphRegExp, `</br>`);
-            }
-
-            return (
-                replaceredText
-            )
-        }
 
         return (
             <div className={`card ${classes.postCard}`}>
@@ -328,7 +322,31 @@ class Post extends Component<any> {
                         <IconButton disableRipple classes={{ label: classes.postMenuLabel }} className={classes.postMenu} aria-label="More" aria-owns={this.state.anchorEl ? 'fade-menu' : undefined} aria-haspopup="true" onClick={this.handleClick}>
                             <MoreHorizIcon className={classes.postMenuIcon} />
                         </IconButton>
-                        {post.userId !== authUser.id
+                        {post.reposted
+                            ? <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
+                                    onClose={this.handleClose} TransitionComponent={Fade}>
+                                <MenuItem name="pin" id="pin" onClick={this.handleClose}>Pin to top</MenuItem>
+                                <Mutation mutation={DELETE_REPOST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
+                                          update={(cache, {data: { deleteRePost }}) => {
+                                              const data = cache.readQuery({
+                                                  query: SEARCH_POST_IN_PROFILE,
+                                                  variables: {userId: authUser.id, searchText: ""}
+                                              });
+                                              const reposts = (data as any).searchPostInProfile.reposts.filter((post:any) => post.id !== this.props.post.id);
+                                              cache.writeQuery({query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}, data: {
+                                                      searchPostInProfile: {
+                                                          ...(data as any).searchPostInProfile,
+                                                          reposts: reposts,
+                                                      }}});
+                                          }}>
+                                    {deleteRePost => {
+                                        return (
+                                            <MenuItem name="delete" id="delete" onClick={() => deleteRePost({variables: {id: post.id}})}>Delete</MenuItem>
+                                        )
+                                    }}
+                                </Mutation>
+                            </Menu> :
+                            post.userId !== authUser.id
                             ? <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
                                 onClose={this.handleClose} TransitionComponent={Fade}>
                                 <MenuItem name="complain" id="complain" onClick={this.handleClose}>Complain</MenuItem>
@@ -394,6 +412,23 @@ class Post extends Component<any> {
                         <FormControlLabel
                             className={classes.footerIconLabel}
                             control={
+                                post.reposted
+                                    ? <Mutation mutation={LIKE_REPOST} onCompleted={() => this.setState((state:any) => ({isLiked: !state.isLiked}))} onError={(error)=>console.log(error)}
+                                                refetchQueries={[{query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}}, {query: SEARCH_POST, variables: {searchText: ""}}]}>
+                                        {likeRePost => (
+                                            <Checkbox
+                                                disableRipple
+                                                classes={{
+                                                    root: classes.iconRoot,
+                                                }}
+                                                icon={<FavoriteBorder className={classes.footerIcon} />}
+                                                checkedIcon={<Favorite className={`${classes.footerIcon} ${classes.checkedIcon}`} />}
+                                                value="like"
+                                                checked={this.state.isLiked}
+                                                onChange={() => likeRePost({variables: {id: post.id, userId: authUser.id, like: !this.state.isLiked}})}
+                                            />
+                                        )}
+                                    </Mutation> :
                                 <Mutation mutation={LIKE_POST} onCompleted={() => this.setState((state:any) => ({isLiked: !state.isLiked}))} onError={(error)=>console.log(error)}
                                           refetchQueries={[{query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}}, {query: SEARCH_POST, variables: {searchText: ""}}]}>
                                     {likePost => (

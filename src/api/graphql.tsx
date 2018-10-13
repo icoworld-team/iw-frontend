@@ -203,6 +203,7 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				tags
 			}
 			reposts {
+			    id
 				postId
 				userId
 				userName
@@ -212,6 +213,7 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				content
 				tags
 				reposted
+				likes
 			}
 		}
 	}
