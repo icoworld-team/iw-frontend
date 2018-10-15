@@ -231,8 +231,7 @@ class Profile extends Component<any> {
                                             <ul className={classes.profileInfoList}>
 
                                                 <li className={classes.profileInfoItem}>
-                                                    <img className={classes.avatar} src="profile.jpeg" />
-
+                                                    <img className={classes.avatar} src={user.photo ? `/app/static/images/${user.id}/${user.photo}` : "profile.jpeg"} />
                                                     <Typography className={classes.userName}>{user.name}</Typography>
                                                     <Typography className={classes.userInfoText}>{user.login}</Typography>
                                                     <Typography className={classes.userInfoText}>{user.city ? `${user.country}, ${user.city}` : user.country}</Typography>

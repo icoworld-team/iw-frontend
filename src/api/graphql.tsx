@@ -9,13 +9,14 @@ export const GET_CHATS = gql`
                 id
                 name
             }
-            lastMessage {
+            messages {
                 id
                 author {
                     id
                     name
                 }
                 content
+                read
                 date
             }
         }

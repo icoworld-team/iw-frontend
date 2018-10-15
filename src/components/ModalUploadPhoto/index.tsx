@@ -30,10 +30,7 @@ const styles = () => createStyles({
     }
 });
 
-class ModalSendMessage extends Component<any> {
-    state = {
-        message: ''
-    };
+class ModalUploadPhoto extends Component<any> {
 
     handleChange = ({target: {validity, files: [file]}}:any) => {
         console.log(file);
@@ -41,15 +38,15 @@ class ModalSendMessage extends Component<any> {
             this.props.client.mutate({
                 mutation: UPLOAD_FILE,
                 variables: {file: file}
-            }).then((data:any) => {
-                console.log(data);
+            }).then((response:any) => {
+                console.log(response.data);
                 this.props.client.mutate({
                     mutation: UPDATE_USER,
                     variables: {input: {
                             id: this.props.id,
-                            photo: data.uploadFile
+                            photo: response.data.uploadFile
                         }},
-                }).then((data:any) => console.log(data));
+                }).then((response:any) => console.log(response.data));
             });
         }
     };
@@ -61,7 +58,7 @@ class ModalSendMessage extends Component<any> {
                 <div className={classes.modal}>
                     <div className={classes.modalTitle}>Upload Photo</div>
                     <div className={classes.modalBody}>
-                        <input className={classes.attachment} id="image" type="file"
+                        <input className={classes.attachment} id="image" type="file" accept="image/*"
                                onChange={this.handleChange}/>
                         <label htmlFor="image">
                             <Button color="primary" component="span">Select photo</Button>
@@ -73,4 +70,4 @@ class ModalSendMessage extends Component<any> {
     }
 }
 
-export default withStyles(styles)(withApollo(ModalSendMessage))
+export default withStyles(styles)(withApollo(ModalUploadPhoto))

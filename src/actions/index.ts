@@ -53,6 +53,20 @@ export const addOlderMessages = (messages:any) => {
     }
 };
 
+export const readMessages = (chatId:any) => {
+    return {
+        type: 'READ_MESSAGES',
+        payload: chatId
+    }
+};
+
+export const setInitialMsg = (messages:any) => {
+    return {
+        type: 'SET_INITIAL_MSG',
+        payload: messages
+    }
+};
+
 export const chatUnMount = () => {
     return {
         type: 'CHAT_UNMOUNT'

@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
-import IconButton from '@material-ui/core/IconButton'
 import Scrollbars from 'react-custom-scrollbars';
 import Conversation from '../Conversation'
 import {socket} from "../../api";
 import { withApollo } from 'react-apollo';
 import {connect} from "react-redux";
-import { addMessage, setMessages, addOlderMessages } from "../../actions";
+import {addMessage, setMessages, addOlderMessages, readMessages} from "../../actions";
 import { GET_CHAT_MESSAGES } from '../../api/graphql'
+import ChatInput from '../ChatInput'
 
 
 const fetchMessages = async (client:any, chatId:any) => {
@@ -50,6 +50,19 @@ class ChatWindow extends Component<any> {
         else if (this.props.chatMessages[this.props.user.chatId].length < 10) {
             this.fetchMore()
         }
+        if(this.props.chatMessages[this.props.user.chatId] !== undefined) {
+            let unreadMessages:any = [];
+            this.props.chatMessages[this.props.user.chatId].forEach((message:any) => {
+                if (!message.read && message.author.id !== this.props.authUser.id) unreadMessages.push(message.id)
+            });
+            if (unreadMessages.length > 0) {
+                socket.emit("readMessage", {
+                    messageIds: unreadMessages,
+                    partnerId: this.props.user.parnter.id
+                });
+                this.props.readMessages(this.props.user.chatId);
+            }
+        }
         this.scrollArea.scrollToBottom();
     }
 
@@ -70,6 +83,20 @@ class ChatWindow extends Component<any> {
         // }
         this.scrollArea.scrollToBottom();
         // this.scrollArea.scrollTop(this.scrollArea.getScrollHeight() - this.position);
+
+        if(this.props.chatMessages[this.props.user.chatId] !== undefined) {
+            let unreadMessages:any = [];
+            this.props.chatMessages[this.props.user.chatId].forEach((message:any) => {
+                if (!message.read && message.author.id !== this.props.authUser.id) unreadMessages.push(message.id)
+            });
+            if (unreadMessages.length > 0) {
+                socket.emit("readMessage", {
+                    messageIds: unreadMessages,
+                    partnerId: this.props.user.parnter.id
+                });
+                this.props.readMessages(this.props.user.chatId);
+            }
+        }
     }
 
     fetchMore = async () => {
@@ -98,17 +125,6 @@ class ChatWindow extends Component<any> {
         this.setState({
             [e.target.name]: e.target.value
         })
-    };
-
-    handleSendMessage = () => {
-        socket.emit('newMessage', {
-            text: this.state.message,
-            partnerId: this.props.user.parnter.id
-        });
-        console.log('emitted');
-        this.setState({
-            message: ''
-        });
     };
 
     handleScroll = (values:any) => {
@@ -151,27 +167,16 @@ class ChatWindow extends Component<any> {
                 <Scrollbars ref={(ref)=>{ this.scrollArea = ref;}} autoHide style={{height: 650}} onScrollFrame={this.handleScroll}>
                     <Conversation messages={data} chatId={user.chatId} selectedUser={user}/>
                 </Scrollbars>
-                <div className="chat-footer">
-                    <div className="footer-row">
-                        <div className="chat-form">
-                            <textarea name="message" className="chat-textarea" placeholder="Type and hit enter to send message"
-                                      value={this.state.message} onChange={this.handleChange}/>
-                        </div>
-                        <div className="send-button">
-                            <IconButton aria-label="Send message" onClick={this.handleSendMessage}>
-                                <i className="zmdi  zmdi-mail-send"/>
-                            </IconButton>
-                        </div>
-                    </div>
-                </div>
+                <ChatInput id={user.parnter.id}/>
             </div>
         )
     }
 }
 
-const mapStateToProps = ({chat}:any) => {
+const mapStateToProps = ({chat, auth}:any) => {
     return {
-        chatMessages: chat.chatMessages
+        chatMessages: chat.chatMessages,
+        authUser: auth.authUser,
     }
 };
 
@@ -180,6 +185,7 @@ const mapDispatchToProps = (dispatch:any) => {
         setMessages: (messages:any) => dispatch(setMessages(messages)),
         addMessage: (message:any) => dispatch(addMessage(message)),
         addOlderMessages: (messages:any) => dispatch(addOlderMessages(messages)),
+        readMessages: (chatId:any) => dispatch(readMessages(chatId))
     }
 };
 
