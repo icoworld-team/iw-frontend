@@ -46,7 +46,8 @@ class ModalUploadPhoto extends Component<any> {
                             id: this.props.id,
                             photo: response.data.uploadFile
                         }},
-                }).then((response:any) => console.log(response.data));
+                }).then((response:any) => console.log(response.data))
+                    .then(this.props.onClose)
             });
         }
     };
