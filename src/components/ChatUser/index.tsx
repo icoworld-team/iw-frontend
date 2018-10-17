@@ -17,7 +17,7 @@ export default function ChatUser({user, onSelectUser}:any) {
                     <div className="last-message-time">{chatTime(user.lastMessage.date)}</div>
                 </div>
                 <div className="messages-badge-block">
-                    <div className="messages-badge">{user.unreadMessages}</div>
+                    <div className="messages-badge">{user.newMessages > 0 ? user.newMessages : null}</div>
                 </div>
             </div>
         )

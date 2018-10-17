@@ -83,7 +83,23 @@ export const chat = (state=chatInitialState, action:any) => {
                     [action.payload.id]: [...action.payload.messages, ...state.chatMessages[action.payload.id]]
                 }
             };
-
+        case 'READ_MESSAGES':
+            const readMessages = state.chatMessages[action.payload].map((message:any) => ({
+                ...message,
+                read: true
+            }));
+            return {
+                ...state,
+                chatMessages: {
+                    ...state.chatMessages,
+                    [action.payload]: readMessages
+                }
+            };
+        case 'SET_INITIAL_MSG':
+            return {
+                ...state,
+                chatMessages: action.payload
+            };
         case 'CHAT_UNMOUNT':
             return chatInitialState;
         default:

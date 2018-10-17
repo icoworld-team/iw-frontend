@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-// import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import SnackBar from '@material-ui/core/Snackbar'
-// import { Mutation } from 'react-apollo'
 import {
     UPDATE_USER,
     ADD_JOB,
@@ -98,14 +96,14 @@ class PersonalInfo extends Component<any> {
       checked: false,
       firstName: this.props.user.name.substring(0, this.props.user.name.indexOf(" ")),
       lastName: this.props.user.name.substring(this.props.user.name.indexOf(" ")+1),
-      login: this.props.user.login,
-      country: this.props.user.country,
-      city: this.props.user.city,
-      site: this.props.user.site,
-      facebook: this.props.user.clinks.fb,
-      twitter: this.props.user.clinks.twitter,
-      linkedIn: this.props.user.clinks.linkedin,
-      about: this.props.user.about,
+      login: this.props.user.login || '',
+      country: this.props.user.country || '',
+      city: this.props.user.city || '',
+      site: this.props.user.site || '',
+      facebook: this.props.user.clinks.fb || '',
+      twitter: this.props.user.clinks.twitter || '',
+      linkedIn: this.props.user.clinks.linkedin || '',
+      about: this.props.user.about || '',
       educations: this.props.user.educations.length > 0 ? this.props.user.educations : [{name: '', from: '', to: ''}],
       jobs: this.props.user.jobs.length > 0 ? this.props.user.jobs : [{name: '', from: '', to: ''}],
   };

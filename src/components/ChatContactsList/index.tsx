@@ -18,12 +18,18 @@ class ChatContactsList extends Component<any> {
 
     render() {
         const { authUser, onSelectUser, contactsList, chatMessages} = this.props;
-        const updatedContacts = contactsList.map((contact:any) => (
+        const updatedContacts = contactsList.map((contact:any) => {
+            let count = 0;
+            chatMessages[contact.chatId] && chatMessages[contact.chatId].forEach((message:any) => {
+                if (!message.read && message.author.id !== authUser.id) ++count;
+            });
+            return (
             {
                 ...contact,
-                lastMessage: chatMessages[contact.chatId] ? chatMessages[contact.chatId][chatMessages[contact.chatId].length-1] : contact.lastMessage
+                lastMessage: chatMessages[contact.chatId] ? chatMessages[contact.chatId][chatMessages[contact.chatId].length-1] : contact.messages[contact.messages.length-1],
+                newMessages: count
             }
-        ));
+        )});
         const filteredContacts = updatedContacts.filter((chat:any) => chat.parnter.name.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1);
         const sortedContacts = filteredContacts.slice().sort((a:any, b:any) => {
             return new Date(b.lastMessage.date).getTime() - new Date(a.lastMessage.date).getTime();

@@ -9,13 +9,14 @@ export const GET_CHATS = gql`
                 id
                 name
             }
-            lastMessage {
+            messages {
                 id
                 author {
                     id
                     name
                 }
                 content
+                read
                 date
             }
         }
@@ -203,6 +204,7 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				tags
 			}
 			reposts {
+			    id
 				postId
 				userId
 				userName
@@ -212,6 +214,7 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				content
 				tags
 				reposted
+				likes
 			}
 		}
 	}

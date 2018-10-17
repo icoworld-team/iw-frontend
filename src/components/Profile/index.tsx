@@ -19,6 +19,8 @@ import { SEARCH_POST_IN_PROFILE, GET_USER, GET_SUBSCRIBERS, GET_FOLLOWS } from '
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
+import { endpoint } from "../../api"
+
 const styles = (theme: Theme) => createStyles({
 	profile: {
 		display: 'flex',
@@ -231,8 +233,7 @@ class Profile extends Component<any> {
                                             <ul className={classes.profileInfoList}>
 
                                                 <li className={classes.profileInfoItem}>
-                                                    <img className={classes.avatar} src="profile.jpeg" />
-
+                                                    <img className={classes.avatar} src={user.photo ? `${endpoint}/images/${user.id}/${user.photo}` : "profile.jpeg"} />
                                                     <Typography className={classes.userName}>{user.name}</Typography>
                                                     <Typography className={classes.userInfoText}>{user.login}</Typography>
                                                     <Typography className={classes.userInfoText}>{user.city ? `${user.country}, ${user.city}` : user.country}</Typography>
