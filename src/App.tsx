@@ -7,6 +7,7 @@ import {store, history} from "./store";
 // import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import MainApp from './components/MainApp'
+import LandingPage from './components/LandingPage'
 import SignInPage from './components/SignInPage'
 import SignUpPage from './components/SignUpPage'
 import Contacts from './components/ContactsPage'
@@ -60,6 +61,7 @@ export default function App() {
             <ConnectedRouter history={history}>
                 <ApolloProvider client={client}>
                     <Switch>
+                        <Route path="/landing" component={LandingPage}/>
                         <Route path="/signin" component={SignInPage}/>
                         <Route path="/signup" component={SignUpPage}/>
                         <Route path="/contacts" component={Contacts}/>

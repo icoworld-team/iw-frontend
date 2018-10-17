@@ -113,7 +113,7 @@ class MainAppBar extends Component<any> {
 												label="Investors"
 											/>
 										</Link>
-										<Link className={classes.link} to="#">
+										<Link className={classes.link} to="/projects">
 											<Tab
 												disableRipple
 												classes={{ root: classes.tabRoot, labelContainer: classes.labelContainer, label: classes.label }}

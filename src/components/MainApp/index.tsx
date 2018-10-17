@@ -8,6 +8,7 @@ import InvestorsPage from "../InvestorsPage";
 import NewsPage from "../NewsPage";
 import Profile from "../Profile";
 import PoolSearch from "../PoolSearch";
+import ProjectsPage from "../ProjectsPage";
 import Chat from "../Chat";
 import PoolInfo from "../PoolInfo";
 import Settings from "../ProfileSettings";
@@ -65,6 +66,7 @@ class MainApp extends Component<any> {
                 <Switch>
                     <Route path="/profile" component={Profile}/>
                     <Route path="/pools" component={PoolSearch}/>
+                    <Route path="/projects" component={ProjectsPage}/>
                     <Route exact path="/create-pool" component={PoolCreate}/>
                     <Route exact path="/pool-info" component={PoolInfo}/>
                     <Route exact path="/investors" component={InvestorsPage}/>
