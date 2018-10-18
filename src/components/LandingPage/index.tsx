@@ -6,19 +6,16 @@ const styles = () => createStyles({
   wrapper: {
     minWidth: '1300px',
     width: '100%',
-    minHeight: '100vh',
     backgroundColor: '#fff',
   },
   section: {
     width: '100%',
-    minHeight: '100vh',
     fontFamily: 'Open Sans',
     boxSizing: 'border-box',
   },
   container: {
     width: '1100px',
     margin: '0 auto',
-    minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -78,14 +75,15 @@ const styles = () => createStyles({
     },
   },
   buttonLink: {
+    boxSizing: 'border-box',
     textDecoration: 'none',
-    width: '195px',
-    height: '55px',
+    width: '170px',
+    height: '50px',
     borderRadius: '10px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '20px',
+    fontSize: '16px',
   },
   buttonLinkOutline: {
     border: '1px solid #303546',
@@ -217,14 +215,16 @@ class LandingPage extends React.Component<any> {
 
         <header className={classes.header}>
           <div className={classes.headerContainer}>
-            <a href='/news' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
-              <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
-              <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
-            </a>
+            <Link to="first" smooth={true} offset={-180} duration={500}>
+              <a href='#' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
+                <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
+                <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
+              </a>
+            </Link>
             <div className={classes.headerLinks}>
               <ul className={classes.headerLinksList}>
                 <li className={classes.headerLinksItem}>
-                  <Link to="solutions" smooth={true} duration={500}>Solutions</Link>
+                  <Link to="solutions" smooth={true} offset={-100} duration={500}>Solutions</Link>
                 </li>
                 <li className={classes.headerLinksItem}>
                   <Link to="roadmap" smooth={true} offset={-80} duration={500}>Roadmap</Link>
@@ -238,13 +238,16 @@ class LandingPage extends React.Component<any> {
                 <li className={classes.headerLinksItem}>
                   <Link to="smartContract" smooth={true} duration={500}>Smart contract</Link>
                 </li>
-                <li className={classes.headerLinksItem}>Contacts</li>
+                <li className={classes.headerLinksItem}>
+                  <Link to="contacts" smooth={true} duration={500}>Contacts</Link>
+                </li>
               </ul>
             </div>
           </div>
         </header>
 
-        <div className={classes.section}>
+        <div className={classes.section} style={{paddingTop: '180px', paddingBottom: '70px'}}>
+          <Element name="first" />
           <div className={classes.container}>
             <h2 className={classes.title}>icoWorld is a social network for cryptoinvestors, assets managers and ICO-projects</h2>
             <h3 className={classes.subtitle} style={{marginTop: '60px'}}>Private sale will start in</h3>
@@ -258,7 +261,7 @@ class LandingPage extends React.Component<any> {
           </div>
         </div>
 
-        <div className={classes.section} style={{backgroundColor: '#101010'}}>
+        <div className={classes.section} style={{backgroundColor: '#101010', paddingTop: '80px', paddingBottom: '80px'}}>
           <Element name="solutions" />
           <div className={classes.container}>
             <h2 className={classes.title} style={{color: '#fff'}}>Our solutions:</h2>
@@ -372,7 +375,7 @@ class LandingPage extends React.Component<any> {
           <div className={classes.container}>
             <h2 className={classes.title}>Team</h2>
             
-            <ul className={classes.photosList} style={{marginTop: '20px'}}>
+            <ul className={classes.photosList} style={{marginTop: '40px'}}>
               <li className={classes.photosItem}></li>
               <li className={classes.photosItem}></li>
               <li className={classes.photosItem}></li>
@@ -382,7 +385,7 @@ class LandingPage extends React.Component<any> {
             <Element name="partners" />
             <h2 className={classes.title} style={{marginTop: '80px'}}>Partners</h2>
             
-            <ul className={classes.photosList} style={{marginTop: '20px'}}>
+            <ul className={classes.photosList} style={{marginTop: '40px'}}>
               <li className={classes.photosItem}></li>
               <li className={classes.photosItem}></li>
             </ul>
@@ -390,11 +393,12 @@ class LandingPage extends React.Component<any> {
             <Element name="smartContract" />
             <h2 className={classes.title} style={{marginTop: '80px'}}>Smart Contract</h2>
 
-            <div className={classes.smartContract} style={{marginTop: '20px'}}></div>
+            <div className={classes.smartContract} style={{marginTop: '40px'}}></div>
 
+            <Element name="contacts" />
             <h2 className={classes.title} style={{marginTop: '80px'}}>Join us!</h2>
 
-            <div className={classes.socials} style={{marginTop: '20px'}}>
+            <div className={classes.socials} style={{marginTop: '40px'}}>
               <ul className={classes.socialsList} style={{display: 'flex'}}>
                 <li className={classes.socialsItem}>
                   <a href='#' style={{textDecoration: 'none'}}>
@@ -420,10 +424,12 @@ class LandingPage extends React.Component<any> {
         <footer className={classes.footer} style={{borderTop: '1px solid #f1f1f1',  marginTop: '75px'}}>
           <div className={classes.footerContainer}>
             <div style={{width: '240px', marginRight: '80px'}}>
-              <a href='/news' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
-                <img style={{width: '30px', marginRight: '7px'}} src="./icons/logo.svg" alt="logo"/>
-                <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
-              </a>
+              <Link to="first" smooth={true} offset={-180} duration={500}>
+                <a href='#' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
+                  <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
+                  <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
+                </a>
+              </Link>
               <span className={classes.footerDescription}>A social network for cryptoinvestors, asset managers and ICO-projects</span>
             </div>
             <div className={classes.footerRight} style={{flex: 1}}>
