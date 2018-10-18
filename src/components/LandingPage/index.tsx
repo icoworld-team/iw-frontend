@@ -203,9 +203,67 @@ const styles = () => createStyles({
       textDecoration: 'underline',
     },
   },
+
+  progressBarContainer: {  
+    position: 'relative',
+  },
+  progressText: { 
+    transform: 'translate(-50%, -55%)',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    color: '#171717',
+    zIndex: 1,
+    lineHeight: 1,
+    textAlign: 'center',
+  },
+  amount: {
+    display: 'block',
+    fontSize: '30px',
+    fontWeight: 600,
+  },
+  text: {
+    display: 'block',
+    fontSize: '16px',
+  },
+  progressSvg: {
+    width: '100px',
+    height: '100px',
+    transform: 'rotate(-90deg)',
+  },
+  circle: {
+    strokeWidth: 6,
+  },
+  progressbar: {
+    transition: '1s',
+    strokeDasharray: 283,
+  },
 });
 
 class LandingPage extends React.Component<any> {
+  state = {
+    mins: 0,
+    hours: 0,
+    days: 0,
+};
+
+  componentDidMount() {
+    let to: any = new Date("December 1 2018 00:01:00");
+    let now: any = Date.now();
+      
+    let remaining = to - now;
+    remaining = (remaining / 1000)
+    let min = (remaining / 60);
+    let h = (min / 60);
+    
+    let d = Math.floor(h / 24);
+    let dd = Math.floor(h % 24);
+    this.setState({
+      mins: Math.floor(min % 60),
+      hours: dd,
+      days: d,
+    })
+  }
 
   render() {
     const { classes } = this.props;
@@ -251,7 +309,41 @@ class LandingPage extends React.Component<any> {
           <div className={classes.container}>
             <h2 className={classes.title}>icoWorld is a social network for cryptoinvestors, assets managers and ICO-projects</h2>
             <h3 className={classes.subtitle} style={{marginTop: '60px'}}>Private sale will start in</h3>
-            <div className={classes.buttons} style={{marginTop: '220px'}}>
+            
+            <ul style={{display: 'flex', marginTop: '60px'}}>
+              <li className={classes.progressBarContainer} style={{marginRight: '20px'}}>
+                <span className={classes.progressText}>
+                  <span className={classes.amount}>{this.state.days}</span>
+                  <span className={classes.text}>Days</span>
+                </span>
+                <svg className={classes.progressSvg}>
+                  <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
+                  <circle style={{strokeDashoffset: (283 - (this.state.days / 50) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#171717"></circle>
+                </svg>
+              </li>
+              <li className={classes.progressBarContainer} style={{marginRight: '20px'}}>
+                <span className={classes.progressText}>
+                  <span className={classes.amount}>{this.state.hours}</span>
+                  <span className={classes.text}>Hours</span>
+                </span>
+                <svg className={classes.progressSvg}>
+                  <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
+                  <circle style={{strokeDashoffset: (283 - (this.state.hours / 24) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#171717"></circle>
+                </svg>
+              </li>
+              <li className={classes.progressBarContainer}>
+                <span className={classes.progressText}>
+                  <span className={classes.amount}>{this.state.mins}</span>
+                  <span className={classes.text}>Minutes</span>
+                </span>
+                <svg className={classes.progressSvg}>
+                  <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
+                  <circle style={{strokeDashoffset: (283 - (this.state.mins / 60) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#171717"></circle>
+                </svg>
+              </li>
+            </ul>
+            
+            <div className={classes.buttons} style={{marginTop: '60px'}}>
               <ul className={classes.buttonsList}>
                 <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="#">White Paper</a></li>
                 <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="#">Pitch for Investors</a></li>
