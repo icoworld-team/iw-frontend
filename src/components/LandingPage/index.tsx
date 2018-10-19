@@ -10,7 +10,6 @@ const styles = () => createStyles({
   },
   section: {
     width: '100%',
-    fontFamily: 'Open Sans',
     boxSizing: 'border-box',
   },
   container: {
@@ -40,7 +39,6 @@ const styles = () => createStyles({
   },
   headerLinksItem: {
     marginRight: '20px',
-    fontFamily: 'Open Sans',
     color: '#171717',
     textDecoration: 'none',
     cursor: 'pointer',
@@ -84,6 +82,10 @@ const styles = () => createStyles({
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: '16px',
+    transition: '.3s',
+    '&:hover': {
+      boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+    },
   },
   buttonLinkOutline: {
     border: '1px solid #303546',
@@ -171,7 +173,7 @@ const styles = () => createStyles({
     margin: '0 auto',
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     padding: '20px 0',
   },
   footerDescription: {
