@@ -3,6 +3,7 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import { relativeTime } from '../../utils'
+import {endpoint} from "../../api";
 
 const styles = () => createStyles({
     commentsItem: {
@@ -56,7 +57,7 @@ const styles = () => createStyles({
 function Comment ({classes, comment}:any) {
     return (
         <li className={classes.commentsItem}>
-            <Avatar className={classes.postAvatar} src="profile.jpeg" />
+            <Avatar className={classes.postAvatar} src={comment.avatar ? `${endpoint}/images/${comment.userId}/${comment.avatar}` : "profile.jpeg"} />
             <div className={classes.commentContent}>
                 <div className={classes.userInfo}>
                     <Typography className={classes.userName}>{comment.userName}</Typography>

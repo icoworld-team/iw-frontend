@@ -232,7 +232,7 @@ class Profile extends Component<any> {
 						<div className={`page-content`}>
 
 							<div className={`card ${classes.profileInfo}`} >
-								<Query query={GET_USER} variables={{userId: id}}>
+								<Query query={GET_USER} variables={{userId: id}} fetchPolicy="network-only">
 									{({ loading, error, data }) => {
                                         if(loading) return null;
                                         if(error) return `Error: ${error}`;
@@ -241,7 +241,7 @@ class Profile extends Component<any> {
                                             <ul className={classes.profileInfoList}>
 
                                                 <li className={classes.profileInfoItem}>
-                                                    <img className={classes.avatar} src={user.photo ? `${endpoint}/images/${user.id}/${user.photo}` : "profile.jpeg"} />
+                                                    <img className={classes.avatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
                                                     <Typography className={classes.userName}>{user.name}</Typography>
                                                     <Typography className={classes.userInfoText}>{user.login}</Typography>
                                                     <Typography className={classes.userInfoText}>{user.city ? `${user.country}, ${user.city}` : user.country}</Typography>
@@ -363,7 +363,7 @@ class Profile extends Component<any> {
                                                 const followers = data.getSubscribers.map((user:any) => (
                                                     <Link key={user.id} to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
                                                         <li className={classes.followersItem}>
-                                                            <Avatar className={classes.followerAvatar} src="profile.jpeg" />
+                                                            <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
                                                             <Typography align="center" className={classes.followerName}>{user.name}</Typography>
                                                         </li>
                                                     </Link>
@@ -389,7 +389,7 @@ class Profile extends Component<any> {
                                                 const follows = data.getFollows.map((user:any) => (
                                                     <Link key={user.id} to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
                                                         <li className={classes.followersItem}>
-                                                            <Avatar className={classes.followerAvatar} src="profile.jpeg" />
+                                                            <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
                                                             <Typography align="center" className={classes.followerName}>{user.name}</Typography>
                                                         </li>
                                                     </Link>

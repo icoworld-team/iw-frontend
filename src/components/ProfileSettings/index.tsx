@@ -11,6 +11,7 @@ import { Query } from 'react-apollo'
 import { GET_USER } from '../../api/graphql'
 import { connect } from "react-redux";
 import ModalUploadPhoto from '../ModalUploadPhoto'
+import {endpoint} from "../../api";
 
 const styles = (theme: Theme) => createStyles({
   subHeader: {
@@ -137,7 +138,7 @@ class ProfileSettings extends Component<any> {
                                   <Grid item xs={1} />
 
                                   <Grid item xs={10} className={classes.subHeaderContainer}>
-                                      <img onClick={this.handleOpen} className={classes.avatar} src="profile.jpeg" />
+                                      <img onClick={this.handleOpen} className={classes.avatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
                                       <div className={classes.userInfo}>
                                           <Typography className={classes.userName}>{user.name}</Typography>
                                           <Typography className={classes.userLogin}>@{user.login}</Typography>

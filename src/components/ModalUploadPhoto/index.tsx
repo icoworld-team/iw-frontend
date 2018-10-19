@@ -44,7 +44,8 @@ class ModalUploadPhoto extends Component<any> {
                     mutation: UPDATE_USER,
                     variables: {input: {
                             id: this.props.id,
-                            photo: response.data.uploadFile
+                            photo: response.data.uploadFile,
+                            avatar: response.data.uploadFile
                         }},
                 }).then((response:any) => console.log(response.data))
                     .then(this.props.onClose)

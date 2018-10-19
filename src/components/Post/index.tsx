@@ -33,6 +33,7 @@ import {
     LIKE_POST, SEARCH_POST, REPOST, DELETE_REPOST, LIKE_REPOST
 } from '../../api/graphql'
 import { relativeTime } from '../../utils'
+import { endpoint } from "../../api"
 
 
 const styles = () => createStyles({
@@ -315,7 +316,7 @@ class Post extends Component<any> {
                     <div className={classes.postHeader}>
 
                         <div className={classes.postHeaderLeft}>
-                            <Avatar className={classes.postAvatar} src="profile.jpeg" />
+                            <Avatar className={classes.postAvatar} src={post.avatar ? `${endpoint}/images/${post.userId}/${post.avatar}` : "profile.jpeg"} />
 
                             <div className={classes.postHeaderText}>
                                 <div className={classes.userInfo}>
