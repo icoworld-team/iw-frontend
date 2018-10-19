@@ -3,7 +3,7 @@ import { withStyles, createStyles } from '@material-ui/core/styles';
 
 const styles = () => createStyles({
   wrapper: {
-    minWidth: '1300px',
+    minWidth: '1100px',
     width: '100%',
     backgroundColor: '#fff',
   },
@@ -12,14 +12,14 @@ const styles = () => createStyles({
     boxSizing: 'border-box',
   },
   container: {
-    width: '1100px',
+    width: '800px',
     margin: '0 auto',
     color: '#171717',
   },
   title: {
-    fontSize: '36px',
+    fontSize: '24px',
     fontWeight: 800,
-    lineHeight: '45px',
+    lineHeight: '30px',
     margin: 0,
   },
   subtitle: {
@@ -27,6 +27,7 @@ const styles = () => createStyles({
     fontWeight: 600,
     lineHeight: '22px',
     margin: 0,
+    marginBottom: '10px',
   },
   pageHeading: {
     height: '560px',
@@ -51,15 +52,15 @@ const styles = () => createStyles({
     },
   },
   content: {
-    fontSize: '18px',
-    marginTop: '15px',
+    fontSize: '16px',
+    marginTop: '10px',
   },
   numberList: {
     marginTop: '10px',
   },
 
   info: {
-    fontSize: '18px',
+    fontSize: '16px',
     marginTop: '50px',
   },
   infoLink: {
@@ -71,7 +72,7 @@ const styles = () => createStyles({
   },
 
   footerContainer: {
-    width: '1100px',
+    width: '800px',
     margin: '0 auto',
     display: 'flex',
     justifyContent: 'space-between',
@@ -144,7 +145,7 @@ class LandingPage extends React.Component<any> {
               <div className={classes.content}>
               Today's ICO marketplace has the following problems:
                 <ol className={classes.numberList}>
-                  <li>TMany scam projects</li>
+                  <li>Many scam projects</li>
                   <li>No profitable asset management</li>
                   <li>Total distrust between market stakeholders</li>
                 </ol>
@@ -157,13 +158,11 @@ class LandingPage extends React.Component<any> {
                 We are developing a social network for crypto investors, asset managers, and ICO projects. Our main idea
                 is to collect all ICO-market participants in one space and obtain a scale effect. Based on this effect,
                 we are going to create services that allow users to trust each other and to provide protection from scam projects.
-                <br/>
-                <br/>
+                <br style={{fontSize: '24px'}}/>
                 We are creating a platform that unites many cryptocurrency investors. As a result, there will be a large
                 turnover of investment funds appearing on our platform. Collecting small commission payments from this
                 turnover will allow us to fully maintain the infrastructure that filters out ICO scams.
-                <br/>
-                <br/>
+                <br style={{fontSize: '24px'}}/>
                 We are also creating additional escrow services and an asset management infrastructure.
               </div>
             </li>
@@ -197,7 +196,7 @@ class LandingPage extends React.Component<any> {
               <h2 className={classes.title}>Private Sale</h2>
               <div className={classes.content}>
                 In Private Sale, we sell 10.000.000 WRLD-tokens worth a total amount of $500.000. We will use the raised money for:
-                <ol className={classes.numberList} style={{marginBottom: '10px'}}>
+                <ol className={classes.numberList} style={{marginBottom: '7px'}}>
                   <li>Completion of the social part of MVP to the final version</li>
                   <li>Recruitment of the first users</li>
                   <li>Optimization of marketing expenses</li>
@@ -210,13 +209,11 @@ class LandingPage extends React.Component<any> {
               <h2 className={classes.title}>Estimate profit</h2>
               <div className={classes.content}>
                 For investments, investors will receive a 10% share of the project.
-                <br/>
-                <br/>
+                <br style={{fontSize: '24px'}}/>
                 After the Initial Coin Offering, the estimated enterprise value of the project will be $18 million.
                 The estimated enterprise value of the share of investors will be $1.8 million. We are going to start
                 the ICO in six months after the Private Sale.
-                <br/>
-                <br/>
+                <br style={{fontSize: '24px'}}/>
                 In the case of long-term project success, its enterprise value will exceed $540 million. The share
                 of investors will exceed $54 million. At the same time, our global goal is to create a unicorn
                 company (a company whose value over $1 billion).
@@ -245,8 +242,8 @@ class LandingPage extends React.Component<any> {
         
         <footer className={classes.footer} style={{borderTop: '1px solid #f1f1f1',  marginTop: '75px'}}>
           <div className={classes.footerContainer}>
-            <div style={{width: '240px', marginRight: '80px'}}>
-              <a href='#' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
+            <div style={{width: '240px', marginRight: '55px'}}>
+              <a href='/landing' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
                 <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
                 <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
               </a>
