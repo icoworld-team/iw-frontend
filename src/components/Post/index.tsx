@@ -184,40 +184,6 @@ const styles = () => createStyles({
     },
 });
 
-const postWithTagsReplacer = (text: string, tags: Array<string>) => {
-    let replaceredText = text;
-
-    tags.forEach(function(item) {
-        let pattern = new RegExp('(' + item + ')', 'g')
-        replaceredText = replaceredText.replace(pattern, `<span class="tag">$1</span>`)
-    })
-
-    replaceredText = postReplacer(replaceredText);
-
-    return (
-        replaceredText
-    )
-}
-
-const postReplacer = (text: string) => {
-    let replaceredText = text;
-
-    let linksRegExp = /(https?:\/\/[\w\/?.&-=]+)/g;
-    let newParagraphRegExp = new RegExp('\n', 'g')
-
-    if(linksRegExp.test(replaceredText)) {
-        replaceredText = replaceredText.replace(linksRegExp, `<a href="$1">$1</a>`);
-    }
-
-    if(newParagraphRegExp.test(replaceredText)) {
-        replaceredText = replaceredText.replace(newParagraphRegExp, `</br>`);
-    }
-
-    return (
-        replaceredText
-    )
-}
-
 class Post extends Component<any> {
     state = {
         anchorEl: undefined,
@@ -232,6 +198,48 @@ class Post extends Component<any> {
         tags: [],
         textareaHeight: 58,
     };
+
+    postWithTagsReplacer = (text: string, tags: Array<string>) => {
+        let replaceredText = text;
+    
+        tags.forEach(function(item) {
+            let pattern = new RegExp('(' + item + ')', 'g')
+            let elem = `<span class="tag">$1</span>`
+            replaceredText = replaceredText.replace(pattern, elem)
+        })
+    
+        replaceredText = this.postReplacer(replaceredText);
+    
+        return (
+            replaceredText
+        )
+    }
+    
+    postReplacer = (text: string) => {
+        let replaceredText = text;
+    
+        let linksRegExp = /(https?:\/\/[\w\/?.&-=]+)/g;
+        let newParagraphRegExp = new RegExp('\n', 'g')
+    
+        if(linksRegExp.test(replaceredText)) {
+            replaceredText = replaceredText.replace(linksRegExp, `<a href="$1">$1</a>`);
+        }
+    
+        if(newParagraphRegExp.test(replaceredText)) {
+            replaceredText = replaceredText.replace(newParagraphRegExp, `</br>`);
+        }
+    
+        return (
+            replaceredText
+        )
+    }
+
+    tagSearch = (e: any) => {
+        let elem = e.target
+        if(elem.getAttribute('class') === 'tag') {
+            this.props.updateData(elem.innerHTML)
+        }
+    }
 
     handleClick = (event:any)=> {
         this.setState({ anchorEl: event.currentTarget });
@@ -406,7 +414,7 @@ class Post extends Component<any> {
                                     </div>
                                 </div>
                             )
-                            : <Typography className={classes.postContent} dangerouslySetInnerHTML={{ __html: post.tags.length ? postWithTagsReplacer(post.content, post.tags) : postReplacer(post.content) }}></Typography>}
+                            : <Typography className={classes.postContent} onClick={this.tagSearch} dangerouslySetInnerHTML={{ __html: post.tags.length ? this.postWithTagsReplacer(post.content, post.tags) : this.postReplacer(post.content) }}></Typography>}
 
                     <div className={classes.postFooter}>
                         <FormControlLabel
@@ -453,6 +461,7 @@ class Post extends Component<any> {
                             className={classes.footerIconLabel}
                             control={
                                 <Comment
+                                    style={{color: '#8b8b8b'}}
                                     className={classes.footerIcon}
                                     color="primary"
                                     onClick={this.handleClickShowInput}
@@ -467,6 +476,7 @@ class Post extends Component<any> {
                                 <Mutation mutation={REPOST} onCompleted={() => this.setState({snackBarOpen: true})} onError={(error)=>console.log(error)}>
                                     {rePost => (
                                         <Repeat
+                                            style={{color: '#8b8b8b'}}
                                             className={classes.footerIcon}
                                             color="primary"
                                             onClick={() => rePost({variables: {userId: authUser.id, postId: post.postId}})}
@@ -534,5 +544,11 @@ const mapStateToProps = ({auth}:any) => {
         authUser: auth.authUser
     }
 };
+
+// const mapDispatchToProps = (dispatch:any) => {
+//     return {
+//         tags: (tags:any) => dispatch(tagSearch(tags))
+//     }
+// };
 
 export default connect(mapStateToProps)(withStyles(styles)(Post))

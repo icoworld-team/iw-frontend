@@ -5,7 +5,6 @@ import Tab from '@material-ui/core/Tab';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import { SEARCH_POST, GET_TOP_USERS, GET_FOLLOWS_POSTS, GET_NEWS } from '../../api/graphql'
 import { Query } from 'react-apollo';
 import { connect } from "react-redux";
@@ -131,6 +130,10 @@ const styles = (theme: Theme) => createStyles({
     fontSize: '10px',
     fontWeight: 600,
   },
+
+  noActivity: {
+		padding: '10px'
+	},
 });
 
 
@@ -139,6 +142,10 @@ class News extends Component<any> {
     tab: 0,
     searchText: ""
   };
+
+  updateData = (value: String) => {
+    this.setState({ searchText: value })
+  }
 
   handleChange =(event:any, value:any) => {
     this.setState({
@@ -151,6 +158,13 @@ class News extends Component<any> {
         searchText: e.target.value
     });
   };
+
+  tagSearch = (e: any) => {
+    let elem = e.target.innerHTML
+    this.setState({
+      searchText: elem
+    })
+  }
   
   render() {
     const { classes } = this.props;
@@ -240,8 +254,9 @@ class News extends Component<any> {
                     {({ loading, error, data }) => {
                         if(loading) return <div>Loading</div>;
                         if(error) return `Error: ${error}`;
+                        if(data.getFollowsPosts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
                         return (
-                            <PostList posts={data.getFollowsPosts}/>
+                            <PostList updateData={this.updateData} posts={data.getFollowsPosts}/>
                         )
                     }}
                 </Query>}
@@ -251,8 +266,9 @@ class News extends Component<any> {
                     {({ loading, error, data }) => {
                         if(loading) return <div>Loading</div>;
                         if(error) return `Error: ${error}`;
+                        if(data.searchPost.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
                         return (
-                            <PostList posts={data.searchPost}/>
+                            <PostList updateData={this.updateData} posts={data.searchPost}/>
                         )
                     }}
                 </Query>}
@@ -262,8 +278,9 @@ class News extends Component<any> {
                     {({ loading, error, data }) => {
                         if(loading) return <div>Loading</div>;
                         if(error) return `Error: ${error}`;
+                        if(data.searchPost.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
                         return (
-                            <PostList posts={data.searchPost} authUserId={null}/>
+                            <PostList updateData={this.updateData} posts={data.searchPost} authUserId={null}/>
                         )
                     }}
                 </Query>}
@@ -300,24 +317,10 @@ class News extends Component<any> {
                     <Typography className={`card-title`}>Tags</Typography>
                   </div>
                   <ul className={classes.tagList}>
-                    <li className={classes.tagItem}><Typography className={classes.tagItemText}>#crypto</Typography></li>
-                    <li className={classes.tagItem}><Typography className={classes.tagItemText}>#blockchain</Typography></li>
+                    <li className={classes.tagItem}><Typography onClick={this.tagSearch} className={classes.tagItemText}>#crypto</Typography></li>
+                    <li className={classes.tagItem}><Typography onClick={this.tagSearch} className={classes.tagItemText}>#blockchain</Typography></li>
+                    <li className={classes.tagItem}><Typography onClick={this.tagSearch} className={classes.tagItemText}>#tag</Typography></li>
                   </ul>
-                </div>
-
-                <div className={`card`}>
-                  <div className={`card-heading`}>
-                    <Typography className={`card-title`}>Language</Typography>
-                  </div>
-                  <div className={classes.languageContent}>
-                    <ul className={classes.languageList}>
-                      <li className={classes.languageItem}>English</li>
-                      <li className={classes.languageItem}>Русский</li>
-                    </ul>
-                    <Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.addButton}`}>
-                      Add
-                    </Button>
-                  </div>
                 </div>
 
               </div>
@@ -334,7 +337,8 @@ class News extends Component<any> {
 
 const mapStateToProps = ({auth}:any) => {
   return {
-    authUser: auth.authUser
+    authUser: auth.authUser,
+    // tags: tagSearch.tags
   }
 };
 

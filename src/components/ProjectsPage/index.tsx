@@ -84,7 +84,7 @@ const styles = () => createStyles({
 	},
 
 	noResults: {
-		padding: '15px',
+		padding: '36px 15px',
 	},
 });
   

@@ -9,7 +9,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-import PortfolioList from '../PortfolioList';
 import PostList from '../PostList';
 import PostInput from '../PostInput';
 import FollowButton from '../FollowButton'
@@ -176,6 +175,11 @@ const styles = (theme: Theme) => createStyles({
 		textAlign: 'center',
 		padding: '10px'
 	},
+
+	noDisplay: {
+		display: 'none',
+		cursor: 'default',
+	},
 });
 
 class Profile extends Component<any> {
@@ -185,6 +189,10 @@ class Profile extends Component<any> {
 		hInput: "",
 		tags: [],
 	};
+
+	updateData = (value: String) => {
+		this.setState({ searchText: value })
+	  }
 
 	handleChange =(event:any, value:any)=>{
 		this.setState({
@@ -302,9 +310,10 @@ class Profile extends Component<any> {
 									<Tabs
 										value={this.state.tab}
 										onChange={this.handleChange}
-										classes={{ indicator: `tabs-indicator`, root: `tabs-root` }}
+										classes={{ indicator: `tabs-indicator ${classes.noDisplay}`, root: `tabs-root` }}
 										>
 										<Tab
+											style={{cursor: 'default'}}
 											disableRipple
 											classes={{
 												root: `tab-root`,
@@ -312,15 +321,6 @@ class Profile extends Component<any> {
 												labelContainer: `tab-label-container`
 											}}
 											label="Activity"
-										/>
-										<Tab
-											disableRipple
-											classes={{
-												root: `tab-root`,
-												label: `tab-label`,
-												labelContainer: `tab-label-container`
-											}}
-											label="Portfolio"
 										/>
 									</Tabs>
 									<TextField InputProps={{ disableUnderline: true, classes: {input: `search-input input`} }} 
@@ -338,13 +338,12 @@ class Profile extends Component<any> {
 													if(error) return `Error: ${error}`;
 													if(data.searchPostInProfile.posts.length == 0 && data.searchPostInProfile.reposts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No activity</Typography></div>
 													return (
-														<PostList posts={data.searchPostInProfile.posts.concat(data.searchPostInProfile.reposts)}/>
+														<PostList updateData={this.updateData} posts={data.searchPostInProfile.posts.concat(data.searchPostInProfile.reposts)}/>
 													)
 												}}
 											</Query>
 										</>
 									}
-									{this.state.tab === 1 && <PortfolioList/>}
 								</div>
 							</div>
 

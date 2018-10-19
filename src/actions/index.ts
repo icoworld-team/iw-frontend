@@ -72,3 +72,10 @@ export const chatUnMount = () => {
         type: 'CHAT_UNMOUNT'
     }
 };
+
+export const tagSearch = (tag:any) => {
+    return {
+        type: 'SEARCH',
+        payload: tag
+    }
+};

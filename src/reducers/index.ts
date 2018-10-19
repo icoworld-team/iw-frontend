@@ -2,6 +2,21 @@ const authInitialState = {
   authUser: JSON.parse((localStorage.getItem('user')) as string)
 };
 
+export const tagSearch = (state={
+    tags: {
+        tag: 'TAG'
+    }
+}, action:any) => {
+    switch (action.type) {
+        case 'SEARCH':
+            return {
+                tag: action.payload
+            };
+        default:
+            return state;
+    }
+};
+
 export const auth = (state=authInitialState, action:any) => {
     switch (action.type) {
         case 'SIGNIN':

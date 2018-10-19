@@ -163,13 +163,13 @@ class PostInput extends Component<any> {
                 </Mutation>
                 <input className={classes.attachment} id="image-file" type="file" accept="image/*"/>
                 <label htmlFor="image-file">
-                    <IconButton color="primary" component="span">
+                    <IconButton color="primary" component="span" style={{color: '#8b8b8b'}}>
                         <InsertPhoto/>
                     </IconButton>
                 </label>
                 <input className={classes.attachment} id="file" type="file"/>
                 <label htmlFor="file">
-                    <IconButton color="primary" component="span">
+                    <IconButton color="primary" component="span" style={{color: '#8b8b8b'}}>
                         <InsertDriveFile/>
                     </IconButton>
                 </label>
