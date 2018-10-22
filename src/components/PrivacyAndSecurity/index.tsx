@@ -87,7 +87,6 @@ class PrivacyAndSecurity extends Component<any> {
       this.props.client.mutate({
           mutation: SET_PM_SENDERS,
           variables: {
-            userId: this.props.user.id,
             mode: value
           }
       }).then((data:any)=> console.log(data));
@@ -96,7 +95,6 @@ class PrivacyAndSecurity extends Component<any> {
       this.props.client.mutate({
           mutation: SET_COMMENTERS,
           variables: {
-            userId: this.props.user.id,
             mode: value
           }
       }).then((data:any)=> console.log(data));
@@ -171,7 +169,7 @@ class PrivacyAndSecurity extends Component<any> {
                                   checked={this.state.twoFactorAuth}
                                   value="checked"
                                   color="primary"
-                                  onChange={() => updateUser({variables: {input: {id: user.id, twoFactorAuth: !this.state.twoFactorAuth}}})}
+                                  onChange={() => updateUser({variables: {input: {twoFactorAuth: !this.state.twoFactorAuth}}})}
                               />
                           )}
                       </Mutation>

@@ -92,7 +92,6 @@ class GeneralSettings extends Component<any> {
     this.props.client.mutate({
       mutation: UPDATE_USER,
       variables: {input: {
-              id: this.props.user.id,
               language: value
           }}
       }).then((data:any) => console.log('update language'));
@@ -151,7 +150,7 @@ class GeneralSettings extends Component<any> {
                     <Mutation mutation={UPDATE_USER} onCompleted={() => this.setState({newEmail: '', isChangeEmail: false})} onError={(error)=>console.log(error)}>
                         {updateUser => (
                             <Button variant="contained" color="secondary" className={`button fill-button ${classes.profileSettingsItemSave}`}
-                                    onClick={() => updateUser({variables: {input: {id: user.id, email: this.state.newEmail}}})}>
+                                    onClick={() => updateUser({variables: {input: {email: this.state.newEmail}}})}>
                                 Save
                             </Button>
                         )}
@@ -221,7 +220,7 @@ class GeneralSettings extends Component<any> {
                     <Mutation mutation={UPDATE_USER} onCompleted={() => this.setState({newNumber: '', isChangePhone: false})} onError={(error)=>console.log(error)}>
                         {updateUser => (
                             <Button variant="contained" color="secondary" className={`button fill-button ${classes.profileSettingsItemSave}`}
-                                    onClick={() => updateUser({variables: {input: {id: user.id, phone: this.state.newNumber}}})}>
+                                    onClick={() => updateUser({variables: {input: {phone: this.state.newNumber}}})}>
                                 Save
                             </Button>
                         )}
