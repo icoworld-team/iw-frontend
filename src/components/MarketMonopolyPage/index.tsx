@@ -55,9 +55,6 @@ const styles = () => createStyles({
     fontSize: '16px',
     marginTop: '10px',
   },
-  quote: {
-    fontWeight: 800,
-  },
   numberList: {
     marginTop: '10px',
     marginBottom: '10px'
