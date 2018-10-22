@@ -48,6 +48,7 @@ export const GET_INVESTORS = gql`
             id
             name
             login
+            avatar
             countOfFollowers
         }
     }
@@ -60,6 +61,7 @@ export const SEARCH_POST = gql`
             userId
             userName
             userLogin
+            avatar
             date
             edited
 			content
@@ -77,6 +79,7 @@ export const GET_FOLLOWS_POSTS = gql`
             userId
 			userName
 			userLogin
+			avatar
             date
             edited
 			content
@@ -96,6 +99,8 @@ export const GET_TOP_USERS = gql`
 			country
 			city
 			top
+			photo
+			avatar
         }
     }
 `;
@@ -166,6 +171,7 @@ export const CREATE_COMMENT = gql`
 			postId
 			userName
 			userLogin
+			avatar
             date
             edited
             content
@@ -181,6 +187,7 @@ export const GET_COMMENTS = gql`
 			postId
 			userName
 			userLogin
+			avatar
 			date
 			edited
 			content
@@ -196,6 +203,7 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				userId
 				userName
 				userLogin
+				avatar
 				date
 				edited
 				content
@@ -209,6 +217,7 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				userId
 				userName
 				userLogin
+				avatar
 				date
 				edited
 				content
@@ -227,6 +236,7 @@ export const CREATE_POST = gql`
             userId
             userName
             userLogin
+            avatar
             date
             edited
             content
@@ -287,6 +297,8 @@ export const GET_SUBSCRIBERS = gql`
 		getSubscribers(userId: $userId) {
 			id
 			name
+			photo
+			avatar
 		}
 	}
 `;
@@ -296,6 +308,8 @@ export const GET_FOLLOWS = gql`
 		getFollows(userId: $userId) {
 			id
 			name
+			photo
+			avatar
 		}
 	}
 `;
@@ -442,5 +456,11 @@ export const UPLOAD_FILE = gql`
 export const LIKE_REPOST = gql`
 	mutation likeRePost($id: ID!, $userId: ID!, $like: Boolean!) {
 		likeRePost(id: $id, userId: $userId, like: $like)
+	}
+`;
+
+export const GET_POPULAR_TAGS = gql`
+	query getPopularTags($from: String!, $to: String!) {
+		getPopularTags(from: $from, to: $to)
 	}
 `;

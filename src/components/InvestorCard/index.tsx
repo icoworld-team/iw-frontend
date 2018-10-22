@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button'
 import Avatar from '@material-ui/core/Avatar'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 
-import { socket } from '../../api'
+import {endpoint, socket} from '../../api'
 import ModalSendMessage from '../ModalSendMessage'
 import { Link } from "react-router-dom";
 
@@ -110,7 +110,7 @@ class InvestorCard extends Component<any> {
                 <Link to={{pathname: "/profile", state: {id: data.id}}} className={classes.link}>
                     <div className={classes.userInfo}>
                         <div className={classes.avatarBlock}>
-                            <Avatar className={classes.avatar} src="profile.jpeg"/>
+                            <Avatar className={classes.avatar} src={data.avatar ? `${endpoint}/images/${data.id}/${data.avatar}` : "profile.jpeg"}/>
                         </div>
                         <Typography className={classes.nameText} variant="title" align="center">{data.name}</Typography>
                         {/* <Typography className={classes.cardText} variant="caption" align="center">{data.login}</Typography> */}

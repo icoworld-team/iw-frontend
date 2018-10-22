@@ -7,6 +7,7 @@ import { GET_SUBSCRIBERS } from '../../api/graphql'
 import { Query } from 'react-apollo';
 import FollowButton from '../FollowButton'
 import { Link } from "react-router-dom";
+import {endpoint} from "../../api";
 
 const styles = () => createStyles({
   author: {
@@ -67,7 +68,7 @@ class Author extends Component<any> {
                     <Link to={{pathname: "/profile", state: {id: populars.id}}} className={classes.link}>
                       <div className={classes.authorInfo}>
                         <div>
-                          <Avatar className={classes.avatar} src="profile.jpeg" />
+                          <Avatar className={classes.avatar} src={populars.avatar ? `${endpoint}/images/${populars.id}/${populars.avatar}` : "profile.jpeg"} />
                         </div>
 
                         <div className={classes.authorHeaderText}>
