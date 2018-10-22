@@ -8,6 +8,7 @@ import {store, history} from "./store";
 import { ApolloProvider } from 'react-apollo'
 import MainApp from './components/MainApp'
 import LandingPage from './components/LandingPage'
+import MarketMonopolyPage from './components/MarketMonopolyPage'
 import PitchForInvestorsPage from './components/PitchForInvestorsPage'
 import SignInPage from './components/SignInPage'
 import SignUpPage from './components/SignUpPage'
@@ -63,6 +64,7 @@ export default function App() {
                 <ApolloProvider client={client}>
                     <Switch>
                         <Route path="/landing" component={LandingPage}/>
+                        <Route path="/market-monopoly" component={MarketMonopolyPage}/>
                         <Route path="/pitch" component={PitchForInvestorsPage}/>
                         <Route path="/signin" component={SignInPage}/>
                         <Route path="/signup" component={SignUpPage}/>

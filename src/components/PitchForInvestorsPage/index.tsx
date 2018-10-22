@@ -110,7 +110,7 @@ const styles = () => createStyles({
   },
 });
 
-class LandingPage extends React.Component<any> {
+class PitchForInvestorsPage extends React.Component<any> {
 
   render() {
     const { classes } = this.props;
@@ -282,4 +282,4 @@ class LandingPage extends React.Component<any> {
   }
 }
 
-export default withStyles(styles)(LandingPage)
+export default withStyles(styles)(PitchForInvestorsPage)

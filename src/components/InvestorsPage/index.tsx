@@ -17,9 +17,9 @@ const styles = () => createStyles({
         marginBottom: 0,
     },
     investors: {
-        maxWidth: '786px',
+        maxWidth: '784px',
         marginRight: '15px',
-        flexBasis: '786px',
+        flexBasis: '784px',
     },
     investorsFilter: {
         flex: 1,
@@ -51,7 +51,6 @@ const styles = () => createStyles({
         flex: 1,
     },
   });
-
 
 class InvestorsPage extends React.Component<any> {
     state = {
