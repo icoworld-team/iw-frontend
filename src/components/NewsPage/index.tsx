@@ -5,7 +5,7 @@ import Tab from '@material-ui/core/Tab';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import { SEARCH_POST, GET_TOP_USERS, GET_FOLLOWS_POSTS, GET_NEWS } from '../../api/graphql'
+import {SEARCH_POST, GET_TOP_USERS, GET_FOLLOWS_POSTS, GET_NEWS, GET_POPULAR_TAGS} from '../../api/graphql'
 import { Query } from 'react-apollo';
 import { connect } from "react-redux";
 import { relativeTime } from '../../utils'
@@ -176,6 +176,9 @@ class News extends Component<any> {
       userId: this.props.authUser.id,
     };
 
+    let date = new Date();
+    const weekAgo = date.setDate(date.getDate()-7);
+
     return (
       <>
         <Grid container spacing={0}>
@@ -317,14 +320,19 @@ class News extends Component<any> {
                     <Typography className={`card-title`}>Tags</Typography>
                   </div>
                   <ul className={classes.tagList}>
-                    <li className={classes.tagItem}><Typography onClick={this.tagSearch} className={classes.tagItemText}>#crypto</Typography></li>
-                    <li className={classes.tagItem}><Typography onClick={this.tagSearch} className={classes.tagItemText}>#blockchain</Typography></li>
-                    <li className={classes.tagItem}><Typography onClick={this.tagSearch} className={classes.tagItemText}>#tag</Typography></li>
+                      <Query query={GET_POPULAR_TAGS} variables={{from: new Date(weekAgo).toISOString(), to: new Date().toISOString()}}>
+                          {({ loading, error, data }) => {
+                              if(loading) return <div>Loading</div>;
+                              if(error) return `Error: ${error}`;
+                              const tags = data.getPopularTags.map((tag:any, index:number) => (
+                                  <li key={index} className={classes.tagItem}><Typography onClick={this.tagSearch} className={classes.tagItemText}>{tag}</Typography></li>
+                              ));
+                              return tags;
+                          }}
+                      </Query>
                   </ul>
                 </div>
-
               </div>
-
             </div>
             </Grid>
 

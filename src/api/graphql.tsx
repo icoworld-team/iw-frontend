@@ -68,6 +68,7 @@ export const SEARCH_POST = gql`
 			comments
             likes
             tags
+            attachments
         }
     }
 `;
@@ -86,6 +87,7 @@ export const GET_FOLLOWS_POSTS = gql`
 			comments
             likes
             tags
+            attachments
         }
     }
 `;
@@ -210,6 +212,7 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				likes
 				comments
 				tags
+				attachments
 			}
 			reposts {
 			    id
@@ -243,6 +246,7 @@ export const CREATE_POST = gql`
             comments
             likes
             tags
+            attachments
         }
     }
 `;
@@ -462,5 +466,11 @@ export const LIKE_REPOST = gql`
 export const GET_POPULAR_TAGS = gql`
 	query getPopularTags($from: String!, $to: String!) {
 		getPopularTags(from: $from, to: $to)
+	}
+`;
+
+export const ADD_IMAGE = gql`
+	mutation addImage($postId: ID!, $imageId: ID!) {
+		addImage(postId: $postId, imageId: $imageId)
 	}
 `;
