@@ -4,17 +4,19 @@ export const GET_CHATS = gql`
     query getChats($userId: ID!) {
         getChats(userId: $userId) {
             chatId
+            countUnreadMessages
             parnter {
                 id
                 name
             }
-            lastMessage {
+            messages {
                 id
                 author {
                     id
                     name
                 }
                 content
+                read
                 date
             }
         }
@@ -24,13 +26,18 @@ export const GET_CHATS = gql`
 export const GET_CHAT_MESSAGES = gql`
     query getChatMessages($input: ChatInput!) {
         getChatMessages(input: $input) {
-            id
-            author {
+            nextMessages,
+            messages {
                 id
-                name
+                author {
+                    id
+                    name
+                }
+                content
+                read
+                date
             }
-            content
-            date
+            
         }
     }
 `;
@@ -41,6 +48,7 @@ export const GET_INVESTORS = gql`
             id
             name
             login
+            avatar
             countOfFollowers
         }
     }
@@ -52,10 +60,47 @@ export const SEARCH_POST = gql`
             postId
             userId
             userName
+            userLogin
+            avatar
             date
             edited
-            content
+			content
+			comments
+            likes
             tags
+        }
+    }
+`;
+
+export const GET_FOLLOWS_POSTS = gql`
+    query getFollowsPosts($userId: ID!) {
+        getFollowsPosts(userId: $userId) {
+            postId
+            userId
+			userName
+			userLogin
+			avatar
+            date
+            edited
+			content
+			comments
+            likes
+            tags
+        }
+    }
+`;
+
+export const GET_TOP_USERS = gql`
+    query getTopUsers($flag: Boolean!) {
+        getTopUsers(flag: $flag) {
+            id
+			name
+			login
+			country
+			city
+			top
+			photo
+			avatar
         }
     }
 `;
@@ -126,6 +171,7 @@ export const CREATE_COMMENT = gql`
 			postId
 			userName
 			userLogin
+			avatar
             date
             edited
             content
@@ -141,6 +187,7 @@ export const GET_COMMENTS = gql`
 			postId
 			userName
 			userLogin
+			avatar
 			date
 			edited
 			content
@@ -156,21 +203,27 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				userId
 				userName
 				userLogin
+				avatar
 				date
 				edited
 				content
+				likes
+				comments
 				tags
 			}
 			reposts {
+			    id
 				postId
 				userId
 				userName
 				userLogin
+				avatar
 				date
 				edited
 				content
 				tags
 				reposted
+				likes
 			}
 		}
 	}
@@ -183,9 +236,12 @@ export const CREATE_POST = gql`
             userId
             userName
             userLogin
+            avatar
             date
             edited
             content
+            comments
+            likes
             tags
         }
     }
@@ -199,14 +255,24 @@ export const GET_USER = gql`
 			login
 			email
 			phone
+			photo
+			avatar
 			country
 			city
+			site
+			clinks {
+			    fb
+			    linkedin
+			    twitter
+			}
 			educations {
+			    id
 				name
 				from
 				to
 			}
 			jobs {
+				id
 				name
 				from
 				to
@@ -217,6 +283,10 @@ export const GET_USER = gql`
 				address
 			}
 			notifications
+			pmsenders
+			commenters
+			twoFactorAuth
+			about
 			language
 		}
 	}
@@ -227,6 +297,8 @@ export const GET_SUBSCRIBERS = gql`
 		getSubscribers(userId: $userId) {
 			id
 			name
+			photo
+			avatar
 		}
 	}
 `;
@@ -236,6 +308,159 @@ export const GET_FOLLOWS = gql`
 		getFollows(userId: $userId) {
 			id
 			name
+			photo
+			avatar
 		}
+	}
+`;
+
+export const GET_NEWS = gql`
+	query getNews {
+		getNews {
+			id
+			title
+			date
+		}
+	}
+`;
+
+export const FOLLOW_USER = gql`
+	mutation followUser($userId: ID!, $fanId: ID!) {
+		followUser(userId: $userId, fanId: $fanId)
+	}
+`;
+
+export const UNFOLLOW_USER = gql`
+	mutation unfollowUser($userId: ID!, $fanId: ID!) {
+		unfollowUser(userId: $userId, fanId: $fanId)
+	}
+`;
+
+export const UPDATE_USER = gql`
+	mutation updateUser($input: UserInput!) {
+		updateUser(input: $input) {
+		    id
+			name
+			login
+			email
+			phone
+			photo
+			avatar
+			country
+			city
+			site
+			clinks {
+			    fb
+			    linkedin
+			    twitter
+			}
+			educations {
+				id
+				name
+				from
+				to
+			}
+			jobs {
+				id
+				name
+				from
+				to
+			}
+			wallets {
+				id
+				kind
+				address
+			}
+			notifications
+			pmsenders
+			commenters
+			twoFactorAuth
+			about
+			language
+		}
+	}
+`;
+
+export const ADD_JOB = gql`
+	mutation addJob($input: ExpirienceInput!,) {
+		addJob(input: $input)
+	}
+`;
+
+export const UPDATE_JOB = gql`
+	mutation updateJob($userId: ID!, $id: ID!, $input: ExpirienceInput!) {
+		updateJob(userId: $userId, id: $id, input: $input)
+	}
+`;
+
+export const REMOVE_JOB = gql`
+	mutation removeJob($userId: ID!, $id: ID!) {
+		removeJob(userId: $userId, id: $id)
+	}
+`;
+
+export const ADD_EDUCATION = gql`
+	mutation addEducation($input: ExpirienceInput!,) {
+		addEducation(input: $input)
+	}
+`;
+
+export const UPDATE_EDUCATION = gql`
+	mutation updateEducation($userId: ID!, $id: ID!, $input: ExpirienceInput!) {
+		updateEducation(userId: $userId, id: $id, input: $input)
+	}
+`;
+
+export const REMOVE_EDUCATION = gql`
+	mutation removeEducation($userId: ID!, $id: ID!) {
+		removeEducation(userId: $userId, id: $id)
+	}
+`;
+
+export const LIKE_POST = gql`
+	mutation likePost($input: PostLikeInput!) {
+		likePost(input: $input)
+	}
+`;
+
+export const REPOST = gql`
+	mutation rePost($userId: ID!, $postId: ID!) {
+		rePost(userId: $userId, postId: $postId)
+	}
+`;
+
+export const DELETE_REPOST = gql`
+	mutation deleteRePost($id: ID!) {
+		deleteRePost(id: $id)
+	}
+`;
+
+export const SET_PM_SENDERS = gql`
+	mutation setPMSendersMode($userId: ID!, $mode: String!) {
+		setPMSendersMode(userId: $userId, mode: $mode)
+	}
+`;
+
+export const SET_COMMENTERS = gql`
+	mutation setCommentersMode($userId: ID!, $mode: String!) {
+		setCommentersMode(userId: $userId, mode: $mode)
+	}
+`;
+
+export const UPLOAD_FILE = gql`
+	mutation uploadFile($file: Upload!) {
+		uploadFile(file: $file)
+	}
+`;
+
+export const LIKE_REPOST = gql`
+	mutation likeRePost($id: ID!, $userId: ID!, $like: Boolean!) {
+		likeRePost(id: $id, userId: $userId, like: $like)
+	}
+`;
+
+export const GET_POPULAR_TAGS = gql`
+	query getPopularTags($from: String!, $to: String!) {
+		getPopularTags(from: $from, to: $to)
 	}
 `;

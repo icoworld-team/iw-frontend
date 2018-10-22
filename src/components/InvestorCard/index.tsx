@@ -4,9 +4,13 @@ import Button from '@material-ui/core/Button'
 import Avatar from '@material-ui/core/Avatar'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 
-import { socket } from '../../api'
+import {endpoint, socket} from '../../api'
 import ModalSendMessage from '../ModalSendMessage'
 import { Link } from "react-router-dom";
+
+import { Query } from 'react-apollo'
+import { GET_SUBSCRIBERS } from '../../api/graphql'
+import FollowButton from '../FollowButton'
 
 const styles = () => createStyles({
     card: {
@@ -48,14 +52,16 @@ const styles = () => createStyles({
         fontSize: '10px',
         textTransform: 'none',
         minHeight: '20px',
+        marginBottom: '10px'
     },
     followButton: {
-        marginBottom: '10px',
+
         backgroundColor: '#980000',
     },
     messageButton: {
         borderColor: '#980000',
         color: '#980000',
+        marginBottom: '0px'
     },
     link: {
         textDecoration: 'none'
@@ -104,19 +110,23 @@ class InvestorCard extends Component<any> {
                 <Link to={{pathname: "/profile", state: {id: data.id}}} className={classes.link}>
                     <div className={classes.userInfo}>
                         <div className={classes.avatarBlock}>
-                            <Avatar className={classes.avatar} src="profile.jpeg"/>
+                            <Avatar className={classes.avatar} src={data.avatar ? `${endpoint}/images/${data.id}/${data.avatar}` : "profile.jpeg"}/>
                         </div>
                         <Typography className={classes.nameText} variant="title" align="center">{data.name}</Typography>
                         {/* <Typography className={classes.cardText} variant="caption" align="center">{data.login}</Typography> */}
-                        <Typography className={classes.cardText} variant="caption" align="center">@hardcode_login</Typography>
+                        <Typography className={classes.cardText} variant="caption" align="center">@{data.login}</Typography>
                         <Typography className={classes.cardText} variant="caption" align="center">{data.countOfFollowers} Followers</Typography>
                     </div>
                 </Link>
                 <div className={classes.cardBtns}>
-                    <Button variant="contained" color="secondary" size="small" className={`${classes.button} ${classes.followButton}`}>
-                        Follow
-                    </Button>
-                    <Button variant="outlined" color="secondary" size="small" className={`${classes.button} ${classes.messageButton}`} onClick={this.handleOpen}>
+                    <Query query={GET_SUBSCRIBERS} variables={{userId: data.id}}>
+                        {(({ loading, error, data }) => {
+                            if(loading) return null;
+                            if(error) return `Error: ${error}`;
+                            return <FollowButton id={this.props.data.id} followers={data.getSubscribers} style={classes.button}/>
+                        })}
+                    </Query>
+                    <Button variant="outlined" color="secondary" className={`${classes.button} ${classes.messageButton}`} onClick={this.handleOpen}>
                         Message
                     </Button>
                 </div>

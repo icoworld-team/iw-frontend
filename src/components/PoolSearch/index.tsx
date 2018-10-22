@@ -10,7 +10,6 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 
-import MainAppBar from '../MainAppBar';
 import PoolCard from '../PoolCard';
 import { withApollo } from 'react-apollo'
 import { POOL_SEARCH } from '../../api/graphql'
@@ -128,8 +127,6 @@ class poolsSearch extends Component<any> {
 
 		return (
 			<>
-				<MainAppBar/>
-
 				<div className={classes.subHeader}>
 					<Grid container spacing={0}>
 						<Grid item xs={1} />

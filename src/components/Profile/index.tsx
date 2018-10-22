@@ -7,20 +7,18 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-import MainAppBar from '../MainAppBar';
-import PortfolioList from '../PortfolioList';
 import PostList from '../PostList';
 import PostInput from '../PostInput';
+import FollowButton from '../FollowButton'
 
 import { Query } from 'react-apollo'
 import { SEARCH_POST_IN_PROFILE, GET_USER, GET_SUBSCRIBERS, GET_FOLLOWS } from '../../api/graphql'
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-// import TestPost from '../testPost';
+import { endpoint } from "../../api"
 
 const styles = (theme: Theme) => createStyles({
 	profile: {
@@ -136,7 +134,6 @@ const styles = (theme: Theme) => createStyles({
 		lineHeight: '18px',
 	},
 
-
 	cardBtns: {
 		display: 'flex',
 		marginTop: '10px',
@@ -177,18 +174,36 @@ const styles = (theme: Theme) => createStyles({
     noActivity: {
 		textAlign: 'center',
 		padding: '10px'
-	}
+	},
+
+	noDisplay: {
+		display: 'none',
+		cursor: 'default',
+	},
 });
 
 class Profile extends Component<any> {
 	state={
-		tab: 0
+		tab: 0,
+		searchText: "",
+		hInput: "",
+		tags: [],
 	};
+
+	updateData = (value: String) => {
+		this.setState({ searchText: value })
+	  }
 
 	handleChange =(event:any, value:any)=>{
 		this.setState({
 			tab: value
 		});
+	};
+
+    handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            searchText: e.target.value
+        });
 	};
 
 	render() {
@@ -207,25 +222,17 @@ class Profile extends Component<any> {
 
 		const input = {
 			userId: id,
-			searchText: ""
+			searchText: this.state.searchText
 		};
-        // console.log(this.props.authUser);
-        // console.log(this.props.authUser.id);
-        //
-        // console.log(this.props.state);
-
 
 		return (
-			<>
-				<MainAppBar/>
-
 				<Grid container spacing={0}>
 					<Grid item xs={1} />
 					<Grid item xs={10}>
 						<div className={`page-content`}>
 
 							<div className={`card ${classes.profileInfo}`} >
-								<Query query={GET_USER} variables={{userId: id}}>
+								<Query query={GET_USER} variables={{userId: id}} fetchPolicy="network-only">
 									{({ loading, error, data }) => {
                                         if(loading) return null;
                                         if(error) return `Error: ${error}`;
@@ -234,19 +241,22 @@ class Profile extends Component<any> {
                                             <ul className={classes.profileInfoList}>
 
                                                 <li className={classes.profileInfoItem}>
-                                                    <img className={classes.avatar} src="profile.jpeg" />
-
+                                                    <img className={classes.avatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
                                                     <Typography className={classes.userName}>{user.name}</Typography>
-                                                    <Typography className={classes.userInfoText}>{user.name}</Typography>
-                                                    <Typography className={classes.userInfoText}>{user.country}</Typography>
+                                                    <Typography className={classes.userInfoText}>{user.login}</Typography>
+                                                    <Typography className={classes.userInfoText}>{user.city ? `${user.country}, ${user.city}` : user.country}</Typography>
 													{ownPage
 														? <div className={classes.editCard}>
-                                                            <Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.editButton}`}>Edit profile</Button>
+                                                            <Link to="/settings" className={classes.link}><Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.editButton}`}>Edit profile</Button></Link>
                                                         </div>
 														: <div className={classes.cardBtns}>
-                                                            <Button variant="contained" color="secondary" size="small" className={`button fill-button ${classes.followButton}`}>
-                                                                Follow
-                                                            </Button>
+                                                            <Query query={GET_SUBSCRIBERS} variables={{userId: user.id}}>
+                                                                {(({ loading, error, data }) => {
+                                                                    if(loading) return null;
+                                                                    if(error) return `Error: ${error}`;
+                                                                    return <FollowButton id={user.id} followers={data.getSubscribers} style={classes.followButton}/>
+                                                                })}
+                                                            </Query>
                                                             <Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.messageButton}`}>
                                                                 Message
                                                             </Button>
@@ -260,36 +270,33 @@ class Profile extends Component<any> {
                                                 <li className={classes.profileInfoItem}>
                                                     <Typography className={classes.itemTitle} align="center">About:</Typography>
                                                     <Typography className={`${classes.itemText} ${classes.aboutText}`}>
-                                                        Bitfinex retail shorts on the left, professional money shorts on the
-                                                        right.  The pros have the least short exposure since January, and the
-                                                        retail (dumb money) is more short than ever.  Somebody'bout to get REKT
+														{user.about}
                                                     </Typography>
                                                 </li>
 
                                                 <li className={classes.profileInfoItem}>
                                                     <Typography className={classes.itemTitle} align="center">Education:</Typography>
                                                     <ul className={classes.subList}>
-                                                        <li className={classes.subItem}>
-                                                            <Typography className={classes.itemText}>KNITU</Typography>
-                                                            <Typography className={classes.itemText}>2011-2015</Typography>
-                                                        </li>
+														{user.educations.map((education:any) => (
+                                                            <li key={education.id} className={classes.subItem}>
+                                                                <Typography className={classes.itemText}>{education.name}</Typography>
+                                                                <Typography className={classes.itemText}>{`${new Date(education.from).getFullYear()}-${new Date(education.to).getFullYear()}`}</Typography>
+                                                            </li>
+														))}
                                                     </ul>
                                                 </li>
 
                                                 <li className={classes.profileInfoItem}>
                                                     <Typography className={classes.itemTitle} align="center">Experience:</Typography>
                                                     <ul className={classes.subList}>
-                                                        <li className={classes.subItem}>
-                                                            <Typography className={classes.itemText}>Alfa-bank, Corporate department</Typography>
-                                                            <Typography className={classes.itemText}>2015-2018</Typography>
-                                                        </li>
-                                                        <li className={classes.subItem}>
-                                                            <Typography className={classes.itemText}>Citi, Corporate department</Typography>
-                                                            <Typography className={classes.itemText}>2015-2018</Typography>
-                                                        </li>
+                                                        {user.jobs.map((job:any) => (
+                                                            <li key={job.id} className={classes.subItem}>
+                                                                <Typography className={classes.itemText}>{job.name}</Typography>
+                                                                <Typography className={classes.itemText}>{`${new Date(job.from).getFullYear()}-${new Date(job.to).getFullYear()}`}</Typography>
+                                                            </li>
+                                                        ))}
                                                     </ul>
                                                 </li>
-
                                             </ul>
 										)
 									}}
@@ -301,31 +308,23 @@ class Profile extends Component<any> {
                                 {ownPage ? <PostInput authUserId={id} authUser={this.props.authUser}/> : null}
 								<div className={`card card-heading ${classes.profileTabsList}`}>
 									<Tabs
-                      value={this.state.tab}
-                      onChange={this.handleChange}
-                      classes={{ indicator: `tabs-indicator`, root: `tabs-root` }}
-                    >
-                      <Tab
-                        disableRipple
-                        classes={{
-													root: `tab-root`,
-													label: `tab-label`,
-													labelContainer: `tab-label-container`
-												}}
-                        label="Activity"
-                      />
-                      <Tab
-                        disableRipple
-                        classes={{
-													root: `tab-root`,
-													label: `tab-label`,
-													labelContainer: `tab-label-container`
-												}}
-                        label="Portfolio"
-                      />
-                    </Tabs>
+										value={this.state.tab}
+										onChange={this.handleChange}
+										classes={{ indicator: `tabs-indicator ${classes.noDisplay}`, root: `tabs-root` }}
+										>
+										<Tab
+											style={{cursor: 'default'}}
+											disableRipple
+											classes={{
+												root: `tab-root`,
+												label: `tab-label`,
+												labelContainer: `tab-label-container`
+											}}
+											label="Activity"
+										/>
+									</Tabs>
 									<TextField InputProps={{ disableUnderline: true, classes: {input: `search-input input`} }} 
-										className={`heading-input`} name="toFollowers" placeholder="Search" />
+										className={`heading-input`} name="searchText" placeholder="Search" value={this.state.searchText} onChange={this.handleSearch}/>
 								</div>
 
 								<div className={`${classes.profileTabs}`}>
@@ -337,16 +336,14 @@ class Profile extends Component<any> {
 												{({ loading, error, data }) => {
 													if(loading) return <div>Loading</div>;
 													if(error) return `Error: ${error}`;
-													if(data.searchPostInProfile.posts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No activity</Typography></div>
+													if(data.searchPostInProfile.posts.length == 0 && data.searchPostInProfile.reposts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No activity</Typography></div>
 													return (
-														<PostList posts={data.searchPostInProfile.posts}/>
+														<PostList updateData={this.updateData} posts={data.searchPostInProfile.posts.concat(data.searchPostInProfile.reposts)}/>
 													)
 												}}
 											</Query>
 										</>
 									}
-									{this.state.tab === 1 && <PortfolioList/>}
-									{/* {this.state.tab === 2 && <PortfolioAbout/>} */}
 								</div>
 							</div>
 
@@ -364,9 +361,9 @@ class Profile extends Component<any> {
                                                 if(data.getSubscribers.length == 0) return <Typography className={classes.followerEmptyText}>No followers</Typography>
 
                                                 const followers = data.getSubscribers.map((user:any) => (
-                                                    <Link to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
+                                                    <Link key={user.id} to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
                                                         <li className={classes.followersItem}>
-                                                            <Avatar className={classes.followerAvatar} src="profile.jpeg" />
+                                                            <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
                                                             <Typography align="center" className={classes.followerName}>{user.name}</Typography>
                                                         </li>
                                                     </Link>
@@ -389,10 +386,10 @@ class Profile extends Component<any> {
 
                                                 if(data.getFollows.length == 0) return <Typography className={classes.followerEmptyText}>No follows</Typography>
 
-                                                const follows = data.getSubscribers.map((user:any) => (
-                                                    <Link to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
+                                                const follows = data.getFollows.map((user:any) => (
+                                                    <Link key={user.id} to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
                                                         <li className={classes.followersItem}>
-                                                            <Avatar className={classes.followerAvatar} src="profile.jpeg" />
+                                                            <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
                                                             <Typography align="center" className={classes.followerName}>{user.name}</Typography>
                                                         </li>
                                                     </Link>
@@ -407,7 +404,6 @@ class Profile extends Component<any> {
 					</Grid>
 					<Grid item xs={1} />
 				</Grid>
-			</>
 		)
 	}
 }

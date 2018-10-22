@@ -4,10 +4,14 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import MainAppBar from '../MainAppBar';
 import PersonalInfo from '../PersonalInfo';
 import GeneralSettings from '../GeneralSettings';
 import PrivacyAndSecurity from '../PrivacyAndSecurity';
+import { Query } from 'react-apollo'
+import { GET_USER } from '../../api/graphql'
+import { connect } from "react-redux";
+import ModalUploadPhoto from '../ModalUploadPhoto'
+import {endpoint} from "../../api";
 
 const styles = (theme: Theme) => createStyles({
   subHeader: {
@@ -89,15 +93,28 @@ const styles = (theme: Theme) => createStyles({
   },
 });
 
-class ContactUs extends Component<any> {
+class ProfileSettings extends Component<any> {
   state={
     tab: 0,
     checked: false,
+    modalOpen: false,
   };
 
-  switchChange = (name: any) => (event: any) => {
-    this.setState({ [name]: event.target.checked });
+  handleOpen = () => {
+    this.setState({
+        modalOpen: true
+    })
   };
+
+  handleClose = () => {
+    this.setState({
+       modalOpen: false
+    })
+  };
+
+  // switchChange = (name: any) => (event: any) => {
+  //   this.setState({ [name]: event.target.checked });
+  // };
 
   handleChange =(event:any, value:any)=>{
     this.setState({
@@ -109,85 +126,98 @@ class ContactUs extends Component<any> {
     const { classes } = this.props;
 
     return (
-      <>
-        <MainAppBar/>
+          <Query query={GET_USER} variables={{userId: this.props.authUser.id}}>
+              {({ loading, error, data}) => {
+                  if(loading) return null;
+                  if(error) return `Error: ${error}`;
+                  const user = data.getUser;
+                  return (
+                      <>
+                          <div className={classes.subHeader}>
+                              <Grid container spacing={0}>
+                                  <Grid item xs={1} />
 
-        <div className={classes.subHeader}>
-					<Grid container spacing={0}>
-						<Grid item xs={1} />
+                                  <Grid item xs={10} className={classes.subHeaderContainer}>
+                                      <img onClick={this.handleOpen} className={classes.avatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
+                                      <div className={classes.userInfo}>
+                                          <Typography className={classes.userName}>{user.name}</Typography>
+                                          <Typography className={classes.userLogin}>@{user.login}</Typography>
+                                      </div>
+                                  </Grid>
+                                  <ModalUploadPhoto id={this.props.authUser.id} open={this.state.modalOpen} onClose={this.handleClose}/>
+                                  <Grid item xs={1} />
+                              </Grid>
+                          </div>
 
-						<Grid item xs={10} className={classes.subHeaderContainer}>
-              <img className={classes.avatar} src="profile.jpeg" />
-              <div className={classes.userInfo}>
-                <Typography className={classes.userName}>Ivan Fedotov</Typography>
-                <Typography className={classes.userLogin}>@iyufedotov</Typography>
-              </div>
-						</Grid>
+                          <div style={{background: '#fff', flex: 1}}>
+                              <Grid container spacing={0}>
+                                  <Grid item xs={1} />
 
-						<Grid item xs={1} />
-					</Grid>
-				</div>
-        
-        <div style={{background: '#fff', flex: 1}}>
-          <Grid container spacing={0}>
-            <Grid item xs={1} />
+                                  <Grid item xs={10}>
 
-            <Grid item xs={10}>
+                                      <div className={`page-content`}>
 
-              <div className={`page-content`}>
+                                          <div className={classes.profileSettingsLeft}>
+                                              <div className={classes.tabsList}>
+                                                  <Tabs
+                                                      value={this.state.tab}
+                                                      onChange={this.handleChange}
+                                                      classes={{ indicator: classes.tabsIndicator, flexContainer: classes.flexContainer }}
+                                                  >
+                                                      <Tab
+                                                          disableRipple
+                                                          classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.labelContainer, label: classes.label }}
+                                                          label="Personal info"
+                                                      />
+                                                      <Tab
+                                                          disableRipple
+                                                          classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.labelContainer, label: classes.label }}
+                                                          label="General settings"
+                                                      />
+                                                      <Tab
+                                                          disableRipple
+                                                          classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.labelContainer, label: classes.label }}
+                                                          label="Privacy and Security"
+                                                      />
+                                                  </Tabs>
+                                              </div>
+                                          </div>
 
-                <div className={classes.profileSettingsLeft}>
-                  <div className={classes.tabsList}>
-                    <Tabs
-                      value={this.state.tab}
-                      onChange={this.handleChange}
-                      classes={{ indicator: classes.tabsIndicator, flexContainer: classes.flexContainer }}
-                    >
-                      <Tab
-                        disableRipple
-                        classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.labelContainer, label: classes.label }}
-                        label="Personal info"
-                      />
-                      <Tab
-                        disableRipple
-                        classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.labelContainer, label: classes.label }}
-                        label="General settings"
-                      />
-                      <Tab
-                        disableRipple
-                        classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.labelContainer, label: classes.label }}
-                        label="Privacy and Security"
-                      />
-                    </Tabs>
-                  </div>
-                </div>
+                                          <div className={classes.profileSettingsRight}>
 
-                <div className={classes.profileSettingsRight}>
+                                              {this.state.tab === 0 &&
+                                              <>
+                                                  <PersonalInfo user={user}/>
+                                              </>
+                                              }
+                                              {this.state.tab === 1 &&
+                                              <>
+                                                  <GeneralSettings user={user}/>
+                                              </>}
+                                              {this.state.tab === 2 &&
+                                              <>
+                                                  <PrivacyAndSecurity user={user}/>
+                                              </>}
+                                          </div>
 
-                  {this.state.tab === 0 && 
-                    <>
-                      <PersonalInfo />
-                    </>
-                  }
-                  {this.state.tab === 1 && 
-                    <>
-                      <GeneralSettings />
-                    </>}
-                  {this.state.tab === 2 && 
-                    <>
-                      <PrivacyAndSecurity />
-                    </>}
-                </div>
+                                      </div>
+                                  </Grid>
 
-              </div>
-            </Grid>
-
-            <Grid item xs={1} />
-          </Grid>
-        </div>
-      </>
+                                  <Grid item xs={1} />
+                              </Grid>
+                          </div>
+                      </>
+                  )
+              }}
+          </Query>
     );
   }
+}
+
+const mapStateToProps = ({auth}:any) => {
+    return {
+        authUser: auth.authUser
+    }
 };
 
-export default withStyles(styles)(ContactUs);
+export default connect(mapStateToProps)(withStyles(styles)(ProfileSettings))

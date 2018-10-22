@@ -7,7 +7,7 @@ import LangugageSelector from '../LanguageSelector';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import '../style.css';
-import {handleErrors, fetchPost} from '../../api'
+import {handleErrors, fetchPost, endpoint} from '../../api'
 import {userSignIn} from '../../actions'
 
 const styles = () => createStyles({
@@ -50,7 +50,7 @@ class SignInPage extends Component<any> {
     };
 
     handleClick = () => {
-        const url = 'http://icoworld.projects.oktend.com:3000/login';
+        const url = `${endpoint}/login`;
         const data = {
             email: this.state.email,
             password: this.state.password

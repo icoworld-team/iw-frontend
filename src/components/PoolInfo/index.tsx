@@ -7,7 +7,6 @@ import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import MainAppBar from '../MainAppBar';
 import { Query } from 'react-apollo'
 import { GET_POOL } from '../../api/graphql'
 
@@ -109,8 +108,6 @@ class PoolInfo extends Component<any> {
     const { classes } = this.props;
     return (
       <>
-        <MainAppBar/>
-
         <div className={classes.subHeader}>
             <Grid container spacing={0}>
                 <Grid item xs={1} />

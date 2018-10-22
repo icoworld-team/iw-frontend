@@ -12,7 +12,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import { Link } from "react-router-dom";
-import { handleErrors, fetchGet } from '../../api'
+import { handleErrors, fetchGet, endpoint } from '../../api'
 import { push } from "react-router-redux";
 import { logOut } from "../../actions";
 import { connect } from "react-redux";
@@ -50,7 +50,7 @@ class SimpleMenu extends React.Component<any> {
   };
 
   handleLogOut = () => {
-      const url = 'http://icoworld.projects.oktend.com:3000/logout';
+      const url = `${endpoint}/logout`;
       fetchGet(url)
           .then(response => handleErrors(response))
           .then(response => console.log(response))
@@ -58,6 +58,11 @@ class SimpleMenu extends React.Component<any> {
           .then(this.props.logOut)
           .then(() => localStorage.removeItem("user"))
           .catch(error=>console.log(error));
+  };
+
+  handlePushToSettings = () => {
+      this.props.toSettings();
+      this.handleClose();
   };
 
   render() {
@@ -90,13 +95,11 @@ class SimpleMenu extends React.Component<any> {
           }}
           onClose={this.handleClose}
         >
-          <MenuItem className={classes.menuItem} onClick={this.handleClose}>
-            <Link className={classes.menuLink} to="/settings">
+          <MenuItem className={classes.menuItem} onClick={this.handlePushToSettings}>
               <ListItemIcon className={classes.icon}>
                 <EditIcon />
               </ListItemIcon>
               <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Settings" />
-            </Link>
           </MenuItem>
 
           <MenuItem className={classes.menuItem} onClick={this.handleClose}>
@@ -124,7 +127,8 @@ class SimpleMenu extends React.Component<any> {
 const mapDispatchToProps = (dispatch:any) => {
     return {
         logOut: () => dispatch(logOut()),
-        push: () => dispatch(push('/'))
+        push: () => dispatch(push('/')),
+        toSettings: () => dispatch(push('/settings'))
     }
 };
 

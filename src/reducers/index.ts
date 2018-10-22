@@ -2,6 +2,21 @@ const authInitialState = {
   authUser: JSON.parse((localStorage.getItem('user')) as string)
 };
 
+export const tagSearch = (state={
+    tags: {
+        tag: 'TAG'
+    }
+}, action:any) => {
+    switch (action.type) {
+        case 'SEARCH':
+            return {
+                tag: action.payload
+            };
+        default:
+            return state;
+    }
+};
+
 export const auth = (state=authInitialState, action:any) => {
     switch (action.type) {
         case 'SIGNIN':
@@ -18,7 +33,9 @@ export const auth = (state=authInitialState, action:any) => {
 };
 
 export const investorsFilter = (state={
-    filter: {}
+    filter: {
+        sortBy: "REGISTRATION_DATE"
+    }
 }, action:any) => {
     switch (action.type) {
         case 'FILTER':
@@ -64,7 +81,7 @@ export const chat = (state=chatInitialState, action:any) => {
             console.log(state.chatMessages[action.payload.chatId]);
             const newMessages = {
                 ...state.chatMessages,
-                [action.payload.chatId]: (state.chatMessages[action.payload.chatId] as any).concat(action.payload)
+                [action.payload.chatId]: state.chatMessages[action.payload.chatId] ? (state.chatMessages[action.payload.chatId] as any).concat(action.payload) : [].concat(action.payload)
             };
             console.log('newMessages');
             console.log(newMessages);
@@ -81,7 +98,23 @@ export const chat = (state=chatInitialState, action:any) => {
                     [action.payload.id]: [...action.payload.messages, ...state.chatMessages[action.payload.id]]
                 }
             };
-
+        case 'READ_MESSAGES':
+            const readMessages = state.chatMessages[action.payload].map((message:any) => ({
+                ...message,
+                read: true
+            }));
+            return {
+                ...state,
+                chatMessages: {
+                    ...state.chatMessages,
+                    [action.payload]: readMessages
+                }
+            };
+        case 'SET_INITIAL_MSG':
+            return {
+                ...state,
+                chatMessages: action.payload
+            };
         case 'CHAT_UNMOUNT':
             return chatInitialState;
         default:

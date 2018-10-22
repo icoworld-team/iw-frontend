@@ -2,27 +2,39 @@ import React, { Component } from 'react'
 import ChatUser from '../ChatUser'
 import './style.css'
 import { connect } from "react-redux";
-import { withApollo } from 'react-apollo'
-import { setContacts, addContact } from "../../actions";
-import { GET_CHATS } from '../../api/graphql'
-// import {socket} from "../../api";
+import Scrollbars from 'react-custom-scrollbars';
 
 
 class ChatContactsList extends Component<any> {
+    state = {
+        searchText: '',
+    };
 
-    async componentDidMount() {
-        const result = await this.props.client.query({
-            query: GET_CHATS,
-            variables: {userId: this.props.authUser.id},
-            fetchPolicy: 'network-only'
+    handleChange =(e:React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            [e.target.name]: e.target.value,
         });
-        const contacts = result.data.getChats.slice().reverse();
-        this.props.setContacts(contacts);
-    }
+    };
 
     render() {
-        const { authUser, onSelectUser, contactsList } = this.props;
-        const contacts = contactsList.map((contact:any) => (
+        const { authUser, onSelectUser, contactsList, chatMessages} = this.props;
+        const updatedContacts = contactsList.map((contact:any) => {
+            let count = 0;
+            chatMessages[contact.chatId] && chatMessages[contact.chatId].forEach((message:any) => {
+                if (!message.read && message.author.id !== authUser.id) ++count;
+            });
+            return (
+            {
+                ...contact,
+                lastMessage: chatMessages[contact.chatId] ? chatMessages[contact.chatId][chatMessages[contact.chatId].length-1] : contact.messages[contact.messages.length-1],
+                newMessages: count
+            }
+        )});
+        const filteredContacts = updatedContacts.filter((chat:any) => chat.parnter.name.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1);
+        const sortedContacts = filteredContacts.slice().sort((a:any, b:any) => {
+            return new Date(b.lastMessage.date).getTime() - new Date(a.lastMessage.date).getTime();
+        });
+        const contacts = sortedContacts.map((contact:any) => (
             <ChatUser key={contact.chatId} user={contact} onSelectUser={onSelectUser}/>
         ));
         return (
@@ -43,7 +55,7 @@ class ChatContactsList extends Component<any> {
                     <div className="search-wrapper">
                         <div className="search-bar">
                             <div className="search-form">
-                                <input className="chat-search-input" type="search" placeholder="Search" />
+                                <input className="chat-search-input" type="search" name="searchText" placeholder="Search" onChange={this.handleChange}/>
                                 <button className="search-icon"><i className="zmdi zmdi-search zmdi-hc-lg"/></button>
                             </div>
                         </div>
@@ -52,7 +64,9 @@ class ChatContactsList extends Component<any> {
                 <div className="contacts-tab">
                     <span>Contacts</span>
                 </div>
-                {contacts}
+                <Scrollbars autoHide style={{height: 650}}>
+                    {contacts}
+                </Scrollbars>
             </div>
         )
     }
@@ -61,16 +75,10 @@ class ChatContactsList extends Component<any> {
 const mapStateToProps = ({auth, chat}:any) => {
     return {
         authUser: auth.authUser,
-        contactsList: chat.contactsList
+        contactsList: chat.contactsList,
+        chatMessages: chat.chatMessages
     }
 };
 
-const mapDispatchToProps = (dispatch:any) => {
-    return {
-        setContacts: (contacts:any) => dispatch(setContacts(contacts)),
-        addContact: (contact:any) => dispatch(addContact(contact))
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withApollo(ChatContactsList))
+export default connect(mapStateToProps)(ChatContactsList)
 

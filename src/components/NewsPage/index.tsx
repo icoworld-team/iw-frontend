@@ -5,11 +5,11 @@ import Tab from '@material-ui/core/Tab';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import { SEARCH_POST } from '../../api/graphql'
+import { SEARCH_POST, GET_TOP_USERS, GET_FOLLOWS_POSTS, GET_NEWS } from '../../api/graphql'
 import { Query } from 'react-apollo';
+import { connect } from "react-redux";
+import { relativeTime } from '../../utils'
 
-import MainAppBar from '../MainAppBar';
 import Author from '../Author';
 import PostList from '../PostList';
 
@@ -130,6 +130,10 @@ const styles = (theme: Theme) => createStyles({
     fontSize: '10px',
     fontWeight: 600,
   },
+
+  noActivity: {
+		padding: '10px'
+	},
 });
 
 
@@ -139,28 +143,41 @@ class News extends Component<any> {
     searchText: ""
   };
 
+  updateData = (value: String) => {
+    this.setState({ searchText: value })
+  }
+
   handleChange =(event:any, value:any) => {
     this.setState({
         tab: value
     });
   };
 
-  handleSearch = (e:any) => {
+  handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
         searchText: e.target.value
     });
   };
+
+  tagSearch = (e: any) => {
+    let elem = e.target.innerHTML
+    this.setState({
+      searchText: elem
+    })
+  }
   
   render() {
     const { classes } = this.props;
     const input = {
-      searchText: this.state.searchText
+      searchText: this.state.searchText,
+    };
+
+    const id = {
+      userId: this.props.authUser.id,
     };
 
     return (
       <>
-        <MainAppBar/>
-
         <Grid container spacing={0}>
           <Grid item xs={1} />
 
@@ -172,13 +189,23 @@ class News extends Component<any> {
                   <Typography className={`card-title`}>News of the icoWorld</Typography>
                 </div>
                 <ul className={classes.newsOfProjectList}>
-                  <li className={classes.newsOfProjectItem}>
-                    <Typography className={classes.newsOfProjectDate}>12 September 2018:</Typography>
-                    <Typography className={classes.newsOfProjectText}>We realised our MVP. You can look it and try it.</Typography>
-                  </li>
-                  <li className={classes.newsOfProjectItem}>
-                    <Typography className={classes.newsOfProjectDate}>12 September 2018:</Typography>
-                    <Typography className={classes.newsOfProjectText}>We realised our MVP. You can look it and try it.</Typography>
+                  <li>
+                    <Query query={GET_NEWS}>
+                      {({ loading, error, data }) => {
+                        if(loading) return <div>Loading</div>;
+                        if(error) return `Error: ${error}`;
+                        return (
+                          <>
+                            {data.getNews.map((news:any) => (
+                              <li key={news.id} className={classes.newsOfProjectItem}>
+                                <Typography className={classes.newsOfProjectDate}>{relativeTime(news.date)}</Typography>
+                                <Typography className={classes.newsOfProjectText}>{news.title}</Typography>
+                              </li>
+                            )).reverse()}
+                          </>
+                        )
+                      }}
+                    </Query>
                   </li>
                 </ul>
               </div>
@@ -219,36 +246,41 @@ class News extends Component<any> {
                       />
                     </Tabs>
                   <TextField InputProps={{ disableUnderline: true, classes: {input: `search-input input`} }} 
-                    className={`heading-input`} name="toFollowers" placeholder="Search" />
+                    className={`heading-input`} name="searchText" placeholder="Search" value={this.state.searchText} onChange={this.handleSearch}/>
                 </div>
 
                 {this.state.tab === 0 &&
-                <Query query={SEARCH_POST} variables={input}>
+                <Query query={GET_FOLLOWS_POSTS} variables={id}>
                     {({ loading, error, data }) => {
                         if(loading) return <div>Loading</div>;
                         if(error) return `Error: ${error}`;
+                        if(data.getFollowsPosts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
                         return (
-                            <PostList posts={data.searchPost}/>
+                            <PostList updateData={this.updateData} posts={data.getFollowsPosts}/>
                         )
                     }}
                 </Query>}
+
                 {this.state.tab === 1 &&
                 <Query query={SEARCH_POST} variables={input}>
                     {({ loading, error, data }) => {
                         if(loading) return <div>Loading</div>;
                         if(error) return `Error: ${error}`;
+                        if(data.searchPost.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
                         return (
-                            <PostList posts={data.searchPost}/>
+                            <PostList updateData={this.updateData} posts={data.searchPost}/>
                         )
                     }}
                 </Query>}
+                
                 {this.state.tab === 2 &&
                 <Query query={SEARCH_POST} variables={input}>
                     {({ loading, error, data }) => {
                         if(loading) return <div>Loading</div>;
                         if(error) return `Error: ${error}`;
+                        if(data.searchPost.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
                         return (
-                            <PostList posts={data.searchPost} authUserId={null}/>
+                            <PostList updateData={this.updateData} posts={data.searchPost} authUserId={null}/>
                         )
                     }}
                 </Query>}
@@ -262,11 +294,21 @@ class News extends Component<any> {
                     <Typography className={`card-title`}>Popular Investors</Typography>
                   </div>
                   <ul className={classes.popularInvestorsList}>
-                    <li className={classes.popularInvestorsItem}><Author /></li>
-                    <li className={classes.popularInvestorsItem}><Author /></li>
-                    <li className={classes.popularInvestorsItem}><Author /></li>
-                    <li className={classes.popularInvestorsItem}><Author /></li>
-                    <li className={classes.popularInvestorsItem}><Author /></li>
+                    <Query query={GET_TOP_USERS} variables={{flag: true}}>
+                        {({ loading, error, data }) => {
+                            if(loading) return <div>Loading</div>;
+                            if(error) return `Error: ${error}`;
+                            return (
+                              <>
+                                {data.getTopUsers.map((user:any) => (
+                                    <li key={user.id} className={classes.popularInvestorsItem}>
+                                        <Author populars={user} />
+                                    </li>
+														    ))}
+                              </>
+                            )
+                        }}
+                    </Query>
                   </ul>
                 </div>
 
@@ -275,24 +317,10 @@ class News extends Component<any> {
                     <Typography className={`card-title`}>Tags</Typography>
                   </div>
                   <ul className={classes.tagList}>
-                    <li className={classes.tagItem}><Typography className={classes.tagItemText}>#crypto</Typography></li>
-                    <li className={classes.tagItem}><Typography className={classes.tagItemText}>#blockchain</Typography></li>
+                    <li className={classes.tagItem}><Typography onClick={this.tagSearch} className={classes.tagItemText}>#crypto</Typography></li>
+                    <li className={classes.tagItem}><Typography onClick={this.tagSearch} className={classes.tagItemText}>#blockchain</Typography></li>
+                    <li className={classes.tagItem}><Typography onClick={this.tagSearch} className={classes.tagItemText}>#tag</Typography></li>
                   </ul>
-                </div>
-
-                <div className={`card`}>
-                  <div className={`card-heading`}>
-                    <Typography className={`card-title`}>Language</Typography>
-                  </div>
-                  <div className={classes.languageContent}>
-                    <ul className={classes.languageList}>
-                      <li className={classes.languageItem}>English</li>
-                      <li className={classes.languageItem}>Русский</li>
-                    </ul>
-                    <Button variant="outlined" color="secondary" size="small" className={`button outline-button ${classes.addButton}`}>
-                      Add
-                    </Button>
-                  </div>
                 </div>
 
               </div>
@@ -307,4 +335,11 @@ class News extends Component<any> {
   }
 }
 
-export default withStyles(styles)(News);
+const mapStateToProps = ({auth}:any) => {
+  return {
+    authUser: auth.authUser,
+    // tags: tagSearch.tags
+  }
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(News));

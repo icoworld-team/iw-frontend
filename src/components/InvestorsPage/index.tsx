@@ -1,5 +1,4 @@
 import React from 'react'
-import MainAppBar from '../MainAppBar'
 import Grid from '@material-ui/core/Grid'
 import InvestorCard from '../InvestorCard'
 import Typography from '@material-ui/core/Typography'
@@ -18,9 +17,9 @@ const styles = () => createStyles({
         marginBottom: 0,
     },
     investors: {
-        maxWidth: '786px',
+        maxWidth: '784px',
         marginRight: '15px',
-        flexBasis: '786px',
+        flexBasis: '784px',
     },
     investorsFilter: {
         flex: 1,
@@ -53,10 +52,10 @@ const styles = () => createStyles({
     },
   });
 
-
 class InvestorsPage extends React.Component<any> {
     state = {
-        searchText: ""
+        searchText: "",
+        investorsAmount: 0,
     };
 
     componentDidMount() {
@@ -83,13 +82,13 @@ class InvestorsPage extends React.Component<any> {
 
         return (
             <div>
-                <MainAppBar/>
                 <Grid container spacing={0}>
                     <Grid item xs={1}></Grid>
                     <Grid item xs={10}>
 
                         <div className={`page-content`}>
                             <div className={`card ${classes.investorsBlock} ${classes.investors}`}>
+                                
                                 <Query query={GET_INVESTORS} variables={{input: input}}>
                                     {({ loading, error, data }) => {
                                         if(loading) return (
