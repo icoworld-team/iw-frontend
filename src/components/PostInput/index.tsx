@@ -20,6 +20,7 @@ const styles = () => createStyles({
     postTextarea: {
         width: '100%',
         resize: 'none',
+        maxHeight: '418px',
     },
     attachment: {
         display: 'none',
@@ -197,9 +198,12 @@ class PostInput extends Component<any> {
                     {createPost => {
                         return <Button className={`button fill-button ${classes.postButton}`} variant="raised"
                             color="primary"
-                            onClick={() => {if (this.state.postBody.length) 
+                            onClick={async() => {if (this.state.postBody.length) 
                                 {
-                                    createPost({ variables: { input: postInput } })
+                                    await createPost({ variables: { input: postInput } })
+                                    this.setState({
+                                        textareaHeight: 58
+                                    });
                                 }
                             }}>Post</Button>
                     }}

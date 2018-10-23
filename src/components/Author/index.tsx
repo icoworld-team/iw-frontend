@@ -83,9 +83,6 @@ class Author extends Component<any> {
                 )
               }}
             </Query>
-            {/* <Button variant="contained" color="secondary" size="small" className={`button fill-button ${classes.followButton}`}>
-              Follow
-            </Button> */}
           </div>
         
       </>

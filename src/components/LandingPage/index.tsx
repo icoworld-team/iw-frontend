@@ -348,7 +348,7 @@ class LandingPage extends React.Component<any> {
             <div className={classes.buttons} style={{marginTop: '60px'}}>
               <ul className={classes.buttonsList}>
                 <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="#">White Paper</a></li>
-                <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="#">Pitch for Investors</a></li>
+                <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="/pitch" target="_blank">Pitch for Investors</a></li>
                 <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkFill}`} href="#">MVP</a></li>
               </ul>
             </div>
@@ -532,7 +532,7 @@ class LandingPage extends React.Component<any> {
                   <span className={classes.footerSectionsTitle}>Product</span>
 
                   <a className={classes.footerSectionsLink} href="#">White Paper</a>
-                  <a className={classes.footerSectionsLink} href="#">Pitch for Investors</a>
+                  <a className={classes.footerSectionsLink} href="/pitch" target="_blank">Pitch for Investors</a>
                   <a className={classes.footerSectionsLink} href="#">MVP</a>
                 </li>
 

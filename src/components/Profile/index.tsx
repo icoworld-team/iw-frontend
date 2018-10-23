@@ -130,11 +130,17 @@ const styles = (theme: Theme) => createStyles({
 		lineHeight: '18px',
 		color: '#171717',
 		fontWeight: 600,
+		display: 'flex',
+		flexDirection: 'column',
+		'&:hover': {
+			textDecoration: 'underline',
+		},
 	},
 	followerEmptyText: {
 		fontSize: '14px',
 		color: '#171717',
 		lineHeight: '18px',
+		padding: '15px',
 	},
 
 	cardBtns: {
@@ -213,7 +219,30 @@ class Profile extends Component<any> {
 
 	updateData = (value: String) => {
 		this.setState({ searchText: value })
-	  }
+	}
+
+	resize = (value: String) => {
+		// var size = 6
+
+		let splitName = value.split(' ');
+		console.log(splitName)
+		// let sliceName = value;
+
+		// if(splitName[0].length > size && splitName[1].length > size) {
+		// 	sliceName = splitName[0].slice(0, 5) + '...' + ' ' + splitName[1].slice(0, 5) + '...'
+		// 	return sliceName;
+		// }
+		// if(splitName[0].length > size) {
+		// 	sliceName = splitName[0].slice(0, 5) + '...' + ' ' + splitName[1]
+		// }
+		// if(splitName[1].length > size) {
+		// 	sliceName = splitName[0] + ' ' + splitName[1].slice(0, 5) + '...'
+		// }
+		return <>
+			<p style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{splitName[0]}</p>
+			<p style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{splitName[1]}</p>
+		</>;
+	}
 
 	handleChange =(event:any, value:any)=>{
 		this.setState({
@@ -386,7 +415,9 @@ class Profile extends Component<any> {
 														<li className={classes.followersItem}>
 															<Link key={user.id} to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
 																<Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
-																<Typography align="center" className={classes.followerName}>{user.name}</Typography>
+																<Typography align="center" className={classes.followerName}>
+																	{this.resize(user.name)}
+																</Typography>
 															</Link>
 														</li>
 													</>
@@ -422,7 +453,7 @@ class Profile extends Component<any> {
 												<li className={classes.followersItem}>
 													<Link key={user.id} to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
 														<Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
-														<Typography align="center" className={classes.followerName}>{user.name}</Typography>
+														<Typography align="center" className={classes.followerName}>{this.resize(user.name)}</Typography>
 													</Link>
 												</li>
 											));

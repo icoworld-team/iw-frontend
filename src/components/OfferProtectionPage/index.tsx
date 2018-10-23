@@ -135,8 +135,9 @@ class OfferProtectionPage extends React.Component<any> {
                 <br style={{fontSize: '24px'}}/>
                 The answer is below.
                 <br style={{fontSize: '24px'}}/>
+                <br style={{fontSize: '24px'}}/>
 
-                Our plan for doing this is as follows:
+                Firstly, our goal is not to rectify the negative effects of the scam, but rather to prevent it by making it unprofitable. Our plan for doing this is as follows:
                 <ol className={classes.numberList}>
                   <li>Every project passes mandatory due diligence when it is being registered on our platform.</li>
                   <li>We do KYC on the project founders, checking the reliability of their biographies, analyzing
@@ -148,6 +149,8 @@ class OfferProtectionPage extends React.Component<any> {
                 <p>This is the first level of our defense. The number of scammers will decrease by 90% because it will be
                   impossible for them to remain anonymous. Every crypto-investor will know who took their money, and where that person is.
                 <br style={{fontSize: '24px'}}/>
+                <br style={{fontSize: '24px'}}/>
+
                 The second level of scam protection is escrow service. We create a smart contract that sends money in tranches.
                 For example, a project will state: "I need $10 million of investment. $1 million for the first stage, $2 million
                 for the second, $3 million for the third, etc."
