@@ -110,15 +110,16 @@ p {
 .button {
   padding: 0px!important;
   text-transform: none!important;
+  font-weight: 400!important;
 }
 
 .fill-button {
-  background-color: #980000!important;
+  background-color: #303546!important;
 }
 
 .outline-button {
-  border-color: #980000!important;
-  color: #980000!important;
+  border-color: #303546!important;
+  color: #303546!important;
 }
 
 .tabs-root {

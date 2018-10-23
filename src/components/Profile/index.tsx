@@ -113,7 +113,10 @@ const styles = (theme: Theme) => createStyles({
 			marginRight: 0,
 		},
 		'&:nth-child(n+4)': {
-			marginTop: '15px',
+			marginTop: '20px',
+		},
+		'&:nth-child(n+10)': {
+			display: 'none',
 		},
 	},
 	followerAvatar: {
@@ -180,6 +183,23 @@ const styles = (theme: Theme) => createStyles({
 		display: 'none',
 		cursor: 'default',
 	},
+
+	hideComments: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '10px',
+        cursor: 'pointer',
+        transition: '.3s',
+        '&:hover': {
+            backgroundColor: '#efefef',
+        },
+    },
+    hideCommentsText: {
+        fontSize: '14px',
+        lineHeight: '19px',
+        color: '#8b8b8b',
+    },
 });
 
 class Profile extends Component<any> {
@@ -188,6 +208,7 @@ class Profile extends Component<any> {
 		searchText: "",
 		hInput: "",
 		tags: [],
+		followsAmount: false,
 	};
 
 	updateData = (value: String) => {
@@ -352,7 +373,7 @@ class Profile extends Component<any> {
 									<div className={`card-heading`}>
 										<Typography className={`card-title`}>Followers</Typography>
 									</div>
-									<ul className={classes.followersList}>
+
                                         <Query query={GET_SUBSCRIBERS} variables={{userId: id}}>
                                             {({ loading, error, data }) => {
                                                 if(loading) return <div>Loading</div>;
@@ -361,43 +382,62 @@ class Profile extends Component<any> {
                                                 if(data.getSubscribers.length == 0) return <Typography className={classes.followerEmptyText}>No followers</Typography>
 
                                                 const followers = data.getSubscribers.map((user:any) => (
-                                                    <Link key={user.id} to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
-                                                        <li className={classes.followersItem}>
-                                                            <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
-                                                            <Typography align="center" className={classes.followerName}>{user.name}</Typography>
-                                                        </li>
-                                                    </Link>
-                                                ));
-                                                return followers;
+													<>
+														<li className={classes.followersItem}>
+															<Link key={user.id} to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
+																<Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
+																<Typography align="center" className={classes.followerName}>{user.name}</Typography>
+															</Link>
+														</li>
+													</>
+												));
+												return (
+													<>
+														<ul className={classes.followersList}>
+															{followers}
+														</ul>
+														<div style={{display: followers.length > 9 ? '' : 'none'}} className={classes.hideComments}>
+															<Typography className={classes.hideCommentsText}>See more</Typography>
+														</div>
+													</>
+												)
                                             }}
                                         </Query>
-									</ul>
+
+									
 								</div>
 								
 								<div className={`card ${classes.followersCard}`}>
 									<div className={`card-heading`}>
 										<Typography className={`card-title`}>Follows</Typography>
 									</div>
-									<ul className={classes.followersList}>
-                                        <Query query={GET_FOLLOWS} variables={{userId: id}}>
-                                            {({ loading, error, data }) => {
-                                                if(loading) return <div>Loading</div>;
-                                                if(error) return `Error: ${error}`;
+									<Query query={GET_FOLLOWS} variables={{userId: id}}>
+										{({ loading, error, data }) => {
+											if(loading) return <div>Loading</div>;
+											if(error) return `Error: ${error}`;
 
-                                                if(data.getFollows.length == 0) return <Typography className={classes.followerEmptyText}>No follows</Typography>
+											if(data.getFollows.length == 0) return <Typography className={classes.followerEmptyText}>No follows</Typography>
 
-                                                const follows = data.getFollows.map((user:any) => (
-                                                    <Link key={user.id} to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
-                                                        <li className={classes.followersItem}>
-                                                            <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
-                                                            <Typography align="center" className={classes.followerName}>{user.name}</Typography>
-                                                        </li>
-                                                    </Link>
-                                                ));
-                                                return follows;
-                                            }}
-                                        </Query>
-									</ul>
+											const follows = data.getFollows.map((user:any) => (
+												<li className={classes.followersItem}>
+													<Link key={user.id} to={{pathname: "/profile", state: {id: user.id}}} className={classes.link}>
+														<Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
+														<Typography align="center" className={classes.followerName}>{user.name}</Typography>
+													</Link>
+												</li>
+											));
+											return (
+												<>
+													<ul className={classes.followersList}>
+														{follows}
+													</ul>
+													<div style={{display: follows.length > 9 ? '' : 'none'}} className={classes.hideComments}>
+														<Typography className={classes.hideCommentsText}>See more</Typography>
+													</div>
+												</>
+											);
+										}}
+									</Query>
 								</div>
 							</div>
 						</div>

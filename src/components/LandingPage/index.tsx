@@ -275,7 +275,7 @@ class LandingPage extends React.Component<any> {
 
         <header className={classes.header}>
           <div className={classes.headerContainer}>
-            <Link to="first" smooth={true} offset={-180} duration={500}>
+            <Link to="first" smooth={true} offset={-280} duration={500}>
               <a href='#' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
                 <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
                 <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
@@ -306,7 +306,7 @@ class LandingPage extends React.Component<any> {
           </div>
         </header>
 
-        <div className={classes.section} style={{paddingTop: '180px', paddingBottom: '70px'}}>
+        <div className={classes.section} style={{paddingTop: '280px', paddingBottom: '70px'}}>
           <Element name="first" />
           <div className={classes.container}>
             <h2 className={classes.title}>icoWorld is a social network for cryptoinvestors, assets managers and ICO-projects</h2>
@@ -362,15 +362,15 @@ class LandingPage extends React.Component<any> {
             <div className={classes.solutions} style={{marginTop: '80px', width: '100%'}}>
               <ul className={classes.solutionsList}>
                 <li className={classes.solutionsItem}>
-                  <img src="./icons/investors.svg" alt="investors"/>
+                  <img style={{width: '170px'}} src="./icons/investors.svg" alt="investors"/>
                   <span className={classes.solutionsText}>Investors collaboration</span>
                 </li>
                 <li className={classes.solutionsItem}>
-                  <img src="./icons/shield.svg" alt="shield"/>
+                  <img style={{width: '150px'}} src="./icons/shield.svg" alt="shield"/>
                   <span className={classes.solutionsText}>SCAM-protection</span>
                 </li>
                 <li className={classes.solutionsItem}>
-                  <img src="./icons/wallet.svg" alt="wallet"/>
+                  <img style={{width: '170px'}} src="./icons/wallet.svg" alt="wallet"/>
                   <span className={classes.solutionsText}>Assets management</span>
                 </li>
               </ul>
@@ -518,7 +518,7 @@ class LandingPage extends React.Component<any> {
         <footer className={classes.footer} style={{borderTop: '1px solid #f1f1f1',  marginTop: '75px'}}>
           <div className={classes.footerContainer}>
             <div style={{width: '240px', marginRight: '80px'}}>
-              <Link to="first" smooth={true} offset={-180} duration={500}>
+              <Link to="first" smooth={true} offset={-280} duration={500}>
                 <a href='#' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
                   <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
                   <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>

@@ -31,7 +31,7 @@ const styles = () => createStyles({
   },
   pageHeading: {
     height: '560px',
-    background: 'url("./page.jpg") 50% 70%',
+    background: 'url("./protect.jpg") 50% 0%',
     backgroundSize: 'cover',
     display: 'flex',
     position: 'relative',
@@ -183,7 +183,7 @@ class OfferProtectionPage extends React.Component<any> {
             <ul className={classes.infoList}>
               <li className={classes.infoItem}><a href="#" className={classes.infoLink}>Pitch for Investors</a></li>
               <li className={classes.infoItem}><a href="#" className={classes.infoLink}>White Paper (download)</a></li>
-              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>Financial model (download)</a></li>
+              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>Financial Model (download)</a></li>
               <li className={classes.infoItem}><a href="#" className={classes.infoLink}>Market monopoly, or why we are developing the social network</a></li>
             </ul>
           </div>
