@@ -198,7 +198,7 @@ class PostInput extends Component<any> {
                     {createPost => {
                         return <Button className={`button fill-button ${classes.postButton}`} variant="raised"
                             color="primary"
-                            onClick={async() => {if (this.state.postBody.length) 
+                            onClick={async() => {if (this.state.postBody.length || this.state.attachments.length)
                                 {
                                     await createPost({ variables: { input: postInput } })
                                     this.setState({
