@@ -183,6 +183,10 @@ const styles = () => createStyles({
     tag: {
         color: 'red',
     },
+    postImage: {
+        maxWidth: '500px',
+        marginTop: '10px'
+    }
 });
 
 class Post extends Component<any> {
@@ -385,8 +389,10 @@ class Post extends Component<any> {
                                 </Mutation>
                             </Menu>
                         }
-
                     </div>
+                    {post.attachments && post.attachments.map((attachment:any) => (
+                        <img className={classes.postImage} key={attachment} src={`${endpoint}/images/${post.userId}/${attachment}`}/>
+                    ))}
                         {this.state.editMode
                             ? ( <div className={classes.postContent}>
                                     <div style={{position: 'relative'}}>

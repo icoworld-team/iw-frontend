@@ -162,7 +162,6 @@ class PersonalInfo extends Component<any> {
           this.props.client.mutate({
               mutation: REMOVE_JOB,
               variables: {
-                  userId: this.props.user.id,
                   id: this.state.jobs[index].id
               }
           });
@@ -182,7 +181,6 @@ class PersonalInfo extends Component<any> {
           this.props.client.mutate({
               mutation: REMOVE_EDUCATION,
               variables: {
-                  userId: this.props.user.id,
                   id: this.state.educations[index].id
               }
           });
@@ -196,7 +194,6 @@ class PersonalInfo extends Component<any> {
     this.props.client.mutate({
         mutation: UPDATE_USER,
         variables: {input: {
-                id: this.props.user.id,
                 name: this.state.firstName + ' ' + this.state.lastName,
                 login: this.state.login,
                 country: this.state.country,
@@ -219,7 +216,6 @@ class PersonalInfo extends Component<any> {
             this.props.client.mutate({
                 mutation: ADD_JOB,
                 variables: {input: {
-                        userId: this.props.user.id,
                         name: job.name,
                         from: job.from,
                         to: job.to
@@ -230,7 +226,6 @@ class PersonalInfo extends Component<any> {
             this.props.client.mutate({
                 mutation: UPDATE_JOB,
                 variables: {
-                    userId: this.props.user.id,
                     id: job.id,
                     input: {
                         name: job.name,
@@ -247,7 +242,6 @@ class PersonalInfo extends Component<any> {
             this.props.client.mutate({
                 mutation: ADD_EDUCATION,
                 variables: {input: {
-                        userId: this.props.user.id,
                         name: education.name,
                         from: education.from,
                         to: education.to
@@ -258,7 +252,6 @@ class PersonalInfo extends Component<any> {
             this.props.client.mutate({
                 mutation: UPDATE_EDUCATION,
                 variables: {
-                    userId: this.props.user.id,
                     id: education.id,
                     input: {
                         name: education.name,
