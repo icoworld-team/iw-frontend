@@ -177,7 +177,7 @@ class News extends Component<any> {
     };
 
     let date = new Date();
-    const weekAgo = date.setDate(date.getDate()-7);
+    const yearAgo = date.setFullYear(date.getFullYear()-1);
 
     return (
       <>
@@ -320,7 +320,7 @@ class News extends Component<any> {
                     <Typography className={`card-title`}>Tags</Typography>
                   </div>
                   <ul className={classes.tagList}>
-                      <Query query={GET_POPULAR_TAGS} variables={{from: new Date(weekAgo).toISOString(), to: new Date().toISOString()}}>
+                      <Query query={GET_POPULAR_TAGS} variables={{from: new Date(yearAgo).toISOString(), to: new Date().toISOString()}}>
                           {({ loading, error, data }) => {
                               if(loading) return <div>Loading</div>;
                               if(error) return `Error: ${error}`;
