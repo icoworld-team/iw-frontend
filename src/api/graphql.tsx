@@ -421,8 +421,8 @@ export const REMOVE_EDUCATION = gql`
 `;
 
 export const LIKE_POST = gql`
-	mutation likePost($postId: ID!, $like: Boolean!) {
-		likePost(postId: $postId, like: $like)
+	mutation likePost($id: ID!, $like: Boolean!) {
+		likePost(id: $id, like: $like)
 	}
 `;
 

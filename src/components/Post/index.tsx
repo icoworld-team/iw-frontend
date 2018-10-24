@@ -459,7 +459,7 @@ class Post extends Component<any> {
                                             checkedIcon={<Favorite className={`${classes.footerIcon} ${classes.checkedIcon}`} />}
                                             value="like"
                                             checked={this.state.isLiked}
-                                            onChange={() => likePost({variables: {postId: post.postId, like: !this.state.isLiked}})}
+                                            onChange={() => likePost({variables: {id: post.postId, like: !this.state.isLiked}})}
                                         />
                                     )}
                                 </Mutation>
