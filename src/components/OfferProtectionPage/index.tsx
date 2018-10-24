@@ -31,7 +31,7 @@ const styles = () => createStyles({
   },
   pageHeading: {
     height: '560px',
-    background: 'url("./page.jpg") 50% 70%',
+    background: 'url("./protect.jpg") 50% 0%',
     backgroundSize: 'cover',
     display: 'flex',
     position: 'relative',
@@ -111,7 +111,7 @@ const styles = () => createStyles({
   },
 });
 
-class MarketMonopolyPage extends React.Component<any> {
+class OfferProtectionPage extends React.Component<any> {
 
   render() {
     const { classes } = this.props;
@@ -122,7 +122,7 @@ class MarketMonopolyPage extends React.Component<any> {
         <div className={classes.pageHeading}>
           <div className={classes.pageHeadingFilter} />
           <div className={classes.container} style={{display: 'flex', alignItems: 'flex-end'}}>
-            <h1 className={classes.title} style={{marginBottom: '40px', color: '#fff', zIndex: 10}}>Market monopoly, or why we are developing the social network</h1>
+            <h1 className={classes.title} style={{marginBottom: '40px', color: '#fff', zIndex: 10}}>How we are going to offer protection from scams</h1>
           </div>
         </div>
 
@@ -131,60 +131,51 @@ class MarketMonopolyPage extends React.Component<any> {
 
             <li className={classes.pageItem}>
               <div className={classes.content}>
-              Our project has two parts:
+                The most frequent question is how we are going to offer protection from scams.
+                <br style={{fontSize: '24px'}}/>
+                The answer is below.
+                <br style={{fontSize: '24px'}}/>
+                <br style={{fontSize: '24px'}}/>
+
+                Firstly, our goal is not to rectify the negative effects of the scam, but rather to prevent it by making it unprofitable. Our plan for doing this is as follows:
                 <ol className={classes.numberList}>
-                  <li>The business part. This includes scam protection services and asset management infrastructure. This part
-                    provides trust between the ICO market stakeholders and charges a commission for the service. This is the
-                    monetization of the project.</li>
-                  <li>The social part. This is a familiar social network that unites the participants of the ICO market. The
-                    social network provides customers with a quick and simple connection and collaboration. It is free of charge.</li>
+                  <li>Every project passes mandatory due diligence when it is being registered on our platform.</li>
+                  <li>We do KYC on the project founders, checking the reliability of their biographies, analyzing
+                    the project in detail, writing an audit report, and attaching it to the project profile.</li>
+                  <li>We communicate with every project not only online but also offline.</li>
+                  <li>When regulation appears, we add legal support for investments.</li>
                 </ol>
-                <p>The first point is clear. We create useful services and earn money. This is just a business and nothing more.
-                But why are we developing a social network? Why are we delivering it free of charge?
+
+                <p>This is the first level of our defense. The number of scammers will decrease by 90% because it will be
+                  impossible for them to remain anonymous. Every crypto-investor will know who took their money, and where that person is.
                 <br style={{fontSize: '24px'}}/>
-                The answer is simple. We are doing this to attract customers to our business solutions. The social network is
-                a part of our marketing strategy. And it is a good part.
                 <br style={{fontSize: '24px'}}/>
-                Look.</p>
+
+                The second level of scam protection is escrow service. We create a smart contract that sends money in tranches.
+                For example, a project will state: "I need $10 million of investment. $1 million for the first stage, $2 million
+                for the second, $3 million for the third, etc."
+                <br style={{fontSize: '24px'}}/>
+
+                After that:</p>
+                <ol className={classes.numberList}>
+                  <li>Investors' money comes into a smart contract that we administer. Under the terms of the smart contract,
+                    we can’t take the money. We can only send it to the project or return it to the investors.</li>
+                  <li>We send the first tranche of investments into the project for passing the first stage.</li>
+                  <li>If the project fulfills its obligations at successive stages, we send the second tranche, then the third, etc.</li>
+                  <li>If the project doesn’t fulfill these obligations, we return the money to the investors.</li>
+                </ol>
               </div>
             </li>
 
             <li className={classes.pageItem}>
-              <h2 className={classes.title}>“Nothing except the mint can make money without advertising.”–Thomas Macaulay</h2>
+              <h2 className={classes.title}>There is also the question of why investors will trust our platform</h2>
               <div className={classes.content}>
-                Generally, any business has two parts:
-                <ol className={classes.numberList}>
-                  <li>Product creation</li>
-                  <li>Advertising</li>
-                </ol>
-                <p>So, in our business, the social network is a non-trivial way of advertising. We don’t want to pay big money for marketing
-                expenses all our lives. We are going to create and promote a popular platform once and just support it in the future.
-                <br style={{fontSize: '24px'}}/>
-                A social network is a self-developing ecosystem. Existing users of the social network regularly create new content to
-                promote their own accounts. This content improves and advertises the platform too. As a result, current users attract new
-                users. At the same time, the holder of the platform just manages one. He can use the results of advertising. And he doesn’t
-                have to pay for this. What could be better? Nothing. Facebook, Reddit, and Medium are successful examples of such a business model.</p>
-              </div>
-            </li>
-
-            <li className={classes.pageItem}>
-              <h2 className={classes.title}>“So in war, the way is to avoid what is strong, and strike at what is weak.”–Sun Tzu</h2>
-              <div className={classes.content}>
-                A social network allows us to avoid a marketing war. We want to monopolize the ICO market and protect our positions with small
-                forces. We have the following arguments:
-                <ol className={classes.numberList}>
-                  <li>Today marketing wars are wars of budgets. When giants like J.P. Morgan, Goldman Sachs or Citi come to the ICO market we
-                    will not be able to defeat them in a direct battle. So we have to find another way.</li>
-                  <li>In this case, a social network is a more elegant solution. We are going to attract the initial audience to our platform
-                    because we are the first and we don’t have strong competitors. After that, new users will appear without our participation.</li>
-                  <li>But most importantly, they will stay with us forever. A social network creates a strong connection between users. A
-                    potential competitor can’t recruit one at a time. He must take them all at once. The complexity of this task will increase
-                    with the growth of users. As a result, it will be impossible for even J.P. Morgan, Goldman Sachs or Citi.</li>
-                  <li>In a long-term success case, we will have access to all ICO investors in the world through our social network.</li>
-                </ol>
-                <p>In a long-term success case, the social network will allow us to monopolize the ICO marketplace. We will create business
-                services and receive an inexhaustible flow of new customers. We will be able to dump competitors if necessary. At the same
-                time, we will always remain a profitable business because of the economies of scale.</p>
+              <p>The reason is the same: it is profitable for us to be honest. Our business is a reputable one. And
+                only if we do our job well, can we earn the trust of investors. Thereby, we will be able to attract
+                hundreds of projects per year. We will earn big money on commissions. Very big money. However, a
+                few simple mistakes can destroy our reputation and instantly drive away clients. We do not want to
+                lose hundreds of good projects over a few scams. Therefore, in our case honesty is not just a
+                question of morality, but a matter of common sense.</p>
               </div>
             </li>
 
@@ -195,8 +186,8 @@ class MarketMonopolyPage extends React.Component<any> {
             <ul className={classes.infoList}>
               <li className={classes.infoItem}><a href="#" className={classes.infoLink}>Pitch for Investors</a></li>
               <li className={classes.infoItem}><a href="#" className={classes.infoLink}>White Paper (download)</a></li>
-              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>Financial model (download)</a></li>
-              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>How we are going to offer protection from scams</a></li>
+              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>Financial Model (download)</a></li>
+              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>Market monopoly, or why we are developing the social network</a></li>
             </ul>
           </div>
         </div>
@@ -243,4 +234,4 @@ class MarketMonopolyPage extends React.Component<any> {
   }
 }
 
-export default withStyles(styles)(MarketMonopolyPage)
+export default withStyles(styles)(OfferProtectionPage)

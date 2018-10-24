@@ -4,12 +4,13 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import InsertPhoto from '@material-ui/icons/InsertPhoto';
 import InsertDriveFile from '@material-ui/icons/InsertDriveFile';
+import Clear from '@material-ui/icons/Clear';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 // import TextField from '@material-ui/core/TextField';
 import { Mutation } from 'react-apollo';
-import { CREATE_POST, SEARCH_POST_IN_PROFILE } from '../../api/graphql';
-
+import {ADD_IMAGE, CREATE_POST, SEARCH_POST, SEARCH_POST_IN_PROFILE, UPLOAD_FILE} from '../../api/graphql';
+import { withApollo } from "react-apollo"
 
 const styles = () => createStyles({
     postInput: {
@@ -19,6 +20,7 @@ const styles = () => createStyles({
     postTextarea: {
         width: '100%',
         resize: 'none',
+        maxHeight: '418px',
     },
     attachment: {
         display: 'none',
@@ -64,6 +66,10 @@ const styles = () => createStyles({
         minHeight: '30px',
         fontSize: '14px',
         marginTop: '7px'
+    },
+    inputFiles: {
+        display: 'flex',
+        alignItems: 'center'
     }
 });
 
@@ -72,6 +78,7 @@ class PostInput extends Component<any> {
     state = {
         postBody: '',
         tags: [],
+        attachments: [],
         textareaHeight: 58,
     };
 
@@ -100,6 +107,25 @@ class PostInput extends Component<any> {
         });
     };
 
+    handleAttach = ({target: {validity, files: [file]}}:any) => {
+        if(validity.valid) {
+            this.props.client.mutate({
+                mutation: UPLOAD_FILE,
+                variables: {file: file}
+            }).then((response:any) => {
+                this.setState((state:any) => ({
+                    attachments: state.attachments.concat({id: response.data.uploadFile, name: file.name})
+                }));
+            })
+        }
+    };
+
+    handleDeleteAttachment = (index:number) => () => {
+        this.setState((state:any) => ({
+            attachments: [...state.attachments.slice(0,index), ...state.attachments.slice(index+1)]
+        }))
+    };
+
     render() {
         const {classes, authUserId} = this.props;
         const postInput = {
@@ -107,6 +133,14 @@ class PostInput extends Component<any> {
             content: this.state.postBody,
             tags: this.state.tags,
         };
+        const attachments = this.state.attachments.map((file:any, index:any) => (
+            <div key={file.id} className={classes.inputFiles}>
+                <Typography>{`${file.name} uploaded`}</Typography>
+                <IconButton color="primary" component="span" style={{color: '#8b8b8b'}} onClick={this.handleDeleteAttachment(index)}>
+                    <Clear/>
+                </IconButton>
+            </div>
+        ));
         return (
             <div className={`card ${classes.postInput}`}>
                 <div className={classes.inputHeader}>
@@ -134,7 +168,17 @@ class PostInput extends Component<any> {
                             whiteSpace: 'pre-wrap'}} rows={1} tabIndex={-1} />
                 </div>
 
-                <Mutation mutation={CREATE_POST} onCompleted={() => this.setState({postBody: ''})}
+                <Mutation mutation={CREATE_POST} onCompleted={(data) => {
+                    this.state.attachments.forEach((file:any) => {
+                        console.log(123123);
+                        this.props.client.mutate({
+                            mutation: ADD_IMAGE,
+                            variables: {postId: data.createPost.postId, imageId: file.id},
+                            refetchQueries: [{query: SEARCH_POST_IN_PROFILE, variables: {userId: authUserId, searchText: ""}}, {query: SEARCH_POST, variables: {searchText: ""}}]
+                        });
+                    });
+                    this.setState({postBody: '', attachments: []})
+                }}
                     onError={(error) => console.log(error)}
                     update={(cache, {data: {createPost}}) => {
                         const data = cache.readQuery({
@@ -154,14 +198,17 @@ class PostInput extends Component<any> {
                     {createPost => {
                         return <Button className={`button fill-button ${classes.postButton}`} variant="raised"
                             color="primary"
-                            onClick={() => {if (this.state.postBody.length) 
+                            onClick={async() => {if (this.state.postBody.length || this.state.attachments.length)
                                 {
-                                    createPost({ variables: { input: postInput } })
+                                    await createPost({ variables: { input: postInput } })
+                                    this.setState({
+                                        textareaHeight: 58
+                                    });
                                 }
                             }}>Post</Button>
                     }}
                 </Mutation>
-                <input className={classes.attachment} id="image-file" type="file" accept="image/*"/>
+                <input className={classes.attachment} id="image-file" type="file" accept="image/*" onChange={this.handleAttach}/>
                 <label htmlFor="image-file">
                     <IconButton color="primary" component="span" style={{color: '#8b8b8b'}}>
                         <InsertPhoto/>
@@ -173,9 +220,10 @@ class PostInput extends Component<any> {
                         <InsertDriveFile/>
                     </IconButton>
                 </label>
+                {attachments}
             </div>
         )
     }
 }
 
-export default withStyles(styles)(PostInput);
+export default withStyles(styles)(withApollo(PostInput));

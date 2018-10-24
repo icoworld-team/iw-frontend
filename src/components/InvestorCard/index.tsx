@@ -48,15 +48,9 @@ const styles = () => createStyles({
         width: '75px',
     },
     button: {
-        padding: '0px',
         fontSize: '10px',
-        textTransform: 'none',
         minHeight: '20px',
         marginBottom: '10px'
-    },
-    followButton: {
-
-        backgroundColor: '#980000',
     },
     messageButton: {
         borderColor: '#980000',
@@ -126,7 +120,7 @@ class InvestorCard extends Component<any> {
                             return <FollowButton id={this.props.data.id} followers={data.getSubscribers} style={classes.button}/>
                         })}
                     </Query>
-                    <Button variant="outlined" color="secondary" className={`${classes.button} ${classes.messageButton}`} onClick={this.handleOpen}>
+                    <Button variant="outlined" color="secondary" className={`button outline-button ${classes.button}`} onClick={this.handleOpen}>
                         Message
                     </Button>
                 </div>

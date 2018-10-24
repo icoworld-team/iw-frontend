@@ -105,7 +105,8 @@ const styles = () => createStyles({
         lineHeight: '19px',
         color: '#171717',
         paddingBottom: '10px',
-        borderBottom: '1px solid #edeef0'
+        borderBottom: '1px solid #edeef0',
+        wordBreak: 'break-word',
     },
 
     postFooter: {
@@ -183,6 +184,10 @@ const styles = () => createStyles({
     tag: {
         color: 'red',
     },
+    postImage: {
+        maxWidth: '500px',
+        marginTop: '10px'
+    }
 });
 
 class Post extends Component<any> {
@@ -363,8 +368,9 @@ class Post extends Component<any> {
                             : <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
                                     onClose={this.handleClose} TransitionComponent={Fade}>
                                 <MenuItem name="pin" id="pin" onClick={this.handleClose}>Pin to top</MenuItem>
+
                                 <MenuItem name="edit" id="edit" onClick={this.handleEdit}>Edit</MenuItem>
-                                <Mutation mutation={DELETE_POST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
+                                    <Mutation mutation={DELETE_POST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
                                         update={(cache, {data: { deletePost }}) => {
                                             const data = cache.readQuery({
                                                 query: SEARCH_POST_IN_PROFILE,
@@ -377,16 +383,18 @@ class Post extends Component<any> {
                                                     posts: posts,
                                                     }}});
                                         }}>
-                                    {deletePost => {
-                                        return (
-                                            <MenuItem name="delete" id="delete" onClick={() => deletePost({variables: {postId: post.postId}})}>Delete</MenuItem>
-                                        )
-                                    }}
-                                </Mutation>
+                                        {deletePost => {
+                                            return (
+                                                <MenuItem name="delete" id="delete" onClick={() => deletePost({variables: {postId: post.postId}})}>Delete</MenuItem>
+                                            )
+                                        }}
+                                    </Mutation>
                             </Menu>
                         }
-
                     </div>
+                    {post.attachments && post.attachments.map((attachment:any) => (
+                        <img className={classes.postImage} key={attachment} src={`${endpoint}/images/${post.userId}/${attachment}`}/>
+                    ))}
                         {this.state.editMode
                             ? ( <div className={classes.postContent}>
                                     <div style={{position: 'relative'}}>

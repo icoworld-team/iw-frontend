@@ -68,7 +68,7 @@ class PostComments extends Component<any> {
                 if(loading) return <div>Loading</div>;
                 if(error) return `Error: ${error}`;
 
-                const comments = data.getComments.slice().reverse().map((comment:any) => (
+                const comments = data.getComments.slice().map((comment:any) => (
                     <Comment comment={comment}/>
                 ));
                 return (

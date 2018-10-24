@@ -68,6 +68,7 @@ export const SEARCH_POST = gql`
 			comments
             likes
             tags
+            attachments
         }
     }
 `;
@@ -86,6 +87,7 @@ export const GET_FOLLOWS_POSTS = gql`
 			comments
             likes
             tags
+            attachments
         }
     }
 `;
@@ -210,6 +212,7 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				likes
 				comments
 				tags
+				attachments
 			}
 			reposts {
 			    id
@@ -243,6 +246,7 @@ export const CREATE_POST = gql`
             comments
             likes
             tags
+            attachments
         }
     }
 `;
@@ -339,7 +343,6 @@ export const UNFOLLOW_USER = gql`
 export const UPDATE_USER = gql`
 	mutation updateUser($input: UserInput!) {
 		updateUser(input: $input) {
-		    id
 			name
 			login
 			email
@@ -388,14 +391,14 @@ export const ADD_JOB = gql`
 `;
 
 export const UPDATE_JOB = gql`
-	mutation updateJob($userId: ID!, $id: ID!, $input: ExpirienceInput!) {
-		updateJob(userId: $userId, id: $id, input: $input)
+	mutation updateJob($id: ID!, $input: ExpirienceInput!) {
+		updateJob(id: $id, input: $input)
 	}
 `;
 
 export const REMOVE_JOB = gql`
-	mutation removeJob($userId: ID!, $id: ID!) {
-		removeJob(userId: $userId, id: $id)
+	mutation removeJob($id: ID!) {
+		removeJob(id: $id)
 	}
 `;
 
@@ -406,14 +409,14 @@ export const ADD_EDUCATION = gql`
 `;
 
 export const UPDATE_EDUCATION = gql`
-	mutation updateEducation($userId: ID!, $id: ID!, $input: ExpirienceInput!) {
-		updateEducation(userId: $userId, id: $id, input: $input)
+	mutation updateEducation($id: ID!, $input: ExpirienceInput!) {
+		updateEducation(id: $id, input: $input)
 	}
 `;
 
 export const REMOVE_EDUCATION = gql`
-	mutation removeEducation($userId: ID!, $id: ID!) {
-		removeEducation(userId: $userId, id: $id)
+	mutation removeEducation($id: ID!) {
+		removeEducation(id: $id)
 	}
 `;
 
@@ -436,14 +439,14 @@ export const DELETE_REPOST = gql`
 `;
 
 export const SET_PM_SENDERS = gql`
-	mutation setPMSendersMode($userId: ID!, $mode: String!) {
-		setPMSendersMode(userId: $userId, mode: $mode)
+	mutation setPMSendersMode($mode: String!) {
+		setPMSendersMode(mode: $mode)
 	}
 `;
 
 export const SET_COMMENTERS = gql`
-	mutation setCommentersMode($userId: ID!, $mode: String!) {
-		setCommentersMode(userId: $userId, mode: $mode)
+	mutation setCommentersMode($mode: String!) {
+		setCommentersMode(mode: $mode)
 	}
 `;
 
@@ -462,5 +465,11 @@ export const LIKE_REPOST = gql`
 export const GET_POPULAR_TAGS = gql`
 	query getPopularTags($from: String!, $to: String!) {
 		getPopularTags(from: $from, to: $to)
+	}
+`;
+
+export const ADD_IMAGE = gql`
+	mutation addImage($postId: ID!, $imageId: ID!) {
+		addImage(postId: $postId, imageId: $imageId)
 	}
 `;
