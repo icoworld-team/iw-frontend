@@ -337,141 +337,141 @@ class Profile extends Component<any> {
         <Grid item xs={1} />
         <Grid item xs={10}>
           <div className={`page-content`}>
-            <div className={`card ${classes.profileInfo}`}>
               <Query query={GET_USER} variables={{ userId: id }} fetchPolicy="network-only">
                 {({ loading, error, data }) => {
                   if (loading) return null;
                   if (error) return `Error: ${error}`;
                   const user = data.getUser;
                   return (
-                    <ul className={classes.profileInfoList}>
-                      <li className={classes.profileInfoItem}>
-                        <img className={classes.avatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
-                        <Typography className={classes.userName}>{user.name}</Typography>
-                        <Typography className={classes.userInfoText}>{user.login}</Typography>
-                        <Typography className={classes.userInfoText}>{user.city ? `${user.country}, ${user.city}` : user.country}</Typography>
-                        {ownPage ? (<div className={classes.editCard}>
-                            <Link to="/settings" className={classes.link}>
-                              <Button variant="outlined" color="secondary" className={`button outline-button ${classes.editButton}`}>
-																Edit profile
-															</Button>
-                            </Link>
+                      <>
+                          <div className={`card ${classes.profileInfo}`}>
+                              <ul className={classes.profileInfoList}>
+                                  <li className={classes.profileInfoItem}>
+                                      <img className={classes.avatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
+                                      <Typography className={classes.userName}>{user.name}</Typography>
+                                      <Typography className={classes.userInfoText}>{user.login ? `@${user.login}` : null}</Typography>
+                                      <Typography className={classes.userInfoText}>{user.city ? `${user.country}, ${user.city}` : user.country}</Typography>
+                                      {ownPage ? (<div className={classes.editCard}>
+                                              <Link to="/settings" className={classes.link}>
+                                                  <Button variant="outlined" color="secondary" className={`button outline-button ${classes.editButton}`}>
+                                                      Edit profile
+                                                  </Button>
+                                              </Link>
+                                          </div>
+                                      ) : (
+                                          <div className={classes.cardBtns}>
+                                              <Query query={GET_SUBSCRIBERS} variables={{ userId: user.id }}>
+                                                  {({ loading, error, data }) => {
+                                                      if (loading) return null;
+                                                      if (error) return `Error: ${error}`;
+                                                      return (
+                                                          <FollowButton id={user.id} followers={data.getSubscribers} style={classes.followButton}/>
+                                                      );
+                                                  }}
+                                              </Query>
+                                              <Button variant="outlined" color="secondary" className={`button outline-button ${classes.messageButton}`}>
+                                                  Message
+                                              </Button>
+                                              <Button variant="outlined" color="secondary" className={`button outline-button ${classes.moreButton}`}>
+                                                  <MoreHorizIcon className={classes.moreButtonIcon}/>
+                                              </Button>
+                                          </div>
+                                      )}
+                                  </li>
+
+                                  <li className={classes.profileInfoItem}>
+                                      <Typography className={classes.itemTitle}  align="center">About:</Typography>
+                                      <Typography className={`${classes.itemText} ${classes.aboutText}`}>{user.about}</Typography>
+                                  </li>
+
+                                  <li className={classes.profileInfoItem}>
+                                      <Typography className={classes.itemTitle} align="center">Education:</Typography>
+                                      <ul className={classes.subList}>
+                                          {user.educations.map((education: any) => (
+                                              <li key={education.id} className={classes.subItem}>
+                                                  <Typography className={classes.itemText}>{education.name}</Typography>
+                                                  <Typography className={classes.itemText}>{`${new Date(education.from).getFullYear()}-${new Date(education.to).getFullYear()}`}</Typography>
+                                              </li>
+                                          ))}
+                                      </ul>
+                                  </li>
+
+                                  <li className={classes.profileInfoItem}>
+                                      <Typography className={classes.itemTitle} align="center">Experience:</Typography>
+                                      <ul className={classes.subList}>
+                                          {user.jobs.map((job: any) => (
+                                              <li key={job.id} className={classes.subItem}>
+                                                  <Typography className={classes.itemText}>{job.name}</Typography>
+                                                  <Typography className={classes.itemText}>{`${new Date(job.from).getFullYear()}-${new Date(job.to).getFullYear()}`}</Typography>
+                                              </li>
+                                          ))}
+                                      </ul>
+                                  </li>
+                              </ul>
                           </div>
-                        ) : (
-                          <div className={classes.cardBtns}>
-                            <Query query={GET_SUBSCRIBERS} variables={{ userId: user.id }}>
-                              {({ loading, error, data }) => {
-                                if (loading) return null;
-                                if (error) return `Error: ${error}`;
-                                return (
-                                  <FollowButton id={user.id} followers={data.getSubscribers} style={classes.followButton}/>
-                                );
-                              }}
-                            </Query>
-                            <Button variant="outlined" color="secondary" className={`button outline-button ${classes.messageButton}`}>
-                              Message
-                            </Button>
-                            <Button variant="outlined" color="secondary" className={`button outline-button ${classes.moreButton}`}>
-                              <MoreHorizIcon className={classes.moreButtonIcon}/>
-                            </Button>
+                          <div className={classes.profileContent}>
+                              {ownPage ? (
+                                  <PostInput authUserId={id} user={user} />
+                              ) : null}
+                              <div className={`card card-heading ${classes.profileTabsList}`}>
+                                  <Tabs
+                                      value={this.state.tab}
+                                      onChange={this.handleChange}
+                                      classes={{
+                                          indicator: `tabs-indicator ${classes.noDisplay}`,
+                                          root: `tabs-root`
+                                      }}
+                                  >
+                                      <Tab
+                                          style={{ cursor: "default" }}
+                                          disableRipple
+                                          classes={{
+                                              root: `tab-root`,
+                                              label: `tab-label`,
+                                              labelContainer: `tab-label-container`
+                                          }}
+                                          label="Activity"
+                                      />
+                                  </Tabs>
+                                  <TextField
+                                      InputProps={{
+                                          disableUnderline: true,
+                                          classes: { input: `search-input input` }
+                                      }}
+                                      className={`heading-input`}
+                                      name="searchText"
+                                      placeholder="Search"
+                                      value={this.state.searchText}
+                                      onChange={this.handleSearch}
+                                  />
+                              </div>
+
+                              <div className={`${classes.profileTabs}`}>
+                                  {this.state.tab === 0 && (
+                                          <Query query={SEARCH_POST_IN_PROFILE} variables={input}>
+                                              {({ loading, error, data }) => {
+                                                  if (loading) return <div>Loading</div>;
+                                                  if (error) return `Error: ${error}`;
+                                                  if (data.searchPostInProfile.posts.length == 0 && data.searchPostInProfile.reposts.length == 0)
+                                                      return (
+                                                          <div className={`card ${classes.noActivity}`}>
+                                                              <Typography>No activity</Typography>
+                                                          </div>
+                                                      );
+
+                                                  return <PostList updateData={this.updateData} posts={data.searchPostInProfile.posts.concat( data.searchPostInProfile.reposts)}/>
+                                              }}
+                                          </Query>
+                                  )}
+                              </div>
                           </div>
-                        )}
-                      </li>
-
-                      <li className={classes.profileInfoItem}>
-                        <Typography className={classes.itemTitle}  align="center">About:</Typography>
-                        <Typography className={`${classes.itemText} ${classes.aboutText}`}>{user.about}</Typography>
-                      </li>
-
-                      <li className={classes.profileInfoItem}>
-                        <Typography className={classes.itemTitle} align="center">Education:</Typography>
-                        <ul className={classes.subList}>
-                          {user.educations.map((education: any) => (
-                            <li key={education.id} className={classes.subItem}>
-                              <Typography className={classes.itemText}>{education.name}</Typography>
-                              <Typography className={classes.itemText}>{`${new Date(education.from).getFullYear()}-${new Date(education.to).getFullYear()}`}</Typography>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-
-                      <li className={classes.profileInfoItem}>
-                        <Typography className={classes.itemTitle} align="center">Experience:</Typography>
-                        <ul className={classes.subList}>
-                          {user.jobs.map((job: any) => (
-                            <li key={job.id} className={classes.subItem}>
-                              <Typography className={classes.itemText}>{job.name}</Typography>
-                              <Typography className={classes.itemText}>{`${new Date(job.from).getFullYear()}-${new Date(job.to).getFullYear()}`}</Typography>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-                    </ul>
+                      </>
                   );
                 }}
               </Query>
-            </div>
 
-            <div className={classes.profileContent}>
-              {ownPage ? (
-                <PostInput authUserId={id} authUser={this.props.authUser} />
-              ) : null}
-              <div className={`card card-heading ${classes.profileTabsList}`}>
-                <Tabs
-                  value={this.state.tab}
-                  onChange={this.handleChange}
-                  classes={{
-                    indicator: `tabs-indicator ${classes.noDisplay}`,
-                    root: `tabs-root`
-                  }}
-                >
-                  <Tab
-                    style={{ cursor: "default" }}
-                    disableRipple
-                    classes={{
-                      root: `tab-root`,
-                      label: `tab-label`,
-                      labelContainer: `tab-label-container`
-                    }}
-                    label="Activity"
-                  />
-                </Tabs>
-                <TextField
-                  InputProps={{
-                    disableUnderline: true,
-                    classes: { input: `search-input input` }
-                  }}
-                  className={`heading-input`}
-                  name="searchText"
-                  placeholder="Search"
-                  value={this.state.searchText}
-                  onChange={this.handleSearch}
-                />
-              </div>
 
-              <div className={`${classes.profileTabs}`}>
-                {this.state.tab === 0 && (
-                  <>
-                    {/* <PostInput authUserId={this.props.authUser.id}/> */}
 
-                    <Query query={SEARCH_POST_IN_PROFILE} variables={input}>
-                      {({ loading, error, data }) => {
-                        if (loading) return <div>Loading</div>;
-                        if (error) return `Error: ${error}`;
-                        if (data.searchPostInProfile.posts.length == 0 && data.searchPostInProfile.reposts.length == 0)
-                          return (
-                            <div className={`card ${classes.noActivity}`}>
-                              <Typography>No activity</Typography>
-                            </div>
-													);
-													
-                        return <PostList updateData={this.updateData} posts={data.searchPostInProfile.posts.concat( data.searchPostInProfile.reposts)}/>
-                      }}
-                    </Query>
-                  </>
-                )}
-              </div>
-            </div>
 
             <div className={classes.profileFollowers}>
               <div className={`card ${classes.followersCard}`}>

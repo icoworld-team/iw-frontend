@@ -144,7 +144,7 @@ class ProfileSettings extends Component<any> {
                                           <Typography className={classes.userLogin}>@{user.login}</Typography>
                                       </div>
                                   </Grid>
-                                  <ModalUploadPhoto id={this.props.authUser.id} open={this.state.modalOpen} onClose={this.handleClose}/>
+                                  <ModalUploadPhoto open={this.state.modalOpen} onClose={this.handleClose}/>
                                   <Grid item xs={1} />
                               </Grid>
                           </div>

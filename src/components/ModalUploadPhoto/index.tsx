@@ -4,6 +4,7 @@ import Dialog from '@material-ui/core/Dialog'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import {UPDATE_USER, UPLOAD_FILE} from "../../api/graphql"
 import { withApollo } from "react-apollo"
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const styles = () => createStyles({
     modal: {
@@ -33,9 +34,14 @@ const styles = () => createStyles({
 });
 
 class ModalUploadPhoto extends Component<any> {
+    state = {
+        mutation: ''
+    };
 
     handleChange = ({target: {validity, files: [file]}}:any) => {
-        console.log(file);
+        this.setState({
+            mutation: 'uploading'
+        });
         if(validity.valid) {
             this.props.client.mutate({
                 mutation: UPLOAD_FILE,
@@ -45,13 +51,14 @@ class ModalUploadPhoto extends Component<any> {
                 this.props.client.mutate({
                     mutation: UPDATE_USER,
                     variables: {input: {
-                            id: this.props.id,
                             photo: response.data.uploadFile,
                             avatar: response.data.uploadFile
                         }},
-                }).then((response:any) => console.log(response.data))
-                    .then(this.props.onClose)
-            });
+                }).then(this.setState({mutation: 'uploaded'}))
+            }).then(setTimeout(() => {
+                this.setState({mutation: ''});
+                this.props.onClose();
+            },1000));
         }
     };
 
@@ -61,16 +68,26 @@ class ModalUploadPhoto extends Component<any> {
             <Dialog PaperProps={{square: true}} open={this.props.open} onClose={this.props.onClose}>
                 <div className={classes.modal}>
                     <div className={classes.modalTitle}>Upload Photo</div>
-                    <div className={classes.modalBody}>
-                        <p style={{marginBottom: '15px', fontSize: '14px'}}>Please, upload a square image for correct display:</p>
-                        <input className={classes.attachment} id="image" type="file" accept="image/*"
-                               onChange={this.handleChange}/>
-                        <label htmlFor="image">
-                            <Button component="span" variant="outlined" color="secondary" className={`button outline-button ${classes.editButton}`}>
-                                Upload
-                            </Button>
-                        </label>
-                    </div>
+                    {this.state.mutation === 'uploading' ? (
+                        <div className={classes.modalBody}>
+                            <CircularProgress/>
+                        </div>
+                    ) : this.state.mutation === 'uploaded' ? (
+                        <div className={classes.modalBody}>
+                            Uploaded!
+                        </div>
+                    ) : (
+                        <div className={classes.modalBody}>
+                            <p style={{marginBottom: '15px', fontSize: '14px'}}>Please, upload a square image for correct display:</p>
+                            <input className={classes.attachment} id="image" type="file" accept="image/*"
+                                   onChange={this.handleChange}/>
+                            <label htmlFor="image">
+                                <Button component="span" variant="outlined" color="secondary" className={`button outline-button ${classes.editButton}`}>
+                                    Upload
+                                </Button>
+                            </label>
+                        </div>
+                    )}
                 </div>
             </Dialog>
         )
