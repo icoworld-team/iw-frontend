@@ -6,34 +6,36 @@ import { socket } from '../../api'
 
 const styles = () => createStyles({
     modal: {
+        padding: '10px 15px 15px 15px',
         position: 'absolute',
         top: '50%',
         left: '50%',
-        backgroundColor: '#fafafa',
-        width: '400px',
-        borderRadius: '10px',
+        backgroundColor: '#fff',
+        width: '445px',
         transform: 'translate(-50%, -50%)',
+        '&:focus': {
+            outline: 'none',
+        }
     },
     modalTitle: {
-        backgroundColor: '#3f51b5',
-        color: '#fff',
-        padding: '10px',
-        borderRadius: '5px 5px 0 0'
+        color: '#171717',
+        marginBottom: '10px',
+        fontSize: '18px',
     },
-    modalBody: {
-        padding: '10px'
-    },
+    modalBody: {},
     modalFooter: {
-        float: 'right',
-        padding: '10px'
+        textAlign: 'right',
     },
     textArea: {
         width: '100%',
-        outline: 'none',
         resize: 'none',
-        fontFamily: 'inherit',
-        fontSize: 'inherit',
-        boxSizing: 'border-box'
+        height: '150px',
+    },
+    button: {
+        minWidth: "85px",
+        minHeight: "25px",
+        fontSize: "12px",
+        fontFamily: 'Open Sans',
     },
 });
 
@@ -42,7 +44,7 @@ class ModalSendMessage extends Component<any> {
         message: ''
     };
 
-
+    handleClose = () => {};
     handleChange = (e:any) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -70,11 +72,18 @@ class ModalSendMessage extends Component<any> {
             <Modal open={this.props.open} onClose={this.props.onClose}>
                 <div className={classes.modal}>
                     <div className={classes.modalTitle}>New message</div>
-                    <div className={classes.modalBody}>
-                        <textarea className={classes.textArea} name="message" rows={6} value={this.state.message} onChange={this.handleChange}></textarea>
+                    <div style={{marginBottom: '10px'}}>
+                        <textarea className={`input border-input ${classes.textArea}`}
+                            name="message" id="message" value={this.state.message} onChange={this.handleChange}
+                            placeholder="Write something..." />
                     </div>
                     <div className={classes.modalFooter}>
-                        <Button color="primary" onClick={this.sendMessage}>Send</Button>
+                        <Button variant="outlined" color="secondary" className={`button outline-button ${classes.button}`} onClick={this.props.onClose} style={{marginRight: '5px'}}>
+                            Cancel
+                        </Button>
+                        <Button variant="contained" color="secondary" className={`button fill-button ${classes.button}`} onClick={this.sendMessage}>
+                            Send
+                        </Button>
                     </div>
                 </div>
             </Modal>

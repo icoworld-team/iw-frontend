@@ -11,23 +11,33 @@ const styles = () => createStyles({
         top: '50%',
         left: '50%',
         backgroundColor: '#fafafa',
-        width: '400px',
-        borderRadius: '10px',
+        width: '445px',
         transform: 'translate(-50%, -50%)',
+        '&:focus': {
+            outline: 'none',
+        }
     },
     modalTitle: {
-        backgroundColor: '#3f51b5',
+        backgroundColor: '#303546',
         color: '#fff',
         padding: '10px',
-        borderRadius: '5px 5px 0 0'
+        textAlign: 'center',
+        fontSize: '18px',
     },
     modalBody: {
-        padding: '10px',
-        textAlign: 'center'
+        padding: '15px',
+        textAlign: 'center',
+        fontFamily: 'Open Sans',
     },
     attachment: {
         display: 'none',
-    }
+    },
+    editButton: {
+        minWidth: "85px",
+        minHeight: "25px",
+        fontSize: "12px",
+        fontFamily: 'Open Sans',
+    },
 });
 
 class ModalUploadPhoto extends Component<any> {
@@ -60,10 +70,13 @@ class ModalUploadPhoto extends Component<any> {
                 <div className={classes.modal}>
                     <div className={classes.modalTitle}>Upload Photo</div>
                     <div className={classes.modalBody}>
+                        <p style={{marginBottom: '15px', fontSize: '14px'}}>Please, upload a square image for correct display:</p>
                         <input className={classes.attachment} id="image" type="file" accept="image/*"
                                onChange={this.handleChange}/>
                         <label htmlFor="image">
-                            <Button color="primary" component="span">Select photo</Button>
+                            <Button component="span" variant="outlined" color="secondary" className={`button outline-button ${classes.editButton}`}>
+                                Upload
+                            </Button>
                         </label>
                     </div>
                 </div>
