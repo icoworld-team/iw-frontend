@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import Modal from "@material-ui/core/Modal";
+import Dialog from "@material-ui/core/Dialog";
 import Scrollbar from "react-custom-scrollbars";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
@@ -227,16 +227,7 @@ const styles = (theme: Theme) =>
     },
 
     paper: {
-      position: "absolute",
       width: "495px",
-      backgroundColor: "#fff",
-      boxShadow: theme.shadows[5],
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      "&:focus": {
-        outline: "none"
-      }
     },
   });
 
@@ -509,12 +500,12 @@ class Profile extends Component<any> {
                         >
                           <Typography className={classes.hideCommentsText}>See more</Typography>
                         </div>
-                        <Modal open={this.state.openFollowers} onClose={() => this.setState({ openFollowers: false })}>
+                        <Dialog PaperProps={{square: true}} open={this.state.openFollowers} onClose={() => this.setState({ openFollowers: false })}>
                           <div className={classes.paper}>
                             <div className={`card-heading`} style={{ minHeight: "35px" }}>
                               <Typography className={`card-title`} style={{ fontFamily: "Open Sans" }}>Follows</Typography>
                             </div>
-                            <Scrollbar style={{ width: 495 }} autoHeight={true} autoHeightMax={590} renderThumbVertical={this.renderThumbVertical}>
+                            <Scrollbar autoHeight={true} autoHeightMax={590} renderThumbVertical={this.renderThumbVertical}>
                               <ul className={classes.followersList}>
                                 {data.getSubscribers.map((user: any) => (
                                   <li className={classes.followersItemModal}>
@@ -527,7 +518,7 @@ class Profile extends Component<any> {
                               </ul>
                             </Scrollbar>
                           </div>
-                        </Modal>
+                        </Dialog>
                       </>
                     );
                   }}
@@ -566,12 +557,12 @@ class Profile extends Component<any> {
                         >
                           <Typography className={classes.hideCommentsText}>See more</Typography>
                         </div>
-                        <Modal open={this.state.openFollows} onClose={() => this.setState({ openFollows: false })}>
+                        <Dialog PaperProps={{square: true}} open={this.state.openFollows} onClose={() => this.setState({ openFollows: false })}>
                           <div className={classes.paper}>
                             <div className={`card-heading`} style={{ minHeight: "35px" }}>
                               <Typography className={`card-title`} style={{ fontFamily: "Open Sans" }}>Follows</Typography>
                             </div>
-                            <Scrollbar style={{ width: 495 }} autoHeight={true} autoHeightMax={590} renderThumbVertical={this.renderThumbVertical}>
+                            <Scrollbar autoHeight={true} autoHeightMax={590} renderThumbVertical={this.renderThumbVertical}>
                               <ul className={classes.followersList}>
                                 {data.getFollows.map((user: any) => (
                                   <li className={classes.followersItemModal}>
@@ -584,7 +575,7 @@ class Profile extends Component<any> {
                               </ul>
                             </Scrollbar>
                           </div>
-                        </Modal>
+                        </Dialog>
                       </>
                     );
                   }}
