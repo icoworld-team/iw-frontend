@@ -7,7 +7,6 @@ import { socket } from '../../api'
 const styles = () => createStyles({
   modal: {
       padding: '10px 15px 15px 15px',
-      backgroundColor: '#fff',
       width: '445px',
   },
   modalTitle: {

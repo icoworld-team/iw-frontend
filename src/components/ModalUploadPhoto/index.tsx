@@ -1,21 +1,13 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button'
-import Modal from '@material-ui/core/Modal'
+import Dialog from '@material-ui/core/Dialog'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import {UPDATE_USER, UPLOAD_FILE} from "../../api/graphql"
 import { withApollo } from "react-apollo"
 
 const styles = () => createStyles({
     modal: {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        backgroundColor: '#fafafa',
         width: '445px',
-        transform: 'translate(-50%, -50%)',
-        '&:focus': {
-            outline: 'none',
-        }
     },
     modalTitle: {
         backgroundColor: '#303546',
@@ -66,7 +58,7 @@ class ModalUploadPhoto extends Component<any> {
     render() {
         const classes = this.props.classes;
         return (
-            <Modal open={this.props.open} onClose={this.props.onClose}>
+            <Dialog PaperProps={{square: true}} open={this.props.open} onClose={this.props.onClose}>
                 <div className={classes.modal}>
                     <div className={classes.modalTitle}>Upload Photo</div>
                     <div className={classes.modalBody}>
@@ -80,7 +72,7 @@ class ModalUploadPhoto extends Component<any> {
                         </label>
                     </div>
                 </div>
-            </Modal>
+            </Dialog>
         )
     }
 }

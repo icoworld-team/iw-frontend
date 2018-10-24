@@ -237,7 +237,7 @@ const styles = (theme: Theme) =>
       "&:focus": {
         outline: "none"
       }
-    }
+    },
   });
 
 class Profile extends Component<any> {
@@ -267,7 +267,6 @@ class Profile extends Component<any> {
     // var size = 6
 
     let splitName = value.split(" ");
-    console.log(splitName);
     // let sliceName = value;
 
     // if(splitName[0].length > size && splitName[1].length > size) {

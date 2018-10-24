@@ -107,7 +107,6 @@ class InvestorCard extends Component<any> {
                             <Avatar className={classes.avatar} src={data.avatar ? `${endpoint}/images/${data.id}/${data.avatar}` : "profile.jpeg"}/>
                         </div>
                         <Typography className={classes.nameText} variant="title" align="center">{data.name}</Typography>
-                        {/* <Typography className={classes.cardText} variant="caption" align="center">{data.login}</Typography> */}
                         <Typography className={classes.cardText} variant="caption" align="center">@{data.login}</Typography>
                         <Typography className={classes.cardText} variant="caption" align="center">{data.countOfFollowers} Followers</Typography>
                     </div>

@@ -5,13 +5,16 @@ import Tab from '@material-ui/core/Tab';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import Dialog from '@material-ui/core/Dialog';
 import {SEARCH_POST, GET_TOP_USERS, GET_FOLLOWS_POSTS, GET_NEWS, GET_POPULAR_TAGS} from '../../api/graphql'
 import { Query } from 'react-apollo';
 import { connect } from "react-redux";
+import Scrollbar from "react-custom-scrollbars";
 import { relativeTime } from '../../utils'
 
 import Author from '../Author';
 import PostList from '../PostList';
+// import ModalProjectNews from '../ModalProjectNews';
 
 const styles = (theme: Theme) => createStyles({
   newsOfProject: {
@@ -133,14 +136,34 @@ const styles = (theme: Theme) => createStyles({
 
   noActivity: {
 		padding: '10px'
-	},
-});
+  },
 
+  hideNews: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "10px",
+    cursor: "pointer",
+    transition: ".3s",
+    "&:hover": {
+      backgroundColor: "#efefef"
+    }
+  },  
+  hideNewsText: {
+    fontSize: "14px",
+    lineHeight: "19px",
+    color: "#8b8b8b"
+  },
+  paper: {
+    width: "520px",
+  },
+});
 
 class News extends Component<any> {
   state={
     tab: 0,
-    searchText: ""
+    searchText: "",
+    openModal: false,
   };
 
   updateData = (value: String) => {
@@ -164,6 +187,14 @@ class News extends Component<any> {
     this.setState({
       searchText: elem
     })
+  }
+
+  renderThumbVertical({ style, ...props }: any) {
+    const customStyle = {
+      backgroundColor: `rgb(152, 159, 168)`,
+      borderRadius: "5px"
+    };
+    return <div {...props} style={{ ...style, ...customStyle }} />;
   }
   
   render() {
@@ -189,28 +220,55 @@ class News extends Component<any> {
 
               <div className={`card ${classes.newsOfProject}`}>
                 <div className={`card-heading`}>
-                  <Typography className={`card-title`}>News of the icoWorld</Typography>
+                  <Typography className={`card-title`}>News of icoWorld</Typography>
                 </div>
-                <ul className={classes.newsOfProjectList}>
-                  <li>
-                    <Query query={GET_NEWS}>
-                      {({ loading, error, data }) => {
-                        if(loading) return <div>Loading</div>;
-                        if(error) return `Error: ${error}`;
-                        return (
-                          <>
-                            {data.getNews.map((news:any) => (
-                              <li key={news.id} className={classes.newsOfProjectItem}>
-                                <Typography className={classes.newsOfProjectDate}>{relativeTime(news.date)}</Typography>
-                                <Typography className={classes.newsOfProjectText}>{news.title}</Typography>
-                              </li>
-                            )).reverse()}
-                          </>
-                        )
-                      }}
-                    </Query>
-                  </li>
-                </ul>
+                <Query query={GET_NEWS}>
+                  {({ loading, error, data }) => {
+                    if(loading) return <div>Loading</div>;
+                    if(error) return `Error: ${error}`;
+                    return (
+                      <>
+                        <ul className={classes.newsOfProjectList}>
+                          {data.getNews.map((item: any, index: any) => (
+                            index >= data.getNews.length - 5
+                            ? <li key={item.id} className={classes.newsOfProjectItem}>
+                              <Typography className={classes.newsOfProjectDate}>{relativeTime(item.date)}</Typography>
+                              <Typography className={classes.newsOfProjectText}>{item.title}</Typography>
+                            </li>
+                            : ''
+                          )).reverse()
+                          }
+                        </ul>
+                        {data.getNews.length > 5
+                        ? <>
+                          <div className={classes.hideNews} onClick={() => {this.setState({ openModal: true })}}>
+                            <Typography className={classes.hideNewsText}>See more</Typography>
+                          </div>
+
+                          <Dialog PaperProps={{square: true}} open={this.state.openModal} onClose={() => this.setState({ openModal: false })}>
+                            <div className={classes.paper}>
+                              <div className={`card-heading`} style={{ minHeight: "35px" }}>
+                                <Typography className={`card-title`} style={{ fontFamily: "Open Sans" }}>News of icoWorld</Typography>
+                              </div>
+                              <Scrollbar autoHeight={true} autoHeightMax={510} renderThumbVertical={this.renderThumbVertical}>
+                                <ul className={classes.newsOfProjectList}>
+                                  {data.getNews.map((item: any) => (
+                                    <li key={item.id} className={classes.newsOfProjectItem}>
+                                      <Typography className={classes.newsOfProjectDate}>{relativeTime(item.date)}</Typography>
+                                      <Typography className={classes.newsOfProjectText}>{item.title}</Typography>
+                                    </li>
+                                  )).reverse()
+                                  }
+                                </ul>
+                              </Scrollbar>
+                            </div>
+                          </Dialog>
+                        </> : null
+                        }
+                      </>
+                    )
+                  }}
+                </Query>
               </div>
 
               <div className={classes.newsContent}>
