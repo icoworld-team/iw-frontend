@@ -34,7 +34,7 @@ import {
 } from '../../api/graphql'
 import { relativeTime } from '../../utils'
 import { endpoint } from "../../api"
-
+import { Link } from "react-router-dom";
 
 const styles = () => createStyles({
     postCard: {
@@ -187,6 +187,9 @@ const styles = () => createStyles({
     postImage: {
         maxWidth: '500px',
         marginTop: '10px'
+    },
+    link: {
+        textDecoration: 'none'
     }
 });
 
@@ -312,27 +315,25 @@ class Post extends Component<any> {
     };
 
     render() {
-        const { post, authUser } = this.props;
-        const { classes } = this.props;
+        const { post, authUser, classes } = this.props;
 
         return (
             <div className={`card ${classes.postCard}`}>
                 <div className={classes.postBody}>
                     <div className={classes.postHeader}>
+                        <Link className={classes.link} to={{ pathname: "/profile", state: { id: post.userId } }}>
+                            <div className={classes.postHeaderLeft}>
+                                <Avatar className={classes.postAvatar} src={post.avatar ? `${endpoint}/images/${post.userId}/${post.avatar}` : "profile.jpeg"} />
+                                <div className={classes.postHeaderText}>
+                                    <div className={classes.userInfo}>
+                                        <Typography className={classes.userName}>{post.userName}</Typography>
+                                        <Typography className={classes.userLogin}>{`@${post.userLogin}`}</Typography>
+                                    </div>
 
-                        <div className={classes.postHeaderLeft}>
-                            <Avatar className={classes.postAvatar} src={post.avatar ? `${endpoint}/images/${post.userId}/${post.avatar}` : "profile.jpeg"} />
-
-                            <div className={classes.postHeaderText}>
-                                <div className={classes.userInfo}>
-                                    <Typography className={classes.userName}>{post.userName}</Typography>
-                                    <Typography className={classes.userLogin}>{`@${post.userLogin}`}</Typography>
+                                    <Typography className={classes.postDate}>{`${relativeTime(post.date)} ${post.__typename === 'Repost' ? '*' + post.__typename : ''}`}</Typography>
                                 </div>
-
-                                <Typography className={classes.postDate}>{`${relativeTime(post.date)} ${post.__typename === 'Repost' ? '*' + post.__typename : ''}`}</Typography>
                             </div>
-                        </div>
-
+                        </Link>
                         <IconButton disableRipple classes={{ label: classes.postMenuLabel }} className={classes.postMenu} aria-label="More" aria-owns={this.state.anchorEl ? 'fade-menu' : undefined} aria-haspopup="true" onClick={this.handleClick}>
                             <MoreHorizIcon className={classes.postMenuIcon} />
                         </IconButton>
