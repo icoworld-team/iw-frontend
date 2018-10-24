@@ -166,8 +166,8 @@ export const EDIT_POST = gql`
 `;
 
 export const CREATE_COMMENT = gql`
-	mutation createComment($input: CommentInput!) {
-		createComment(input: $input) {
+	mutation createComment($postId: ID!, $content: String!) {
+		createComment(postId: $postId, content: $content) {
 			Id
 			userId
 			postId
@@ -329,14 +329,14 @@ export const GET_NEWS = gql`
 `;
 
 export const FOLLOW_USER = gql`
-	mutation followUser($userId: ID!, $fanId: ID!) {
-		followUser(userId: $userId, fanId: $fanId)
+	mutation followUser($userId: ID!) {
+		followUser(userId: $userId)
 	}
 `;
 
 export const UNFOLLOW_USER = gql`
-	mutation unfollowUser($userId: ID!, $fanId: ID!) {
-		unfollowUser(userId: $userId, fanId: $fanId)
+	mutation unfollowUser($userId: ID!) {
+		unfollowUser(userId: $userId)
 	}
 `;
 
@@ -421,14 +421,14 @@ export const REMOVE_EDUCATION = gql`
 `;
 
 export const LIKE_POST = gql`
-	mutation likePost($input: PostLikeInput!) {
-		likePost(input: $input)
+	mutation likePost($postId: ID!, $like: Boolean!) {
+		likePost(postId: $postId, like: $like)
 	}
 `;
 
 export const REPOST = gql`
-	mutation rePost($userId: ID!, $postId: ID!) {
-		rePost(userId: $userId, postId: $postId)
+	mutation rePost($postId: ID!) {
+		rePost(postId: $postId)
 	}
 `;
 
@@ -457,8 +457,8 @@ export const UPLOAD_FILE = gql`
 `;
 
 export const LIKE_REPOST = gql`
-	mutation likeRePost($id: ID!, $userId: ID!, $like: Boolean!) {
-		likeRePost(id: $id, userId: $userId, like: $like)
+	mutation likeRePost($id: ID!, $like: Boolean!) {
+		likeRePost(id: $id, like: $like)
 	}
 `;
 
