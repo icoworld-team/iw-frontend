@@ -464,7 +464,7 @@ class Post extends Component<any> {
                                                 checkedIcon={<Favorite className={`${classes.footerIcon} ${classes.checkedIcon}`} />}
                                                 value="like"
                                                 checked={this.state.isLiked}
-                                                onChange={() => likeRePost({variables: {id: post.id, userId: authUser.id, like: !this.state.isLiked}})}
+                                                onChange={() => likeRePost({variables: {id: post.id, like: !this.state.isLiked}})}
                                             />
                                         )}
                                     </Mutation> :
@@ -480,7 +480,7 @@ class Post extends Component<any> {
                                             checkedIcon={<Favorite className={`${classes.footerIcon} ${classes.checkedIcon}`} />}
                                             value="like"
                                             checked={this.state.isLiked}
-                                            onChange={() => likePost({variables: {input: {userId: authUser.id, postId: post.postId, like: !this.state.isLiked}}})}
+                                            onChange={() => likePost({variables: {id: post.postId, like: !this.state.isLiked}})}
                                         />
                                     )}
                                 </Mutation>
@@ -510,7 +510,7 @@ class Post extends Component<any> {
                                             style={{color: '#8b8b8b'}}
                                             className={classes.footerIcon}
                                             color="primary"
-                                            onClick={() => rePost({variables: {userId: authUser.id, postId: post.postId}})}
+                                            onClick={() => rePost({variables: {postId: post.postId}})}
                                         />
                                     )}
                                 </Mutation>
@@ -541,7 +541,7 @@ class Post extends Component<any> {
                                                     aria-label="Toggle comment input"
                                                     onClick={() => {if (this.state.comment.length) 
                                                         {
-                                                            createComment({variables: {input: {userId: authUser.id, postId: post.postId, content: this.state.comment}}})
+                                                            createComment({variables: {postId: post.postId, content: this.state.comment}})
                                                         }
                                                     }}
                                                 >
