@@ -50,8 +50,7 @@ export const investorsFilter = (state={
 
 const chatInitialState = {
     contactsList: [],
-    chatMessages: {},
-    scrollbarSize: 60
+    chatMessages: {}
 };
 export const chat = (state=chatInitialState, action:any) => {
     switch (action.type) {
