@@ -4,7 +4,7 @@ import Conversation from '../Conversation'
 import {socket} from "../../api";
 import { withApollo } from 'react-apollo';
 import {connect} from "react-redux";
-import {addMessage, setMessages, addOlderMessages, readMessages} from "../../actions";
+import {addMessage, setMessages, addOlderMessages, readMessages, updateContacts} from "../../actions";
 import { GET_CHAT_MESSAGES } from '../../api/graphql'
 import ChatInput from '../ChatInput'
 
@@ -61,6 +61,7 @@ class ChatWindow extends Component<any> {
                     partnerId: this.props.user.parnter.id
                 });
                 this.props.readMessages(this.props.user.chatId);
+                this.props.updateContacts(this.props.authUser.id);
             }
         }
         this.scrollArea.scrollToBottom();
@@ -95,6 +96,7 @@ class ChatWindow extends Component<any> {
                     partnerId: this.props.user.parnter.id
                 });
                 this.props.readMessages(this.props.user.chatId);
+                this.props.updateContacts(this.props.authUser.id);
             }
         }
     }
@@ -185,7 +187,8 @@ const mapDispatchToProps = (dispatch:any) => {
         setMessages: (messages:any) => dispatch(setMessages(messages)),
         addMessage: (message:any) => dispatch(addMessage(message)),
         addOlderMessages: (messages:any) => dispatch(addOlderMessages(messages)),
-        readMessages: (chatId:any) => dispatch(readMessages(chatId))
+        readMessages: (chatId:any) => dispatch(readMessages(chatId)),
+        updateContacts: (id:any) => dispatch(updateContacts(id)),
     }
 };
 

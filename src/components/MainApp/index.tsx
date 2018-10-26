@@ -13,7 +13,7 @@ import Chat from "../Chat";
 import PoolInfo from "../PoolInfo";
 import Settings from "../ProfileSettings";
 import {socket} from "../../api";
-import {addContact, addMessage, chatUnMount, setContacts, setInitialMsg} from "../../actions";
+import {addContact, addMessage, chatUnMount, setContacts, setInitialMsg, updateContacts} from "../../actions";
 import {connect} from "react-redux";
 import {GET_CHATS} from "../../api/graphql";
 import {withApollo} from "react-apollo";
@@ -36,7 +36,8 @@ class MainApp extends Component<any> {
             }
         });
         this.props.setInitialMsg(chatMessages);
-        this.props.setContacts(contacts);
+        this.props.setContacts({contacts: contacts, id: this.props.authUser.id});
+
 
         socket.open();
         socket.on("newChat", (data:any) => {
@@ -61,6 +62,7 @@ class MainApp extends Component<any> {
                 date: data.date
             };
             this.props.addMessage(message);
+            this.props.updateContacts(this.props.authUser.id);
         });
     }
 
@@ -107,6 +109,7 @@ const mapDispatchToProps = (dispatch:any) => {
         chatUnMount: () => dispatch(chatUnMount()),
         setContacts: (contacts:any) => dispatch(setContacts(contacts)),
         setInitialMsg: (messages:any) => dispatch(setInitialMsg(messages)),
+        updateContacts: (id:any) => dispatch(updateContacts(id)),
     }
 };
 

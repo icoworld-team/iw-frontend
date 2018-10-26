@@ -8,7 +8,7 @@ export default function ChatUser({user, onSelectUser}:any) {
                 <div className="chat-user-avatar">
                     <div className="chat-user-avatar-mode">
                         <img className="chat-avatar" width="40px" src={'profile.jpeg'}/>
-                        <span className={`chat-status small ${user.status}`} />
+                        {/*<span className={`chat-status small ${user.status}`} />*/}
                     </div>
                 </div>
                 <div className="chat-user-info">

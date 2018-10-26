@@ -8,7 +8,7 @@ import ChatWindow from '../ChatWindow'
 
 export default class Chat extends Component<any> {
     state = {
-        selectedUser: null,
+        selectedUser: this.props.location.state ? this.props.location.state.user : null,
     };
 
     onSelectUser = (user:any) => {

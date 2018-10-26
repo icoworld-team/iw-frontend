@@ -398,7 +398,7 @@ class Post extends Component<any> {
                                             query: SEARCH_POST_IN_PROFILE,
                                             variables: {userId: authUser.id, searchText: ""}
                                         });
-                                        const posts = (data as any).searchPostInProfile.posts.filter((post:any) => post.postId !== deletePost);
+                                        const posts = (data as any).searchPostInProfile.posts.filter((post:any) => post.postId !== this.props.post.postId);
                                         cache.writeQuery({query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}, data: {
                                             searchPostInProfile: {
                                                 ...(data as any).searchPostInProfile,
@@ -407,7 +407,7 @@ class Post extends Component<any> {
                                     }}>
                                     {deletePost => {
                                         return (
-                                            <MenuItem name="delete" id="delete" onClick={() => deletePost({variables: {postId: post.postId}})}>Delete</MenuItem>
+                                            <MenuItem name="delete" id="delete" onClick={() => deletePost({variables: {id: post.postId}})}>Delete</MenuItem>
                                         )
                                     }}
                                 </Mutation>
