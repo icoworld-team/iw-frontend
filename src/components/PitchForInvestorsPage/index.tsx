@@ -122,6 +122,7 @@ const styles = () => createStyles({
     left: 0,
     right: 0,
     bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   popup: {
     backgroundColor: '#fff',
@@ -160,6 +161,7 @@ class PitchForInvestorsPage extends React.Component<any> {
     let clickBloc = e.target;
 
     if(clickBloc.classList.contains('wrap')) {
+      document.body.style.overflow = 'auto';
       this.setState({
         open: false
       })
@@ -167,6 +169,7 @@ class PitchForInvestorsPage extends React.Component<any> {
   }
 
   handleOpen = () => {
+    document.body.style.overflow = 'hidden';
     this.setState({
       open: true
     })
@@ -360,6 +363,7 @@ class PitchForInvestorsPage extends React.Component<any> {
                 <h3 style={{fontWeight: 400, fontSize: '16px'}}>White List:</h3>
                 <form action="" style={{display: 'flex', flexDirection: 'column'}}>
                   <input type="text" name="name" id="name" placeholder="Name*" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} />
+                  <input type="text" name="country" id="country" placeholder="Country*" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} />
                   <input type="text" name="email" id="email" placeholder="Email*" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} />
                   <input type="text" name="telegram" id="telegram" placeholder="Telegram" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} />
                   <input type="text" name="investmentAmount" id="investmentAmount"
