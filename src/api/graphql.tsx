@@ -153,6 +153,12 @@ export const DELETE_POST = gql`
 	}
 `;
 
+export const PIN_POST = gql`
+	mutation pinPost($id: ID!, $pin: Boolean!) {
+		pinPost(id: $id, pin: $pin)
+	}
+`;
+
 export const EDIT_POST = gql`
 	mutation editPost($input: PostEditInput!) {
 		editPost(input: $input) {
@@ -232,6 +238,25 @@ export const SEARCH_POST_IN_PROFILE = gql`
 	}
 `;
 
+export const GET_POST = gql`
+	query getPost($postId: ID!) {
+		getPost(postId: $postId) {
+			postId
+			userId
+			userName
+			userLogin
+			avatar
+			date
+			edited
+			content
+			comments
+			likes
+			tags
+			attachments
+		}
+	}
+`;
+
 export const CREATE_POST = gql`
     mutation createPost($input: PostInput!) {
         createPost(input: $input){
@@ -264,6 +289,7 @@ export const GET_USER = gql`
 			country
 			city
 			site
+			pined_post
 			clinks {
 			    fb
 			    linkedin

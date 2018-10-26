@@ -108,9 +108,80 @@ const styles = () => createStyles({
       textDecoration: 'underline',
     },
   },
+
+  link: {
+    color: '#4a86e8',
+    cursor: 'pointer',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
+  popupWrap: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  popup: {
+    backgroundColor: '#fff',
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    padding: '15px',
+  },
+  input: {
+    width: '365px',
+    height: '25px',
+  },
+  button: {
+    fontWeight: 400,
+    backgroundColor: '#303546',
+    width: '365px',
+    height: '35px',
+    border: 'none',
+    outline: 'none',
+    borderRadius: '3px',
+    color: '#fff',
+    fontSize: '16px',
+    marginTop: '20px',
+    cursor: 'pointer',
+  },
 });
 
 class PitchForInvestorsPage extends React.Component<any> {
+  state = {
+    open: false,
+    investmentAmount: '',
+  }
+
+  handleClose = (e: any) => {
+    let clickBloc = e.target;
+
+    if(clickBloc.classList.contains('wrap')) {
+      this.setState({
+        open: false
+      })
+    }
+  }
+
+  handleOpen = () => {
+    this.setState({
+      open: true
+    })
+  }
+
+  replacer = (e: any) => {
+    let formatedText = e.target.value;
+    formatedText = formatedText.replace(/([^0-9]+)/g, '')
+    formatedText = formatedText.replace(/\./g, '')
+    formatedText = formatedText.replace(/\B(?=(?:\d{3})+(?!\d))/g, '.')
+
+    this.setState({
+      investmentAmount: formatedText ? `$ ${formatedText}` : ''
+    })
+  }
 
   render() {
     const { classes } = this.props;
@@ -221,9 +292,9 @@ class PitchForInvestorsPage extends React.Component<any> {
             </li>
             
             <li className={classes.pageItem}>
-              <h2 className={classes.title}>Contacts</h2>
+              <h2 className={classes.title}>White List</h2>
               <div className={classes.content}>
-                If you want to invest in our project in Private Sale stage, please write to us in Telegram or Facebook.
+                If you want to invest in our project in the Private Sale stage, please fill in our <span onClick={this.handleOpen} className={classes.link}>White List</span>.
               </div>
             </li>
 
@@ -277,6 +348,30 @@ class PitchForInvestorsPage extends React.Component<any> {
             </div>
           </div>
         </footer>
+
+        {this.state.open === true ?
+          <div className={`${classes.popupWrap} wrap`} onClick={this.handleClose}>
+            <div className={classes.popup}>
+              <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column', textDecoration: 'none', color: 'inherit'}}>
+                <img style={{width: '50px', marginBottom: '10px'}} src="./icons/logo.svg" alt="logo"/>
+                <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
+              </div>
+              <div className={classes.formContainer}>
+                <h3 style={{fontWeight: 400, fontSize: '16px'}}>White List:</h3>
+                <form action="" style={{display: 'flex', flexDirection: 'column'}}>
+                  <input type="text" name="name" id="name" placeholder="Name*" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} />
+                  <input type="text" name="email" id="email" placeholder="Email*" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} />
+                  <input type="text" name="telegram" id="telegram" placeholder="Telegram" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} />
+                  <input type="text" name="investmentAmount" id="investmentAmount"
+                    placeholder="Amount of investment (USD)*" className={`input border-input ${classes.input}`}
+                    value={this.state.investmentAmount} onChange={this.replacer}
+                  />
+                  <button className={classes.button} type="submit" onClick={(e) => {e.preventDefault()}}>Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        : null}
       </div>
     )
   }

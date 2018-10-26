@@ -26,6 +26,7 @@ import { Mutation } from 'react-apollo'
 import { connect } from "react-redux";
 import {
     DELETE_POST,
+    PIN_POST,
     EDIT_POST,
     CREATE_COMMENT,
     GET_COMMENTS,
@@ -181,9 +182,6 @@ const styles = () => createStyles({
         marginLeft: '5px',
     },
 
-    tag: {
-        color: 'red',
-    },
     postImage: {
         maxWidth: '500px',
         marginTop: '10px'
@@ -330,7 +328,9 @@ class Post extends Component<any> {
                                         <Typography className={classes.userLogin}>{`@${post.userLogin}`}</Typography>
                                     </div>
 
-                                    <Typography className={classes.postDate}>{`${relativeTime(post.date)} ${post.__typename === 'Repost' ? '*' + post.__typename : ''}`}</Typography>
+                                    <Typography className={classes.postDate}>
+                                        {`${relativeTime(post.date)} ${post.__typename === 'Repost' ? '*Repost*' : ''} ${this.props.pinPost === post.postId ? '*Pined*' : '' }`}
+                                        </Typography>
                                 </div>
                             </div>
                         </Link>
@@ -340,7 +340,17 @@ class Post extends Component<any> {
                         {post.reposted
                             ? <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
                                     onClose={this.handleClose} TransitionComponent={Fade}>
-                                <MenuItem name="pin" id="pin" onClick={this.handleClose}>Pin to top</MenuItem>
+                                <Mutation mutation={PIN_POST} onCompleted={this.handleClose}
+                                    onError={(error)=>console.log(error)}
+                                >
+                                    {pinPost => {
+                                        return (
+                                            this.props.pinPost !== post.postId
+                                            ? <MenuItem name="pin" id="pin" onClick={() => pinPost({variables: {id: post.postId, pin: true}})}>Pin to top</MenuItem>
+                                            : <MenuItem name="pin" id="pin" onClick={() => pinPost({variables: {id: post.postId, pin: false}})}>Unpin</MenuItem>
+                                        )
+                                    }}
+                                </Mutation>
                                 <Mutation mutation={DELETE_REPOST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
                                           update={(cache, {data: { deleteRePost }}) => {
                                               const data = cache.readQuery({
@@ -368,28 +378,39 @@ class Post extends Component<any> {
                             </Menu>
                             : <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
                                     onClose={this.handleClose} TransitionComponent={Fade}>
-                                <MenuItem name="pin" id="pin" onClick={this.handleClose}>Pin to top</MenuItem>
+
+                                <Mutation mutation={PIN_POST} onCompleted={this.handleClose}
+                                    onError={(error)=>console.log(error)}
+                                >
+                                    {pinPost => {
+                                        return (
+                                            this.props.pinPost !== post.postId
+                                            ? <MenuItem name="pin" id="pin" onClick={() => pinPost({variables: {id: post.postId, pin: true}})}>Pin to top</MenuItem>
+                                            : <MenuItem name="pin" id="pin" onClick={() => pinPost({variables: {id: post.postId, pin: false}})}>Unpin</MenuItem>
+                                        )
+                                    }}
+                                </Mutation>
 
                                 <MenuItem name="edit" id="edit" onClick={this.handleEdit}>Edit</MenuItem>
-                                    <Mutation mutation={DELETE_POST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
-                                        update={(cache, {data: { deletePost }}) => {
-                                            const data = cache.readQuery({
-                                                query: SEARCH_POST_IN_PROFILE,
-                                                variables: {userId: authUser.id, searchText: ""}
-                                            });
-                                            const posts = (data as any).searchPostInProfile.posts.filter((post:any) => post.postId !== deletePost);
-                                            cache.writeQuery({query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}, data: {
-                                                searchPostInProfile: {
-                                                    ...(data as any).searchPostInProfile,
-                                                    posts: posts,
-                                                    }}});
-                                        }}>
-                                        {deletePost => {
-                                            return (
-                                                <MenuItem name="delete" id="delete" onClick={() => deletePost({variables: {postId: post.postId}})}>Delete</MenuItem>
-                                            )
-                                        }}
-                                    </Mutation>
+                                <Mutation mutation={DELETE_POST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
+                                    update={(cache, {data: { deletePost }}) => {
+                                        const data = cache.readQuery({
+                                            query: SEARCH_POST_IN_PROFILE,
+                                            variables: {userId: authUser.id, searchText: ""}
+                                        });
+                                        const posts = (data as any).searchPostInProfile.posts.filter((post:any) => post.postId !== deletePost);
+                                        cache.writeQuery({query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}, data: {
+                                            searchPostInProfile: {
+                                                ...(data as any).searchPostInProfile,
+                                                posts: posts,
+                                                }}});
+                                    }}>
+                                    {deletePost => {
+                                        return (
+                                            <MenuItem name="delete" id="delete" onClick={() => deletePost({variables: {postId: post.postId}})}>Delete</MenuItem>
+                                        )
+                                    }}
+                                </Mutation>
                             </Menu>
                         }
                     </div>
