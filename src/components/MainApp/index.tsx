@@ -41,24 +41,23 @@ class MainApp extends Component<any> {
 
         socket.open();
         socket.on("newChat", (data:any) => {
-            console.log('newChat');
-            console.log(data);
             const contact = {
                 chatId: data.chatId,
                 parnter: data.parnter,
-                messages: [data.lastMessage]
+                messages: data.messages
             };
+            console.log(contact);
             this.props.addContact(contact);
+            this.props.updateContacts(this.props.authUser.id);
         });
 
         socket.on("newMessage", (data:any) => {
-            // const read = data.author.id === this.props.authUser.id;
             const message = {
                 id: data.messageId,
                 chatId: data.chatId,
                 author: data.author,
                 content: data.content,
-                read: false,
+                read: data.read,
                 date: data.date
             };
             this.props.addMessage(message);

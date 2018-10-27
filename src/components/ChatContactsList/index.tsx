@@ -3,6 +3,9 @@ import ChatUser from '../ChatUser'
 import './style.css'
 import { connect } from "react-redux";
 import Scrollbars from 'react-custom-scrollbars';
+import {Query} from "react-apollo";
+import {GET_USER} from "../../api/graphql";
+import {endpoint} from "../../api";
 
 
 class ChatContactsList extends Component<any> {
@@ -26,18 +29,27 @@ class ChatContactsList extends Component<any> {
         return (
             <>
                 <div className="chat-sidenav-header">
-                    <div className="chat-main-user-block">
-                        <div className="chat-user-avatar">
-                            <div className="chat-user-avatar-mode">
-                                <img className="chat-avatar" width="50px" src="profile.jpeg"/>
-                                <span className="chat-status online" />
-                            </div>
-                        </div>
-                        <div className="chat-main-user-info">
-                            <span className="user-info-name">{authUser.name}</span>
-                            <div className="last-message-time">{'@' + authUser.name}</div>
-                        </div>
-                    </div>
+                    <Query query={GET_USER} variables={{ userId: authUser.id }}>
+                        {({ loading, error, data }) => {
+                            if (loading) return null;
+                            if (error) return `Error: ${error}`;
+                            const user = data.getUser;
+                            return (
+                                <div className="chat-main-user-block">
+                                    <div className="chat-user-avatar">
+                                        <div className="chat-user-avatar-mode">
+                                            <img className="chat-avatar" width="50px" src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
+                                            <span className="chat-status online" />
+                                        </div>
+                                    </div>
+                                    <div className="chat-main-user-info">
+                                        <span className="user-info-name">{user.name}</span>
+                                        <div className="last-message-time">{'@' + user.login}</div>
+                                    </div>
+                                </div>
+                            )
+                        }}
+                    </Query>
                     <div className="search-wrapper">
                         <div className="search-bar">
                             <div className="search-form">

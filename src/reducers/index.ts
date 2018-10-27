@@ -85,7 +85,8 @@ export const chat = (state=chatInitialState, action:any) => {
         case 'ADD_CONTACT':
             return {
                 ...state,
-                contactsList: state.contactsList.concat(action.payload)
+                contactsList: state.contactsList.concat(action.payload),
+                chatMessages: {...state.chatMessages, [action.payload.chatId]: action.payload.messages}
             };
         case 'ADD_MESSAGE':
             console.log('payload');
@@ -139,7 +140,7 @@ export const chat = (state=chatInitialState, action:any) => {
                 return (
                     {
                         ...contact,
-                        lastMessage: state.chatMessages[contact.chatId] ? state.chatMessages[contact.chatId][state.chatMessages[contact.chatId].length-1] : contact.messages[contact.messages.length-1],
+                        lastMessage: state.chatMessages[contact.chatId] ? state.chatMessages[contact.chatId][state.chatMessages[contact.chatId].length-1] : contact.messages[0],
                         newMessages: count
                     }
                 )});

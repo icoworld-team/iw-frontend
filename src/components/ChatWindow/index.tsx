@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Scrollbars from 'react-custom-scrollbars';
 import Conversation from '../Conversation'
-import {socket} from "../../api";
+import {endpoint, socket} from "../../api";
 import { withApollo } from 'react-apollo';
 import {connect} from "react-redux";
 import {addMessage, setMessages, addOlderMessages, readMessages, updateContacts} from "../../actions";
@@ -160,7 +160,7 @@ class ChatWindow extends Component<any> {
                 <div className="chat-main-header">
                     <div className="chat-window-user-avatar">
                         <div className="chat-user-avatar-mode">
-                            <img className="chat-avatar" width="60px" src="profile.jpeg"/>
+                            <img className="chat-avatar" width="60px" src={user.parnter.avatar ? `${endpoint}/images/${user.parnter.id}/${user.parnter.avatar}` : "profile.jpeg"}/>
                             <span className="chat-status online" />
                         </div>
                     </div>
