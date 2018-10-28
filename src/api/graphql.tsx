@@ -4,16 +4,17 @@ export const GET_CHATS = gql`
     query getChats($userId: ID!) {
         getChats(userId: $userId) {
             chatId
-            countUnreadMessages
             parnter {
                 id
                 name
+                avatar
             }
             messages {
                 id
                 author {
                     id
                     name
+                    avatar
                 }
                 content
                 read
@@ -32,6 +33,7 @@ export const GET_CHAT_MESSAGES = gql`
                 author {
                     id
                     name
+                    avatar
                 }
                 content
                 read
@@ -148,8 +150,8 @@ export const POOL_SEARCH = gql`
 `;
 
 export const DELETE_POST = gql`
-	mutation deletePost($postId: ID!) {
-		deletePost(postId: $postId)
+	mutation deletePost($id: ID!) {
+		deletePost(id: $id)
 	}
 `;
 

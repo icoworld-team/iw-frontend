@@ -55,9 +55,24 @@ const chatInitialState = {
 export const chat = (state=chatInitialState, action:any) => {
     switch (action.type) {
         case 'SET_CONTACTS':
+            const contacts = action.payload.contacts.map((contact:any) => {
+                let count = 0;
+                state.chatMessages[contact.chatId] && state.chatMessages[contact.chatId].forEach((message:any) => {
+                    if (!message.read && message.author.id !== action.payload.id) ++count;
+                });
+                return (
+                    {
+                        ...contact,
+                        lastMessage: state.chatMessages[contact.chatId] ? state.chatMessages[contact.chatId][state.chatMessages[contact.chatId].length-1] : contact.messages[contact.messages.length-1],
+                        newMessages: count
+                    }
+                )});
+            contacts.sort((a:any, b:any) => {
+                return new Date(b.lastMessage.date).getTime() - new Date(a.lastMessage.date).getTime();
+            });
             return {
                 ...state,
-                contactsList: action.payload
+                contactsList: contacts
             };
         case 'SET_MESSAGES':
             return {
@@ -70,7 +85,8 @@ export const chat = (state=chatInitialState, action:any) => {
         case 'ADD_CONTACT':
             return {
                 ...state,
-                contactsList: state.contactsList.concat(action.payload)
+                contactsList: state.contactsList.concat(action.payload),
+                chatMessages: {...state.chatMessages, [action.payload.chatId]: action.payload.messages}
             };
         case 'ADD_MESSAGE':
             console.log('payload');
@@ -114,6 +130,26 @@ export const chat = (state=chatInitialState, action:any) => {
             return {
                 ...state,
                 chatMessages: action.payload
+            };
+        case 'UPDATE_CONTACTS':
+            const updatedContacts = state.contactsList.map((contact:any) => {
+                let count = 0;
+                state.chatMessages[contact.chatId] && state.chatMessages[contact.chatId].forEach((message:any) => {
+                    if (!message.read && message.author.id !== action.payload) ++count;
+                });
+                return (
+                    {
+                        ...contact,
+                        lastMessage: state.chatMessages[contact.chatId] ? state.chatMessages[contact.chatId][state.chatMessages[contact.chatId].length-1] : contact.messages[0],
+                        newMessages: count
+                    }
+                )});
+            updatedContacts.sort((a:any, b:any) => {
+                return new Date(b.lastMessage.date).getTime() - new Date(a.lastMessage.date).getTime();
+            });
+            return {
+                ...state,
+                contactsList: updatedContacts
             };
         case 'CHAT_UNMOUNT':
             return chatInitialState;

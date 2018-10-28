@@ -67,6 +67,13 @@ export const setInitialMsg = (messages:any) => {
     }
 };
 
+export const updateContacts = (id:any) => {
+    return {
+        type: 'UPDATE_CONTACTS',
+        payload: id
+    }
+};
+
 export const chatUnMount = () => {
     return {
         type: 'CHAT_UNMOUNT'

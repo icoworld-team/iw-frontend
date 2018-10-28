@@ -38,10 +38,12 @@
 .chat-textarea {
     height: 40px;
     width: 100%;
-    resize: vertical;
+    resize: none;
     padding: .375rem .75rem;
     border: 0;
     border-radius: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
 }
 
 .chat-footer {
@@ -73,7 +75,7 @@
     background-color: #f8f9fa;
     display: flex;
     align-items: center;
-    height: 836px;
+    height: 850px;
     justify-content: center;
     flex-direction: column;
     width: 750px;

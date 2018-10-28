@@ -15,7 +15,7 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import PostList from "../PostList";
 import PostInput from "../PostInput";
 import FollowButton from "../FollowButton";
-
+import ModalSendMessage from '../ModalSendMessage'
 import { Query } from "react-apollo";
 import {
   SEARCH_POST_IN_PROFILE,
@@ -241,15 +241,16 @@ class Profile extends Component<any> {
     tags: [],
     followsAmount: false,
     openFollowers: false,
-    openFollows: false
+    openFollows: false,
+    openMessageModal: false
   };
 
   handleOpen = () => {
-    this.setState({ open: true });
+    this.setState({ openMessageModal: true });
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ openMessageModal: false });
   };
 
   updateData = (value: String) => {
@@ -362,12 +363,14 @@ class Profile extends Component<any> {
                                                       );
                                                   }}
                                               </Query>
-                                              <Button variant="outlined" color="secondary" className={`button outline-button ${classes.messageButton}`}>
+                                              <Button variant="outlined" color="secondary" className={`button outline-button ${classes.messageButton}`}
+                                                      onClick={this.handleOpen}>
                                                   Message
                                               </Button>
                                               <Button variant="outlined" color="secondary" className={`button outline-button ${classes.moreButton}`}>
                                                   <MoreHorizIcon className={classes.moreButtonIcon}/>
                                               </Button>
+                                              <ModalSendMessage partnerId={user.id} open={this.state.openMessageModal} onClose={this.handleClose}/>
                                           </div>
                                       )}
                                   </li>
