@@ -369,7 +369,7 @@ class LandingPage extends React.Component<any> {
             
             <div className={classes.buttons} style={{marginTop: '60px'}}>
               <ul className={classes.buttonsList}>
-                <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="https://drive.google.com/file/d/1DCLN16ynsfOLmC-1KbOr1PtZmIYACC6j/view?usp=sharing">White Paper</a></li>
+                <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="./White Paper (english).pdf" download>White Paper</a></li>
                 <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="/pitch" target="_blank">Pitch for Investors</a></li>
                 <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkFill}`} href="#">MVP</a></li>
               </ul>
@@ -393,7 +393,7 @@ class LandingPage extends React.Component<any> {
                 </li>
                 <li className={classes.solutionsItem}>
                   <img style={{width: '170px'}} src="./icons/wallet.svg" alt="wallet"/>
-                  <span className={classes.solutionsText}>Assets management</span>
+                  <span className={classes.solutionsText}>Asset management</span>
                 </li>
               </ul>
             </div>
@@ -499,17 +499,17 @@ class LandingPage extends React.Component<any> {
 
                 <ul style={{display: 'flex', justifyContent: 'center'}}>
                   <li className={classes.teamSocialsItem}>
-                    <a href='https://www.facebook.com/ivan.fedotov.568' style={{textDecoration: 'none'}}>
+                    <a href='https://www.facebook.com/ivan.fedotov.568' target="_blank" style={{textDecoration: 'none'}}>
                       <img src="./icons/facebook.png" alt="facebook" style={{width: '25px'}} />
                     </a>
                   </li>
                   <li className={classes.teamSocialsItem}>
-                    <a href='https://www.linkedin.com/in/ivan-fedotov-264b40b1/' style={{textDecoration: 'none'}}>
-                      <img src="./icons/linkedin.png" alt="linkedIn" style={{width: '25px'}} />
+                    <a href='https://www.linkedin.com/in/ivan-fedotov-264b40b1/' target="_blank" style={{textDecoration: 'none'}}>
+                      <img src="./icons/linkIn.png" alt="linkedIn" style={{width: '25px'}} />
                     </a>
                   </li>
                   <li className={classes.teamSocialsItem}>
-                    <a href='https://t.me/iyufedotov' style={{textDecoration: 'none'}}>
+                    <a href='https://t.me/iyufedotov' target="_blank" style={{textDecoration: 'none'}}>
                       <img src="./icons/telegram.png" alt="telegram" style={{width: '25px'}}  />
                     </a>
                   </li>
@@ -523,17 +523,17 @@ class LandingPage extends React.Component<any> {
 
                 <ul style={{display: 'flex', justifyContent: 'center'}}>
                   <li className={classes.teamSocialsItem}>
-                    <a href='https://www.facebook.com/therezvov' style={{textDecoration: 'none'}}>
+                    <a href='https://www.facebook.com/therezvov' target="_blank" style={{textDecoration: 'none'}}>
                       <img src="./icons/facebook.png" alt="facebook" style={{width: '25px'}} />
                     </a>
                   </li>
                   <li className={classes.teamSocialsItem}>
-                    <a href='https://www.linkedin.com/in/arezvov/' style={{textDecoration: 'none'}}>
-                      <img src="./icons/linkedin.png" alt="linkedIn" style={{width: '25px'}} />
+                    <a href='https://www.linkedin.com/in/arezvov/' target="_blank" style={{textDecoration: 'none'}}>
+                      <img src="./icons/linkIn.png" alt="linkedIn" style={{width: '25px'}} />
                     </a>
                   </li>
                   <li className={classes.teamSocialsItem}>
-                    <a href='https://t.me/arezvov' style={{textDecoration: 'none'}}>
+                    <a href='https://t.me/arezvov' target="_blank" style={{textDecoration: 'none'}}>
                       <img src="./icons/telegram.png" alt="telegram" style={{width: '25px'}} />
                     </a>
                   </li>
@@ -547,7 +547,7 @@ class LandingPage extends React.Component<any> {
 
                 <ul style={{display: 'flex', justifyContent: 'center'}}>
                   <li className={classes.teamSocialsItem}>
-                    <a href='https://t.me/yabeshan' style={{textDecoration: 'none'}}>
+                    <a href='https://t.me/yabeshan' target="_blank" style={{textDecoration: 'none'}}>
                       <img src="./icons/telegram.png" alt="telegram" style={{width: '25px'}} />
                     </a>
                   </li>
@@ -561,7 +561,7 @@ class LandingPage extends React.Component<any> {
 
                 <ul style={{display: 'flex', justifyContent: 'center'}}>
                   <li className={classes.teamSocialsItem}>
-                    <a href='https://t.me/asaveliev' style={{textDecoration: 'none'}}>
+                    <a href='https://t.me/asaveliev' target="_blank" style={{textDecoration: 'none'}}>
                       <img src="./icons/telegram.png" alt="telegram" style={{width: '25px'}} />
                     </a>
                   </li>
@@ -575,17 +575,17 @@ class LandingPage extends React.Component<any> {
             <div className={classes.socials} style={{marginTop: '40px'}}>
               <ul className={classes.socialsList} style={{display: 'flex'}}>
                 <li className={classes.socialsItem}>
-                  <a href='https://github.com/pyshopml2' style={{textDecoration: 'none'}}>
+                  <a href='https://github.com/pyshopml2' target="_blank" style={{textDecoration: 'none'}}>
                     <img src="./icons/github.svg" alt="github"/>
                   </a>
                 </li>
                 <li className={classes.socialsItem}>
-                  <a href='https://t.me/icoWorld_EN' style={{textDecoration: 'none'}}>
+                  <a href='https://t.me/icoWorld_EN' target="_blank" style={{textDecoration: 'none'}}>
                     <img src="./icons/telegram.svg" alt="telegram"/>
                   </a>
                 </li>
                 <li className={classes.socialsItem}>
-                  <a href='https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378' style={{textDecoration: 'none'}}>
+                  <a href='https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378' target="_blank" style={{textDecoration: 'none'}}>
                     <img src="./icons/bitcoin.svg" alt="bitcoin"/>
                   </a>
                 </li>
@@ -611,17 +611,17 @@ class LandingPage extends React.Component<any> {
                 <li className={classes.footerSectionsItem}>
                   <span className={classes.footerSectionsTitle}>Product</span>
 
-                  <a className={classes.footerSectionsLink} href="https://drive.google.com/file/d/1DCLN16ynsfOLmC-1KbOr1PtZmIYACC6j/view?usp=sharing">White Paper</a>
-                  <a className={classes.footerSectionsLink} href="/pitch" target="_blank">Pitch for Investors</a>
+                  <a className={classes.footerSectionsLink} href="./White Paper (english).pdf" download>White Paper</a>
+                  <a className={classes.footerSectionsLink} target="_blank" href="/pitch">Pitch for Investors</a>
                   <a className={classes.footerSectionsLink} href="#">MVP</a>
                 </li>
 
                 <li className={classes.footerSectionsItem}>
                   <span className={classes.footerSectionsTitle}>Social</span>
 
-                  <a className={classes.footerSectionsLink} href="https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378">Bitcointalk</a>
-                  <a className={classes.footerSectionsLink} href="https://github.com/pyshopml2">GitHub</a>
-                  <a className={classes.footerSectionsLink} href="https://t.me/icoWorld_EN">Telegram</a>
+                  <a className={classes.footerSectionsLink} target="_blank" href="https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378">Bitcointalk</a>
+                  <a className={classes.footerSectionsLink} target="_blank" href="https://github.com/pyshopml2">GitHub</a>
+                  <a className={classes.footerSectionsLink} target="_blank" href="https://t.me/icoWorld_EN">Telegram</a>
                 </li>
 
                 <li className={classes.footerSectionsItem}>
