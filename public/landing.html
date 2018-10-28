@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800&amp;subset=cyrillic" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>icoWorld</title>
+</head>
+<body>
+  <div class="wrapper">
+
+    <header class="header">
+      <div class="headerContainer">
+        <Link to="first" smooth={true} offset={-280} duration={500}>
+          <a href='#' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
+            <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
+            <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
+          </a>
+        </Link>
+        <div class="headerLinks">
+          <ul class="headerLinksList">
+            <li class="headerLinksItem">
+              <Link to="solutions" smooth={true} offset={-100} duration={500}>Solutions</Link>
+            </li>
+            <li class="headerLinksItem">
+              <Link to="roadmap" smooth={true} offset={-80} duration={500}>Roadmap</Link>
+            </li>
+            <li class="headerLinksItem">
+              <Link to="team" smooth={true} offset={-80} duration={500}>Team</Link>
+            </li>
+            <li class="headerLinksItem">
+              <Link to="contacts" smooth={true} duration={500}>Contacts</Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <div class="section" style={{paddingTop: '280px', paddingBottom: '70px'}}>
+      <Element name="first" />
+      <div class="container">
+        <h2 class="title">icoWorld is a social network for cryptoinvestors, assets managers and ICO-projects</h2>
+        <h3 class="subtitle" style={{marginTop: '60px'}}>Private sale will start in</h3>
+        
+        <ul style={{display: 'flex', marginTop: '60px'}}>
+          <li class="progressBarContainer" style={{marginRight: '20px'}}>
+            <span class="progressText">
+              <span class="amount">{this.state.days}</span>
+              <span class="text">Days</span>
+            </span>
+            <svg class="progressSvg">
+              <circle class="circle" r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
+              <circle style={{strokeDashoffset: (283 - (this.state.days / 50) * 283)}} class="progressbar circle" r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546"></circle>
+            </svg>
+          </li>
+          <li class="progressBarContainer" style={{marginRight: '20px'}}>
+            <span class="progressText">
+              <span class="amount">{this.state.hours}</span>
+              <span class="text">Hours</span>
+            </span>
+            <svg class="progressSvg">
+              <circle class="circle" r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
+              <circle style={{strokeDashoffset: (283 - (this.state.hours / 24) * 283)}} class="progressbar circle" r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546"></circle>
+            </svg>
+          </li>
+          <li class="progressBarContainer">
+            <span class="progressText">
+              <span class="amount">{this.state.mins}</span>
+              <span class="text">Minutes</span>
+            </span>
+            <svg class="progressSvg">
+              <circle class="circle" r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
+              <circle style={{strokeDashoffset: (283 - (this.state.mins / 60) * 283)}} class="progressbar circle" r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546"></circle>
+            </svg>
+          </li>
+        </ul>
+        
+        <div class="buttons" style={{marginTop: '60px'}}>
+          <ul class="buttonsList">
+            <li class="buttonsItem"><a class="buttonLink buttonLinkFill" href="#">White Paper</a></li>
+            <li class="buttonsItem"><a class="buttonLink buttonLinkFill" href="/pitch" target="_blank">Pitch for Investors</a></li>
+            <li class="buttonsItem"><a class="buttonLink buttonLinkFill" href="#">MVP</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="background-сolor: #2d3546, padding-top: 80px, padding-bottom: 80px">
+      <Element name="solutions" />
+      <div class="container">
+        <h2 class="title" style={{color: '#fff'}}>Our solutions:</h2>
+        <div class="solutions" style={{marginTop: '80px', width: '100%'}}>
+          <ul class="solutionsList">
+            <li class="solutionsItem">
+              <img style={{width: '170px'}} src="./icons/investors.svg" alt="investors"/>
+              <span class="solutionsText">Investors collaboration</span>
+            </li>
+            <li class="solutionsItem">
+              <img style={{width: '150px'}} src="./icons/shield.svg" alt="shield"/>
+              <span class="solutionsText">SCAM-protection</span>
+            </li>
+            <li class="solutionsItem">
+              <img style={{width: '170px'}} src="./icons/wallet.svg" alt="wallet"/>
+              <span class="solutionsText">Assets management</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style={{padding: '80px 0'}}>
+      <Element name="roadmap" />
+      <div class="container">
+        <h2 class="title">Roadmap</h2>
+        <ul class="roadmapList" style={{marginTop: '40px'}}>
+
+          <li class="roadmapItem">
+            <div class="roadmapLeft">June - July, 2018</div>
+            <div class="roadmapCenter" style={{backgroundColor: '#7ED321'}} />
+            <ul class="roadmapRight">
+              <li class="roadmapRightItem">Creating the concept</li>
+              <li class="roadmapRightItem">Testing the concept</li>
+              <li class="roadmapRightItem">Finalizing the concept</li>
+            </ul>
+          </li>
+
+          <li class="roadmapItem">
+            <div class="roadmapLeft">August - October, 2018</div>
+            <div class="roadmapCenter" style={{backgroundColor: '#7ED321'}} />
+            <ul class="roadmapRight">
+              <li class="roadmapRightItem">Team building</li>
+              <li class="roadmapRightItem">Pre-seed investments raising</li>
+              <li class="roadmapRightItem">Minimum viable product development</li>
+            </ul>
+          </li>
+
+          <li class="roadmapItem">
+            <div class="roadmapLeft">November, 2018</div>
+            <div class="roadmapCenter" style={{backgroundColor: '#FECD08'}} />
+            <ul class="roadmapRight">
+              <li class="roadmapRightItem">Private Sale</li>
+            </ul>
+          </li>
+
+          <li class="roadmapItem">
+            <div class="roadmapLeft">December, 2018 - May, 2019</div>
+            <div class="roadmapCenter" style={{backgroundColor: '#FECD08'}} />
+            <ul class="roadmapRight">
+              <li class="roadmapRightItem">Completion of the social part of the project</li>
+              <li class="roadmapRightItem">Attraction of the first users</li>
+              <li class="roadmapRightItem">Optimization of marketing expenses</li>
+              <li class="roadmapRightItem">Partnerships with suppliers</li>
+            </ul>
+          </li>
+
+          <li class="roadmapItem">
+            <div class="roadmapLeft">June, 2019</div>
+            <div class="roadmapCenter" style={{backgroundColor: '#FECD08'}} />
+            <ul class="roadmapRight">
+              <li class="roadmapRightItem">Initial Coin Offering</li>
+            </ul>
+          </li>
+
+          <li class="roadmapItem">
+            <div class="roadmapLeft">July, 2019 - February, 2020</div>
+            <div class="roadmapCenter" style={{backgroundColor: '#FECD08'}} />
+            <ul class="roadmapRight">
+              <li class="roadmapRightItem">Creating the scam-protection product</li>
+              <li class="roadmapRightItem">Adding five projects to the platform</li>
+              <li class="roadmapRightItem">Optimization of research and scam-scoring expenses</li>
+            </ul>
+          </li>
+
+          <li class="roadmapItem">
+            <div class="roadmapLeft">March, 2020 - March, 2021</div>
+            <div class="roadmapCenter" style={{backgroundColor: '#FECD08'}} />
+            <ul class="roadmapRight">
+              <li class="roadmapRightItem">The business scaling</li>
+              <li class="roadmapRightItem">Opening offices in business capitals of the world</li>
+              <li class="roadmapRightItem">Adding thirty-five projects to the platform</li>
+              <li class="roadmapRightItem">Optimization all expenses</li>
+            </ul>
+          </li>
+
+          <li class="roadmapItem">
+            <div class="roadmapLeft">Always</div>
+            <div class="roadmapCenter" style={{backgroundColor: '#FECD08'}} />
+            <ul class="roadmapRight">
+              <li class="roadmapRightItem">Research new opportunities</li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <Element name="team" />
+      <div class="container">
+        <h2 class="title">Team</h2>
+        
+        <ul class="photosList" style={{marginTop: '40px'}}>
+          <li class="photosItem"></li>
+          <li class="photosItem"></li>
+          <li class="photosItem"></li>
+          <li class="photosItem"></li>
+        </ul>
+
+        <Element name="contacts" />
+        <h2 class="title} style={{marginTop: '80px'}}>Join us!</h2>
+
+        <div class="socials} style={{marginTop: '40px'}}>
+          <ul class="socialsList} style={{display: 'flex'}}>
+            <li class="socialsItem}>
+              <a href='#' style={{textDecoration: 'none'}}>
+                <img src="./icons/github.svg" alt="github"/>
+              </a>
+            </li>
+            <li class="socialsItem}>
+              <a href='#' style={{textDecoration: 'none'}}>
+                <img src="./icons/telegram.svg" alt="telegram"/>
+              </a>
+            </li>
+            <li class="socialsItem}>
+              <a href='#' style={{textDecoration: 'none'}}>
+                <img src="./icons/bitcoin.svg" alt="bitcoin"/>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+    
+    <footer class="footer} style={{borderTop: '1px solid #f1f1f1',  marginTop: '75px', backgroundColor: '#2d3546', color: '#fff'}}>
+      <div class="footerContainer}>
+        <div style={{width: '240px', marginRight: '80px'}}>
+          <Link to="first" smooth={true} offset={-280} duration={500}>
+            <a href='#' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
+              <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
+              <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
+            </a>
+          </Link>
+          <span class="footerDescription}>A social network for cryptoinvestors, asset managers and ICO-projects</span>
+        </div>
+        <div class="footerRight} style={{flex: 1}}>
+          <ul class="footerSections}>
+            <li class="footerSectionsItem}>
+              <span class="footerSectionsTitle}>Product</span>
+
+              <a class="footerSectionsLink} href="#">White Paper</a>
+              <a class="footerSectionsLink} href="/pitch" target="_blank">Pitch for Investors</a>
+              <a class="footerSectionsLink} href="#">MVP</a>
+            </li>
+
+            <li class="footerSectionsItem}>
+              <span class="footerSectionsTitle}>Social</span>
+
+              <a class="footerSectionsLink} href="#">Bitcointalk</a>
+              <a class="footerSectionsLink} href="#">GitHub</a>
+              <a class="footerSectionsLink} href="#">Telegram</a>
+            </li>
+
+            <li class="footerSectionsItem}>
+              <span class="footerSectionsTitle}>Legal</span>
+
+              <a class="footerSectionsLink} href="#">Token Sale Agreement</a>
+              <a class="footerSectionsLink} href="#">Privacy Policy</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,12 +1,15 @@
 import React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { Link, Element } from 'react-scroll';
+import Dialog from "@material-ui/core/Dialog";
+import Scrollbar from "react-custom-scrollbars";
 
 const styles = () => createStyles({
   wrapper: {
     minWidth: '1300px',
     width: '100%',
     backgroundColor: '#fff',
+    color: '#2d3546',
   },
   section: {
     width: '100%',
@@ -39,7 +42,7 @@ const styles = () => createStyles({
   },
   headerLinksItem: {
     marginRight: '20px',
-    color: '#171717',
+    color: '#2d3546',
     textDecoration: 'none',
     cursor: 'pointer',
     '&:hover': {
@@ -88,8 +91,8 @@ const styles = () => createStyles({
     },
   },
   buttonLinkOutline: {
-    border: '1px solid #303546',
-    color: '#171717',
+    border: '1px solid #2d3546',
+    color: '#2d3546',
   },
   buttonLinkFill: {
     backgroundColor: '#DB0043',
@@ -148,18 +151,29 @@ const styles = () => createStyles({
     display: 'flex',
   },
   photosItem: {
-    width: '215px',
-    height: '270px',
-    backgroundColor: '#000',
     marginRight: '80px',
+    textAlign: 'center',
     '&:last-child': {
       marginRight: 0,
     },
   },
-  smartContract: {
-    width: '740px',
-    height: '370px',
+  teamSocialsItem: {
+    marginRight: '15px',
+    '&:last-child': {
+      marginRight: 0,
+    },
+  },
+  itemPhoto: {
+    width: '215px',
+    height: '270px',
     backgroundColor: '#000',
+    marginBottom: '15px',
+    overflow: 'hidden',
+  },
+  itemName: {
+    fontSize: '18px',
+    fontWeight: 600,
+    marginBottom: '2px',
   },
   socialsItem: {
     marginRight: '30px',
@@ -178,7 +192,7 @@ const styles = () => createStyles({
   },
   footerDescription: {
     fontSize: '14px',
-    color: '#171717',
+    color: '#fff',
     marginTop: '10px',
     display: 'inline-block',
   },
@@ -194,10 +208,10 @@ const styles = () => createStyles({
     fontSize: '18px',
     fontWeight: 600,
     marginBottom: '7px',
-    color: '#171717',
+    color: '#fff',
   },
   footerSectionsLink: {
-    color: '#171717',
+    color: '#fff',
     textDecoration: 'none',
     fontSize: '14px',
     lineHeight: '20px',
@@ -214,7 +228,7 @@ const styles = () => createStyles({
     position: 'absolute',
     top: '50%',
     left: '50%',
-    color: '#171717',
+    color: '#2d3546',
     zIndex: 1,
     lineHeight: 1,
     textAlign: 'center',
@@ -240,6 +254,11 @@ const styles = () => createStyles({
     transition: '1s',
     strokeDasharray: 283,
   },
+
+  modal: {
+    padding: '15px',
+    width: '550px',
+},
 });
 
 class LandingPage extends React.Component<any> {
@@ -247,7 +266,8 @@ class LandingPage extends React.Component<any> {
     mins: 0,
     hours: 0,
     days: 0,
-};
+    openModal: false,
+  };
 
   componentDidMount() {
     let to: any = new Date("December 1 2018 00:01:00");
@@ -265,6 +285,14 @@ class LandingPage extends React.Component<any> {
       hours: dd,
       days: d,
     })
+  }
+
+  renderThumbVertical({ style, ...props }: any) {
+    const customStyle = {
+      backgroundColor: `rgb(45, 53, 70)`,
+      borderRadius: "5px"
+    };
+    return <div {...props} style={{ ...style, ...customStyle }} />;
   }
 
   render() {
@@ -293,12 +321,6 @@ class LandingPage extends React.Component<any> {
                   <Link to="team" smooth={true} offset={-80} duration={500}>Team</Link>
                 </li>
                 <li className={classes.headerLinksItem}>
-                  <Link to="partners" smooth={true} duration={500}>Partners</Link>
-                </li>
-                <li className={classes.headerLinksItem}>
-                  <Link to="smartContract" smooth={true} duration={500}>Smart contract</Link>
-                </li>
-                <li className={classes.headerLinksItem}>
                   <Link to="contacts" smooth={true} duration={500}>Contacts</Link>
                 </li>
               </ul>
@@ -309,7 +331,7 @@ class LandingPage extends React.Component<any> {
         <div className={classes.section} style={{paddingTop: '280px', paddingBottom: '70px'}}>
           <Element name="first" />
           <div className={classes.container}>
-            <h2 className={classes.title}>icoWorld is a social network for cryptoinvestors, assets managers and ICO-projects</h2>
+            <h2 className={classes.title}>icoWorld is a social network for cryptoinvestors, asset managers and ICO-projects</h2>
             <h3 className={classes.subtitle} style={{marginTop: '60px'}}>Private sale will start in</h3>
             
             <ul style={{display: 'flex', marginTop: '60px'}}>
@@ -320,7 +342,7 @@ class LandingPage extends React.Component<any> {
                 </span>
                 <svg className={classes.progressSvg}>
                   <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
-                  <circle style={{strokeDashoffset: (283 - (this.state.days / 50) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#171717"></circle>
+                  <circle style={{strokeDashoffset: (283 - (this.state.days / 50) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546"></circle>
                 </svg>
               </li>
               <li className={classes.progressBarContainer} style={{marginRight: '20px'}}>
@@ -330,7 +352,7 @@ class LandingPage extends React.Component<any> {
                 </span>
                 <svg className={classes.progressSvg}>
                   <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
-                  <circle style={{strokeDashoffset: (283 - (this.state.hours / 24) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#171717"></circle>
+                  <circle style={{strokeDashoffset: (283 - (this.state.hours / 24) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546"></circle>
                 </svg>
               </li>
               <li className={classes.progressBarContainer}>
@@ -340,14 +362,14 @@ class LandingPage extends React.Component<any> {
                 </span>
                 <svg className={classes.progressSvg}>
                   <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
-                  <circle style={{strokeDashoffset: (283 - (this.state.mins / 60) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#171717"></circle>
+                  <circle style={{strokeDashoffset: (283 - (this.state.mins / 60) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546"></circle>
                 </svg>
               </li>
             </ul>
             
             <div className={classes.buttons} style={{marginTop: '60px'}}>
               <ul className={classes.buttonsList}>
-                <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="#">White Paper</a></li>
+                <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="https://drive.google.com/file/d/1DCLN16ynsfOLmC-1KbOr1PtZmIYACC6j/view?usp=sharing">White Paper</a></li>
                 <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="/pitch" target="_blank">Pitch for Investors</a></li>
                 <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkFill}`} href="#">MVP</a></li>
               </ul>
@@ -355,7 +377,7 @@ class LandingPage extends React.Component<any> {
           </div>
         </div>
 
-        <div className={classes.section} style={{backgroundColor: '#101010', paddingTop: '80px', paddingBottom: '80px'}}>
+        <div className={classes.section} style={{backgroundColor: '#2d3546', paddingTop: '80px', paddingBottom: '80px'}}>
           <Element name="solutions" />
           <div className={classes.container}>
             <h2 className={classes.title} style={{color: '#fff'}}>Our solutions:</h2>
@@ -363,11 +385,11 @@ class LandingPage extends React.Component<any> {
               <ul className={classes.solutionsList}>
                 <li className={classes.solutionsItem}>
                   <img style={{width: '170px'}} src="./icons/investors.svg" alt="investors"/>
-                  <span className={classes.solutionsText}>Investors collaboration</span>
+                  <span className={classes.solutionsText}>Investor collaboration</span>
                 </li>
                 <li className={classes.solutionsItem}>
                   <img style={{width: '150px'}} src="./icons/shield.svg" alt="shield"/>
-                  <span className={classes.solutionsText}>SCAM-protection</span>
+                  <span className={classes.solutionsText}>Scam-protection</span>
                 </li>
                 <li className={classes.solutionsItem}>
                   <img style={{width: '170px'}} src="./icons/wallet.svg" alt="wallet"/>
@@ -399,7 +421,7 @@ class LandingPage extends React.Component<any> {
                 <div className={classes.roadmapCenter} style={{backgroundColor: '#7ED321'}} />
                 <ul className={classes.roadmapRight}>
                   <li className={classes.roadmapRightItem}>Team building</li>
-                  <li className={classes.roadmapRightItem}>Pre-seed investments raising</li>
+                  <li className={classes.roadmapRightItem}>Pre-seed investment raising</li>
                   <li className={classes.roadmapRightItem}>Minimum viable product development</li>
                 </ul>
               </li>
@@ -416,8 +438,8 @@ class LandingPage extends React.Component<any> {
                 <div className={classes.roadmapLeft}>December, 2018 - May, 2019</div>
                 <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                 <ul className={classes.roadmapRight}>
-                  <li className={classes.roadmapRightItem}>Completion of the social part of the project</li>
-                  <li className={classes.roadmapRightItem}>Attraction of the first users</li>
+                  <li className={classes.roadmapRightItem}>Completion of social part of the project</li>
+                  <li className={classes.roadmapRightItem}>Attraction of first users</li>
                   <li className={classes.roadmapRightItem}>Optimization of marketing expenses</li>
                   <li className={classes.roadmapRightItem}>Partnerships with suppliers</li>
                 </ul>
@@ -435,7 +457,7 @@ class LandingPage extends React.Component<any> {
                 <div className={classes.roadmapLeft}>July, 2019 - February, 2020</div>
                 <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                 <ul className={classes.roadmapRight}>
-                  <li className={classes.roadmapRightItem}>Creating the scam-protection product</li>
+                  <li className={classes.roadmapRightItem}>Creating scam-protection product</li>
                   <li className={classes.roadmapRightItem}>Adding five projects to the platform</li>
                   <li className={classes.roadmapRightItem}>Optimization of research and scam-scoring expenses</li>
                 </ul>
@@ -445,10 +467,10 @@ class LandingPage extends React.Component<any> {
                 <div className={classes.roadmapLeft}>March, 2020 - March, 2021</div>
                 <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                 <ul className={classes.roadmapRight}>
-                  <li className={classes.roadmapRightItem}>The business scaling</li>
+                  <li className={classes.roadmapRightItem}>Business scaling</li>
                   <li className={classes.roadmapRightItem}>Opening offices in business capitals of the world</li>
                   <li className={classes.roadmapRightItem}>Adding thirty-five projects to the platform</li>
-                  <li className={classes.roadmapRightItem}>Optimization all expenses</li>
+                  <li className={classes.roadmapRightItem}>Optimization of all expenses</li>
                 </ul>
               </li>
 
@@ -470,24 +492,82 @@ class LandingPage extends React.Component<any> {
             <h2 className={classes.title}>Team</h2>
             
             <ul className={classes.photosList} style={{marginTop: '40px'}}>
-              <li className={classes.photosItem}></li>
-              <li className={classes.photosItem}></li>
-              <li className={classes.photosItem}></li>
-              <li className={classes.photosItem}></li>
+              <li className={classes.photosItem}>
+                <div className={classes.itemPhoto}><img src="./Ivan.jpg" style={{width: '100%', transform: 'translateY(-30px)'}} /></div>
+                <p className={classes.itemName}>Ivan Fedotov</p>
+                <p style={{marginBottom: '10px'}}>Chief Executive Officer</p>
+
+                <ul style={{display: 'flex', justifyContent: 'center'}}>
+                  <li className={classes.teamSocialsItem}>
+                    <a href='https://www.facebook.com/ivan.fedotov.568' style={{textDecoration: 'none'}}>
+                      <img src="./icons/facebook.png" alt="facebook" style={{width: '25px'}} />
+                    </a>
+                  </li>
+                  <li className={classes.teamSocialsItem}>
+                    <a href='https://www.linkedin.com/in/ivan-fedotov-264b40b1/' style={{textDecoration: 'none'}}>
+                      <img src="./icons/linkedin.png" alt="linkedIn" style={{width: '25px'}} />
+                    </a>
+                  </li>
+                  <li className={classes.teamSocialsItem}>
+                    <a href='https://t.me/iyufedotov' style={{textDecoration: 'none'}}>
+                      <img src="./icons/telegram.png" alt="telegram" style={{width: '25px'}}  />
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li className={classes.photosItem}>
+                <div className={classes.itemPhoto}></div>
+                <p className={classes.itemName}>Aleksey Rezvov</p>
+                <p style={{marginBottom: '10px'}}>Chief Technical Officer</p>
+
+                <ul style={{display: 'flex', justifyContent: 'center'}}>
+                  <li className={classes.teamSocialsItem}>
+                    <a href='https://www.facebook.com/therezvov' style={{textDecoration: 'none'}}>
+                      <img src="./icons/facebook.png" alt="facebook" style={{width: '25px'}} />
+                    </a>
+                  </li>
+                  <li className={classes.teamSocialsItem}>
+                    <a href='https://www.linkedin.com/in/arezvov/' style={{textDecoration: 'none'}}>
+                      <img src="./icons/linkedin.png" alt="linkedIn" style={{width: '25px'}} />
+                    </a>
+                  </li>
+                  <li className={classes.teamSocialsItem}>
+                    <a href='https://t.me/arezvov' style={{textDecoration: 'none'}}>
+                      <img src="./icons/telegram.png" alt="telegram" style={{width: '25px'}} />
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li className={classes.photosItem}>
+                <div className={classes.itemPhoto}><img src="./Nikolai.jpg" style={{width: '100%', transform: 'translateY(-25px)'}} /></div>
+                <p className={classes.itemName}>Nikolay Beschastny</p>
+                <p style={{marginBottom: '10px'}}>Team Leader</p>
+
+                <ul style={{display: 'flex', justifyContent: 'center'}}>
+                  <li className={classes.teamSocialsItem}>
+                    <a href='https://t.me/yabeshan' style={{textDecoration: 'none'}}>
+                      <img src="./icons/telegram.png" alt="telegram" style={{width: '25px'}} />
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li className={classes.photosItem}>
+                <div className={classes.itemPhoto}></div>
+                <p className={classes.itemName}>Aleksandr Saveliev</p>
+                <p style={{marginBottom: '10px'}}>Project Manager</p>
+
+                <ul style={{display: 'flex', justifyContent: 'center'}}>
+                  <li className={classes.teamSocialsItem}>
+                    <a href='https://t.me/asaveliev' style={{textDecoration: 'none'}}>
+                      <img src="./icons/telegram.png" alt="telegram" style={{width: '25px'}} />
+                    </a>
+                  </li>
+                </ul>
+              </li>
             </ul>
-
-            <Element name="partners" />
-            <h2 className={classes.title} style={{marginTop: '80px'}}>Partners</h2>
-            
-            <ul className={classes.photosList} style={{marginTop: '40px'}}>
-              <li className={classes.photosItem}></li>
-              <li className={classes.photosItem}></li>
-            </ul>
-
-            <Element name="smartContract" />
-            <h2 className={classes.title} style={{marginTop: '80px'}}>Smart Contract</h2>
-
-            <div className={classes.smartContract} style={{marginTop: '40px'}}></div>
 
             <Element name="contacts" />
             <h2 className={classes.title} style={{marginTop: '80px'}}>Join us!</h2>
@@ -495,17 +575,17 @@ class LandingPage extends React.Component<any> {
             <div className={classes.socials} style={{marginTop: '40px'}}>
               <ul className={classes.socialsList} style={{display: 'flex'}}>
                 <li className={classes.socialsItem}>
-                  <a href='#' style={{textDecoration: 'none'}}>
+                  <a href='https://github.com/pyshopml2' style={{textDecoration: 'none'}}>
                     <img src="./icons/github.svg" alt="github"/>
                   </a>
                 </li>
                 <li className={classes.socialsItem}>
-                  <a href='#' style={{textDecoration: 'none'}}>
+                  <a href='https://t.me/icoWorld_EN' style={{textDecoration: 'none'}}>
                     <img src="./icons/telegram.svg" alt="telegram"/>
                   </a>
                 </li>
                 <li className={classes.socialsItem}>
-                  <a href='#' style={{textDecoration: 'none'}}>
+                  <a href='https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378' style={{textDecoration: 'none'}}>
                     <img src="./icons/bitcoin.svg" alt="bitcoin"/>
                   </a>
                 </li>
@@ -515,7 +595,7 @@ class LandingPage extends React.Component<any> {
           </div>
         </div>
         
-        <footer className={classes.footer} style={{borderTop: '1px solid #f1f1f1',  marginTop: '75px'}}>
+        <footer className={classes.footer} style={{borderTop: '1px solid #f1f1f1',  marginTop: '75px', backgroundColor: '#2d3546', color: '#fff'}}>
           <div className={classes.footerContainer}>
             <div style={{width: '240px', marginRight: '80px'}}>
               <Link to="first" smooth={true} offset={-280} duration={500}>
@@ -531,7 +611,7 @@ class LandingPage extends React.Component<any> {
                 <li className={classes.footerSectionsItem}>
                   <span className={classes.footerSectionsTitle}>Product</span>
 
-                  <a className={classes.footerSectionsLink} href="#">White Paper</a>
+                  <a className={classes.footerSectionsLink} href="https://drive.google.com/file/d/1DCLN16ynsfOLmC-1KbOr1PtZmIYACC6j/view?usp=sharing">White Paper</a>
                   <a className={classes.footerSectionsLink} href="/pitch" target="_blank">Pitch for Investors</a>
                   <a className={classes.footerSectionsLink} href="#">MVP</a>
                 </li>
@@ -539,21 +619,69 @@ class LandingPage extends React.Component<any> {
                 <li className={classes.footerSectionsItem}>
                   <span className={classes.footerSectionsTitle}>Social</span>
 
-                  <a className={classes.footerSectionsLink} href="#">Bitcointalk</a>
-                  <a className={classes.footerSectionsLink} href="#">GitHub</a>
-                  <a className={classes.footerSectionsLink} href="#">Telegram</a>
+                  <a className={classes.footerSectionsLink} href="https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378">Bitcointalk</a>
+                  <a className={classes.footerSectionsLink} href="https://github.com/pyshopml2">GitHub</a>
+                  <a className={classes.footerSectionsLink} href="https://t.me/icoWorld_EN">Telegram</a>
                 </li>
 
                 <li className={classes.footerSectionsItem}>
                   <span className={classes.footerSectionsTitle}>Legal</span>
 
-                  <a className={classes.footerSectionsLink} href="#">Token Sale Agreement</a>
-                  <a className={classes.footerSectionsLink} href="#">Privacy Policy</a>
+                  <a className={classes.footerSectionsLink} href="#" onClick={() => {this.setState({ openModal: true })}}>Privacy Policy</a>
                 </li>
               </ul>
             </div>
           </div>
         </footer>
+
+        <Dialog PaperProps={{square: true}} onClose={() => this.setState({ openModal: false })} open={this.state.openModal}>
+          <Scrollbar autoHeight={true} autoHeightMax={590} renderThumbVertical={this.renderThumbVertical}>
+            <div className={classes.modal}>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet illo ullam dolorem aliquid eum? Maiores a eos deserunt aut assumenda soluta, architecto odio. Explicabo, alias fugiat placeat tenetur officiis omnis.
+                Reiciendis labore quibusdam architecto, cum, excepturi maiores dolores repudiandae dignissimos sapiente ullam deleniti autem. Eveniet sed laboriosam, ab eaque, distinctio fugit repellendus, autem id sequi suscipit veniam atque placeat enim?
+                Rerum magni dolorem sapiente laboriosam, porro blanditiis explicabo eius nesciunt fugiat quaerat eum quam pariatur natus! Praesentium, suscipit? Incidunt, omnis nisi sunt rem quia recusandae ipsum. A doloremque quo voluptatibus.
+                Veniam fugit totam mollitia veritatis qui, blanditiis accusamus consequatur culpa eaque excepturi sit minus alias, illum earum odit delectus cum cupiditate, fugiat officiis. Non iste doloremque dolor sunt iusto labore.
+                Magnam, veniam nulla enim eius inventore voluptatum ipsum repudiandae pariatur deserunt ullam minus dolores est, illum, dignissimos ab earum reiciendis! Neque id expedita voluptatem sapiente, voluptatibus eligendi earum debitis itaque.
+                Vero, vitae id exercitationem, neque accusamus qui architecto mollitia doloremque enim, perspiciatis aperiam fuga cum quod culpa inventore eius fugit voluptas corporis tenetur commodi? Sed necessitatibus at nesciunt architecto optio?
+                Esse excepturi officiis distinctio, voluptatibus dolorum quo illo dolores nulla, id necessitatibus fuga temporibus dignissimos eaque. Hic repudiandae eligendi, odit unde molestiae magni aliquam quam iure officia minima? Deserunt, tempora.
+                Quis vitae alias quaerat magni voluptatum voluptates praesentium in, beatae, sint ut labore! Hic unde sint aperiam possimus. Natus perferendis suscipit est ipsa quisquam ut aliquam ab incidunt dolorem sit?
+                Obcaecati perferendis ipsa iusto distinctio nemo necessitatibus sapiente labore nesciunt autem excepturi saepe facilis eaque debitis, aspernatur, sit natus porro! Dignissimos fuga suscipit odit consequuntur repellat molestiae, sit alias magni.
+                Doloremque enim fuga illum voluptates quo nobis voluptate neque, suscipit itaque adipisci labore rerum nesciunt placeat obcaecati qui voluptas saepe modi vel vitae sunt accusamus consequatur error maxime. Aspernatur, mollitia.
+                Corporis ipsa quae voluptates repellat, possimus nam, impedit nostrum, sed dicta aspernatur illum quas labore veniam expedita quo quisquam. Libero quae adipisci velit earum est quis commodi et blanditiis itaque?
+                Et nemo consectetur laboriosam facilis eum sapiente dolore ex aut maxime facere eaque voluptate, illo, sequi maiores possimus quae nulla. Corporis illum esse perferendis omnis consequuntur amet non nesciunt qui!
+                Officia delectus perspiciatis vitae modi quod, tenetur repudiandae accusantium provident explicabo, voluptatum nostrum ut expedita totam unde! Nobis voluptatum corrupti a veritatis odit nostrum quam sequi soluta harum. Voluptatum, debitis.
+                Facilis eos accusamus pariatur in exercitationem voluptatibus odio modi minima beatae assumenda iste incidunt officiis velit tenetur eveniet quae corporis recusandae animi accusantium consequatur sint est, quo nihil itaque? Veniam.
+                Necessitatibus commodi optio minus nam enim corrupti ullam consequuntur, ipsam possimus placeat! Vero quae esse atque quisquam cupiditate pariatur maxime facere? Dicta, voluptates facilis. Recusandae incidunt vel facere in quae.
+                Tempore ipsa nobis explicabo dignissimos delectus hic nam deserunt modi suscipit minima voluptates, harum quis eius, non recusandae praesentium dicta magnam culpa consequuntur repudiandae reiciendis veritatis ex itaque? Nulla, dicta.
+                Perferendis officia omnis tempore sunt facere tempora molestias exercitationem harum fugiat nulla numquam nobis, sint ab, accusantium animi nostrum sed alias odio! Nostrum commodi accusantium et corrupti neque facere recusandae.
+                Veniam enim illo, placeat, consequuntur corrupti obcaecati labore repellendus omnis voluptas, non vel neque amet? Tempore veritatis molestiae quos suscipit, nemo commodi minima nulla quod, officia beatae reprehenderit quibusdam cum?
+                Harum laborum voluptate quae nam numquam consequuntur ea nihil sed, ducimus laboriosam suscipit! Similique nulla id blanditiis itaque consectetur consequatur nostrum commodi incidunt in, non ullam dignissimos quae quibusdam magnam.
+                A sint repellat aliquid quam odit itaque impedit! Alias tempore iusto, fugit dolor eveniet sunt quaerat dolorem adipisci earum, at culpa sit voluptatibus quidem aliquam, placeat illum. Tenetur, molestias sequi.
+                Odio soluta itaque fugit quibusdam sunt laboriosam nulla officiis eos tempore? Sequi fuga error fugiat harum, deleniti ea fugit quae cumque distinctio excepturi dicta aut incidunt, quisquam repellat totam iure.
+                Dolor laudantium unde iure, aut vel saepe laboriosam deserunt iste blanditiis repellat fugiat neque quisquam nisi temporibus rem hic quam ullam molestiae labore rerum consectetur optio at adipisci in! Illo.
+                Debitis, fugiat consectetur dignissimos minima porro temporibus deserunt? Enim laboriosam aperiam ullam rerum accusantium voluptates velit facere explicabo? Exercitationem explicabo dolore esse harum ut commodi non laborum officia aperiam cupiditate.
+                Nesciunt non ipsum, aliquid laboriosam vitae obcaecati impedit nisi voluptatibus id repudiandae eaque odio laudantium sunt, eius unde recusandae. Iure obcaecati dicta officiis, veniam tenetur pariatur nemo vitae at commodi.
+                Consequatur architecto voluptatum molestiae sunt, facere nisi inventore quod harum unde, debitis incidunt! Molestiae quibusdam aspernatur perferendis, qui cupiditate adipisci quod pariatur dolorum reiciendis totam explicabo, iste molestias iure dolores.
+                Dolores qui accusantium ipsam vel atque tempore aliquid nobis harum vitae quo odit veniam fugiat necessitatibus nam, enim doloremque quisquam nulla officia culpa voluptatibus! Perferendis explicabo maiores aut placeat perspiciatis.
+                Voluptas rem sit asperiores esse dolorum voluptatibus voluptatum repellendus cum porro perferendis autem, aperiam enim fugit architecto, consequatur, est facilis reprehenderit atque vel ullam alias laboriosam eius! Dignissimos, amet dolor?
+                Ipsa, modi nam, pariatur doloremque repudiandae, repellendus deleniti esse eveniet nisi quod laborum cum commodi placeat. Consequatur asperiores neque id. Rerum id quasi dolor, alias nesciunt commodi est quas? Modi?
+                Minus odio esse cum, quisquam sint rerum aliquid assumenda debitis quos itaque mollitia similique vero, dolores veniam cupiditate qui velit maiores molestias. Libero cum officiis tempora dignissimos corporis ratione explicabo!
+                Reprehenderit iusto ullam eum totam fuga obcaecati, voluptatibus neque nihil sapiente atque eveniet deleniti accusantium, excepturi exercitationem molestias quis error ratione quas nesciunt iste vero! Praesentium libero eaque non voluptatem.
+                Possimus modi consectetur, optio molestiae voluptatem doloremque dolorum adipisci fugit error nam iusto ad quos nobis illo distinctio, porro saepe perspiciatis voluptates. Repellendus non nostrum accusamus! Eaque ab laboriosam aliquid.
+                Dolorum, facere reiciendis repudiandae rem nostrum culpa quae aspernatur quos atque iure officia facilis accusamus quas non nobis ex itaque libero laboriosam illum numquam et sint ipsam molestias. Aliquam, totam.
+                Suscipit impedit odit dolorem harum unde sunt fugit aliquam molestiae enim veniam hic aliquid quo, quae culpa eaque iste at iure laudantium illo distinctio facere. Hic pariatur rerum nemo amet.
+                Itaque, quos, excepturi temporibus, aspernatur sint ratione tenetur ea magnam tempora dolorem nihil. Aliquid minus ipsum quod animi id ipsa fugiat non reprehenderit dolorem nesciunt laudantium tempora, vero, quia aspernatur.
+                Ipsum error neque magnam ratione! Pariatur doloribus, optio tempore commodi praesentium reprehenderit maxime sed! Laboriosam ex repellat repellendus fugit? Ea, ut ipsam! Nulla quas accusamus blanditiis molestias, quia doloremque dolor.
+                Maiores, ab sed quo asperiores autem quibusdam tempora dolor, repudiandae eaque tempore maxime saepe dolore corrupti quasi? A, eligendi error obcaecati eos nihil cupiditate nostrum. Neque architecto iure esse deleniti.
+                Nam, voluptates qui reprehenderit iusto repellat quod praesentium suscipit aliquam eius corporis molestias nemo recusandae quo consequuntur repellendus enim quibusdam eos quae totam excepturi voluptatem maiores minima ducimus quas? Explicabo!
+                Illum quo commodi eligendi ex aperiam iusto tenetur earum tempora facere vel natus saepe, at quisquam? Molestiae ullam incidunt nobis repellat at laudantium possimus dignissimos officia sed beatae? Rerum, illo.
+                Facere at ut, reiciendis nostrum provident error corrupti alias ipsum repellendus magni saepe quisquam esse doloribus explicabo nam maxime velit! Fugiat ipsum eius consequuntur exercitationem quae doloribus corrupti recusandae error.
+                Voluptatibus dignissimos molestias itaque, nihil expedita nulla nesciunt fugit officia magnam eos, hic ab similique iusto beatae quaerat odio earum delectus quia, aliquid doloremque incidunt asperiores! Officiis quas eaque nam!
+              </p>
+            </div>
+          </Scrollbar>
+        </Dialog>
       </div>
     )
   }

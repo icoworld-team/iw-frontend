@@ -79,16 +79,16 @@ class SignInPage extends Component<any> {
                         <h3 className="form-text">Социальная сеть для криптоинвесторов, управляюших активами и ICO-проектов</h3>
                         <div className="signup-form">
                             <form>
-                                <TextField name="email" label="Email" fullWidth margin="normal"
+                                <TextField name="email" label="Email" fullWidth={true} margin="normal"
                                            value={this.state.email} onChange={this.handleChange}/>
-                                <TextField name="password" type="password" fullWidth label="Пароль" margin="normal"
+                                <TextField name="password" type="password" fullWidth={true} label="Пароль" margin="normal"
                                            value={this.state.password} onChange={this.handleChange}/>
                                 <div className="form-links">
                                     <Link to="/password-recovery">Забыли пароль?</Link>
                                     <Link to="/signup">Регистрация</Link>
                                 </div>
 
-                                <Button fullWidth variant="raised" color="primary" onClick={this.handleClick}>
+                                <Button fullWidth={true} variant="raised" color="primary" onClick={this.handleClick}>
                                     Войти
                                 </Button>
 

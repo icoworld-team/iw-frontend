@@ -64,16 +64,15 @@ class InvestorsPage extends React.Component<any> {
     }
 
     handleChange = (e:any) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
+        if(e.keyCode === 13)
+            this.setState({
+                [e.target.name]: e.target.value
+            });
     };
-
 
     render() {
         const { classes } = this.props;
 
-        console.log(this.props.filter);
         const input = {
             name: this.state.searchText,
             ...this.props.filter
@@ -88,33 +87,29 @@ class InvestorsPage extends React.Component<any> {
 
                         <div className={`page-content`}>
                             <div className={`card ${classes.investorsBlock} ${classes.investors}`}>
-                                
-                                <Query query={GET_INVESTORS} variables={{input: input}}>
-                                    {({ loading, error, data }) => {
-                                        if(loading) return (
-                                            <div className="block-label">
-                                                <Typography variant="subheading" align='center'>Loading</Typography>
-                                            </div>
-                                        );
-                                        if(error) return `Error: ${error}`;
-                                        const investors = data.getInvestors.map((investor:any) => <li key={investor.id} className={classes.investorsItem}><InvestorCard data={investor}/></li>);
-                                        return (
-                                            <>
-                                                <div className={`card-heading`}>
-                                                    <Typography className={`card-title`} variant="subheading">{`${data.getInvestors.length} investors`}</Typography>
-                                                    <TextField InputProps={{ disableUnderline: true, classes: {input: `search-input input`} }} 
-                                                        className={`heading-input`} name="searchText" placeholder="Search"
-                                                               value={this.state.searchText} onChange={this.handleChange} autoFocus/>
-                                                </div>
-                                                <div className={classes.investorsContent}>
-                                                    <ul className={classes.investorsList}>
-                                                        {investors}
-                                                    </ul>
-                                                </div>
-                                            </>
-                                        )
-                                    }}
-                                </Query>
+                                <div className={`card-heading`}>
+                                    <Typography className={`card-title`} variant="subheading">{`${this.state.investorsAmount} investors`}</Typography>
+                                    <TextField InputProps={{ disableUnderline: true, classes: {input: `search-input input`} }} 
+                                        className={`heading-input`} name="searchText" placeholder="Search"
+                                        onKeyDown={this.handleChange} />
+                                </div>
+                                <div className={classes.investorsContent}>
+                                    <ul className={classes.investorsList}>
+                                        <Query query={GET_INVESTORS} variables={{input: input}}>
+                                            {({ loading, error, data }) => {
+                                                if(loading) return (
+                                                    <div className="block-label">
+                                                        <Typography variant="subheading" align='center'>Loading</Typography>
+                                                    </div>
+                                                );
+                                                if(error) return `Error: ${error}`;
+                                                const investors = data.getInvestors.map((investor:any) => <li key={investor.id} className={classes.investorsItem}><InvestorCard data={investor}/></li>);
+                                                investors.length !== this.state.investorsAmount ? this.setState({investorsAmount: investors.length}) : null
+                                                return investors.length ? investors : <Typography style={{padding: '15px'}} variant="subheading" align='center'>Not results</Typography>
+                                            }}
+                                        </Query>
+                                    </ul>
+                                </div>
                             </div>
                             <div className={`card ${classes.investorsBlock} ${classes.investorsFilter}`}>
                                 <div className={`card-heading`}>

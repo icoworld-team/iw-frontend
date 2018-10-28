@@ -112,19 +112,19 @@ class SignUpPage extends Component<any> {
                         <h1 className="form-title">Регистрация</h1>
                         <div className="signup-form">
                             <form>
-                                <TextField name="name" label="Имя" fullWidth margin="normal"
+                                <TextField name="name" label="Имя" fullWidth={true} margin="normal"
                                            helperText={errorMessages.name} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
                                            error={false || this.state.nameInvalid}
                                            value={this.state.name} onChange={this.handleChange}/>
-                                <TextField name="surname" label="Фамилия" fullWidth margin="normal"
+                                <TextField name="surname" label="Фамилия" fullWidth={true} margin="normal"
                                            helperText={errorMessages.surname} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
                                            error={false || this.state.surnameInvalid}
                                            value={this.state.surname} onChange={this.handleChange}/>
-                                <TextField name="email" label="Email" fullWidth margin="normal"
+                                <TextField name="email" label="Email" fullWidth={true} margin="normal"
                                            helperText={errorMessages.email} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
                                            error={false || this.state.emailInvalid}
                                            value={this.state.email} onChange={this.handleChange}/>
-                                <TextField name="password" type="password" fullWidth label="Пароль" margin="normal"
+                                <TextField name="password" type="password" fullWidth={true} label="Пароль" margin="normal"
                                            helperText={errorMessages.password} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
                                            error={false || this.state.passwordInvalid}
                                            value={this.state.password} onChange={this.handleChange}/>
@@ -132,7 +132,7 @@ class SignUpPage extends Component<any> {
                                     <Link to="/">Уже есть аккаунт?</Link>
                                 </div>
 
-                                <Button fullWidth variant="raised" color="primary" disabled={disabled} onClick={this.handleClick}>
+                                <Button fullWidth={true} variant="raised" color="primary" disabled={disabled} onClick={this.handleClick}>
                                     Регистрация
                                 </Button>
                                 <FormControlLabel classes={{root: 'policy'}} control={

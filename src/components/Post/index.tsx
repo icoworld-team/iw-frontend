@@ -519,7 +519,7 @@ class Post extends Component<any> {
                         />
                     </div>
                     <div className={`${classes.container} ${this.state.showInput ? classes.show : classes.hidden}`}>
-                        <FormControl fullWidth className={classes.textField}>
+                        <FormControl fullWidth={true} className={classes.textField}>
                             <Input
                                 id="comment"
                                 name="comment"

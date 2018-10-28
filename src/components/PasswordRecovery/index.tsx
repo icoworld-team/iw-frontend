@@ -64,7 +64,7 @@ class SignInPage extends Component<any> {
           <Typography>Enter your Email and instructions will be sent to you!</Typography>
 
           <form>
-            <TextField name="email" label="Email" fullWidth margin="normal"
+            <TextField name="email" label="Email" fullWidth={true} margin="normal"
               value={this.state.email} onChange={this.handleChange}/>
 
             <Button className={classes.formBtn} variant="raised" color="primary" >
