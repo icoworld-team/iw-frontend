@@ -4,7 +4,7 @@ import Conversation from '../Conversation'
 import {endpoint, socket} from "../../api";
 import { withApollo } from 'react-apollo';
 import {connect} from "react-redux";
-import {addMessage, setMessages, addOlderMessages, readMessages, updateContacts} from "../../actions";
+import { setMessages, addOlderMessages, readMessages, updateContacts } from "../../actions";
 import { GET_CHAT_MESSAGES } from '../../api/graphql'
 import ChatInput from '../ChatInput'
 
@@ -16,7 +16,6 @@ const fetchMessages = async (client:any, chatId:any) => {
         fetchPolicy: 'network-only'
     });
     const messages = result.data.getChatMessages.messages.slice().reverse();
-    // console.log(messages);
     const chatMessages = {
         id: chatId,
         messages: messages
@@ -25,9 +24,6 @@ const fetchMessages = async (client:any, chatId:any) => {
 };
 
 class ChatWindow extends Component<any> {
-    state = {
-        message: '',
-    };
 
     scrollArea:any;
     // position:number;
@@ -40,7 +36,6 @@ class ChatWindow extends Component<any> {
                 fetchPolicy: 'network-only'
             });
             const messages = result.data.getChatMessages.messages.slice().reverse();
-            // console.log(messages);
             const chatMessages = {
                 id: this.props.user.chatId,
                 messages: messages
@@ -76,12 +71,7 @@ class ChatWindow extends Component<any> {
         if (this.props.chatMessages[this.props.user.chatId] !== undefined && this.props.chatMessages[this.props.user.chatId].length < 10) {
             this.fetchMore()
         }
-        // if(this.props.user.chatId !== prevProps.user.chatId){
-        //     if(this.props.chatMessages[this.props.user.chatId] === undefined) {
-        //         fetchMessages(this.props.client, this.props.user.chatId)
-        //             .then((chatMessages) => this.props.setMessages(chatMessages));
-        //     }
-        // }
+
         this.scrollArea.scrollToBottom();
         // this.scrollArea.scrollTop(this.scrollArea.getScrollHeight() - this.position);
 
@@ -104,7 +94,6 @@ class ChatWindow extends Component<any> {
     fetchMore = async () => {
         const chatId = this.props.user.chatId;
         const chatMessages = this.props.chatMessages[chatId];
-        console.log(this.props.chatMessages[chatId]);
         if (chatMessages) {
             const result = await this.props.client.query({
                 query: GET_CHAT_MESSAGES,
@@ -121,12 +110,6 @@ class ChatWindow extends Component<any> {
             }
             else { console.log("empty")}
         }
-    };
-
-    handleChange = (e:any) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
     };
 
     handleScroll = (values:any) => {
@@ -149,19 +132,14 @@ class ChatWindow extends Component<any> {
 
     render() {
         const { user,  chatMessages } = this.props;
-        // const data = chatMessages.find((data:any) => data.id == user.chatId);
         const data = chatMessages[user.chatId];
-        // let messages:any;
-        // if(data) {messages = data.messages}
-        // else {messages = []}
-        // console.log(data);
         return (
             <div className="chat-window">
                 <div className="chat-main-header">
                     <div className="chat-window-user-avatar">
                         <div className="chat-user-avatar-mode">
                             <img className="chat-avatar" width="60px" src={user.parnter.avatar ? `${endpoint}/images/${user.parnter.id}/${user.parnter.avatar}` : "profile.jpeg"}/>
-                            <span className="chat-status online" />
+                            {/*<span className="chat-status online" />*/}
                         </div>
                     </div>
                     <div className="chat-contact-name">{user.parnter.name}</div>
@@ -185,7 +163,6 @@ const mapStateToProps = ({chat, auth}:any) => {
 const mapDispatchToProps = (dispatch:any) => {
     return {
         setMessages: (messages:any) => dispatch(setMessages(messages)),
-        addMessage: (message:any) => dispatch(addMessage(message)),
         addOlderMessages: (messages:any) => dispatch(addOlderMessages(messages)),
         readMessages: (chatId:any) => dispatch(readMessages(chatId)),
         updateContacts: (id:any) => dispatch(updateContacts(id)),

@@ -9,6 +9,7 @@ import { withStyles, Theme } from '@material-ui/core/styles';
 import {connect} from "react-redux";
 import {chatTime} from "../../utils";
 import { Link } from "react-router-dom";
+import {endpoint} from "../../api";
 
 const styles = (theme: Theme) => ({
   paperHeading: {
@@ -95,36 +96,6 @@ const styles = (theme: Theme) => ({
   }
 });
 
-// const databaseMessages = [
-//     {
-//         id: 1,
-//         avatar: 'profile.jpeg',
-//         amountOfUnreadMessages: '3',
-//         author: 'Domnic Brown',
-//         authorLink: 'javascript:void(0)',
-//         time: '6:19 PM',
-//         body: `There are many variations of passages of...`
-//     },
-//     {
-//         id: 2,
-//         avatar: 'profile.jpeg',
-//         amountOfUnreadMessages: '0',
-//         author: 'Ivan Fedotov',
-//         authorLink: 'javascript:void(0)',
-//         time: '8:44 AM',
-//         body: `Lorem Ipsum is simply dummy text of the...`
-//     },
-//     {
-//         id: 3,
-//         avatar: 'profile.jpeg',
-//         amountOfUnreadMessages: '8',
-//         author: 'John Smith',
-//         authorLink: 'javascript:void(0)',
-//         time: '2:23 PM',
-//         body: `The point of using Lorem Ipsum is that it has a...`
-//     }
-// ];
-
 class HeaderMessages extends React.Component<any> {
 
   render() {
@@ -137,9 +108,9 @@ class HeaderMessages extends React.Component<any> {
         <div className={classes.avatar}>
           {contact.newMessages >= '1' ?
             <Badge color="secondary" badgeContent={contact.newMessages} classes={{ badge: classes.badge }}>
-              <Avatar src="profile.jpeg" />
+              <Avatar src={contact.parnter.avatar ? `${endpoint}/images/${contact.parnter.id}/${contact.parnter.avatar}` : "profile.jpeg"} />
             </Badge> :
-            <Avatar src="profile.jpeg" />
+            <Avatar src={contact.parnter.avatar ? `${endpoint}/images/${contact.parnter.id}/${contact.parnter.avatar}` : "profile.jpeg"} />
           }
         </div>
 
@@ -159,13 +130,10 @@ class HeaderMessages extends React.Component<any> {
                   Reply
               </Button>
           </Link>
-
-
           {/*<Button variant="flat" size="small" className={classes.button}>*/}
             {/*<EyeIcon className={classes.icon} />*/}
             {/*Read*/}
           {/*</Button>*/}
-        
         </div>
       </li>
     )
@@ -183,9 +151,7 @@ class HeaderMessages extends React.Component<any> {
 
 const mapStateToProps = ({auth, chat}:any) => {
     return {
-        authUser: auth.authUser,
         contactsList: chat.contactsList,
-        chatMessages: chat.chatMessages
     }
 };
 

@@ -131,7 +131,7 @@ class MainAppBar extends Component<any> {
 								</div>
 								<div className={classes.barIcons}>
 									{/* <LanguageSelector/> */}
-									<HeaderPopper variant='notify'/>
+									{/*<HeaderPopper variant='notify'/>*/}
 									<HeaderPopper variant='messages'/>
 									<HeaderAccountMenu />
 								</div>

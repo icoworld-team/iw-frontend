@@ -3,8 +3,6 @@ import Grid from '@material-ui/core/Grid'
 import ChatContactsList from '../ChatContactsList'
 import './style.css'
 import ChatWindow from '../ChatWindow'
-// import {addContact, addMessage, chatUnMount} from "../../actions";
-// import {connect} from "react-redux";
 
 export default class Chat extends Component<any> {
     state = {
@@ -40,13 +38,3 @@ export default class Chat extends Component<any> {
         )
     }
 }
-
-// const mapDispatchToProps = (dispatch:any) => {
-//     return {
-//         addContact: (contact:any) => dispatch(addContact(contact)),
-//         addMessage: (message:any) => dispatch(addMessage(message)),
-//         chatUnMount: () => dispatch(chatUnMount())
-//     }
-// };
-//
-// export default connect(null, mapDispatchToProps)(Chat)
