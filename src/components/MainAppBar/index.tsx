@@ -104,7 +104,6 @@ class MainAppBar extends Component<any> {
 									</Tabs>
 								</div>
 								<div className={classes.barIcons}>
-									<HeaderPopper variant='notify'/>
 									<HeaderPopper variant='messages'/>
 									<HeaderAccountMenu />
 								</div>

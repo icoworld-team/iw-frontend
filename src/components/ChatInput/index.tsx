@@ -16,9 +16,11 @@ export default class ChatInput extends Component<any> {
         let shadowTextArea: any = document.getElementById('shadowTextArea');
         shadowTextArea.value = e.target.value;
         let height = shadowTextArea.scrollHeight;
-        this.setState({
-            textAreaHeight: height
-        });
+        if(height < 120) {
+            this.setState({
+                textAreaHeight: height
+            });
+        }
     };
 
     handleSendMessage = () => {

@@ -9,6 +9,7 @@ import { withStyles, Theme } from '@material-ui/core/styles';
 import {connect} from "react-redux";
 import {chatTime} from "../../utils";
 import { Link } from "react-router-dom";
+import {endpoint} from "../../api";
 
 const styles = (theme: Theme) => ({
   paperHeading: {
@@ -107,9 +108,9 @@ class HeaderMessages extends React.Component<any> {
         <div className={classes.avatar}>
           {contact.newMessages >= '1' ?
             <Badge color="secondary" badgeContent={contact.newMessages} classes={{ badge: classes.badge }}>
-              <Avatar src="profile.jpeg" />
+              <Avatar src={contact.parnter.avatar ? `${endpoint}/images/${contact.parnter.id}/${contact.parnter.avatar}` : "profile.jpeg"} />
             </Badge> :
-            <Avatar src="profile.jpeg" />
+            <Avatar src={contact.parnter.avatar ? `${endpoint}/images/${contact.parnter.id}/${contact.parnter.avatar}` : "profile.jpeg"} />
           }
         </div>
 
@@ -129,13 +130,10 @@ class HeaderMessages extends React.Component<any> {
                   Reply
               </Button>
           </Link>
-
-
           {/*<Button variant="flat" size="small" className={classes.button}>*/}
             {/*<EyeIcon className={classes.icon} />*/}
             {/*Read*/}
           {/*</Button>*/}
-        
         </div>
       </li>
     )
@@ -153,9 +151,7 @@ class HeaderMessages extends React.Component<any> {
 
 const mapStateToProps = ({auth, chat}:any) => {
     return {
-        authUser: auth.authUser,
         contactsList: chat.contactsList,
-        chatMessages: chat.chatMessages
     }
 };
 

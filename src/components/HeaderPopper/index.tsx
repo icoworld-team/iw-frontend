@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import HeaderMessages from '../HeaderMessages';
 import HeaderNotify from '../HeaderNotify';
+import {connect} from "react-redux";
 
 const styles = (theme: Theme) => createStyles({
   icon: {
@@ -24,7 +25,7 @@ const styles = (theme: Theme) => createStyles({
       backgroundColor: '#f44336',
       borderRadius: '50%',
       boxShadow: '0 0 0 rgba(244,67,54,.4)',
-      animation: 'pulse 2s infinite',
+      // animation: 'pulse 2s infinite',
     },
   },
   iconRoot: {
@@ -74,7 +75,7 @@ const styles = (theme: Theme) => createStyles({
   },
 });
 
-export interface Props { variant: 'empty' | 'notify' | 'messages'; classes: any; }
+export interface Props { variant: 'empty' | 'notify' | 'messages'; classes: any; contactsList: any }
 
 class HeaderMessagesPopper extends Component<Props> {
   state = {
@@ -96,8 +97,9 @@ class HeaderMessagesPopper extends Component<Props> {
   };
 
   render() {
-    const { classes, variant } = this.props;
+    const { classes, variant, contactsList } = this.props;
     const { open } = this.state;
+    const filteredContacts = contactsList.filter((chat:any) => chat.newMessages > 0);
 
     let popperContent: any;
     let popperIcon: any;
@@ -118,7 +120,7 @@ class HeaderMessagesPopper extends Component<Props> {
     return (
       <>
         <IconButton
-          className={classes.icon}
+          className={filteredContacts.length > 0 ? classes.icon : null}
           disableRipple
           classes={{root: classes.iconRoot}}
           buttonRef={node => {
@@ -162,4 +164,10 @@ class HeaderMessagesPopper extends Component<Props> {
   }
 }
 
-export default withStyles(styles)(HeaderMessagesPopper);
+const mapStateToProps = ({chat}:any) => {
+    return {
+        contactsList: chat.contactsList,
+    }
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(HeaderMessagesPopper));

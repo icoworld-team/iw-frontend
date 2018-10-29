@@ -20,12 +20,11 @@ class ChatContactsList extends Component<any> {
     };
 
     render() {
-        const { authUser, onSelectUser, contactsList, scrollbarSize} = this.props;
+        const { authUser, onSelectUser, contactsList} = this.props;
         const filteredContacts = contactsList.filter((chat:any) => chat.parnter.name.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1);
         const contacts = filteredContacts.map((contact:any) => (
             <ChatUser key={contact.chatId} user={contact} onSelectUser={onSelectUser}/>
         ));
-        console.log(scrollbarSize);
         return (
             <>
                 <div className="chat-sidenav-header">
@@ -39,7 +38,7 @@ class ChatContactsList extends Component<any> {
                                     <div className="chat-user-avatar">
                                         <div className="chat-user-avatar-mode">
                                             <img className="chat-avatar" width="50px" src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
-                                            <span className="chat-status online" />
+                                            {/*<span className="chat-status online" />*/}
                                         </div>
                                     </div>
                                     <div className="chat-main-user-info">
@@ -93,8 +92,6 @@ const mapStateToProps = ({auth, chat}:any) => {
     return {
         authUser: auth.authUser,
         contactsList: chat.contactsList,
-        chatMessages: chat.chatMessages,
-        scrollbarSize: chat.scrollbarSize
     }
 };
 
