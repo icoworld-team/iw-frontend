@@ -95,36 +95,6 @@ const styles = (theme: Theme) => ({
   }
 });
 
-// const databaseMessages = [
-//     {
-//         id: 1,
-//         avatar: 'profile.jpeg',
-//         amountOfUnreadMessages: '3',
-//         author: 'Domnic Brown',
-//         authorLink: 'javascript:void(0)',
-//         time: '6:19 PM',
-//         body: `There are many variations of passages of...`
-//     },
-//     {
-//         id: 2,
-//         avatar: 'profile.jpeg',
-//         amountOfUnreadMessages: '0',
-//         author: 'Ivan Fedotov',
-//         authorLink: 'javascript:void(0)',
-//         time: '8:44 AM',
-//         body: `Lorem Ipsum is simply dummy text of the...`
-//     },
-//     {
-//         id: 3,
-//         avatar: 'profile.jpeg',
-//         amountOfUnreadMessages: '8',
-//         author: 'John Smith',
-//         authorLink: 'javascript:void(0)',
-//         time: '2:23 PM',
-//         body: `The point of using Lorem Ipsum is that it has a...`
-//     }
-// ];
-
 class HeaderMessages extends React.Component<any> {
 
   render() {

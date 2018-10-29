@@ -123,27 +123,6 @@ class HeaderNotify extends React.Component<any> {
       }
     ];
 
-    // let variantChange = (notificationType: any) => {
-    //   // let icon;
-    //   switch (notificationType) {
-    //     case 'type1':
-    //       <ThumbUpIcon />;
-    //       break;
-    //     case 'type2':
-    //       <ReplyIcon />;
-    //       break;
-    //     case 'type3':
-    //       <CakeIcon />;
-    //       break;
-    //     case 'type4':
-    //       <MessageIcon />;
-    //       break;
-    //     default:
-    //       <MessageIcon />;
-    //       break;
-    //   }
-    // };
-
   const notifications = databaseNotify.map(function (notification) {
     return (
       <li className={classes.messagesItem}>

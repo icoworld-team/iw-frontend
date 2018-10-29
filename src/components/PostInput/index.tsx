@@ -2,8 +2,8 @@ import React,{Component} from 'react';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InsertPhoto from '@material-ui/icons/InsertPhoto';
-import InsertDriveFile from '@material-ui/icons/InsertDriveFile';
 import Clear from '@material-ui/icons/Clear';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
@@ -62,8 +62,13 @@ const styles = () => createStyles({
         width: '38px',
         height: '38px',
     },
+    createPostBottom: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
     postButton: {
-        float: 'right',
+        // float: 'right',
         minWidth: '85px',
         minHeight: '30px',
         fontSize: '14px',
@@ -82,7 +87,16 @@ const styles = () => createStyles({
     attachmentText: {
         color: '#fff',
         paddingLeft: '5px'
-    }
+    },
+    iconButton: {
+        margin: 0,
+        color: '#8b8b8b',
+        width: '20px',
+        height: '20px',
+        '&:hover': {
+            backgroundColor: 'transparent',
+        },
+    },
 });
 
 
@@ -186,60 +200,57 @@ class PostInput extends Component<any> {
                             visibility: 'hidden',
                             whiteSpace: 'pre-wrap'}} rows={1} tabIndex={-1} />
                 </div>
+
                 <div className={classes.inputFiles}>
                     {attachments}
                 </div>
 
+                <div className={classes.createPostBottom}>
+                    <input className={classes.attachButton} id="image-file" type="file" accept="image/*" onChange={this.handleAttach}/>
+                    <label htmlFor="image-file">
+                        <IconButton disableRipple={true} color="primary" component="span" className={classes.iconButton}>
+                            <InsertPhoto />
+                        </IconButton>
+                    </label>
 
-                <Mutation mutation={CREATE_POST} onCompleted={(data) => {
-                    this.state.attachments.forEach((file:any) => {
-                        console.log(123123);
-                        this.props.client.mutate({
-                            mutation: ADD_IMAGE,
-                            variables: {postId: data.createPost.postId, imageId: file.id},
-                            refetchQueries: [{query: SEARCH_POST_IN_PROFILE, variables: {userId: user.id, searchText: ""}}, {query: SEARCH_POST, variables: {searchText: ""}}]
+
+                    <Mutation mutation={CREATE_POST} onCompleted={(data) => {
+                        this.state.attachments.forEach((file:any) => {
+                            this.props.client.mutate({
+                                mutation: ADD_IMAGE,
+                                variables: {postId: data.createPost.postId, imageId: file.id},
+                                refetchQueries: [{query: SEARCH_POST_IN_PROFILE, variables: {userId: user.id, searchText: ""}}, {query: SEARCH_POST, variables: {searchText: ""}}]
+                            });
                         });
-                    });
-                    this.setState({postBody: '', attachments: [], textareaHeight: 58})
-                }}
-                    onError={(error) => console.log(error)}
-                    update={(cache, {data: {createPost}}) => {
-                        const data = cache.readQuery({
-                            query: SEARCH_POST_IN_PROFILE,
-                            variables: {userId: user.id, searchText: ""}
-                        });
-                        const posts = (data as any).searchPostInProfile.posts.concat(createPost);
-                        cache.writeQuery({
-                            query: SEARCH_POST_IN_PROFILE,
-                            variables: {userId: user.id, searchText: ""},
-                            data: {searchPostInProfile: {
-                                    ...(data as any).searchPostInProfile,
-                                    posts: posts,
-                            }}
-                        });
-                    }}>
-                    {createPost => {
-                        return <Button className={`button fill-button ${classes.postButton}`} variant="raised"
-                            color="primary"
-                            onClick={() => {if (this.state.postBody.length || this.state.attachments.length)
-                                {
-                                    createPost({ variables: { input: postInput } })
-                                }
-                            }}>Post</Button>
+                        this.setState({postBody: '', attachments: [], textareaHeight: 58})
                     }}
-                </Mutation>
-                <input className={classes.attachButton} id="image-file" type="file" accept="image/*" onChange={this.handleAttach}/>
-                <label htmlFor="image-file">
-                    <IconButton color="primary" component="span" style={{color: '#8b8b8b'}}>
-                        <InsertPhoto/>
-                    </IconButton>
-                </label>
-                <input className={classes.attachButton} id="file" type="file"/>
-                <label htmlFor="file">
-                    <IconButton color="primary" component="span" style={{color: '#8b8b8b'}}>
-                        <InsertDriveFile/>
-                    </IconButton>
-                </label>
+                        onError={(error) => console.log(error)}
+                        update={(cache, {data: {createPost}}) => {
+                            const data = cache.readQuery({
+                                query: SEARCH_POST_IN_PROFILE,
+                                variables: {userId: user.id, searchText: ""}
+                            });
+                            const posts = (data as any).searchPostInProfile.posts.concat(createPost);
+                            cache.writeQuery({
+                                query: SEARCH_POST_IN_PROFILE,
+                                variables: {userId: user.id, searchText: ""},
+                                data: {searchPostInProfile: {
+                                        ...(data as any).searchPostInProfile,
+                                        posts: posts,
+                                }}
+                            });
+                        }}>
+                        {createPost => {
+                            return <Button className={`button fill-button ${classes.postButton}`} variant="raised"
+                                color="primary"
+                                onClick={() => {if (this.state.postBody.length || this.state.attachments.length)
+                                    {
+                                        createPost({ variables: { input: postInput } })
+                                    }
+                                }}>Post</Button>
+                        }}
+                    </Mutation>
+                </div>
             </div>
         )
     }

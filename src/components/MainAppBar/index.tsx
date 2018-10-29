@@ -1,14 +1,14 @@
-import React, {Component, ChangeEvent} from 'react'
+import React, {Component} from 'react'
 import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar'
 import ToolBar from '@material-ui/core/Toolbar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import {Link} from "react-router-dom";
-// import LanguageSelector from '../LanguageSelector'
+import Typography from '@material-ui/core/Typography'
 import HeaderPopper from '../HeaderPopper'
 import HeaderAccountMenu from '../HeaderAccountMenu'
+import { Link } from 'react-router-dom';
 
 const styles = (theme: Theme) => createStyles({
 	toolBar: {
@@ -50,23 +50,33 @@ class MainAppBar extends Component<any> {
 		value: 0,
 		// open: false,
 	};
-	
-	handleChange = (event: ChangeEvent, value: number) => {
-		this.setState({ value });
-	};
 
-	// handleClick = (event:any)=> {
-	// 	this.setState({ anchorEl: event.currentTarget });
-	// };
+	componentWillReceiveProps(nextProps: any) {
+		this.setState({value: nextProps.tab});
+	}
 
-	// handleClose =()=> {
-	// 	this.setState({ anchorEl: null });
-	// };
+	LinkTab = (props: any) => {
+		const { classes } = this.props;
+		return <Tab
+			component={Link}
+			disableRipple
+			// onClick={event => event.preventDefault()}
+			{...props}
+			classes={{ root: classes.tabRoot, labelContainer: classes.labelContainer, label: classes.label }}
+		/>;
+	}
+
+	TabContainer = (props: any) => {
+		return (
+			<Typography component="div" style={{ padding: 8 * 3 }}>
+				{props.children}
+			</Typography>
+		);
+	}
 
 	render() {
 		const { classes } = this.props;
 		const { value } = this.state;
-		// const open = Boolean(this.state.anchorEl);
 
 		return (
 			<>
@@ -82,55 +92,18 @@ class MainAppBar extends Component<any> {
 								<div className="bar-menu">
 									<Tabs
 											value={value}
-											onChange={this.handleChange}
+											// onChange={this.handleChange}
 											classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
 									>
-										<Link className={classes.link} to="/news">
-											<Tab
-												disableRipple
-												classes={{ root: classes.tabRoot, labelContainer: classes.labelContainer, label: classes.label }}
-												label="News"
-											/>
-										</Link>
-										<Link className={classes.link} to="/profile">
-											<Tab
-												disableRipple
-												classes={{ root: classes.tabRoot, labelContainer: classes.labelContainer, label: classes.label }}
-												label="Profile"
-											/>
-										</Link>
-										<Link className={classes.link} to="/messages">
-											<Tab
-												disableRipple
-												classes={{ root: classes.tabRoot, labelContainer: classes.labelContainer, label: classes.label }}
-												label="Messages"
-											/>
-										</Link>
-										<Link className={classes.link} to="/investors">
-											<Tab
-												disableRipple
-												classes={{ root: classes.tabRoot, labelContainer: classes.labelContainer, label: classes.label }}
-												label="Investors"
-											/>
-										</Link>
-										<Link className={classes.link} to="/projects">
-											<Tab
-												disableRipple
-												classes={{ root: classes.tabRoot, labelContainer: classes.labelContainer, label: classes.label }}
-												label="Projects"
-											/>
-										</Link>
-										<Link className={classes.link} to="/pools">
-											<Tab
-												disableRipple
-												classes={{ root: classes.tabRoot, labelContainer: classes.labelContainer, label: classes.label }}
-												label="Pools"
-											/>
-										</Link>
+										<this.LinkTab label="News" to="/news" />
+										<this.LinkTab label="Profile" to="/profile" />
+										<this.LinkTab label="Messages" to="/messages" />
+										<this.LinkTab label="Investors" to="/investors" />
+										<this.LinkTab label="Projects" to="/projects" />
+										<this.LinkTab label="Pools" to="/pools" />
 									</Tabs>
 								</div>
 								<div className={classes.barIcons}>
-									{/* <LanguageSelector/> */}
 									<HeaderPopper variant='notify'/>
 									<HeaderPopper variant='messages'/>
 									<HeaderAccountMenu />

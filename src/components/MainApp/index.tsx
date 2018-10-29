@@ -20,6 +20,10 @@ import {withApollo} from "react-apollo";
 
 class MainApp extends Component<any> {
 
+    state = {
+        tab: 0
+    }
+
     async componentDidMount(){
         const result = await this.props.client.query({
             query: GET_CHATS,
@@ -63,6 +67,8 @@ class MainApp extends Component<any> {
             this.props.addMessage(message);
             this.props.updateContacts(this.props.authUser.id);
         });
+
+        this.tabSwitch(this.props.location.pathname)
     }
 
     componentWillUnmount(){
@@ -72,13 +78,44 @@ class MainApp extends Component<any> {
         socket.close();
     }
 
+    componentWillReceiveProps(nextProps: any) {
+        console.log(nextProps.location.pathname)
+        this.tabSwitch(nextProps.location.pathname)
+    }
+
+    tabSwitch(pathname: any) {
+        switch (pathname) {
+            case '/news':
+                this.setState({tab: 0});
+                break;
+            case '/profile':
+                this.setState({tab: 1});
+                break;
+            case '/messages':
+                this.setState({tab: 2});
+                break;
+            case '/investors':
+                this.setState({tab: 3});
+                break;
+            case '/projects':
+                this.setState({tab: 4});
+                break;
+            case '/pools':
+                this.setState({tab: 5});
+                break;
+            default:
+                this.setState({tab: -1});
+                break;
+            }
+    }
+
     render() {
         if(this.props.location.pathname === '/'){
             return (<Redirect to={{pathname: '/news'}}/>);
         }
         return (
             <div>
-                <MainAppBar/>
+                <MainAppBar tab={this.state.tab}/>
                 <Switch>
                     <Route path="/profile" component={Profile}/>
                     <Route path="/pools" component={PoolSearch}/>

@@ -194,21 +194,21 @@ class Projects extends Component<any> {
 														classes={{label: classes.inputLabel}}
 														className={classes.radioBtnRow}
 														value="Current ICOs"
-														control={<Radio color="primary" className={classes.radioBtn} />}
+														control={<Radio color="primary" className={classes.radioBtn} style={{color: '#303546'}} />}
 														label="Current ICOs"
 													/>
 													<FormControlLabel
 														classes={{label: classes.inputLabel}}
 														className={classes.radioBtnRow}
 														value="Upcoming ICOs"
-														control={<Radio color="primary" className={classes.radioBtn} />}
+														control={<Radio color="primary" className={classes.radioBtn} style={{color: '#303546'}} />}
 														label="Upcoming ICOs"
 													/>
 													<FormControlLabel
 														classes={{label: classes.inputLabel}}
 														className={classes.radioBtnRow}
 														value="Finished ICOs"
-														control={<Radio color="primary" className={classes.radioBtn} />}
+														control={<Radio color="primary" className={classes.radioBtn} style={{color: '#303546'}} />}
 														label="Finished ICOs"
 													/>
 

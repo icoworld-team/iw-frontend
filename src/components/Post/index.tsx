@@ -5,7 +5,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import FormControl from '@material-ui/core/FormControl';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Fade from "@material-ui/core/Fade";
+// import Fade from "@material-ui/core/Fade";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
@@ -188,7 +188,10 @@ const styles = () => createStyles({
     },
     link: {
         textDecoration: 'none'
-    }
+    },
+    paper: {
+        marginTop: '20px',
+    },
 });
 
 class Post extends Component<any> {
@@ -339,7 +342,9 @@ class Post extends Component<any> {
                         </IconButton>
                         {post.reposted
                             ? <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
-                                    onClose={this.handleClose} TransitionComponent={Fade}>
+                                    onClose={this.handleClose}
+                                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                                    transformOrigin={{vertical: 'top', horizontal: 'right'}}>
                                 <Mutation mutation={PIN_POST} onCompleted={this.handleClose}
                                     onError={(error)=>console.log(error)}
                                 >
@@ -372,12 +377,18 @@ class Post extends Component<any> {
                                 </Mutation>
                             </Menu> :
                             post.userId !== authUser.id
-                            ? <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
-                                onClose={this.handleClose} TransitionComponent={Fade}>
+                            ?
+                            <Menu classes={{paper: classes.paper}} id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
+                                onClose={this.handleClose}
+                                anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                                transformOrigin={{vertical: 'top', horizontal: 'right'}}>
                                 <MenuItem name="complain" id="complain" onClick={this.handleClose}>Complain</MenuItem>
                             </Menu>
-                            : <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
-                                    onClose={this.handleClose} TransitionComponent={Fade}>
+                            :
+                            <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
+                                onClose={this.handleClose}
+                                anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                                transformOrigin={{vertical: 'top', horizontal: 'right'}}>
 
                                 <Mutation mutation={PIN_POST} onCompleted={this.handleClose}
                                     onError={(error)=>console.log(error)}

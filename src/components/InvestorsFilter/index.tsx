@@ -67,7 +67,7 @@ const styles = () => createStyles({
         marginTop: '30px',
     },
     RadioGroupLabel: {
-        color: '#8b8b8b',
+        color: '#303546'
     },
     radioBtn: {
         width: '20px',
@@ -116,14 +116,14 @@ class InvestorsFilter extends Component<any> {
                                 classes={{label: classes.inputLabel}}
                                 className={classes.radioBtnRow}
                                 value="REGISTRATION_DATE"
-                                control={<Radio color="primary" className={classes.radioBtn} />}
+                                control={<Radio color="primary" className={classes.radioBtn} style={{color: '#303546'}} />}
                                 label="Registration date"
                             />
                             <FormControlLabel
                                 classes={{label: classes.inputLabel}}
                                 className={classes.radioBtnRow}
                                 value="NUMBER_OF_FOLLOWERS"
-                                control={<Radio color="primary" className={classes.radioBtn} />}
+                                control={<Radio color="primary" className={classes.radioBtn} style={{color: '#303546'}} />}
                                 label="Number of followers"
                             />
                         </RadioGroup>

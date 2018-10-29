@@ -176,17 +176,20 @@ class News extends Component<any> {
     });
   };
 
-  handleSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-        searchText: e.target.value
-    });
+  handleSearch = (e:any) => {
+      if(e.keyCode === 13)
+          this.setState({
+              searchText: e.target.value
+          });
   };
 
   tagSearch = (e: any) => {
-    let elem = e.target.innerHTML
+    let tag = e.target.innerHTML
     this.setState({
-      searchText: elem
+      searchText: tag
     })
+    let searchField = document.getElementById('search') as HTMLInputElement
+    searchField ? searchField.value = tag : null
   }
 
   renderThumbVertical({ style, ...props }: any) {
@@ -307,7 +310,7 @@ class News extends Component<any> {
                       />
                     </Tabs>
                   <TextField InputProps={{ disableUnderline: true, classes: {input: `search-input input`} }} 
-                    className={`heading-input`} name="searchText" placeholder="Search" value={this.state.searchText} onChange={this.handleSearch}/>
+                    className={`heading-input`} name="searchText" placeholder="Search" id="search" onKeyDown={this.handleSearch}/>
                 </div>
 
                 {this.state.tab === 0 &&

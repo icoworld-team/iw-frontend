@@ -78,6 +78,7 @@ class SimpleMenu extends React.Component<any> {
           disableRipple
           onClick={this.handleClick}
           color="inherit"
+          style={{width: '20px'}}
         >
           <AccountCircle/>
         </IconButton>

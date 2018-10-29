@@ -16,7 +16,7 @@ const styles = (theme: Theme) => createStyles({
       display: 'block',
       position: 'absolute',
       content: '""',
-      right: '9px',
+      right: '15px',
       top: '9px',
       zIndex: 10,
       width: '8px',
@@ -127,6 +127,7 @@ class HeaderMessagesPopper extends Component<Props> {
           aria-haspopup="true"
           onClick={this.handleToggle}
           color="inherit"
+          style={{width: '20px', marginRight: '25px'}}
         >
           {popperIcon}
         </IconButton>

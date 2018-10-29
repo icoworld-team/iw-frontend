@@ -291,10 +291,11 @@ class Profile extends Component<any> {
     });
   };
 
-  handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      searchText: e.target.value
-    });
+  handleSearch = (e: any) => {
+    if(e.keyCode === 13)
+      this.setState({
+        searchText: e.target.value
+      });
   };
 
   renderThumbVertical({ style, ...props }: any) {
@@ -437,8 +438,7 @@ class Profile extends Component<any> {
                                       className={`heading-input`}
                                       name="searchText"
                                       placeholder="Search"
-                                      value={this.state.searchText}
-                                      onChange={this.handleSearch}
+                                      onKeyDown={this.handleSearch}
                                   />
                               </div>
 
