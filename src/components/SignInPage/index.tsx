@@ -64,7 +64,8 @@ class SignInPage extends Component<any> {
 
     handleChange = (e:any)=> {
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
+            error: false
         });
         switch (e.target.name) {
             case 'email':
@@ -73,7 +74,6 @@ class SignInPage extends Component<any> {
                     this.setState({emailInvalid: true});
                     break;
                 }
-                this.setState({error: false})
                 this.setState({emailInvalid: false});
                 break;
             case 'password':
@@ -81,7 +81,6 @@ class SignInPage extends Component<any> {
                     this.setState({passwordInvalid: true});
                     break;
                 }
-                this.setState({error: false})
                 this.setState({passwordInvalid: false});
                 break;
             default:
@@ -95,18 +94,23 @@ class SignInPage extends Component<any> {
             email: this.state.email,
             password: this.state.password
         };
-        fetchPost(url, data)
-            .then(response => handleErrors(response))
-            .then(response => response.json())
-            .then(json => {
-                localStorage.setItem("user", JSON.stringify(json));
-                this.props.signIn(json)
-            })
-            .then(this.props.push)
-            .catch(error => (
-                console.log(error),
-                this.setState({error: true})
-            ));
+
+        if(this.state.email.length > 0 && this.state.password.length > 0) {
+            fetchPost(url, data)
+                .then(response => handleErrors(response))
+                .then(response => response.json())
+                .then(json => {
+                    localStorage.setItem("user", JSON.stringify(json));
+                    this.props.signIn(json)
+                })
+                .then(this.props.push)
+                .catch(error => (
+                    console.log(error),
+                    this.setState({error: true})
+                ))
+        } else {
+            this.setState({error: true})
+        }
     };
 
     render() {
@@ -114,7 +118,12 @@ class SignInPage extends Component<any> {
 
         const errorMessages = {
             login: 'Invalid email or password',
+            fieldsEmpty: 'Fill in all the fields',
         };
+
+        let emailNotEmpty = this.state.email.length > 0 ? true : false;
+        let passwordNotEmpty = this.state.password.length > 0 ? true : false;
+        let notEmpty = (emailNotEmpty && passwordNotEmpty);
 
         return (
             <div className={classes.page}>
@@ -132,7 +141,7 @@ class SignInPage extends Component<any> {
                                 name="email" placeholder="Email" fullWidth={true} value={this.state.email} onChange={this.handleChange} />
                             <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} border-input input`} }} style={{marginBottom: '10px'}}
                                 name="password" type="password" placeholder="Password" fullWidth={true} value={this.state.password} onChange={this.handleChange}
-                                helperText={errorMessages.login} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
+                                helperText={notEmpty ? errorMessages.login : errorMessages.fieldsEmpty} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
                                 error={false || this.state.error} />
 
                             <Button fullWidth={true} variant="contained" color="secondary" onClick={this.handleClick}

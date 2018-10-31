@@ -586,7 +586,7 @@ class LandingPage extends React.Component<any> {
               </li>
 
               <li className={classes.photosItem}>
-                <div className={classes.itemPhoto}></div>
+                <div className={classes.itemPhoto}><img src="./Alexander.jpg" style={{width: '100%', transform: 'translateY(-10px)'}} /></div>
                 <p className={classes.itemName}>Aleksandr Saveliev</p>
                 <p style={{marginBottom: '10px'}}>Project Manager</p>
 

@@ -69,6 +69,7 @@ class SignUpPage extends Component<any> {
         passwordInvalid: undefined,
         nicknameUniq: undefined,
         emailUniq: undefined,
+        error: undefined,
     };
 
     handleChange = (e:any)=> {
@@ -128,21 +129,27 @@ class SignUpPage extends Component<any> {
             email: this.state.email,
             password: this.state.password
         };
-        fetchPost(url, data)
-            .then(response => handleErrors(response))
-            .then(response => response.json())
-            .then(json => {
-                localStorage.setItem("user", JSON.stringify(json)),
-                this.props.signIn(json)
-                return json
-            })
-            .then(json => {
-                json.error ? (
-                    json.error.search(/email/) === -1 ? this.setState({emailUniq: false}) : this.setState({emailUniq: true}),
-                    json.error.search(/login/) === -1 ? this.setState({nicknameUniq: false}) : this.setState({nicknameUniq: true})
-                ) : this.props.push
-            })
-            .catch(error => console.log(error));
+        if(this.state.name.length > 0 && this.state.lastname.length > 0 && this.state.nickname.length > 0 && this.state.email.length > 0 && this.state.password.length > 0) {
+            fetchPost(url, data)
+                .then(response => handleErrors(response))
+                .then(response => response.json())
+                .then(json => {
+                    localStorage.setItem("user", JSON.stringify(json)),
+                    this.props.signIn(json)
+                    return json
+                })
+                .then(json => {
+                    if(json.error !== undefined) {
+                        json.error.search(/email/) === -1 ? this.setState({emailUniq: false}) : this.setState({emailUniq: true})
+                        json.error.search(/login/) === -1 ? this.setState({nicknameUniq: false}) : this.setState({nicknameUniq: true})
+                        throw new Error("error")
+                    }
+                })
+                .then(this.props.push)
+                .catch(error => console.log(error));
+        } else {
+            this.setState({error: true})
+        }
     };
 
     render() {
@@ -151,12 +158,9 @@ class SignUpPage extends Component<any> {
         const errorMessages = {
             email: 'This mail already exists',
             nickname: 'This nickname already exists',
+            fieldsEmpty: 'Fill in all the fields',
         };
 
-        let notEmpty = this.state.name && this.state.lastname && this.state.email && this.state.password && this.state.nickname;
-        let invalid = this.state.nameInvalid || this.state.lastnameInvalid || this.state.emailInvalid || this.state.nicknameInvalid
-            || this.state.passwordInvalid;
-        let disabled = !notEmpty || invalid;
         return (
             <div className={classes.page}>
                 <div className={classes.signupContainer}>
@@ -188,12 +192,13 @@ class SignUpPage extends Component<any> {
                                 error={false || this.state.emailUniq} style={{marginBottom: '10px'}} />
                             
                             <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} border-input input`} }}
-                                name="password" placeholder="Password" fullWidth={true} value={this.state.password}
-                                onChange={this.handleChange} style={{marginBottom: '10px'}} type="password" />
+                                name="password" placeholder="Password" fullWidth={true} value={this.state.password} onChange={this.handleChange}
+                                helperText={errorMessages.fieldsEmpty} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
+                                error={false || this.state.error} style={{marginBottom: '10px'}} type="password" />
 
                             <Button fullWidth={true} variant="contained" color="secondary" onClick={this.handleClick}
                                 className={`button fill-button ${classes.button}`} classes={{disabled: classes.disabled}}
-                                style={{marginBottom: '10px'}} disabled={disabled}>
+                                style={{marginBottom: '10px'}}>
                                 Sign up
                             </Button>
                         </form>
