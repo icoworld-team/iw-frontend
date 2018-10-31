@@ -355,7 +355,7 @@ class Post extends Component<any> {
                                     open={Boolean(this.state.anchorEl)} onClose={this.handleClose}
                                     anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                                     transformOrigin={{vertical: 'top', horizontal: 'right'}}>
-                                {this.props.location === '/profile' ? <Mutation mutation={PIN_POST} onCompleted={() => {this.handleClose; location.reload()}}
+                                {this.props.location === '/profile' ? <Mutation mutation={PIN_POST} onCompleted={this.handleClose}
                                     onError={(error)=>console.log(error)}
                                 >
                                     {pinPost => {
@@ -401,7 +401,7 @@ class Post extends Component<any> {
                                 anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                                 transformOrigin={{vertical: 'top', horizontal: 'right'}}>
 
-                                {this.props.location === '/profile' ? <Mutation mutation={PIN_POST} onCompleted={() => this.handleClose}
+                                {this.props.location === '/profile' ? <Mutation mutation={PIN_POST} onCompleted={this.handleClose}
                                     onError={(error)=>console.log(error)} refetchQueries={[{query: GET_USER, variables: {userId: authUser.id}}]}
                                 >
                                     {pinPost => {

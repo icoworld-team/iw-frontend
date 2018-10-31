@@ -17,6 +17,7 @@ import {addContact, addMessage, chatUnMount, logOut, setContacts, setInitialMsg,
 import {connect} from "react-redux";
 import {GET_CHATS} from "../../api/graphql";
 import {withApollo} from "react-apollo";
+import Scrollbar from "react-custom-scrollbars";
 
 class MainApp extends Component<any> {
 
@@ -112,6 +113,14 @@ class MainApp extends Component<any> {
             }
     }
 
+    renderThumbVertical({ style, ...props }: any) {
+        const customStyle = {
+            backgroundColor: `rgb(152, 159, 168)`,
+            borderRadius: "5px"
+        };
+        return <div {...props} style={{ ...style, ...customStyle }} />;
+    }
+
     render() {
         if(this.props.location.pathname === '/'){
             return (<Redirect to={{pathname: '/feed'}}/>);
@@ -119,17 +128,19 @@ class MainApp extends Component<any> {
         return (
             <div>
                 <MainAppBar tab={this.state.tab}/>
-                <Switch>
-                    <Route path="/profile" component={Profile}/>
-                    {/* <Route path="/pools" component={PoolSearch}/> */}
-                    <Route path="/projects" component={ProjectsPage}/>
-                    <Route exact path="/create-pool" component={PoolCreate}/>
-                    <Route exact path="/pool-info" component={PoolInfo}/>
-                    <Route exact path="/investors" component={InvestorsPage}/>
-                    <Route exact path="/feed" component={NewsPage}/>
-                    <Route exact path="/messages" component={Chat}/>
-                    <Route exact path="/settings" component={Settings}/>
-                </Switch>
+                <Scrollbar autoHeight={true} autoHeightMax={'calc(100vh - 68px)'} renderThumbVertical={this.renderThumbVertical}>
+                    <Switch>
+                        <Route path="/profile" component={Profile}/>
+                        {/* <Route path="/pools" component={PoolSearch}/> */}
+                        <Route path="/projects" component={ProjectsPage}/>
+                        <Route exact path="/create-pool" component={PoolCreate}/>
+                        <Route exact path="/pool-info" component={PoolInfo}/>
+                        <Route exact path="/investors" component={InvestorsPage}/>
+                        <Route exact path="/feed" component={NewsPage}/>
+                        <Route exact path="/messages" component={Chat}/>
+                        <Route exact path="/settings" component={Settings}/>
+                    </Switch>
+                </Scrollbar>
             </div>
         )
     }
