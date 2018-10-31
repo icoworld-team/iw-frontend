@@ -337,8 +337,8 @@ class PitchForInvestorsPage extends React.Component<any> {
             <ul className={classes.infoList}>
               <li className={classes.infoItem}><a href="./White Paper (english).pdf" download className={classes.infoLink}>White Paper (download)</a></li>
               <li className={classes.infoItem}><a href="./Financial Model.xlsx" download className={classes.infoLink}>Financial Model (download)</a></li>
-              <li className={classes.infoItem}><a href="/offer-protection" target="_blank" className={classes.infoLink}>How are we going to protect from scam?</a></li>
-              <li className={classes.infoItem}><a href="/market-monopoly" target="_blank" className={classes.infoLink}>Why are we developing a social network?</a></li>
+              <li className={classes.infoItem}><a href="/offer-protection" className={classes.infoLink}>How are we going to offer protection from scams?</a></li>
+              <li className={classes.infoItem}><a href="/market-monopoly" className={classes.infoLink}>Market monopoly, or why are we developing a social network?</a></li>
             </ul>
           </div>
         </div>
@@ -358,16 +358,16 @@ class PitchForInvestorsPage extends React.Component<any> {
                   <span className={classes.footerSectionsTitle}>Product</span>
 
                   <a className={classes.footerSectionsLink} href="./White Paper (english).pdf" download>White Paper</a>
-                  <a className={classes.footerSectionsLink} target="_blank" href="/pitch">Pitch for Investors</a>
-                  <a className={classes.footerSectionsLink} href="http://www.icoworld.network" target="_blank">MVP</a>
+                  <a className={classes.footerSectionsLink} href="/pitch">Pitch for Investors</a>
+                  <a className={classes.footerSectionsLink} href="http://www.icoworld.network">MVP</a>
                 </li>
 
                 <li className={classes.footerSectionsItem}>
                   <span className={classes.footerSectionsTitle}>Social</span>
 
-                  <a className={classes.footerSectionsLink} target="_blank" href="https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378">Bitcointalk</a>
-                  <a className={classes.footerSectionsLink} target="_blank" href="https://github.com/pyshopml2">GitHub</a>
-                  <a className={classes.footerSectionsLink} target="_blank" href="https://t.me/icoWorld_EN">Telegram</a>
+                  <a className={classes.footerSectionsLink} href="https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378">Bitcointalk</a>
+                  <a className={classes.footerSectionsLink} href="https://github.com/pyshopml2">GitHub</a>
+                  <a className={classes.footerSectionsLink} href="https://t.me/icoWorld_EN">Telegram</a>
                 </li>
 
                 <li className={classes.footerSectionsItem}>
