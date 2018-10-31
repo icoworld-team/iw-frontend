@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { withStyles, createStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
@@ -13,77 +13,97 @@ import { connect } from "react-redux";
 import ModalUploadPhoto from '../ModalUploadPhoto'
 import {endpoint} from "../../api";
 
-const styles = (theme: Theme) => createStyles({
-  subHeader: {
-    padding: '20px 0',
-    backgroundColor: '#edf1f5',
-  },
-  subHeaderContainer: {
-		margin: '0 auto',
-    maxWidth: '1100px',
-    display: 'flex',
-  },
-  avatar: {
-		width: '150px',
-		height: '160px',
-  },
-  userInfo: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    marginLeft: '15px',
-    marginBottom: '5px',
-  },
-  userName: {
-    fontWeight: 600,
-    fontSize: '18px',
-    color:' #171717',
-    lineHeight: '22px',
-  },
-  userLogin: {
-    fontSize: '16px',
-    color: '#8b8b8b',
-    lineHeight: '20px',
-  },
+const styles = () => createStyles({
+    subHeader: {
+        padding: '20px 0',
+        backgroundColor: '#edf1f5',
+    },
+    subHeaderContainer: {
+        margin: '0 auto',
+        maxWidth: '1100px',
+        display: 'flex',
+    },
+    avatarContainer: {
+        width: '150px',
+        height: '160px',
+        cursor: 'pointer',
+        overflow: 'hidden',
+        position: 'relative',
+        '&:after': {
+            content: '"Change"',
+            display: 'block',
+            position: 'absolute',
+            right: 0,
+            left: 0,
+            bottom: 0,
+            padding: '10px',
+            backgroundColor: 'rgba(139, 139, 139, 0.5)',
+            color: '#fff',
+            fontWeight: 600,
+            textAlign: 'center',
+        },
+    },
+    avatar: {
+		width: '100%',
+        height: '100%',
+    },
+    userInfo: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        marginLeft: '15px',
+        marginBottom: '5px',
+    },
+    userName: {
+        fontWeight: 600,
+        fontSize: '18px',
+        color:' #171717',
+        lineHeight: '22px',
+    },
+    userLogin: {
+        fontSize: '16px',
+        color: '#8b8b8b',
+        lineHeight: '20px',
+    },
 
-  flexContainer: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-  tabsIndicator: {
-    display: 'none',
-  },
-  tabRoot: {
-    textTransform: 'initial',
-    minWidth: 72,
-    minHeight: '30px',
-    position: 'relative',
-    '&:hover': {
-      opacity: 1,
+    flexContainer: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
     },
-    '&$tabSelected': {
-      fontWeight: 600,
+    tabsIndicator: {
+        display: 'none',
     },
-  },
-  labelContainer: {
-    padding: '0 12px',
-  },
-  label: {
-    color: '#171717',
-    fontSize: '18px',
-    opacity: 1,
-  },
-  tabSelected: {
-    '&:before': {
-      content: '""',
-      position: 'absolute',
-      width: '2px',
-      height: '100%',
-      backgroundColor: '#980000',
-      top: 0,
-      left: 0,
+    tabRoot: {
+        textTransform: 'initial',
+        minWidth: 72,
+        minHeight: '30px',
+        position: 'relative',
+        '&:hover': {
+            opacity: 1,
+        },
+        '&$tabSelected': {
+            fontWeight: 600,
+        },
     },
-  },
+    labelContainer: {
+        padding: '0 12px',
+    },
+    label: {
+        color: '#171717',
+        fontSize: '18px',
+        opacity: 1,
+    },
+    tabSelected: {
+        '&:before': {
+            content: '""',
+            position: 'absolute',
+            width: '2px',
+            height: '100%',
+            backgroundColor: '#980000',
+            top: 0,
+            left: 0,
+        },
+    },
 
   profileSettingsLeft: {
     width: '380px',
@@ -138,11 +158,14 @@ class ProfileSettings extends Component<any> {
                                   <Grid item xs={1} />
 
                                   <Grid item xs={10} className={classes.subHeaderContainer}>
-                                      <img onClick={this.handleOpen} className={classes.avatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
-                                      <div className={classes.userInfo}>
-                                          <Typography className={classes.userName}>{user.name}</Typography>
-                                          <Typography className={classes.userLogin}>@{user.login}</Typography>
-                                      </div>
+                                        <div className={classes.avatarContainer} onClick={this.handleOpen}>
+                                            <img className={classes.avatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
+                                            {/* <p className={classes.avatarHiddenText}>Change</p> */}
+                                        </div>
+                                        <div className={classes.userInfo}>
+                                            <Typography className={classes.userName}>{user.name}</Typography>
+                                            <Typography className={classes.userLogin}>@{user.login}</Typography>
+                                        </div>
                                   </Grid>
                                   <ModalUploadPhoto open={this.state.modalOpen} onClose={this.handleClose}/>
                                   <Grid item xs={1} />

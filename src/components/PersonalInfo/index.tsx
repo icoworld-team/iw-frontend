@@ -209,7 +209,8 @@ class PersonalInfo extends Component<any> {
     }).then((data:any) => console.log('update user'))
       .then(this.setState({
             snackBarOpen: true
-        }));
+        }))
+        .then(location.reload())
 
     this.state.jobs.forEach((job:any, index:number) => {
         if (job.id === undefined) {

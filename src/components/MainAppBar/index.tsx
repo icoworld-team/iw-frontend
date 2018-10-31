@@ -60,7 +60,6 @@ class MainAppBar extends Component<any> {
 		return <Tab
 			component={Link}
 			disableRipple
-			// onClick={event => event.preventDefault()}
 			{...props}
 			classes={{ root: classes.tabRoot, labelContainer: classes.labelContainer, label: classes.label }}
 		/>;

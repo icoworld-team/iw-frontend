@@ -9,7 +9,7 @@ export default function PostList (props:any) {
     }).reverse();
 
     const posts = sortedPosts.map(function (post:any) {
-        return <Post key={post.postId} post={post} updateData={props.updateData} pinPost={props.pinPost} />
+        return <Post key={post.postId} post={post} updateData={props.updateData} pinPost={props.pinPost} location={props.location} />
     });
     
     return (

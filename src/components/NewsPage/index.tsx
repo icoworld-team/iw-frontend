@@ -290,15 +290,6 @@ class News extends Component<any> {
                         }}
                         label="Subscribed"
                       />
-                      {/* <Tab
-                        disableRipple
-                        classes={{
-                          root: `tab-root`,
-                          label: `tab-label`,
-                          labelContainer: `tab-label-container`
-                        }}
-                        label="Popular"
-                      /> */}
                       <Tab
                         disableRipple
                         classes={{
@@ -320,23 +311,11 @@ class News extends Component<any> {
                         if(error) return `Error: ${error}`;
                         if(data.getFollowsPosts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
                         return (
-                            <PostList updateData={this.updateData} posts={data.getFollowsPosts}/>
+                            <PostList updateData={this.updateData} posts={data.getFollowsPosts} location={this.props.location.pathname} />
                         )
                     }}
                 </Query>}
 
-                {/* {this.state.tab === 1 &&
-                <Query query={SEARCH_POST} variables={input}>
-                    {({ loading, error, data }) => {
-                        if(loading) return <div>Loading</div>;
-                        if(error) return `Error: ${error}`;
-                        if(data.searchPost.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
-                        return (
-                            <PostList updateData={this.updateData} posts={data.searchPost}/>
-                        )
-                    }}
-                </Query>} */}
-                
                 {this.state.tab === 1 &&
                 <Query query={SEARCH_POST} variables={input}>
                     {({ loading, error, data }) => {
@@ -344,7 +323,7 @@ class News extends Component<any> {
                         if(error) return `Error: ${error}`;
                         if(data.searchPost.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
                         return (
-                            <PostList updateData={this.updateData} posts={data.searchPost} authUserId={null}/>
+                            <PostList updateData={this.updateData} posts={data.searchPost} authUserId={null} location={this.props.location.pathname} />
                         )
                     }}
                 </Query>}

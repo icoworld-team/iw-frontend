@@ -445,35 +445,6 @@ class Profile extends Component<any> {
                               <div className={`${classes.profileTabs}`}>
                                   {this.state.tab === 0 && (
                                       <>
-                                          {user.pined_post !== null ?
-                                            // <Query query={GET_POST} variables={{postId: user.pined_post}}>
-                                            //     {({ loading, error, data }) => {
-                                            //         if (loading) return <div>Loading</div>;
-                                            //         if (error) return `Error: ${error}`;
-                                            //         if (user.pined_post === null) {
-                                            //             return (
-                                            //                 <div className={`card ${classes.noActivity}`}>
-                                            //                     <Typography>No activity</Typography>
-                                            //                 </div>
-                                            //             );
-                                            //         }
-
-                                            //         return <Post pinPost={data.getPost.postId} post={data.getPost}/>
-                                            //     }}
-                                            // </Query>
-                                            <Query query={SEARCH_POST_IN_PROFILE} variables={input}>
-                                            {({ loading, error, data }) => {
-                                                if (loading) return <div>Loading</div>;
-                                                if (error) return `Error: ${error}`;
-
-                                                let posts = data.searchPostInProfile.posts.concat(data.searchPostInProfile.reposts)
-                                                posts = posts.filter((post:any) => post.postId === user.pined_post)
-
-                                                return <PostList updateData={this.updateData} posts={posts} pinPost={user.pined_post} />
-                                            }}
-                                        </Query>
-                                          : null}
-
                                           <Query query={SEARCH_POST_IN_PROFILE} variables={input}>
                                               {({ loading, error, data }) => {
                                                   if (loading) return <div>Loading</div>;
@@ -485,9 +456,14 @@ class Profile extends Component<any> {
                                                           </div>
                                                       );
                                                       let posts = data.searchPostInProfile.posts.concat(data.searchPostInProfile.reposts)
+                                                      let pinPost = posts.filter((post:any) => post.postId === user.pined_post)
                                                       posts = posts.filter((post:any) => post.postId !== user.pined_post)
 
-                                                  return <PostList updateData={this.updateData} posts={posts} pinPost={user.pined_post} />
+                                                  return (
+                                                    <>
+                                                      <PostList updateData={this.updateData} posts={pinPost} pinPost={user.pined_post} location={this.props.location.pathname} />
+                                                      <PostList updateData={this.updateData} posts={posts} pinPost={user.pined_post} location={this.props.location.pathname} />
+                                                    </>)
                                               }}
                                           </Query>
                                       </>

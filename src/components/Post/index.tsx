@@ -232,7 +232,7 @@ class Post extends Component<any> {
         let newParagraphRegExp = new RegExp('\n', 'g')
     
         if(linksRegExp.test(replaceredText)) {
-            replaceredText = replaceredText.replace(linksRegExp, `<a href="$1">$1</a>`);
+            replaceredText = replaceredText.replace(linksRegExp, `<a target="_blank" href="$1">$1</a>`);
         }
     
         if(newParagraphRegExp.test(replaceredText)) {
@@ -341,11 +341,11 @@ class Post extends Component<any> {
                             <MoreHorizIcon className={classes.postMenuIcon} />
                         </IconButton>
                         {post.reposted
-                            ? <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
-                                    onClose={this.handleClose}
+                            ? <Menu classes={{paper: classes.paper}} id="fade-menu" anchorEl={this.state.anchorEl}
+                                    open={Boolean(this.state.anchorEl)} onClose={this.handleClose}
                                     anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                                     transformOrigin={{vertical: 'top', horizontal: 'right'}}>
-                                <Mutation mutation={PIN_POST} onCompleted={this.handleClose}
+                                {this.props.location === '/profile' ? <Mutation mutation={PIN_POST} onCompleted={() => {this.handleClose; location.reload()}}
                                     onError={(error)=>console.log(error)}
                                 >
                                     {pinPost => {
@@ -355,7 +355,7 @@ class Post extends Component<any> {
                                             : <MenuItem name="pin" id="pin" onClick={() => pinPost({variables: {id: post.postId, pin: false}})}>Unpin</MenuItem>
                                         )
                                     }}
-                                </Mutation>
+                                </Mutation> : null}
                                 <Mutation mutation={DELETE_REPOST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
                                           update={(cache, {data: { deleteRePost }}) => {
                                               const data = cache.readQuery({
@@ -378,19 +378,19 @@ class Post extends Component<any> {
                             </Menu> :
                             post.userId !== authUser.id
                             ?
-                            <Menu classes={{paper: classes.paper}} id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
-                                onClose={this.handleClose}
+                            <Menu classes={{paper: classes.paper}} id="fade-menu" anchorEl={this.state.anchorEl}
+                                open={Boolean(this.state.anchorEl)} onClose={this.handleClose}
                                 anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                                 transformOrigin={{vertical: 'top', horizontal: 'right'}}>
                                 <MenuItem name="complain" id="complain" onClick={this.handleClose}>Complain</MenuItem>
                             </Menu>
                             :
-                            <Menu id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
+                            <Menu classes={{paper: classes.paper}} id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
                                 onClose={this.handleClose}
                                 anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                                 transformOrigin={{vertical: 'top', horizontal: 'right'}}>
 
-                                <Mutation mutation={PIN_POST} onCompleted={this.handleClose}
+                                {this.props.location === '/profile' ? <Mutation mutation={PIN_POST} onCompleted={() => {this.handleClose; location.reload()}}
                                     onError={(error)=>console.log(error)}
                                 >
                                     {pinPost => {
@@ -400,7 +400,7 @@ class Post extends Component<any> {
                                             : <MenuItem name="pin" id="pin" onClick={() => pinPost({variables: {id: post.postId, pin: false}})}>Unpin</MenuItem>
                                         )
                                     }}
-                                </Mutation>
+                                </Mutation> : null}
 
                                 <MenuItem name="edit" id="edit" onClick={this.handleEdit}>Edit</MenuItem>
                                 <Mutation mutation={DELETE_POST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
