@@ -13,7 +13,7 @@ import Chat from "../Chat";
 import PoolInfo from "../PoolInfo";
 import Settings from "../ProfileSettings";
 import {socket} from "../../api";
-import {addContact, addMessage, chatUnMount, setContacts, setInitialMsg, updateContacts} from "../../actions";
+import {addContact, addMessage, chatUnMount, logOut, setContacts, setInitialMsg, updateContacts} from "../../actions";
 import {connect} from "react-redux";
 import {GET_CHATS} from "../../api/graphql";
 import {withApollo} from "react-apollo";
@@ -68,12 +68,17 @@ class MainApp extends Component<any> {
             this.props.updateContacts(this.props.authUser.id);
         });
 
+        socket.on("notAuthenticated", () => {
+            this.props.logOut();
+        });
+
         this.tabSwitch(this.props.location.pathname)
     }
 
     componentWillUnmount(){
         socket.off("newChat");
         socket.off("newMessage");
+        socket.off("notAuthenticated");
         this.props.chatUnMount();
         socket.close();
     }
@@ -155,6 +160,7 @@ const mapDispatchToProps = (dispatch:any) => {
         setContacts: (contacts:any) => dispatch(setContacts(contacts)),
         setInitialMsg: (messages:any) => dispatch(setInitialMsg(messages)),
         updateContacts: (id:any) => dispatch(updateContacts(id)),
+        logOut: () => dispatch(logOut())
     }
 };
 
