@@ -69,7 +69,8 @@ class MainApp extends Component<any> {
         });
 
         socket.on("notAuthenticated", () => {
-            this.props.logOut();
+            localStorage.removeItem("user");
+            window.location.reload();
         });
 
         this.tabSwitch(this.props.location.pathname)

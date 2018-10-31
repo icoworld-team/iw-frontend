@@ -37,9 +37,18 @@ const cache = new InMemoryCache({
 const client = new ApolloClient({
     link: ApolloLink.from([
         onError(({graphQLErrors, networkError}) => {
-            if (graphQLErrors)
-                graphQLErrors.map(({message, locations, path}) =>
-                    console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`));
+            if (graphQLErrors) {
+                graphQLErrors.forEach(error => {
+                    if((error.extensions as any).code === '405') {
+                        localStorage.removeItem("user");
+                        window.location.reload();
+                    }
+                    else console.log(`[GraphQL error]: Message: ${error.message}, Location: ${error.locations}, Path: ${error.path}`)
+                })
+            }
+            // if (graphQLErrors)
+            //     graphQLErrors.map(({message, locations, path, extensions}) =>
+            //         console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path} ${extensions}`));
             if (networkError) console.log(`[Network error]: ${networkError}`);
         }),
         // new HttpLink({
