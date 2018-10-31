@@ -36,9 +36,7 @@ const cache = new InMemoryCache({
 
 const client = new ApolloClient({
     link: ApolloLink.from([
-        onError(({graphQLErrors, networkError = {} as any}) => {
-            const status = networkError.statusCode;
-            console.log(status);
+        onError(({graphQLErrors, networkError}) => {
             if (graphQLErrors)
                 graphQLErrors.map(({message, locations, path}) =>
                     console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`));
