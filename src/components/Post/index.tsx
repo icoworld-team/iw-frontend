@@ -31,7 +31,8 @@ import {
     CREATE_COMMENT,
     GET_COMMENTS,
     SEARCH_POST_IN_PROFILE,
-    LIKE_POST, SEARCH_POST, REPOST, DELETE_REPOST, LIKE_REPOST
+    LIKE_POST, SEARCH_POST, REPOST, DELETE_REPOST, LIKE_REPOST,
+    GET_USER
 } from '../../api/graphql'
 import { relativeTime } from '../../utils'
 import { endpoint } from "../../api"
@@ -390,8 +391,8 @@ class Post extends Component<any> {
                                 anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                                 transformOrigin={{vertical: 'top', horizontal: 'right'}}>
 
-                                {this.props.location === '/profile' ? <Mutation mutation={PIN_POST} onCompleted={() => {this.handleClose; location.reload()}}
-                                    onError={(error)=>console.log(error)}
+                                {this.props.location === '/profile' ? <Mutation mutation={PIN_POST} onCompleted={() => this.handleClose}
+                                    onError={(error)=>console.log(error)} refetchQueries={[{query: GET_USER, variables: {userId: authUser.id}}]}
                                 >
                                     {pinPost => {
                                         return (
