@@ -85,7 +85,7 @@ class MainAppBar extends Component<any> {
 						<Grid item xs={1} />
 						<Grid item xs={10}>
 							<ToolBar className={classes.toolBar}>
-								<a href='/news' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
+								<a href='/feed' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
 									<img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
 									<h2 style={{fontFamily: 'HelveticaNeueCyr'}}>icoWorld</h2>
 								</a>
@@ -95,7 +95,7 @@ class MainAppBar extends Component<any> {
 											// onChange={this.handleChange}
 											classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
 									>
-										<this.LinkTab label="News" to="/news" />
+										<this.LinkTab label="News" to="/feed" />
 										<this.LinkTab label="Profile" to="/profile" />
 										<this.LinkTab label="Messages" to="/messages" />
 										<this.LinkTab label="Investors" to="/investors" />

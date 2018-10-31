@@ -1,7 +1,6 @@
 import React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { Link, Element } from 'react-scroll';
-import Dialog from "@material-ui/core/Dialog";
 import Scrollbar from "react-custom-scrollbars";
 
 const styles = () => createStyles({
@@ -215,6 +214,7 @@ const styles = () => createStyles({
     textDecoration: 'none',
     fontSize: '14px',
     lineHeight: '20px',
+    cursor: 'pointer',
     '&:hover': {
       textDecoration: 'underline',
     },
@@ -255,10 +255,23 @@ const styles = () => createStyles({
     strokeDasharray: 283,
   },
 
-  modal: {
-    padding: '15px',
-    width: '550px',
-},
+  popupWrap: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 100,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+  },
+  popup: {
+    width: '850px',
+    backgroundColor: '#fff',
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+  },
 });
 
 class LandingPage extends React.Component<any> {
@@ -266,8 +279,26 @@ class LandingPage extends React.Component<any> {
     mins: 0,
     hours: 0,
     days: 0,
-    openModal: false,
+    open: false,
   };
+
+  handleClose = (e: any) => {
+    let clickBloc = e.target;
+
+    if(clickBloc.classList.contains('wrap')) {
+      document.body.style.overflow = 'auto';
+      this.setState({
+        open: false
+      })
+    }
+  }
+
+  handleOpen = () => {
+    document.body.style.overflow = 'hidden';
+    this.setState({
+      open: true
+    })
+  }
 
   componentDidMount() {
     let to: any = new Date("December 1 2018 00:01:00");
@@ -561,7 +592,7 @@ class LandingPage extends React.Component<any> {
 
                 <ul style={{display: 'flex', justifyContent: 'center'}}>
                   <li className={classes.teamSocialsItem}>
-                    <a href='https://t.me/asaveliev' target="_blank" style={{textDecoration: 'none'}}>
+                    <a href='https://t.me/an_saveliev' target="_blank" style={{textDecoration: 'none'}}>
                       <img src="./icons/telegram.png" alt="telegram" style={{width: '25px'}} />
                     </a>
                   </li>
@@ -627,61 +658,151 @@ class LandingPage extends React.Component<any> {
                 <li className={classes.footerSectionsItem}>
                   <span className={classes.footerSectionsTitle}>Legal</span>
 
-                  <a className={classes.footerSectionsLink} href="#" onClick={() => {this.setState({ openModal: true })}}>Privacy Policy</a>
+                  <a className={classes.footerSectionsLink} onClick={this.handleOpen}>Privacy Policy</a>
                 </li>
               </ul>
             </div>
           </div>
         </footer>
 
-        <Dialog PaperProps={{square: true}} onClose={() => this.setState({ openModal: false })} open={this.state.openModal}>
-          <Scrollbar autoHeight={true} autoHeightMax={590} renderThumbVertical={this.renderThumbVertical}>
-            <div className={classes.modal}>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet illo ullam dolorem aliquid eum? Maiores a eos deserunt aut assumenda soluta, architecto odio. Explicabo, alias fugiat placeat tenetur officiis omnis.
-                Reiciendis labore quibusdam architecto, cum, excepturi maiores dolores repudiandae dignissimos sapiente ullam deleniti autem. Eveniet sed laboriosam, ab eaque, distinctio fugit repellendus, autem id sequi suscipit veniam atque placeat enim?
-                Rerum magni dolorem sapiente laboriosam, porro blanditiis explicabo eius nesciunt fugiat quaerat eum quam pariatur natus! Praesentium, suscipit? Incidunt, omnis nisi sunt rem quia recusandae ipsum. A doloremque quo voluptatibus.
-                Veniam fugit totam mollitia veritatis qui, blanditiis accusamus consequatur culpa eaque excepturi sit minus alias, illum earum odit delectus cum cupiditate, fugiat officiis. Non iste doloremque dolor sunt iusto labore.
-                Magnam, veniam nulla enim eius inventore voluptatum ipsum repudiandae pariatur deserunt ullam minus dolores est, illum, dignissimos ab earum reiciendis! Neque id expedita voluptatem sapiente, voluptatibus eligendi earum debitis itaque.
-                Vero, vitae id exercitationem, neque accusamus qui architecto mollitia doloremque enim, perspiciatis aperiam fuga cum quod culpa inventore eius fugit voluptas corporis tenetur commodi? Sed necessitatibus at nesciunt architecto optio?
-                Esse excepturi officiis distinctio, voluptatibus dolorum quo illo dolores nulla, id necessitatibus fuga temporibus dignissimos eaque. Hic repudiandae eligendi, odit unde molestiae magni aliquam quam iure officia minima? Deserunt, tempora.
-                Quis vitae alias quaerat magni voluptatum voluptates praesentium in, beatae, sint ut labore! Hic unde sint aperiam possimus. Natus perferendis suscipit est ipsa quisquam ut aliquam ab incidunt dolorem sit?
-                Obcaecati perferendis ipsa iusto distinctio nemo necessitatibus sapiente labore nesciunt autem excepturi saepe facilis eaque debitis, aspernatur, sit natus porro! Dignissimos fuga suscipit odit consequuntur repellat molestiae, sit alias magni.
-                Doloremque enim fuga illum voluptates quo nobis voluptate neque, suscipit itaque adipisci labore rerum nesciunt placeat obcaecati qui voluptas saepe modi vel vitae sunt accusamus consequatur error maxime. Aspernatur, mollitia.
-                Corporis ipsa quae voluptates repellat, possimus nam, impedit nostrum, sed dicta aspernatur illum quas labore veniam expedita quo quisquam. Libero quae adipisci velit earum est quis commodi et blanditiis itaque?
-                Et nemo consectetur laboriosam facilis eum sapiente dolore ex aut maxime facere eaque voluptate, illo, sequi maiores possimus quae nulla. Corporis illum esse perferendis omnis consequuntur amet non nesciunt qui!
-                Officia delectus perspiciatis vitae modi quod, tenetur repudiandae accusantium provident explicabo, voluptatum nostrum ut expedita totam unde! Nobis voluptatum corrupti a veritatis odit nostrum quam sequi soluta harum. Voluptatum, debitis.
-                Facilis eos accusamus pariatur in exercitationem voluptatibus odio modi minima beatae assumenda iste incidunt officiis velit tenetur eveniet quae corporis recusandae animi accusantium consequatur sint est, quo nihil itaque? Veniam.
-                Necessitatibus commodi optio minus nam enim corrupti ullam consequuntur, ipsam possimus placeat! Vero quae esse atque quisquam cupiditate pariatur maxime facere? Dicta, voluptates facilis. Recusandae incidunt vel facere in quae.
-                Tempore ipsa nobis explicabo dignissimos delectus hic nam deserunt modi suscipit minima voluptates, harum quis eius, non recusandae praesentium dicta magnam culpa consequuntur repudiandae reiciendis veritatis ex itaque? Nulla, dicta.
-                Perferendis officia omnis tempore sunt facere tempora molestias exercitationem harum fugiat nulla numquam nobis, sint ab, accusantium animi nostrum sed alias odio! Nostrum commodi accusantium et corrupti neque facere recusandae.
-                Veniam enim illo, placeat, consequuntur corrupti obcaecati labore repellendus omnis voluptas, non vel neque amet? Tempore veritatis molestiae quos suscipit, nemo commodi minima nulla quod, officia beatae reprehenderit quibusdam cum?
-                Harum laborum voluptate quae nam numquam consequuntur ea nihil sed, ducimus laboriosam suscipit! Similique nulla id blanditiis itaque consectetur consequatur nostrum commodi incidunt in, non ullam dignissimos quae quibusdam magnam.
-                A sint repellat aliquid quam odit itaque impedit! Alias tempore iusto, fugit dolor eveniet sunt quaerat dolorem adipisci earum, at culpa sit voluptatibus quidem aliquam, placeat illum. Tenetur, molestias sequi.
-                Odio soluta itaque fugit quibusdam sunt laboriosam nulla officiis eos tempore? Sequi fuga error fugiat harum, deleniti ea fugit quae cumque distinctio excepturi dicta aut incidunt, quisquam repellat totam iure.
-                Dolor laudantium unde iure, aut vel saepe laboriosam deserunt iste blanditiis repellat fugiat neque quisquam nisi temporibus rem hic quam ullam molestiae labore rerum consectetur optio at adipisci in! Illo.
-                Debitis, fugiat consectetur dignissimos minima porro temporibus deserunt? Enim laboriosam aperiam ullam rerum accusantium voluptates velit facere explicabo? Exercitationem explicabo dolore esse harum ut commodi non laborum officia aperiam cupiditate.
-                Nesciunt non ipsum, aliquid laboriosam vitae obcaecati impedit nisi voluptatibus id repudiandae eaque odio laudantium sunt, eius unde recusandae. Iure obcaecati dicta officiis, veniam tenetur pariatur nemo vitae at commodi.
-                Consequatur architecto voluptatum molestiae sunt, facere nisi inventore quod harum unde, debitis incidunt! Molestiae quibusdam aspernatur perferendis, qui cupiditate adipisci quod pariatur dolorum reiciendis totam explicabo, iste molestias iure dolores.
-                Dolores qui accusantium ipsam vel atque tempore aliquid nobis harum vitae quo odit veniam fugiat necessitatibus nam, enim doloremque quisquam nulla officia culpa voluptatibus! Perferendis explicabo maiores aut placeat perspiciatis.
-                Voluptas rem sit asperiores esse dolorum voluptatibus voluptatum repellendus cum porro perferendis autem, aperiam enim fugit architecto, consequatur, est facilis reprehenderit atque vel ullam alias laboriosam eius! Dignissimos, amet dolor?
-                Ipsa, modi nam, pariatur doloremque repudiandae, repellendus deleniti esse eveniet nisi quod laborum cum commodi placeat. Consequatur asperiores neque id. Rerum id quasi dolor, alias nesciunt commodi est quas? Modi?
-                Minus odio esse cum, quisquam sint rerum aliquid assumenda debitis quos itaque mollitia similique vero, dolores veniam cupiditate qui velit maiores molestias. Libero cum officiis tempora dignissimos corporis ratione explicabo!
-                Reprehenderit iusto ullam eum totam fuga obcaecati, voluptatibus neque nihil sapiente atque eveniet deleniti accusantium, excepturi exercitationem molestias quis error ratione quas nesciunt iste vero! Praesentium libero eaque non voluptatem.
-                Possimus modi consectetur, optio molestiae voluptatem doloremque dolorum adipisci fugit error nam iusto ad quos nobis illo distinctio, porro saepe perspiciatis voluptates. Repellendus non nostrum accusamus! Eaque ab laboriosam aliquid.
-                Dolorum, facere reiciendis repudiandae rem nostrum culpa quae aspernatur quos atque iure officia facilis accusamus quas non nobis ex itaque libero laboriosam illum numquam et sint ipsam molestias. Aliquam, totam.
-                Suscipit impedit odit dolorem harum unde sunt fugit aliquam molestiae enim veniam hic aliquid quo, quae culpa eaque iste at iure laudantium illo distinctio facere. Hic pariatur rerum nemo amet.
-                Itaque, quos, excepturi temporibus, aspernatur sint ratione tenetur ea magnam tempora dolorem nihil. Aliquid minus ipsum quod animi id ipsa fugiat non reprehenderit dolorem nesciunt laudantium tempora, vero, quia aspernatur.
-                Ipsum error neque magnam ratione! Pariatur doloribus, optio tempore commodi praesentium reprehenderit maxime sed! Laboriosam ex repellat repellendus fugit? Ea, ut ipsam! Nulla quas accusamus blanditiis molestias, quia doloremque dolor.
-                Maiores, ab sed quo asperiores autem quibusdam tempora dolor, repudiandae eaque tempore maxime saepe dolore corrupti quasi? A, eligendi error obcaecati eos nihil cupiditate nostrum. Neque architecto iure esse deleniti.
-                Nam, voluptates qui reprehenderit iusto repellat quod praesentium suscipit aliquam eius corporis molestias nemo recusandae quo consequuntur repellendus enim quibusdam eos quae totam excepturi voluptatem maiores minima ducimus quas? Explicabo!
-                Illum quo commodi eligendi ex aperiam iusto tenetur earum tempora facere vel natus saepe, at quisquam? Molestiae ullam incidunt nobis repellat at laudantium possimus dignissimos officia sed beatae? Rerum, illo.
-                Facere at ut, reiciendis nostrum provident error corrupti alias ipsum repellendus magni saepe quisquam esse doloribus explicabo nam maxime velit! Fugiat ipsum eius consequuntur exercitationem quae doloribus corrupti recusandae error.
-                Voluptatibus dignissimos molestias itaque, nihil expedita nulla nesciunt fugit officia magnam eos, hic ab similique iusto beatae quaerat odio earum delectus quia, aliquid doloremque incidunt asperiores! Officiis quas eaque nam!
-              </p>
+        {this.state.open === true ?
+          <div className={`${classes.popupWrap} wrap`} onClick={this.handleClose}>
+            <div className={classes.popup}>
+              <Scrollbar autoHeight={true} autoHeightMax={590} width={600} renderThumbVertical={this.renderThumbVertical}>
+                <p style={{padding: '15px'}}>
+                  1. PRIVACY POLICY
+                  <br />
+                  icoWorld operates the <a href='http://www.icoworld.network'>http://www.icoworld.network</a> website (hereinafter referred to as the "Service").
+                  <br />
+                  This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. 
+                  <br />
+                  We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, the terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible from <a href='http://www.icoworld.network'>http://www.icoworld.network</a>
+                  <br />
+                  <br />
+                  2. INFORMATION COLLECTION AND USE
+                  <br />
+                  We collect several different types of information for various purposes to provide and improve our Service to you.
+                  <br />
+                  <br />
+                  Types of Data Collected
+                  <br />
+                  <br />
+                  Personal Data
+                  <br />
+                  While using our Service, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you ("Personal Data"). Personally identifiable information may include, but is not limited to:
+                  <br />
+                  <ul style={{listStyle: 'inherit', listStylePosition: 'inside'}}>
+                    <li>Email address</li>
+                    <li>First name and last name</li>
+                    <li>Phone number</li>
+                    <li>Address, State, Province, ZIP/Postal code, City</li>
+                    <li>Cookies and Usage Data</li>
+                  </ul>
+                  <br />
+                  Usage Data
+                  <br />
+                  We may also collect information on how the Service is accessed and used ("Usage Data"). This Usage Data may include information such as your computer's Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that you visit, the time and date of your visit, the time spent on those pages, unique device identifiers and other diagnostic data.
+                  <br />
+                  <br />
+                  Tracking & Cookies Data
+                  <br />
+                  We use cookies and similar tracking technologies to track the activity on our Service and hold certain information.
+                  <br />
+                  Cookies are files with small amount of data which may include an anonymous unique identifier. Cookies are sent to your browser from a website and stored on your device. Tracking technologies also used are beacons, tags, and scripts to collect and track information and to improve and analyze our Service.
+                  <br />
+                  You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our Service.
+                  <br />
+                  Examples of Cookies we use:
+                  <br />
+                  <ul style={{listStyle: 'inherit', listStylePosition: 'inside'}}>
+                    <li>Session Cookies. We use Session Cookies to operate our Service.</li>
+                    <li>Preference Cookies. We use Preference Cookies to remember your preferences and various settings.</li>
+                    <li>Security Cookies. We use Security Cookies for security purposes.</li>
+                  </ul>
+                  <br />
+                  3. USE OF DATA
+                  <br />
+                  icoWorld uses the collected data for various purposes:
+                  <br />
+                  <ul style={{listStyle: 'inherit', listStylePosition: 'inside'}}>
+                    <li>To provide and maintain the Service</li>
+                    <li>To notify you about changes to our Service</li>
+                    <li>To allow you to participate in interactive features of our Service when you choose to do so</li>
+                    <li>To provide customer care and support</li>
+                    <li>To provide analysis or valuable information so that we can improve the Service</li>
+                    <li>To monitor the usage of the Service</li>
+                    <li>To detect, prevent and address technical issues</li>
+                  </ul>
+                  <br />
+                  4. TRANSFER OF DATA
+                  <br />
+                  Your information, including Personal Data, may be transferred to — and maintained on — computers located outside of your state, province, country or other governmental jurisdiction where the data protection laws may differ than those from your jurisdiction.
+                  <br />
+                  If you are located outside Malta and choose to provide information to us, please note that we transfer the data, including Personal Data, to Malta and process it there.
+                  <br />
+                  Your consent to this Privacy Policy followed by your submission of such information represents your agreement to that transfer.
+                  <br />
+                  icoWorld will take all steps reasonably necessary to ensure that your data is treated securely and in accordance with this Privacy Policy and no transfer of your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of your data and other personal information.
+                  <br />
+                  <br />
+                  5. DISCLOSURE OF DATA
+                  <br />
+                  Legal Requirements
+                  <br />
+                  icoWorld may disclose your Personal Data in the good faith belief that such action is necessary to:
+                  <br />
+                  <ul style={{listStyle: 'inherit', listStylePosition: 'inside'}}>
+                    <li>To comply with a legal obligation</li>
+                    <li>To protect and defend the rights or property of icoWorld</li>
+                    <li>To prevent or investigate possible wrongdoing in connection with the Service</li>
+                    <li>To protect the personal safety of users of the Service or the public</li>
+                    <li>To protect against legal liability</li>
+                  </ul>
+                  <br />
+                  6. SECURITY OF DATA
+                  <br />
+                  The security of your data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.
+                  <br />
+                  <br />
+                  7. SERVICE PROVIDERS
+                  <br />
+                  We may employ third party companies and individuals to facilitate our Service ("Service Providers"), to provide the Service on our behalf, to perform Service-related services or to assist us in analyzing how our Service is used.
+                  <br />
+                  These third parties have access to your Personal Data only to perform these tasks on our behalf and are obligated not to disclose or use it for any other purpose.
+                  <br />
+                  <br />
+                  8. LINKS TO OTHER SITES
+                  <br />
+                  Our Service may contain links to other sites that are not operated by us. If you click on a third party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit.
+                  <br />
+                  We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.
+                  <br />
+                  <br />
+                  9. CHILDREN'S PRIVACY
+                  <br />
+                  Our Service does not address anyone under the age of 18 ("Children").
+                  <br />
+                  We do not knowingly collect personally identifiable information from anyone under the age of 18. If you are a parent or guardian and you are aware that your Children has provided us with Personal Data, please contact us. If we become aware that we have collected Personal Data from children without verification of parental consent, we take steps to remove that information from our servers.
+                  <br />
+                  <br />
+                  10. CHANGES TO THIS PRIVACY POLICY
+                  <br />
+                  We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.
+                  <br />
+                  We will let you know via email and/or a prominent notice on our Service, prior to the change becoming effective and update the "effective date" at the top of this Privacy Policy.
+                  <br />
+                  You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.
+                  <br />
+                  <br />
+                  11. CONTACT US
+                  <br />
+                  If you have any questions about this Privacy Policy, please contact us by visiting this page on our website: <a href='http://www.icoworld.network'>http://www.icoworld.network</a>
+                </p>
+              </Scrollbar>
             </div>
-          </Scrollbar>
-        </Dialog>
+          </div>
+        : null}
+
       </div>
     )
   }

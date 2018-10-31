@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { push } from "react-router-redux";
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import {Link} from "react-router-dom";
-import LangugageSelector from '../LanguageSelector';
+// import LangugageSelector from '../LanguageSelector';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import '../style.css';
@@ -11,9 +11,50 @@ import {handleErrors, fetchPost, endpoint} from '../../api'
 import {userSignIn} from '../../actions'
 
 const styles = () => createStyles({
-    signInBtn: {
+    page: {
+        background: 'url(/static/media/signp.52de34ae.jpg)',
+        backgroundSize: 'cover',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    container: {},
+    signupContainer: {
+        backgroundColor: '#fff',
+        width: '420px',
+        padding: '20px 15px',
+        boxSizing: 'border-box',
+    },
+    input: {
+        fontSize: '16px',
+        height: '30px',
+        color: '#171717',
+        '&:-webkit-autofill': {
+            '-webkit-box-shadow': 'inset 0 0 0 50px #fff!important',
+            '-webkit-text-fill-color': '#171717!important',
+            color: '#171717!important',
+        }
+    },
+    formFooter: {
+        marginTop: '20px',
+        textAlign: 'right',
+    },
+    button: {
+        minHeight: '30px',
+        fontSize: '16px',
+    },
+    link: {
         textDecoration: 'none',
-    }
+    },
+    linkButton: {
+        textDecoration: 'none',
+        color: '#2D3546',
+        '&:hover': {
+            textDecoration: 'underline',
+        },
+    },
 });
 
 class SignInPage extends Component<any> {
@@ -22,6 +63,7 @@ class SignInPage extends Component<any> {
         password: '',
         emailInvalid: undefined,
         passwordInvalid: undefined,
+        error: undefined,
     };
 
     handleChange = (e:any)=> {
@@ -31,17 +73,19 @@ class SignInPage extends Component<any> {
         switch (e.target.name) {
             case 'email':
                 let pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                if(e.target.value.match(pattern) === null){
+                if(e.target.value.match(pattern) === null) {
                     this.setState({emailInvalid: true});
                     break;
                 }
+                this.setState({error: false})
                 this.setState({emailInvalid: false});
                 break;
             case 'password':
-                if(e.target.value.length<6 || e.target.value.search(/[*/~“`]/)!==-1){
+                if(e.target.value.length < 6 || e.target.value.search(/[*/~“`]/) !== -1) {
                     this.setState({passwordInvalid: true});
                     break;
                 }
+                this.setState({error: false})
                 this.setState({passwordInvalid: false});
                 break;
             default:
@@ -56,53 +100,60 @@ class SignInPage extends Component<any> {
             password: this.state.password
         };
         fetchPost(url, data)
-            .then(response=>handleErrors(response))
-            .then(response=>response.json())
+            .then(response => handleErrors(response))
+            .then(response => response.json())
             .then(json => {
                 localStorage.setItem("user", JSON.stringify(json));
                 this.props.signIn(json)
             })
             .then(this.props.push)
-            .catch(error=>console.log(error));
+            .catch(error => (
+                console.log(error),
+                this.setState({error: true})
+            ));
     };
 
     render() {
-        // const { classes } = this.props;
+        const { classes } = this.props;
+
+        const errorMessages = {
+            login: 'Неверный Email и/или Password!',
+        };
+
         return (
-            <div className="page">
-                <div className="language-selector">
-                    <LangugageSelector/>
-                </div>
-                <div className="container">
-                    <div className="signup-container">
-                        <h1 className="form-title">icoWorld</h1>
-                        <h3 className="form-text">Социальная сеть для криптоинвесторов, управляюших активами и ICO-проектов</h3>
-                        <div className="signup-form">
-                            <form>
-                                <TextField name="email" label="Email" fullWidth={true} margin="normal"
-                                           value={this.state.email} onChange={this.handleChange}/>
-                                <TextField name="password" type="password" fullWidth={true} label="Пароль" margin="normal"
-                                           value={this.state.password} onChange={this.handleChange}/>
-                                <div className="form-links">
-                                    <Link to="/password-recovery">Забыли пароль?</Link>
-                                    <Link to="/signup">Регистрация</Link>
-                                </div>
+            <div className={classes.page}>
+                <div className={classes.signupContainer}>
 
-                                <Button fullWidth={true} variant="raised" color="primary" onClick={this.handleClick}>
-                                    Войти
-                                </Button>
-
-                            </form>
-                        </div>
-                        <div className="form-footer">
-                            <Link to="#">Правила</Link>
-                            <Link to="#">Помощь</Link>
-                            <Link to="/contacts">Контакты</Link>
-                        </div>
+                    <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column', textDecoration: 'none', color: 'inherit', marginBottom: '25px'}}>
+                        <img style={{width: '50px', marginBottom: '10px'}} src="./icons/logo.svg" alt="logo"/>
+                        <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
                     </div>
-                </div>
-                <div className="page-footer">
-                    <h3 className="copyright">Copyright &copy; icoWorld 2018</h3>
+
+                    <div>
+                        <h2 style={{fontSize: '18px', fontWeight: 400, margin: 0, marginBottom: '15px'}}>Sign in</h2>
+                        <form>
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} border-input input`} }} style={{marginBottom: '10px'}}
+                                name="email" placeholder="Email" fullWidth={true} value={this.state.email} onChange={this.handleChange} />
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} border-input input`} }} style={{marginBottom: '10px'}}
+                                name="password" type="password" placeholder="Password" fullWidth={true} value={this.state.password} onChange={this.handleChange}
+                                helperText={errorMessages.login} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
+                                error={false || this.state.error} />
+
+                            <Button fullWidth={true} variant="contained" color="secondary" onClick={this.handleClick}
+                                className={`button fill-button ${classes.button}`} style={{marginBottom: '10px'}}>
+                                Sign in
+                            </Button>
+                            <Link to="/signup" className={classes.link}>
+                                <Button fullWidth={true} variant="outlined" color="secondary" className={`button outline-button ${classes.button}`}>
+                                    Create an account
+                                </Button>
+                            </Link>
+
+                        </form>
+                    </div>
+                    <div className={classes.formFooter}>
+                        <Link className={classes.linkButton} to="/reset">Forgot password?</Link>
+                    </div>
                 </div>
             </div>
         )
@@ -118,7 +169,7 @@ const mapStateToProps = (state:any) => {
 const mapDispatchToProps = (dispatch:any) => {
     return {
         signIn: (user:any) => dispatch(userSignIn(user)),
-        push: () => dispatch(push('/news'))
+        push: () => dispatch(push('/feed'))
     }
 };
 

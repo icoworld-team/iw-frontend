@@ -2,32 +2,77 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { push } from "react-router-redux";
 import {Link} from "react-router-dom";
-import LangugageSelector from '../LanguageSelector/index'
+import { createStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import CheckBox from '@material-ui/core/Checkbox'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
 import '../style.css'
 import {handleErrors, fetchPost, endpoint} from '../../api'
 import {userSignIn} from "../../actions";
 
+const styles = () => createStyles({
+    page: {
+        background: 'url(/static/media/signp.52de34ae.jpg)',
+        backgroundSize: 'cover',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    container: {},
+    signupContainer: {
+        backgroundColor: '#fff',
+        width: '420px',
+        padding: '20px 15px',
+        boxSizing: 'border-box',
+    },
+    input: {
+        fontSize: '16px',
+        height: '30px',
+        color: '#171717',
+        '&:-webkit-autofill': {
+            '-webkit-box-shadow': 'inset 0 0 0 50px #fff!important',
+            '-webkit-text-fill-color': '#171717!important',
+            color: '#171717!important',
+        }
+    },
+    button: {
+        minHeight: '30px',
+        fontSize: '16px',
+    },
+    formFooter: {
+        marginTop: '20px',
+        textAlign: 'right',
+    },
+    link: {
+        textDecoration: 'none',
+    },
+    linkButton: {
+        textDecoration: 'none',
+        color: '#2D3546',
+        '&:hover': {
+            textDecoration: 'underline',
+        },
+    },
+    disabled: {
+        backgroundColor: 'rgba(139, 139, 139, 0.12)!important',
+    },
+});
+
 class SignUpPage extends Component<any> {
     state = {
         name: '',
-        surname: '',
+        lastname: '',
+        nickname: '',
         email: '',
         password: '',
         nameInvalid: undefined,
-        surnameInvalid: undefined,
+        lastnameInvalid: undefined,
+        nicknameInvalid: undefined,
         emailInvalid: undefined,
         passwordInvalid: undefined,
-        checked: false
-    };
-
-    checkBoxStatus = () => {
-        this.setState({
-            checked: !this.state.checked
-        });
+        nicknameUniq: undefined,
+        emailUniq: undefined,
     };
 
     handleChange = (e:any)=> {
@@ -36,29 +81,38 @@ class SignUpPage extends Component<any> {
         });
         switch (e.target.name) {
             case 'name':
-                if(e.target.value.length<2 || e.target.value.search(/[*/~“`]/)!==-1){
+                if(e.target.value.length < 2 || e.target.value.search(/[*/~“`]/) !== -1) {
                     this.setState({nameInvalid: true});
                     break;
                 }
                 this.setState({nameInvalid: false});
                 break;
-            case 'surname':
-                if(e.target.value.length<2 || e.target.value.search(/[*/~“`]/)!==-1){
-                    this.setState({surnameInvalid: true});
+            case 'lastname':
+                if(e.target.value.length < 2 || e.target.value.search(/[*/~“`]/) !== -1) {
+                    this.setState({lastnameInvalid: true});
                     break;
                 }
-                this.setState({surnameInvalid: false});
+                this.setState({lastnameInvalid: false});
+                break;
+            case 'nickname':
+                if(e.target.value.length < 2 || e.target.value.search(/[*/~“`]/) !== -1) {
+                    this.setState({nicknameInvalid: true});
+                    break;
+                }
+                this.setState({nicknameUniq: false});
+                this.setState({nicknameInvalid: false});
                 break;
             case 'email':
                 let pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                if(e.target.value.match(pattern) === null){
+                if(e.target.value.match(pattern) === null) {
                     this.setState({emailInvalid: true});
                     break;
                 }
+                this.setState({emailUniq: false});
                 this.setState({emailInvalid: false});
                 break;
             case 'password':
-                if(e.target.value.length<6 || e.target.value.search(/[*/~“`]/)!==-1){
+                if(e.target.value.length < 6 || e.target.value.search(/[*/~“`]/) !== -1) {
                     this.setState({passwordInvalid: true});
                     break;
                 }
@@ -73,82 +127,84 @@ class SignUpPage extends Component<any> {
         const url = `${endpoint}/signup`;
         const data = {
             firstName: this.state.name,
-            lastName: this.state.surname,
+            lastName: this.state.lastname,
+            login: this.state.nickname,
             email: this.state.email,
             password: this.state.password
         };
         fetchPost(url, data)
-            .then(response=>handleErrors(response))
-            .then(response=>response.json())
+            .then(response => handleErrors(response))
+            .then(response => response.json())
             .then(json => {
-                localStorage.setItem("user", JSON.stringify(json));
+                localStorage.setItem("user", JSON.stringify(json)),
                 this.props.signIn(json)
+                return json
             })
-            .then(this.props.push)
-            .catch(error=>console.log(error));
+            .then(json => {
+                json.error ? (
+                    json.error.search(/email/) === -1 ? this.setState({emailUniq: false}) : this.setState({emailUniq: true}),
+                    json.error.search(/login/) === -1 ? this.setState({nicknameUniq: false}) : this.setState({nicknameUniq: true})
+                ) : this.props.push
+            })
+            .catch(error => console.log(error));
     };
 
     render() {
+        const { classes } = this.props;
+        
         const errorMessages = {
-            name: 'Имя должно быть не короче двух символов и не содержать *, /, ~, “',
-            surname: 'Фамилия должна быть не короче двух символов и не содержать *, /, ~, “',
-            email: 'Введите корректный адрес электронной почты',
-            password: 'Минимальная длина пароля 6 символов. Запрещены символы *, /, ~, “',
-            confirmPassword: 'Пароли должны совпадать'
+            email: 'Такой Email уже используется',
+            nickname: 'Такой Nickname уже используется',
         };
-        const checkBoxText = "Я принимаю условия Пользовательского соглашения и даю свое согласие icoWorld на обработку " +
-            "моей персональной информации на условиях, определенных политикой конфиденциальности";
-        let notEmpty = this.state.name && this.state.surname && this.state.email && this.state.password;
-        let invalid = this.state.nameInvalid || this.state.surnameInvalid || this.state.emailInvalid
-            || this.state.passwordInvalid;
-        let disabled = !notEmpty || invalid || !this.state.checked;
-        return (
-            <div className="page">
-                <div className="language-selector">
-                    <LangugageSelector/>
-                </div>
-                <div className="container">
-                    <div className="signup-container">
-                        <h1 className="form-title">Регистрация</h1>
-                        <div className="signup-form">
-                            <form>
-                                <TextField name="name" label="Имя" fullWidth={true} margin="normal"
-                                           helperText={errorMessages.name} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
-                                           error={false || this.state.nameInvalid}
-                                           value={this.state.name} onChange={this.handleChange}/>
-                                <TextField name="surname" label="Фамилия" fullWidth={true} margin="normal"
-                                           helperText={errorMessages.surname} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
-                                           error={false || this.state.surnameInvalid}
-                                           value={this.state.surname} onChange={this.handleChange}/>
-                                <TextField name="email" label="Email" fullWidth={true} margin="normal"
-                                           helperText={errorMessages.email} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
-                                           error={false || this.state.emailInvalid}
-                                           value={this.state.email} onChange={this.handleChange}/>
-                                <TextField name="password" type="password" fullWidth={true} label="Пароль" margin="normal"
-                                           helperText={errorMessages.password} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
-                                           error={false || this.state.passwordInvalid}
-                                           value={this.state.password} onChange={this.handleChange}/>
-                                <div className="form-links">
-                                    <Link to="/">Уже есть аккаунт?</Link>
-                                </div>
 
-                                <Button fullWidth={true} variant="raised" color="primary" disabled={disabled} onClick={this.handleClick}>
-                                    Регистрация
-                                </Button>
-                                <FormControlLabel classes={{root: 'policy'}} control={
-                                    <CheckBox onChange={this.checkBoxStatus} color="primary"/>
-                                } label={checkBoxText}/>
-                            </form>
-                        </div>
-                        <div className="form-footer">
-                            <Link to="#">Правила</Link>
-                            <Link to="#">Помощь</Link>
-                            <Link to="/contacts">Контакты</Link>
-                        </div>
+        let notEmpty = this.state.name && this.state.lastname && this.state.email && this.state.password && this.state.nickname;
+        let invalid = this.state.nameInvalid || this.state.lastnameInvalid || this.state.emailInvalid || this.state.nicknameInvalid
+            || this.state.passwordInvalid;
+        let disabled = !notEmpty || invalid;
+        return (
+            <div className={classes.page}>
+                <div className={classes.signupContainer}>
+
+                    <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column', textDecoration: 'none', color: 'inherit', marginBottom: '25px'}}>
+                        <img style={{width: '50px', marginBottom: '10px'}} src="./icons/logo.svg" alt="logo"/>
+                        <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
                     </div>
-                </div>
-                <div className="page-footer">
-                    <h3 className="copyright">Copyright &copy; icoWorld 2018</h3>
+
+                    <div>
+                        <h2 style={{fontSize: '18px', fontWeight: 400, margin: 0, marginBottom: '15px'}}>Sign up</h2>
+                        <form>
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} border-input input`} }}
+                                name="name" placeholder="First name" fullWidth={true} value={this.state.name}
+                                onChange={this.handleChange} style={{marginBottom: '10px'}} />
+                            
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} border-input input`} }}
+                                name="lastname" placeholder="Last name" fullWidth={true} value={this.state.lastname}
+                                onChange={this.handleChange} style={{marginBottom: '10px'}} />
+
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} border-input input`} }}
+                                name="nickname" placeholder="Nickname" fullWidth={true} value={this.state.nickname} onChange={this.handleChange}
+                                helperText={errorMessages.nickname} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
+                                error={false || this.state.nicknameUniq} style={{marginBottom: '10px'}} />
+                            
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} border-input input`} }}
+                                name="email" placeholder="Email" fullWidth={true} value={this.state.email} onChange={this.handleChange}
+                                helperText={errorMessages.email} FormHelperTextProps={{classes: {root: 'invisible', error: 'visible'}}}
+                                error={false || this.state.emailUniq} style={{marginBottom: '10px'}} />
+                            
+                            <TextField InputProps={{ disableUnderline: true, classes: {input: `${classes.input} border-input input`} }}
+                                name="password" placeholder="Password" fullWidth={true} value={this.state.password}
+                                onChange={this.handleChange} style={{marginBottom: '10px'}} type="password" />
+
+                            <Button fullWidth={true} variant="contained" color="secondary" onClick={this.handleClick}
+                                className={`button fill-button ${classes.button}`} classes={{disabled: classes.disabled}}
+                                style={{marginBottom: '10px'}} disabled={disabled}>
+                                Sign up
+                            </Button>
+                        </form>
+                    </div>
+                    <div className={classes.formFooter}>
+                        <Link className={classes.linkButton} to="/signin">I'm already a member</Link>
+                    </div>
                 </div>
             </div>
         )
@@ -164,8 +220,8 @@ const mapStateToProps = (state:any) => {
 const mapDispatchToProps = (dispatch:any) => {
     return {
         signIn: (user:any) => dispatch(userSignIn(user)),
-        push: () => dispatch(push('/news'))
+        push: () => dispatch(push('/feed'))
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SignUpPage))

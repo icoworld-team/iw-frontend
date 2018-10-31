@@ -50,7 +50,6 @@ class MainApp extends Component<any> {
                 parnter: data.parnter,
                 messages: data.messages
             };
-            console.log(contact);
             this.props.addContact(contact);
             this.props.updateContacts(this.props.authUser.id);
         });
@@ -79,13 +78,12 @@ class MainApp extends Component<any> {
     }
 
     componentWillReceiveProps(nextProps: any) {
-        console.log(nextProps.location.pathname)
         this.tabSwitch(nextProps.location.pathname)
     }
 
     tabSwitch(pathname: any) {
         switch (pathname) {
-            case '/news':
+            case '/feed':
                 this.setState({tab: 0});
                 break;
             case '/profile':
@@ -111,7 +109,7 @@ class MainApp extends Component<any> {
 
     render() {
         if(this.props.location.pathname === '/'){
-            return (<Redirect to={{pathname: '/news'}}/>);
+            return (<Redirect to={{pathname: '/feed'}}/>);
         }
         return (
             <div>
@@ -123,7 +121,7 @@ class MainApp extends Component<any> {
                     <Route exact path="/create-pool" component={PoolCreate}/>
                     <Route exact path="/pool-info" component={PoolInfo}/>
                     <Route exact path="/investors" component={InvestorsPage}/>
-                    <Route exact path="/news" component={NewsPage}/>
+                    <Route exact path="/feed" component={NewsPage}/>
                     <Route exact path="/messages" component={Chat}/>
                     <Route exact path="/settings" component={Settings}/>
                 </Switch>

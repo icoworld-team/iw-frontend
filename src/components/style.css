@@ -72,10 +72,10 @@
 }
 
 .invisible {
-    opacity: 0;
+    display: none;
 }
 
 .visible {
-    opacity: 1;
+    display: block;
 }
 

@@ -71,7 +71,7 @@ export default function App() {
                         <Route path="/signin" component={SignInPage}/>
                         <Route path="/signup" component={SignUpPage}/>
                         <Route path="/contacts" component={Contacts}/>
-                        <Route path="/password-recovery" component={PasswordRecovery}/>
+                        <Route path="/reset" component={PasswordRecovery}/>
                         <PrivateRoute path="/" component={MainApp}/>
                     </Switch>
                 </ApolloProvider>
