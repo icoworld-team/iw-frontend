@@ -402,7 +402,7 @@ class LandingPage extends React.Component<any> {
               <ul className={classes.buttonsList}>
                 <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="./White Paper (english).pdf" download>White Paper</a></li>
                 <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="/pitch" target="_blank">Pitch for Investors</a></li>
-                <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkFill}`} href="#">MVP</a></li>
+                <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkFill}`} href="http://icoworld.network/" target="_blank">MVP</a></li>
               </ul>
             </div>
           </div>
@@ -548,7 +548,7 @@ class LandingPage extends React.Component<any> {
               </li>
 
               <li className={classes.photosItem}>
-                <div className={classes.itemPhoto}></div>
+                <div className={classes.itemPhoto}><img src="./Alexey.jpg" style={{width: '100%', transform: 'translateY(-12px)'}} /></div>
                 <p className={classes.itemName}>Aleksey Rezvov</p>
                 <p style={{marginBottom: '10px'}}>Chief Technical Officer</p>
 
@@ -644,7 +644,7 @@ class LandingPage extends React.Component<any> {
 
                   <a className={classes.footerSectionsLink} href="./White Paper (english).pdf" download>White Paper</a>
                   <a className={classes.footerSectionsLink} target="_blank" href="/pitch">Pitch for Investors</a>
-                  <a className={classes.footerSectionsLink} href="#">MVP</a>
+                  <a className={classes.footerSectionsLink} href="http://www.icoworld.network" target="_blank">MVP</a>
                 </li>
 
                 <li className={classes.footerSectionsItem}>
@@ -672,7 +672,7 @@ class LandingPage extends React.Component<any> {
                 <p style={{padding: '15px'}}>
                   1. PRIVACY POLICY
                   <br />
-                  icoWorld operates the <a href='http://www.icoworld.network'>http://www.icoworld.network</a> website (hereinafter referred to as the "Service").
+                  icoWorld operates the <a href='http://www.icoworld.network' target='_blank'>http://www.icoworld.network</a> website (hereinafter referred to as the "Service").
                   <br />
                   This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. 
                   <br />
@@ -796,7 +796,7 @@ class LandingPage extends React.Component<any> {
                   <br />
                   11. CONTACT US
                   <br />
-                  If you have any questions about this Privacy Policy, please contact us by visiting this page on our website: <a href='http://www.icoworld.network'>http://www.icoworld.network</a>
+                  If you have any questions about this Privacy Policy, please contact us by visiting this page on our website: <a href='http://www.icoworld.network' target='_blank'>http://www.icoworld.network</a>
                 </p>
               </Scrollbar>
             </div>

@@ -32,7 +32,7 @@ const styles = () => createStyles({
   },
   pageHeading: {
     height: '560px',
-    background: 'url("./page.jpg") 50% 70%',
+    background: 'url("./page.png") 50% 70%',
     backgroundSize: 'cover',
     display: 'flex',
     position: 'relative',
@@ -242,10 +242,10 @@ class MarketMonopolyPage extends React.Component<any> {
           <div className={classes.info}>
             <h3 className={classes.subtitle}>More information:</h3>
             <ul className={classes.infoList}>
-              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>Pitch for Investors</a></li>
-              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>White Paper (download)</a></li>
-              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>Financial model (download)</a></li>
-              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>How we are going to offer protection from scams</a></li>
+              <li className={classes.infoItem}><a href="/pitch" target="_blank" className={classes.infoLink}>Pitch for Investors</a></li>
+              <li className={classes.infoItem}><a href="./White Paper (english).pdf" download className={classes.infoLink}>White Paper (download)</a></li>
+              <li className={classes.infoItem}><a href="./Financial Model.xlsx" download className={classes.infoLink}>Financial Model (download)</a></li>
+              <li className={classes.infoItem}><a href="/offer-protection" target="_blank" className={classes.infoLink}>How we are going to offer protection from scams</a></li>
             </ul>
           </div>
         </div>
@@ -264,17 +264,17 @@ class MarketMonopolyPage extends React.Component<any> {
                 <li className={classes.footerSectionsItem}>
                   <span className={classes.footerSectionsTitle}>Product</span>
 
-                  <a className={classes.footerSectionsLink} href="#">White Paper</a>
-                  <a className={classes.footerSectionsLink} href="#">Pitch for Investors</a>
-                  <a className={classes.footerSectionsLink} href="#">MVP</a>
+                  <a className={classes.footerSectionsLink} href="./White Paper (english).pdf" download>White Paper</a>
+                  <a className={classes.footerSectionsLink} target="_blank" href="/pitch">Pitch for Investors</a>
+                  <a className={classes.footerSectionsLink} href="http://www.icoworld.network" target="_blank">MVP</a>
                 </li>
 
                 <li className={classes.footerSectionsItem}>
                   <span className={classes.footerSectionsTitle}>Social</span>
 
-                  <a className={classes.footerSectionsLink} href="#">Bitcointalk</a>
-                  <a className={classes.footerSectionsLink} href="#">GitHub</a>
-                  <a className={classes.footerSectionsLink} href="#">Telegram</a>
+                  <a className={classes.footerSectionsLink} target="_blank" href="https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378">Bitcointalk</a>
+                  <a className={classes.footerSectionsLink} target="_blank" href="https://github.com/pyshopml2">GitHub</a>
+                  <a className={classes.footerSectionsLink} target="_blank" href="https://t.me/icoWorld_EN">Telegram</a>
                 </li>
 
                 <li className={classes.footerSectionsItem}>
@@ -294,7 +294,7 @@ class MarketMonopolyPage extends React.Component<any> {
                 <p style={{padding: '15px'}}>
                   1. PRIVACY POLICY
                   <br />
-                  icoWorld operates the <a href='http://www.icoworld.network'>http://www.icoworld.network</a> website (hereinafter referred to as the "Service").
+                  icoWorld operates the <a href='http://www.icoworld.network' target='_blank'>http://www.icoworld.network</a> website (hereinafter referred to as the "Service").
                   <br />
                   This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. 
                   <br />
@@ -418,7 +418,7 @@ class MarketMonopolyPage extends React.Component<any> {
                   <br />
                   11. CONTACT US
                   <br />
-                  If you have any questions about this Privacy Policy, please contact us by visiting this page on our website: <a href='http://www.icoworld.network'>http://www.icoworld.network</a>
+                  If you have any questions about this Privacy Policy, please contact us by visiting this page on our website: <a href='http://www.icoworld.network' target='_blank'>http://www.icoworld.network</a>
                 </p>
               </Scrollbar>
             </div>

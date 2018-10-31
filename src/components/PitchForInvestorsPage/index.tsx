@@ -282,7 +282,7 @@ class PitchForInvestorsPage extends React.Component<any> {
               <h2 className={classes.title}>Stage</h2>
               <div className={classes.content}>
                 We have a fifteen-member team. We are developing the platform now and have a working MVP. We presented a
-                preliminary announcement of our project to collect feedback. You can see the results here.
+                preliminary announcement of our project to collect feedback. The result is positive.
               </div>
             </li>
 
@@ -335,10 +335,10 @@ class PitchForInvestorsPage extends React.Component<any> {
           <div className={classes.info}>
             <h3 className={classes.subtitle}>More information:</h3>
             <ul className={classes.infoList}>
-              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>White Paper (download)</a></li>
-              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>Financial model (download)</a></li>
-              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>How are we going to protect from scam?</a></li>
-              <li className={classes.infoItem}><a href="#" className={classes.infoLink}>Why is the social network?</a></li>
+              <li className={classes.infoItem}><a href="./White Paper (english).pdf" download className={classes.infoLink}>White Paper (download)</a></li>
+              <li className={classes.infoItem}><a href="./Financial Model.xlsx" download className={classes.infoLink}>Financial Model (download)</a></li>
+              <li className={classes.infoItem}><a href="/offer-protection" target="_blank" className={classes.infoLink}>How are we going to protect from scam?</a></li>
+              <li className={classes.infoItem}><a href="/market-monopoly" target="_blank" className={classes.infoLink}>Why are we developing a social network?</a></li>
             </ul>
           </div>
         </div>
@@ -357,17 +357,17 @@ class PitchForInvestorsPage extends React.Component<any> {
                 <li className={classes.footerSectionsItem}>
                   <span className={classes.footerSectionsTitle}>Product</span>
 
-                  <a className={classes.footerSectionsLink} href="#">White Paper</a>
-                  <a className={classes.footerSectionsLink} href="#">Pitch for Investors</a>
-                  <a className={classes.footerSectionsLink} href="#">MVP</a>
+                  <a className={classes.footerSectionsLink} href="./White Paper (english).pdf" download>White Paper</a>
+                  <a className={classes.footerSectionsLink} target="_blank" href="/pitch">Pitch for Investors</a>
+                  <a className={classes.footerSectionsLink} href="http://www.icoworld.network" target="_blank">MVP</a>
                 </li>
 
                 <li className={classes.footerSectionsItem}>
                   <span className={classes.footerSectionsTitle}>Social</span>
 
-                  <a className={classes.footerSectionsLink} href="#">Bitcointalk</a>
-                  <a className={classes.footerSectionsLink} href="#">GitHub</a>
-                  <a className={classes.footerSectionsLink} href="#">Telegram</a>
+                  <a className={classes.footerSectionsLink} target="_blank" href="https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378">Bitcointalk</a>
+                  <a className={classes.footerSectionsLink} target="_blank" href="https://github.com/pyshopml2">GitHub</a>
+                  <a className={classes.footerSectionsLink} target="_blank" href="https://t.me/icoWorld_EN">Telegram</a>
                 </li>
 
                 <li className={classes.footerSectionsItem}>
@@ -412,7 +412,7 @@ class PitchForInvestorsPage extends React.Component<any> {
                 <p style={{padding: '15px'}}>
                   1. PRIVACY POLICY
                   <br />
-                  icoWorld operates the <a href='http://www.icoworld.network'>http://www.icoworld.network</a> website (hereinafter referred to as the "Service").
+                  icoWorld operates the <a href='http://www.icoworld.network' target='_blank'>http://www.icoworld.network</a> website (hereinafter referred to as the "Service").
                   <br />
                   This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. 
                   <br />
@@ -536,7 +536,7 @@ class PitchForInvestorsPage extends React.Component<any> {
                   <br />
                   11. CONTACT US
                   <br />
-                  If you have any questions about this Privacy Policy, please contact us by visiting this page on our website: <a href='http://www.icoworld.network'>http://www.icoworld.network</a>
+                  If you have any questions about this Privacy Policy, please contact us by visiting this page on our website: <a href='http://www.icoworld.network' target='_blank'>http://www.icoworld.network</a>
                 </p>
               </Scrollbar>
             </div>
