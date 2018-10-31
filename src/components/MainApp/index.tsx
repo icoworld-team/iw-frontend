@@ -36,7 +36,7 @@ class MainApp extends Component<any> {
         contacts.forEach((chat:any) => {
             chatMessages = {
                 ...chatMessages,
-                [chat.chatId]: chat.messages
+                [chat.chatId]: chat.messages.slice().reverse()
             }
         });
         this.props.setInitialMsg(chatMessages);

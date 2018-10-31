@@ -9,19 +9,19 @@ import { GET_CHAT_MESSAGES } from '../../api/graphql'
 import ChatInput from '../ChatInput'
 
 
-const fetchMessages = async (client:any, chatId:any) => {
-    const result = await client.query({
-        query: GET_CHAT_MESSAGES,
-        variables: {input: {chatId: chatId, skip: 0}},
-        fetchPolicy: 'network-only'
-    });
-    const messages = result.data.getChatMessages.messages.slice().reverse();
-    const chatMessages = {
-        id: chatId,
-        messages: messages
-    };
-    return chatMessages;
-};
+// const fetchMessages = async (client:any, chatId:any) => {
+//     const result = await client.query({
+//         query: GET_CHAT_MESSAGES,
+//         variables: {input: {chatId: chatId, skip: 0}},
+//         fetchPolicy: 'network-only'
+//     });
+//     const messages = result.data.getChatMessages.messages.slice().reverse();
+//     const chatMessages = {
+//         id: chatId,
+//         messages: messages
+//     };
+//     return chatMessages;
+// };
 
 class ChatWindow extends Component<any> {
 
@@ -29,44 +29,46 @@ class ChatWindow extends Component<any> {
     // position:number;
 
     async componentDidMount() {
-        if(this.props.chatMessages[this.props.user.chatId] === undefined) {
-            const result = await this.props.client.query({
-                query: GET_CHAT_MESSAGES,
-                variables: {input: {chatId: this.props.user.chatId, skip: 0}},
-                fetchPolicy: 'network-only'
-            });
-            const messages = result.data.getChatMessages.messages.slice().reverse();
-            const chatMessages = {
-                id: this.props.user.chatId,
-                messages: messages
-            };
-            this.props.setMessages(chatMessages);
-        }
-        else if (this.props.chatMessages[this.props.user.chatId].length < 10) {
+        // if(this.props.chatMessages[this.props.user.chatId] === undefined) {
+        //     const result = await this.props.client.query({
+        //         query: GET_CHAT_MESSAGES,
+        //         variables: {input: {chatId: this.props.user.chatId, skip: 0}},
+        //         fetchPolicy: 'network-only'
+        //     });
+        //     const messages = result.data.getChatMessages.messages.slice().reverse();
+        //     const chatMessages = {
+        //         id: this.props.user.chatId,
+        //         messages: messages
+        //     };
+        //     this.props.setMessages(chatMessages);
+        // }
+        if (this.props.chatMessages[this.props.user.chatId].length < 20) {
             this.fetchMore()
         }
-        if(this.props.chatMessages[this.props.user.chatId] !== undefined) {
-            let unreadMessages:any = [];
-            this.props.chatMessages[this.props.user.chatId].forEach((message:any) => {
-                if (!message.read && message.author.id !== this.props.authUser.id) unreadMessages.push(message.id)
-            });
-            if (unreadMessages.length > 0) {
-                socket.emit("readMessage", {
-                    messageIds: unreadMessages,
-                    partnerId: this.props.user.parnter.id
-                });
-                this.props.readMessages(this.props.user.chatId);
-                this.props.updateContacts(this.props.authUser.id);
-            }
-        }
+
+        this.readMessages();
+        // if(this.props.chatMessages[this.props.user.chatId] !== undefined) {
+        //     let unreadMessages:any = [];
+        //     this.props.chatMessages[this.props.user.chatId].forEach((message:any) => {
+        //         if (!message.read && message.author.id !== this.props.authUser.id) unreadMessages.push(message.id)
+        //     });
+        //     if (unreadMessages.length > 0) {
+        //         socket.emit("readMessage", {
+        //             messageIds: unreadMessages,
+        //             partnerId: this.props.user.parnter.id
+        //         });
+        //         this.props.readMessages(this.props.user.chatId);
+        //         this.props.updateContacts(this.props.authUser.id);
+        //     }
+        // }
         this.scrollArea.scrollToBottom();
     }
 
     componentDidUpdate(prevProps:any){
-        if(this.props.user.chatId !== prevProps.user.chatId && this.props.chatMessages[this.props.user.chatId] === undefined){
-            fetchMessages(this.props.client, this.props.user.chatId)
-                .then((chatMessages) => this.props.setMessages(chatMessages));
-        }
+        // if(this.props.user.chatId !== prevProps.user.chatId && this.props.chatMessages[this.props.user.chatId] === undefined){
+        //     fetchMessages(this.props.client, this.props.user.chatId)
+        //         .then((chatMessages) => this.props.setMessages(chatMessages));
+        // }
 
         if (this.props.chatMessages[this.props.user.chatId] !== undefined && this.props.chatMessages[this.props.user.chatId].length < 10) {
             this.fetchMore()
@@ -75,6 +77,25 @@ class ChatWindow extends Component<any> {
         this.scrollArea.scrollToBottom();
         // this.scrollArea.scrollTop(this.scrollArea.getScrollHeight() - this.position);
 
+        this.readMessages();
+
+        // if(this.props.chatMessages[this.props.user.chatId] !== undefined) {
+        //     let unreadMessages:any = [];
+        //     this.props.chatMessages[this.props.user.chatId].forEach((message:any) => {
+        //         if (!message.read && message.author.id !== this.props.authUser.id) unreadMessages.push(message.id)
+        //     });
+        //     if (unreadMessages.length > 0) {
+        //         socket.emit("readMessage", {
+        //             messageIds: unreadMessages,
+        //             partnerId: this.props.user.parnter.id
+        //         });
+        //         this.props.readMessages(this.props.user.chatId);
+        //         this.props.updateContacts(this.props.authUser.id);
+        //     }
+        // }
+    }
+
+    readMessages = () => {
         if(this.props.chatMessages[this.props.user.chatId] !== undefined) {
             let unreadMessages:any = [];
             this.props.chatMessages[this.props.user.chatId].forEach((message:any) => {
@@ -89,7 +110,7 @@ class ChatWindow extends Component<any> {
                 this.props.updateContacts(this.props.authUser.id);
             }
         }
-    }
+    };
 
     fetchMore = async () => {
         const chatId = this.props.user.chatId;
