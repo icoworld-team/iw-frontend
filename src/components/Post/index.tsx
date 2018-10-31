@@ -19,7 +19,7 @@ import Comment from '@material-ui/icons/Comment';
 import Repeat from '@material-ui/icons/Repeat';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Send from '@material-ui/icons/Send';
-
+import ModalComplain from '../ModalComplain';
 import PostComments from '../PostComments';
 import SnackBar from '@material-ui/core/Snackbar'
 import { Mutation } from 'react-apollo'
@@ -208,6 +208,7 @@ class Post extends Component<any> {
         postText: '',
         tags: [],
         textareaHeight: 58,
+        openComplainModal: false,
     };
 
     postWithTagsReplacer = (text: string, tags: Array<string>) => {
@@ -316,6 +317,14 @@ class Post extends Component<any> {
         this.setState({snackBarOpen: false})
     };
 
+    handleOpenModal = () => {
+        this.setState({openComplainModal: true})
+    };
+
+    handleCloseModal = () => {
+        this.setState({openComplainModal: false})
+    };
+
     render() {
         const { post, authUser, classes } = this.props;
 
@@ -383,7 +392,8 @@ class Post extends Component<any> {
                                 open={Boolean(this.state.anchorEl)} onClose={this.handleClose}
                                 anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                                 transformOrigin={{vertical: 'top', horizontal: 'right'}}>
-                                <MenuItem name="complain" id="complain" onClick={this.handleClose}>Complain</MenuItem>
+                                <MenuItem name="complain" id="complain" onClick={this.handleOpenModal}>Complain</MenuItem>
+                                <ModalComplain open={this.state.openComplainModal} onClose={this.handleCloseModal}/>
                             </Menu>
                             :
                             <Menu classes={{paper: classes.paper}} id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
