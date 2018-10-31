@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 const styles = (theme: Theme) => createStyles({
 	toolBar: {
 		display: 'flex',
-		justifyContent: 'space-between',
+		justifyContent: 'flex-start',
 		padding: 0,
 		maxWidth: '1100px',
 		minWidth: '1000px',
@@ -39,8 +39,8 @@ const styles = (theme: Theme) => createStyles({
 		textDecoration: 'none',
 	},
 	barIcons: {
-    float: 'right',
-    display: "inline-flex",
+    display: 'inline-flex',
+    marginLeft: 'auto',
 	}
 });
 
@@ -89,7 +89,7 @@ class MainAppBar extends Component<any> {
 									<img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
 									<h2 style={{fontFamily: 'HelveticaNeueCyr'}}>icoWorld</h2>
 								</a>
-								<div className="bar-menu">
+								<div style={{marginLeft: '130px'}}>
 									<Tabs
 											value={value}
 											// onChange={this.handleChange}
@@ -100,7 +100,7 @@ class MainAppBar extends Component<any> {
 										<this.LinkTab label="Messages" to="/messages" />
 										<this.LinkTab label="Investors" to="/investors" />
 										<this.LinkTab label="Projects" to="/projects" />
-										<this.LinkTab label="Pools" to="/pools" />
+										{/* <this.LinkTab label="Pools" to="/pools" /> */}
 									</Tabs>
 								</div>
 								<div className={classes.barIcons}>

@@ -158,7 +158,7 @@ class Projects extends Component<any> {
 
 										<ul className={classes.poolsList}>
 											{/* {this.state.foundPools.length === 0 ? <Typography className={`text ${classes.noResults}`}>No results found</Typography> : pools} */}
-											<Typography className={`text ${classes.noResults}`}>We are going to open the registration of projects after creating the SCAM-protection infrastructure. Please, give us a lot of time for this.</Typography>
+											<Typography className={`text ${classes.noResults}`}>We are going to open the registration of projects after creating the scam-protection infrastructure. Please give us ample time for this.</Typography>
 										</ul>
 
 									</div>

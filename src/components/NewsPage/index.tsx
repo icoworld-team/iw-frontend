@@ -290,7 +290,7 @@ class News extends Component<any> {
                         }}
                         label="Subscribed"
                       />
-                      <Tab
+                      {/* <Tab
                         disableRipple
                         classes={{
                           root: `tab-root`,
@@ -298,7 +298,7 @@ class News extends Component<any> {
                           labelContainer: `tab-label-container`
                         }}
                         label="Popular"
-                      />
+                      /> */}
                       <Tab
                         disableRipple
                         classes={{
@@ -325,7 +325,7 @@ class News extends Component<any> {
                     }}
                 </Query>}
 
-                {this.state.tab === 1 &&
+                {/* {this.state.tab === 1 &&
                 <Query query={SEARCH_POST} variables={input}>
                     {({ loading, error, data }) => {
                         if(loading) return <div>Loading</div>;
@@ -335,9 +335,9 @@ class News extends Component<any> {
                             <PostList updateData={this.updateData} posts={data.searchPost}/>
                         )
                     }}
-                </Query>}
+                </Query>} */}
                 
-                {this.state.tab === 2 &&
+                {this.state.tab === 1 &&
                 <Query query={SEARCH_POST} variables={input}>
                     {({ loading, error, data }) => {
                         if(loading) return <div>Loading</div>;

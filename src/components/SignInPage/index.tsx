@@ -49,11 +49,7 @@ const styles = () => createStyles({
         textDecoration: 'none',
     },
     linkButton: {
-        textDecoration: 'none',
         color: '#2D3546',
-        '&:hover': {
-            textDecoration: 'underline',
-        },
     },
 });
 
@@ -117,7 +113,7 @@ class SignInPage extends Component<any> {
         const { classes } = this.props;
 
         const errorMessages = {
-            login: 'Неверный Email и/или Password!',
+            login: 'Invalid email or password',
         };
 
         return (

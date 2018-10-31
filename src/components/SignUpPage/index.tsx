@@ -48,11 +48,7 @@ const styles = () => createStyles({
         textDecoration: 'none',
     },
     linkButton: {
-        textDecoration: 'none',
         color: '#2D3546',
-        '&:hover': {
-            textDecoration: 'underline',
-        },
     },
     disabled: {
         backgroundColor: 'rgba(139, 139, 139, 0.12)!important',
@@ -153,8 +149,8 @@ class SignUpPage extends Component<any> {
         const { classes } = this.props;
         
         const errorMessages = {
-            email: 'Такой Email уже используется',
-            nickname: 'Такой Nickname уже используется',
+            email: 'This mail already exists',
+            nickname: 'This nickname already exists',
         };
 
         let notEmpty = this.state.name && this.state.lastname && this.state.email && this.state.password && this.state.nickname;
