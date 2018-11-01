@@ -39,9 +39,12 @@ const client = new ApolloClient({
         onError(({graphQLErrors, networkError}) => {
             if (graphQLErrors) {
                 graphQLErrors.forEach(error => {
-                    if((error.extensions as any).code === '405') {
+                    if((error.extensions as any).code === '401') {
                         localStorage.removeItem("user");
                         window.location.reload();
+                    }
+                    if((error.extensions as any).code === '405') {
+                        console.log(error);
                     }
                     else console.log(`[GraphQL error]: Message: ${error.message}, Location: ${error.locations}, Path: ${error.path}`)
                 })

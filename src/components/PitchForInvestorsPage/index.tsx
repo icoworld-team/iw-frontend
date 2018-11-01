@@ -2,6 +2,8 @@ import React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import Scrollbar from "react-custom-scrollbars";
 import Checkbox from '@material-ui/core/Checkbox';
+import { withApollo } from 'react-apollo';
+import { SEND_EMAIL } from "../../api/graphql";
 // import './css.css'
 
 const styles = () => createStyles({
@@ -160,7 +162,11 @@ class PitchForInvestorsPage extends React.Component<any> {
     privacyModal: false,
     investmentAmount: '',
     checkedB: false,
-  }
+    name: '',
+    country: '',
+    email: '',
+    telegram: '',
+  };
 
   handlePrivacyClose = (e: any) => {
     let clickBloc = e.target;
@@ -198,10 +204,14 @@ class PitchForInvestorsPage extends React.Component<any> {
     })
   }
 
-  handleChange = (name: any) => (e: any) => {
-      let elem = e.target
-      console.log(elem.getAttribute('id'))
-      this.setState({ [name]: e.target.checked });
+  handleChange = (e: any) => {
+      this.setState({
+          [e.target.name]: e.target.value
+      })
+  };
+
+  handleCheckbox = () => {
+    this.setState((state:any) => ({checkedB: !state.checkedB}));
   };
 
   replacer = (e: any) => {
@@ -223,6 +233,21 @@ class PitchForInvestorsPage extends React.Component<any> {
     };
     return <div {...props} style={{ ...style, ...customStyle }} />;
   }
+
+  sendEmail = async () => {
+    const { name, country, email, telegram, investmentAmount} = this.state;
+    const variables = {
+      addr: `icoworldwl@gmail.com`,
+      title: `White List`,
+      content: `${name} ${country} ${email} ${telegram ? telegram : 'NONE'} ${investmentAmount}`
+    };
+    const result = await this.props.client.query({
+        query: SEND_EMAIL,
+        variables: variables,
+        fetchPolicy: 'network-only'
+    });
+    console.log(result.sendEmail);
+  };
 
   render() {
     const { classes } = this.props;
@@ -400,23 +425,27 @@ class PitchForInvestorsPage extends React.Component<any> {
                 <div className={classes.formContainer}>
                   <h3 style={{fontWeight: 400, fontSize: '16px'}}>White List:</h3>
                   <form action="" style={{display: 'flex', flexDirection: 'column'}}>
-                    <input type="text" name="name" id="name" placeholder="Name*" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} />
-                    <input type="text" name="country" id="country" placeholder="Country*" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} />
-                    <input type="text" name="email" id="email" placeholder="Email*" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} />
-                    <input type="text" name="telegram" id="telegram" placeholder="Telegram" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} />
+                    <input type="text" name="name" id="name" placeholder="Name*" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} onChange={this.handleChange} />
+                    <input type="text" name="country" id="country" placeholder="Country*" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} onChange={this.handleChange} />
+                    <input type="text" name="email" id="email" placeholder="Email*" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} onChange={this.handleChange} />
+                    <input type="text" name="telegram" id="telegram" placeholder="Telegram" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} onChange={this.handleChange} />
                     <input type="text" name="investmentAmount" id="investmentAmount"
                       placeholder="Amount of investment (USD)*" className={`input border-input ${classes.input}`}
                       value={this.state.investmentAmount} onChange={this.replacer}
                     />
+                    <button className={classes.button} onClick={(e) => {
+                      e.preventDefault();
+                      if (this.state.checkedB && this.state.name && this.state.country && this.state.email && this.state.investmentAmount) this.sendEmail();
+                    }}>Submit</button>
                     <div className={classes.checkboxContainer} style={{display: 'flex', marginTop: '10px', cursor: 'pointer'}}>
                       <Checkbox
                         id="checkbox"
-                        style={{width: '22px', height: '22px', marginRight: '10px'}}
+                        style={{width: '22px', height: '22px', marginRight: '10px', color: '#303546'}}
+                        onChange={this.handleCheckbox}
                         // checked={this.state.checkedB}
                         // value="checkedB"
                         color="primary"
                       />
-                      
                       <p style={{fontSize: '14px'}}><label htmlFor="checkbox" style={{cursor: 'pointer'}}>I have read understand and agree to the</label> <label htmlFor="checkbox1"><span className={classes.link} onClick={this.handlePrivacyOpen}>Privacy Policy</span></label></p>
                     </div>
 
@@ -428,7 +457,6 @@ class PitchForInvestorsPage extends React.Component<any> {
                       </div>
                     </div> */}
 
-                    <button className={classes.button} type="submit" onClick={(e) => {e.preventDefault()}}>Submit</button>
                   </form>
                 </div>
               </div>
@@ -578,4 +606,4 @@ class PitchForInvestorsPage extends React.Component<any> {
   }
 }
 
-export default withStyles(styles)(PitchForInvestorsPage)
+export default withStyles(styles)(withApollo(PitchForInvestorsPage))
