@@ -41,8 +41,6 @@ const styles = (theme: Theme) =>
       marginRight: "15px",
       textAlign: "center",
       width: "260px",
-      maxWidth: "260px",
-      boxSizing: "border-box",
       padding: 0
     },
     profileInfoItem: {
@@ -96,7 +94,6 @@ const styles = (theme: Theme) =>
 
     profileContent: {
       width: "555px",
-      maxWidth: "555px",
       marginRight: "15px"
     },
 
@@ -328,7 +325,7 @@ class Profile extends Component<any> {
     };
 
     return (
-      <Grid container spacing={0}>
+      <Grid container spacing={0} style={{overflowX: 'hidden'}}>
         <Grid item xs={1} />
         <Grid item xs={10}>
           <div className={`page-content`}>

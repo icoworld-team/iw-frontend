@@ -23,10 +23,10 @@ export default class Chat extends Component<any> {
             </div>
         );
         return (
-                <Grid container spacing={0}>
+                <Grid container spacing={0} style={{overflowX: 'hidden'}}>
                     <Grid item xs={1}></Grid>
                     <Grid item xs={10}>
-                        <div className="chat-box">
+                        <div className="page-content" style={{alignItems: 'stretch', height: 'calc(100vh - 108px)'}}>
                             <div className="chat-sidenav">
                                 <ChatContactsList onSelectUser={this.onSelectUser}/>
                             </div>

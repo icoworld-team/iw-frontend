@@ -342,7 +342,7 @@ class Post extends Component<any> {
                                     </div>
 
                                     <Typography className={classes.postDate}>
-                                        {`${relativeTime(post.date)} ${post.__typename === 'Repost' ? '*Repost*' : ''} ${this.props.pinPost === post.postId ? '*Pined*' : '' }`}
+                                        {`${relativeTime(post.date)} ${post.__typename === 'Repost' ? '*Repost*' : ''} ${this.props.pinPost === post.postId ? '*Pinned*' : '' }`}
                                         </Typography>
                                 </div>
                             </div>

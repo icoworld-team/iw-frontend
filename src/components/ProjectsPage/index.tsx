@@ -146,7 +146,7 @@ class Projects extends Component<any> {
 				<Grid container spacing={0}>
 					<Grid item xs={1} />
 
-					<Grid item xs={10}>
+					<Grid item xs={10} style={{overflowX: 'hidden'}}>
 						<div className={`page-content`}>
 							<div className={classes.poolsLeft}>
 

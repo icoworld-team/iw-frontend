@@ -154,7 +154,7 @@ class ProfileSettings extends Component<any> {
                   return (
                       <>
                           <div className={classes.subHeader}>
-                              <Grid container spacing={0}>
+                              <Grid container spacing={0} style={{overflowX: 'hidden'}}>
                                   <Grid item xs={1} />
 
                                   <Grid item xs={10} className={classes.subHeaderContainer}>

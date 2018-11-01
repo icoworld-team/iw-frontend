@@ -81,7 +81,7 @@ class InvestorsPage extends React.Component<any> {
 
         return (
             <div>
-                <Grid container spacing={0}>
+                <Grid container spacing={0} style={{overflowX: 'hidden'}}>
                     <Grid item xs={1}></Grid>
                     <Grid item xs={10}>
 

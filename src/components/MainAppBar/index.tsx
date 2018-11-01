@@ -15,8 +15,7 @@ const styles = (theme: Theme) => createStyles({
 		display: 'flex',
 		justifyContent: 'flex-start',
 		padding: 0,
-		maxWidth: '1100px',
-		minWidth: '1000px',
+		width: '1100px',
 		margin: '0 auto'
 	},
 	tabsIndicator: {

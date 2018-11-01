@@ -3,14 +3,14 @@ import MainAppBar from '../MainAppBar'
 import { Switch } from "react-router";
 import { Route, Redirect } from 'react-router-dom'
 // import PrivateRoute from '../PrivateRoute'
-import PoolCreate from "../PoolCreate";
+// import PoolCreate from "../PoolCreate";
 import InvestorsPage from "../InvestorsPage";
 import NewsPage from "../NewsPage";
 import Profile from "../Profile";
 // import PoolSearch from "../PoolSearch";
 import ProjectsPage from "../ProjectsPage";
 import Chat from "../Chat";
-import PoolInfo from "../PoolInfo";
+// import PoolInfo from "../PoolInfo";
 import Settings from "../ProfileSettings";
 import {socket} from "../../api";
 import {addContact, addMessage, chatUnMount, logOut, setContacts, setInitialMsg, updateContacts} from "../../actions";
@@ -134,8 +134,8 @@ class MainApp extends Component<any> {
                         <Route path="/profile" component={Profile}/>
                         {/* <Route path="/pools" component={PoolSearch}/> */}
                         <Route path="/projects" component={ProjectsPage}/>
-                        <Route exact path="/create-pool" component={PoolCreate}/>
-                        <Route exact path="/pool-info" component={PoolInfo}/>
+                        {/* <Route exact path="/create-pool" component={PoolCreate}/> */}
+                        {/* <Route exact path="/pool-info" component={PoolInfo}/> */}
                         <Route exact path="/investors" component={InvestorsPage}/>
                         <Route exact path="/feed" component={NewsPage}/>
                         <Route exact path="/messages" component={Chat}/>

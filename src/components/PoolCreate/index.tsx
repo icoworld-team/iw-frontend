@@ -136,7 +136,7 @@ class PoolCreate extends Component<any> {
     };
 
     return (
-        <Grid container spacing={0}>
+        <Grid container spacing={0} style={{overflowX: 'hidden'}}>
           <Grid item xs={1} />
           <Grid item xs={10}>
             <div className={`page-content`}>

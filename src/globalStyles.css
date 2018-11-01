@@ -61,7 +61,7 @@ p {
   border-radius: 2px;
   position: relative;
   box-sizing: border-box;
-  flex: 1;
+  /* flex: 1; */
   /* border: 1px solid #c1c1c1; */
 }
 
