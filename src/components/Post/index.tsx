@@ -193,6 +193,16 @@ const styles = () => createStyles({
     paper: {
         marginTop: '20px',
     },
+    iconButton: {
+        '&:hover': {
+            backgroundColor: 'transparent',
+        },
+    },
+    commentInput: {
+        '&:after': {
+            borderBottom: '2px solid #2d3546'
+        }
+    }
 });
 
 class Post extends Component<any> {
@@ -292,7 +302,9 @@ class Post extends Component<any> {
     };
 
     handleClickShowInput = () => {
-        this.setState((state:any) => ({ showInput: !state.showInput }));
+        if(!this.state.showComments) {
+            this.setState((state:any) => ({ showInput: !state.showInput }));
+        }
     };
 
     handleSendComment = () => {
@@ -310,7 +322,7 @@ class Post extends Component<any> {
     };
 
     handleShowComments = () => {
-        this.setState((state:any) => ({ showComments: !state.showComments }));
+        this.setState((state:any) => ({ showComments: !state.showComments, showInput: false }));
     };
 
     handleSnackBar = () => {
@@ -327,7 +339,57 @@ class Post extends Component<any> {
 
     render() {
         const { post, authUser, classes } = this.props;
+        const createCommentControl = (
+            <FormControl fullWidth={true} className={classes.textField}>
+                <Mutation mutation={CREATE_COMMENT} onCompleted={() => {
+                    if(this.state.showComments) {
+                        this.setState({comment: ''});
+                    }
+                    else {
+                        this.setState({comment: '', showInput: false});
+                    }
+                }} onError={(error)=>console.log(error)}
+                          update={(cache, {data: { createComment }}) => {
+                              const data = cache.readQuery({query: GET_COMMENTS, variables: {postId: post.postId}});
+                              const comments = (data as any).getComments.concat(createComment);
+                              cache.writeQuery({query: GET_COMMENTS, variables: {postId: post.postId}, data: {getComments: comments}});
+                          }} refetchQueries={[{query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}}, {query: SEARCH_POST, variables: {searchText: ""}}]}>
+                    {createComment => {
+                        return (
+                            <Input
+                                id="comment"
+                                name="comment"
+                                type='text'
+                                className={classes.commentInput}
+                                value={this.state.comment}
+                                onChange={this.handleChange}
+                                onKeyDown={(e) => {
+                                    if (e.keyCode === 13 && this.state.comment.length) {
+                                        createComment({variables: {postId: post.postId, content: this.state.comment}})
+                                    }
+                                }}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            className={classes.iconButton}
+                                            aria-label="Toggle comment input"
+                                            onClick={() => {if (this.state.comment.length)
+                                            {
+                                                createComment({variables: {postId: post.postId, content: this.state.comment}})
+                                            }
+                                            }}
+                                        >
+                                            <Send />
+                                        </IconButton>
 
+                                    </InputAdornment>
+                                }
+                            />
+                        )
+                    }}
+                </Mutation>
+            </FormControl>
+        );
         return (
             <div className={`card ${classes.postCard}`}>
                 <div className={classes.postBody}>
@@ -541,48 +603,17 @@ class Post extends Component<any> {
                         />
                     </div>
                     <div className={`${classes.container} ${this.state.showInput ? classes.show : classes.hidden}`}>
-                        <FormControl fullWidth={true} className={classes.textField}>
-                            <Input
-                                id="comment"
-                                name="comment"
-                                type='text'
-                                value={this.state.comment}
-                                onChange={this.handleChange}
-                                onKeyDown={this.handleKeyDownSendComment}
-                                endAdornment={
-                                <InputAdornment position="end">
-                                    <Mutation mutation={CREATE_COMMENT} onCompleted={() => this.setState({comment: ''})} onError={(error)=>console.log(error)}
-                                              update={(cache, {data: { createComment }}) => {
-                                                  const data = cache.readQuery({query: GET_COMMENTS, variables: {postId: post.postId}});
-                                                  const comments = (data as any).getComments.concat(createComment);
-                                                  cache.writeQuery({query: GET_COMMENTS, variables: {postId: post.postId}, data: {getComments: comments}});
-                                              }}>
-                                        {createComment => {
-                                            return (
-                                                <IconButton
-                                                    aria-label="Toggle comment input"
-                                                    onClick={() => {if (this.state.comment.length) 
-                                                        {
-                                                            createComment({variables: {postId: post.postId, content: this.state.comment}})
-                                                        }
-                                                    }}
-                                                >
-                                                    <Send />
-                                                </IconButton>
-                                                )
-                                        }}
-                                    </Mutation>
-                                </InputAdornment>
-                                }
-                            />
-                        </FormControl>
+                        {createCommentControl}
                     </div>
                 </div>
                 {post.comments ? (post.comments.length ? (this.state.showComments === false
                     ? <div className={classes.hideComments} onClick={this.handleShowComments}>
                         <Typography className={classes.hideCommentsText}>See comments</Typography>
                     </div>
-                    : <PostComments postId={post.postId} />) : '') : ''}
+                    : <div>
+                        <PostComments postId={post.postId} />
+                        {createCommentControl}
+                </div>) : '') : ''}
                     
                 <SnackBar open={this.state.snackBarOpen} anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
                           onClose={this.handleSnackBar} message={<span>Reposted</span>}/>
