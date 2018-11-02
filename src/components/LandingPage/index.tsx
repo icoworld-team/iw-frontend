@@ -312,9 +312,9 @@ class LandingPage extends React.Component<any> {
     let d = Math.floor(h / 24);
     let dd = Math.floor(h % 24);
     this.setState({
-      mins: Math.floor(min % 60),
-      hours: dd,
-      days: d,
+      mins: Math.floor(min % 60) >= 0 ? Math.floor(min % 60) : 0,
+      hours: dd >= 0 ? dd : 0,
+      days: d >= 0 ? d : 0,
     })
   }
 

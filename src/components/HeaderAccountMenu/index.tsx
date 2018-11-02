@@ -8,10 +8,10 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import EditIcon from '@material-ui/icons/Edit';
-import InfoIcon from '@material-ui/icons/Info';
+// import InfoIcon from '@material-ui/icons/Info';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { handleErrors, fetchGet, endpoint } from '../../api'
 import { push } from "react-router-redux";
 import { logOut } from "../../actions";
@@ -103,14 +103,14 @@ class SimpleMenu extends React.Component<any> {
               <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Settings" />
           </MenuItem>
 
-          <MenuItem className={classes.menuItem} onClick={this.handleClose}>
+          {/* <MenuItem className={classes.menuItem} onClick={this.handleClose}>
             <Link className={classes.menuLink} to="/contacts">
               <ListItemIcon className={classes.icon}>
                 <InfoIcon />
               </ListItemIcon>
               <ListItemText classes={{ primary: classes.primary, root: classes.primaryRoot }} inset primary="Help" />
             </Link>
-          </MenuItem>
+          </MenuItem> */}
 
           <MenuItem className={classes.menuItem} onClick={this.handleLogOut}>
               <ListItemIcon className={classes.icon}>

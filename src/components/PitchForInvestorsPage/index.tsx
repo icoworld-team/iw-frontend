@@ -2,7 +2,6 @@ import React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import Scrollbar from "react-custom-scrollbars";
 import Checkbox from '@material-ui/core/Checkbox';
-// import './css.css'
 
 const styles = () => createStyles({
   wrapper: {
@@ -410,23 +409,15 @@ class PitchForInvestorsPage extends React.Component<any> {
                     />
                     <div className={classes.checkboxContainer} style={{display: 'flex', marginTop: '10px', cursor: 'pointer'}}>
                       <Checkbox
+                        disableRipple={true}
                         id="checkbox"
-                        style={{width: '22px', height: '22px', marginRight: '10px'}}
+                        style={{width: '22px', height: '22px', marginRight: '10px', color: 'rgb(48, 53, 70)'}}
                         // checked={this.state.checkedB}
                         // value="checkedB"
-                        color="primary"
                       />
                       
                       <p style={{fontSize: '14px'}}><label htmlFor="checkbox" style={{cursor: 'pointer'}}>I have read understand and agree to the</label> <label htmlFor="checkbox1"><span className={classes.link} onClick={this.handlePrivacyOpen}>Privacy Policy</span></label></p>
                     </div>
-
-                    {/* <div className="coloured" style={{marginTop: '10px'}}>
-                      <div className="checkbox">
-                        <label style={{cursor: 'pointer', display: 'flex'}}>
-                          <input type="checkbox" /><span className="checkbox-material"><span className="check"></span></span> <p style={{fontSize: '14px'}}>I have read understand and agree to the <span className={classes.link} onClick={this.handlePrivacyOpen}>Privacy Policy</span></p>
-                        </label>
-                      </div>
-                    </div> */}
 
                     <button className={classes.button} type="submit" onClick={(e) => {e.preventDefault()}}>Submit</button>
                   </form>
