@@ -30,5 +30,17 @@ export const fetchGet =  (url:string) => {
     });
 };
 
+export const sendEmail = (addr:string, title:string, content:string) => {
+    return fetch(`${endpoint}/sendEmail`, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify({addr, title, content}),
+        credentials: "include",
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    }).then(response => handleErrors(response));
+};
+
 import io from 'socket.io-client'
 export const socket = io(endpoint, { transports: ['websocket'], autoConnect: false });
