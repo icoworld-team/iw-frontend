@@ -202,6 +202,9 @@ const styles = () => createStyles({
         '&:after': {
             borderBottom: '2px solid #2d3546'
         }
+    },
+    inputInsideComments: {
+        padding: '0 15px 10px 15px',
     }
 });
 
@@ -612,7 +615,9 @@ class Post extends Component<any> {
                     </div>
                     : <div>
                         <PostComments postId={post.postId} />
-                        {createCommentControl}
+                        <div className={classes.inputInsideComments}>
+                            {createCommentControl}
+                        </div>
                 </div>) : '') : ''}
                     
                 <SnackBar open={this.state.snackBarOpen} anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}

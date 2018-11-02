@@ -501,3 +501,9 @@ export const ADD_IMAGE = gql`
 		addImage(postId: $postId, imageId: $imageId)
 	}
 `;
+
+export const SEND_EMAIL = gql`
+	query sendEmail($addr: String!, $title: String!, $content: String!) {
+		sendEmail(addr: $addr, title: $title, content: $content)
+	}
+`;
