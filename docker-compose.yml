@@ -1,7 +1,7 @@
 version: '2'
 
 networks:
-  iwbackend_hostnet:
+  efk_fluentd:
     external: true
 
 services:
@@ -9,4 +9,6 @@ services:
     build: .
     networks:
       iwbackend_hostnet:
-        ipv4_address: 172.30.0.111
+        ipv4_address: 172.18.0.111
+    ports:
+      - "80:3000"

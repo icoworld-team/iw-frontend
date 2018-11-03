@@ -3,8 +3,8 @@ import { withStyles, createStyles } from '@material-ui/core/styles';
 import Scrollbar from "react-custom-scrollbars";
 import Checkbox from '@material-ui/core/Checkbox';
 import { withApollo } from 'react-apollo';
-import { SEND_EMAIL } from "../../api/graphql";
-// import './css.css'
+// import { SEND_EMAIL } from "../../api/graphql";
+import { sendEmail } from '../../api'
 
 const styles = () => createStyles({
   wrapper: {
@@ -151,7 +151,8 @@ const styles = () => createStyles({
     borderRadius: '3px',
     color: '#fff',
     fontSize: '16px',
-    marginTop: '10px',
+    marginTop: '15px',
+    marginBottom: '5px',
     cursor: 'pointer',
   },
 });
@@ -166,6 +167,8 @@ class PitchForInvestorsPage extends React.Component<any> {
     country: '',
     email: '',
     telegram: '',
+    formError: false,
+    fetchError: false,
   };
 
   handlePrivacyClose = (e: any) => {
@@ -234,19 +237,43 @@ class PitchForInvestorsPage extends React.Component<any> {
     return <div {...props} style={{ ...style, ...customStyle }} />;
   }
 
+  handleSubmit = (e:any) => {
+    e.preventDefault();
+    if (this.state.checkedB && this.state.name && this.state.country && this.state.email && this.state.investmentAmount) this.sendEmail();
+    else this.setState({formError: true});
+  };
+
   sendEmail = async () => {
     const { name, country, email, telegram, investmentAmount} = this.state;
-    const variables = {
-      addr: `icoworldwl@gmail.com`,
-      title: `White List`,
-      content: `${name} ${country} ${email} ${telegram ? telegram : 'NONE'} ${investmentAmount}`
+    const initState = {
+      open: false,
+      investmentAmount: '',
+      checkedB: false,
+      name: '',
+      country: '',
+      email: '',
+      telegram: '',
+      formError: false,
+      fetchError: false,
     };
-    const result = await this.props.client.query({
-        query: SEND_EMAIL,
-        variables: variables,
-        fetchPolicy: 'network-only'
-    });
-    console.log(result.sendEmail);
+    // const variables = {
+    //   addr: `icoworldwl@gmail.com`,
+    //   title: `White List`,
+    //   content: `${name} ${country} ${email} ${telegram ? telegram : 'NONE'} ${investmentAmount}`
+    // };
+    const content = `${name} ${country} ${email} ${telegram ? telegram : 'NONE'} ${investmentAmount}`;
+    sendEmail('icoworldwl@gmail.com', `White List`, content)
+        .then(() => this.setState(initState))
+        .catch(error => {
+            console.log(error);
+            this.setState({fetchError: true});
+        })
+    // const result = await this.props.client.query({
+    //     query: SEND_EMAIL,
+    //     variables: variables,
+    //     fetchPolicy: 'network-only'
+    // });
+    // console.log(result.sendEmail);
   };
 
   render() {
@@ -424,6 +451,8 @@ class PitchForInvestorsPage extends React.Component<any> {
                 </div>
                 <div className={classes.formContainer}>
                   <h3 style={{fontWeight: 400, fontSize: '16px'}}>White List:</h3>
+                  {this.state.formError && <h3 style={{fontWeight: 400, fontSize: '12px', color: 'red'}}>Required fields cannot be empty</h3>}
+                  {this.state.fetchError && <h3 style={{fontWeight: 400, fontSize: '12px', color: 'red'}}>Something went wrong. Please try again</h3>}
                   <form action="" style={{display: 'flex', flexDirection: 'column'}}>
                     <input type="text" name="name" id="name" placeholder="Name*" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} onChange={this.handleChange} />
                     <input type="text" name="country" id="country" placeholder="Country*" className={`input border-input ${classes.input}`} style={{marginBottom: '10px'}} onChange={this.handleChange} />
@@ -433,29 +462,18 @@ class PitchForInvestorsPage extends React.Component<any> {
                       placeholder="Amount of investment (USD)*" className={`input border-input ${classes.input}`}
                       value={this.state.investmentAmount} onChange={this.replacer}
                     />
-                    <button className={classes.button} onClick={(e) => {
-                      e.preventDefault();
-                      if (this.state.checkedB && this.state.name && this.state.country && this.state.email && this.state.investmentAmount) this.sendEmail();
-                    }}>Submit</button>
+                    <button className={classes.button} onClick={this.handleSubmit}>
+                      Submit
+                    </button>
                     <div className={classes.checkboxContainer} style={{display: 'flex', marginTop: '10px', cursor: 'pointer'}}>
                       <Checkbox
+                        disableRipple={true}
                         id="checkbox"
                         style={{width: '22px', height: '22px', marginRight: '10px', color: '#303546'}}
                         onChange={this.handleCheckbox}
-                        // checked={this.state.checkedB}
-                        // value="checkedB"
-                        color="primary"
                       />
-                      <p style={{fontSize: '14px'}}><label htmlFor="checkbox" style={{cursor: 'pointer'}}>I have read understand and agree to the</label> <label htmlFor="checkbox1"><span className={classes.link} onClick={this.handlePrivacyOpen}>Privacy Policy</span></label></p>
+                        <p style={{fontSize: '14px'}}><label htmlFor="checkbox" style={{cursor: 'pointer'}}>I have read understand and agree to the</label> <label htmlFor="checkbox1"><span className={classes.link} onClick={this.handlePrivacyOpen}>Privacy Policy</span></label></p>
                     </div>
-
-                    {/* <div className="coloured" style={{marginTop: '10px'}}>
-                      <div className="checkbox">
-                        <label style={{cursor: 'pointer', display: 'flex'}}>
-                          <input type="checkbox" /><span className="checkbox-material"><span className="check"></span></span> <p style={{fontSize: '14px'}}>I have read understand and agree to the <span className={classes.link} onClick={this.handlePrivacyOpen}>Privacy Policy</span></p>
-                        </label>
-                      </div>
-                    </div> */}
 
                   </form>
                 </div>
