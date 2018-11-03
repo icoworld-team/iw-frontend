@@ -7,8 +7,9 @@ networks:
 services:
   frontend:
     build: .
+    image: frontend
+    container_name: front
     networks:
-      efk_fluentd:
-        ipv4_address: 172.18.0.111
+      - efk_fluentd
     ports:
-      - "80:3000"
+      - "80:80"
