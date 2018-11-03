@@ -1,14 +1,13 @@
 version: '2'
 
 networks:
-  iwbackend_hostnet:
+  efk_hostnet:
     external: true
 
 services:
   frontend:
     build: .
     networks:
-      iwbackend_hostnet:
-        ipv4_address: 172.18.0.111
+      - efk_hostnet
     ports:
       - "80:80"
