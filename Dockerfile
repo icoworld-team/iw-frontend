@@ -1,8 +1,12 @@
-FROM node
+FROM node:carbon AS frontbuilder
 
-WORKDIR /app
-COPY . /app
-EXPOSE 3000
-RUN npm install 
+WORKDIR /frontbuild
+COPY ./package*.json /frontbuild/
+RUN npm install
 
-CMD ["npm", "start"] 
+COPY . /frontbuild
+RUN npm run build
+
+FROM nginx
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=frontbuilder /frontbuild/build /usr/share/nginx/html

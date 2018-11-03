@@ -1,0 +1,14 @@
+version: '2'
+
+#networks:
+#  efk_fluentd:
+#    external: true
+
+services:
+  frontend:
+    build: .
+    #    networks:
+    #      efk_fluentd:
+    #        ipv4_address: 172.18.0.111
+    ports:
+      - "80:3000"
