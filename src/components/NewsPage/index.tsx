@@ -6,7 +6,13 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
-import {SEARCH_POST, GET_TOP_USERS, GET_FOLLOWS_POSTS, GET_NEWS, GET_POPULAR_TAGS} from '../../api/graphql'
+import {
+    SEARCH_POST,
+    GET_TOP_USERS,
+    GET_NEWS,
+    GET_POPULAR_TAGS,
+    SEARCH_FOLLOW_POSTS
+} from '../../api/graphql'
 import { Query } from 'react-apollo';
 import { connect } from "react-redux";
 import Scrollbar from "react-custom-scrollbars";
@@ -206,9 +212,9 @@ class News extends Component<any> {
       searchText: this.state.searchText,
     };
 
-    const id = {
-      userId: this.props.authUser.id,
-    };
+    // const id = {
+    //   userId: this.props.authUser.id,
+    // };
 
     let date = new Date();
     const yearAgo = date.setFullYear(date.getFullYear()-1);
@@ -305,13 +311,13 @@ class News extends Component<any> {
                 </div>
 
                 {this.state.tab === 0 &&
-                <Query query={GET_FOLLOWS_POSTS} variables={id}>
+                <Query query={SEARCH_FOLLOW_POSTS} variables={{userId: this.props.authUser.id, txt: this.state.searchText}}>
                     {({ loading, error, data }) => {
                         if(loading) return <div>Loading</div>;
                         if(error) return `Error: ${error}`;
-                        if(data.getFollowsPosts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
+                        if(data.searchInFollowsPosts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
                         return (
-                            <PostList updateData={this.updateData} posts={data.getFollowsPosts} location={this.props.location.pathname} />
+                            <PostList updateData={this.updateData} posts={data.searchInFollowsPosts} location={this.props.location.pathname} />
                         )
                     }}
                 </Query>}
