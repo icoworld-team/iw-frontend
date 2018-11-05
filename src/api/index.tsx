@@ -1,4 +1,4 @@
-export const endpoint = 'https://icoworld.network';
+export const endpoint = '//icoworld.network:443';
 
 export const handleErrors = (response:any) => {
     if(!response.ok){
