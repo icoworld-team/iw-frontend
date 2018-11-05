@@ -421,7 +421,7 @@ class Post extends Component<any> {
                                     anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                                     transformOrigin={{vertical: 'top', horizontal: 'right'}}>
                                 {this.props.location === '/profile' ? <Mutation mutation={PIN_POST} onCompleted={this.handleClose}
-                                    onError={(error)=>console.log(error)}
+                                    onError={(error)=>console.log(error)} refetchQueries={[{query: GET_USER, variables: {userId: authUser.id}}]}
                                 >
                                     {pinPost => {
                                         return (

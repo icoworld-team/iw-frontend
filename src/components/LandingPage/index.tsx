@@ -1,6 +1,6 @@
 import React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles';
-import { Link, Element } from 'react-scroll';
+// import { Link } from 'react-scroll';
 import Scrollbar from "react-custom-scrollbars";
 
 const styles = () => createStyles({
@@ -318,6 +318,15 @@ class LandingPage extends React.Component<any> {
     })
   }
 
+  handleClick(e:any) {
+    let to = e.target.getAttribute('data-to')
+    let element: any = document.getElementById(to);
+    if(element !== null) {
+      element.scrollIntoView({block: 'start', behavior: 'smooth'})
+    }
+    return void(0)
+  }
+
   renderThumbVertical({ style, ...props }: any) {
     const customStyle = {
       backgroundColor: `rgb(45, 53, 70)`,
@@ -332,29 +341,27 @@ class LandingPage extends React.Component<any> {
 
     return (
       <Scrollbar autoHeight={true} autoHeightMax={'100vh'} renderThumbVertical={this.renderThumbVertical}>
-        <div className={classes.wrapper}>
+        <div className={classes.wrapper} id="first">
 
-          <header className={classes.header}>
+          <header className={classes.header} data-to='first' onClick={this.handleClick}>
             <div className={classes.headerContainer}>
-              <Link to="first" smooth={true} offset={-280} duration={500}>
-                <a href='#' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
-                  <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
-                  <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
-                </a>
-              </Link>
+              <span data-to='first' onClick={this.handleClick} style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit', cursor: 'pointer'}}>
+                <img data-to='first' onClick={this.handleClick} style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
+                <h2 data-to='first' onClick={this.handleClick} style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
+              </span>
               <div className={classes.headerLinks}>
                 <ul className={classes.headerLinksList}>
                   <li className={classes.headerLinksItem}>
-                    <Link to="solutions" smooth={true} offset={-100} duration={500}>Solutions</Link>
+                    <span data-to='solutions' onClick={this.handleClick}>Solutions</span>
                   </li>
                   <li className={classes.headerLinksItem}>
-                    <Link to="roadmap" smooth={true} offset={-80} duration={500}>Roadmap</Link>
+                    <span data-to='roadmap' onClick={this.handleClick}>Roadmap</span>
                   </li>
                   <li className={classes.headerLinksItem}>
-                    <Link to="team" smooth={true} offset={-80} duration={500}>Team</Link>
+                    <span data-to='team' onClick={this.handleClick}>Team</span>
                   </li>
                   <li className={classes.headerLinksItem}>
-                    <Link to="contacts" smooth={true} duration={500}>Contacts</Link>
+                    <span data-to='contacts' onClick={this.handleClick}>Contacts</span>
                   </li>
                 </ul>
               </div>
@@ -362,7 +369,6 @@ class LandingPage extends React.Component<any> {
           </header>
 
           <div className={classes.section} style={{paddingTop: '280px', paddingBottom: '70px'}}>
-            <Element name="first" />
             <div className={classes.container}>
               <h2 className={classes.title}>icoWorld is a social network for cryptoinvestors, asset managers and ICO-projects</h2>
               <h3 className={classes.subtitle} style={{marginTop: '60px'}}>Private sale will start in</h3>
@@ -410,8 +416,7 @@ class LandingPage extends React.Component<any> {
             </div>
           </div>
 
-          <div className={classes.section} style={{backgroundColor: '#2d3546', paddingTop: '80px', paddingBottom: '80px'}}>
-            <Element name="solutions" />
+          <div className={classes.section} style={{backgroundColor: '#2d3546', paddingTop: '80px', paddingBottom: '80px'}} id="solutions">
             <div className={classes.container}>
               <h2 className={classes.title} style={{color: '#fff'}}>Our solutions:</h2>
               <div className={classes.solutions} style={{marginTop: '80px', width: '100%'}}>
@@ -433,8 +438,7 @@ class LandingPage extends React.Component<any> {
             </div>
           </div>
 
-          <div className={classes.section} style={{padding: '80px 0'}}>
-            <Element name="roadmap" />
+          <div className={classes.section} style={{paddingTop: '80px'}} id="roadmap">
             <div className={classes.container}>
               <h2 className={classes.title}>Roadmap</h2>
               <ul className={classes.roadmapList} style={{marginTop: '40px'}}>
@@ -519,8 +523,7 @@ class LandingPage extends React.Component<any> {
             </div>
           </div>
 
-          <div className={classes.section}>
-            <Element name="team" />
+          <div className={classes.section} style={{paddingTop: '80px'}} id="team">
             <div className={classes.container}>
               <h2 className={classes.title}>Team</h2>
               
@@ -602,8 +605,7 @@ class LandingPage extends React.Component<any> {
                 </li>
               </ul>
 
-              <Element name="contacts" />
-              <h2 className={classes.title} style={{marginTop: '80px'}}>Join us!</h2>
+              <h2 className={classes.title} style={{marginTop: '80px'}} id="contacts">Join us!</h2>
 
               <div className={classes.socials} style={{marginTop: '40px'}}>
                 <ul className={classes.socialsList} style={{display: 'flex'}}>
@@ -631,12 +633,11 @@ class LandingPage extends React.Component<any> {
           <footer className={classes.footer} style={{borderTop: '1px solid #f1f1f1',  marginTop: '75px', backgroundColor: '#2d3546', color: '#fff'}}>
             <div className={classes.footerContainer}>
               <div style={{width: '240px', marginRight: '80px'}}>
-                <Link to="first" smooth={true} offset={-280} duration={500}>
-                  <a href='#' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
-                    <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
-                    <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
-                  </a>
-                </Link>
+                <span data-to='first' onClick={this.handleClick} style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit', cursor: 'pointer'}}>
+                  <img data-to='first' onClick={this.handleClick} style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
+                  <h2 data-to='first' onClick={this.handleClick} style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
+                </span>
+
                 <span className={classes.footerDescription}>A social network for cryptoinvestors, asset managers and ICO-projects</span>
               </div>
               <div className={classes.footerRight} style={{flex: 1}}>
