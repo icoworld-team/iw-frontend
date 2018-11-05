@@ -502,8 +502,21 @@ export const ADD_IMAGE = gql`
 	}
 `;
 
-export const SEND_EMAIL = gql`
-	query sendEmail($addr: String!, $title: String!, $content: String!) {
-		sendEmail(addr: $addr, title: $title, content: $content)
-	}
+export const SEARCH_FOLLOW_POSTS = gql`
+    query searchInFollowsPosts($userId: ID!, $txt: String!) {
+        searchInFollowsPosts(userId: $userId, txt: $txt) {
+            postId
+            userId
+			userName
+			userLogin
+			avatar
+            date
+            edited
+			content
+			comments
+            likes
+            tags
+            attachments
+        }
+    }
 `;

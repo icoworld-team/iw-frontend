@@ -121,7 +121,7 @@ class SignUpPage extends Component<any> {
     };
 
     handleClick =()=> {
-        const url = `${endpoint}/signup`;
+        const url = `${endpoint}/api/signup`;
         const data = {
             firstName: this.state.name,
             lastName: this.state.lastname,

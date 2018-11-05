@@ -89,7 +89,7 @@ class SignInPage extends Component<any> {
     };
 
     handleClick = () => {
-        const url = `${endpoint}/login`;
+        const url = `${endpoint}/api/login`;
         const data = {
             email: this.state.email,
             password: this.state.password
@@ -156,9 +156,9 @@ class SignInPage extends Component<any> {
 
                         </form>
                     </div>
-                    <div className={classes.formFooter}>
-                        <Link className={classes.linkButton} to="/reset">Forgot password?</Link>
-                    </div>
+                    {/*<div className={classes.formFooter}>*/}
+                        {/*<Link className={classes.linkButton} to="/reset">Forgot password?</Link>*/}
+                    {/*</div>*/}
                 </div>
             </div>
         )

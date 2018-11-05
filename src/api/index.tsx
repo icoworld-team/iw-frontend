@@ -1,4 +1,4 @@
-export const endpoint = 'http://172.18.0.113:3000';
+export const endpoint = 'https://icoworld.network';
 
 export const handleErrors = (response:any) => {
     if(!response.ok){
