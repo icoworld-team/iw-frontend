@@ -50,7 +50,7 @@ class SimpleMenu extends React.Component<any> {
   };
 
   handleLogOut = () => {
-      const url = `${endpoint}/api/logout`;
+      const url = `${endpoint}/logout`;
       fetchGet(url)
           .then(response => handleErrors(response))
           .then(response => console.log(response))
