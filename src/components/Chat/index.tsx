@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import ChatContactsList from '../ChatContactsList'
 import './style.css'
 import ChatWindow from '../ChatWindow'
+import Comment from '@material-ui/icons/Comment';
 
 export default class Chat extends Component<any> {
     state = {
@@ -18,7 +19,7 @@ export default class Chat extends Component<any> {
     render() {
         const selectUserWindow = (
             <div className="select-user-window">
-                <i className="zmdi zmdi-comment s-128 text-muted"/>
+                <Comment/>
                 <h1>Select user to start chat</h1>
             </div>
         );

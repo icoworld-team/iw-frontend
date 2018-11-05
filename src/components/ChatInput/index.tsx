@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import {socket} from "../../api";
+import Send from '@material-ui/icons/Send';
 
 export default class ChatInput extends Component<any> {
     state = {
@@ -64,7 +65,7 @@ export default class ChatInput extends Component<any> {
                     </div>
                     <div className="send-button">
                         <IconButton aria-label="Send message" onClick={this.handleSendMessage}>
-                            <i className="zmdi  zmdi-mail-send"/>
+                            <Send/>
                         </IconButton>
                     </div>
                 </div>

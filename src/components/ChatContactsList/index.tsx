@@ -6,6 +6,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import {Query} from "react-apollo";
 import {GET_USER} from "../../api/graphql";
 import {endpoint} from "../../api";
+import Search from '@material-ui/icons/Search';
 
 
 class ChatContactsList extends Component<any> {
@@ -53,7 +54,7 @@ class ChatContactsList extends Component<any> {
                         <div className="search-bar">
                             <div className="search-form">
                                 <input className="chat-search-input" type="search" name="searchText" placeholder="Search" onChange={this.handleChange}/>
-                                <button className="search-icon"><i className="zmdi zmdi-search zmdi-hc-lg"/></button>
+                                <button className="search-icon"><Search/></button>
                             </div>
                         </div>
                     </div>

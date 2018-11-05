@@ -156,9 +156,9 @@ class SignInPage extends Component<any> {
 
                         </form>
                     </div>
-                    <div className={classes.formFooter}>
-                        <Link className={classes.linkButton} to="/reset">Forgot password?</Link>
-                    </div>
+                    {/*<div className={classes.formFooter}>*/}
+                        {/*<Link className={classes.linkButton} to="/reset">Forgot password?</Link>*/}
+                    {/*</div>*/}
                 </div>
             </div>
         )
