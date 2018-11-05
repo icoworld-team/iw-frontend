@@ -89,7 +89,7 @@ class SignInPage extends Component<any> {
     };
 
     handleClick = () => {
-        const url = `${endpoint}/api/login`;
+        const url = `${endpoint}/login`;
         const data = {
             email: this.state.email,
             password: this.state.password
