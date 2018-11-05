@@ -450,7 +450,7 @@ class LandingPage extends React.Component<any> {
                 </li>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>August - October, 2018</div>
+                  <div className={classes.roadmapLeft}>August - November, 2018</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#7ED321'}} />
                   <ul className={classes.roadmapRight}>
                     <li className={classes.roadmapRightItem}>Team building</li>
@@ -460,7 +460,7 @@ class LandingPage extends React.Component<any> {
                 </li>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>November, 2018</div>
+                  <div className={classes.roadmapLeft}>December, 2018</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
                     <li className={classes.roadmapRightItem}>Private Sale</li>
@@ -468,7 +468,7 @@ class LandingPage extends React.Component<any> {
                 </li>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>December, 2018 - May, 2019</div>
+                  <div className={classes.roadmapLeft}>January, 2019 - June, 2019</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
                     <li className={classes.roadmapRightItem}>Completion of social part of the project</li>
@@ -479,7 +479,7 @@ class LandingPage extends React.Component<any> {
                 </li>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>June, 2019</div>
+                  <div className={classes.roadmapLeft}>July, 2019</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
                     <li className={classes.roadmapRightItem}>Initial Coin Offering</li>
@@ -487,7 +487,7 @@ class LandingPage extends React.Component<any> {
                 </li>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>July, 2019 - February, 2020</div>
+                  <div className={classes.roadmapLeft}>August, 2019 - March, 2020</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
                     <li className={classes.roadmapRightItem}>Creating scam-protection product</li>
@@ -497,7 +497,7 @@ class LandingPage extends React.Component<any> {
                 </li>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>March, 2020 - March, 2021</div>
+                  <div className={classes.roadmapLeft}>April, 2020 - April, 2021</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
                     <li className={classes.roadmapRightItem}>Business scaling</li>
