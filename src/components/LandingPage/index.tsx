@@ -416,7 +416,7 @@ class LandingPage extends React.Component<any> {
             </div>
           </div>
 
-          <div className={classes.section} style={{backgroundColor: '#2d3546', paddingTop: '80px', paddingBottom: '80px'}} id="solutions">
+          <div className={classes.section} id="solutions" style={{backgroundColor: '#2d3546', paddingTop: '80px', paddingBottom: '80px'}}>
             <div className={classes.container}>
               <h2 className={classes.title} style={{color: '#fff'}}>Our solutions:</h2>
               <div className={classes.solutions} style={{marginTop: '80px', width: '100%'}}>
