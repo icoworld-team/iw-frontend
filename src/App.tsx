@@ -11,10 +11,10 @@ export default function App() {
     return (
         <Router history={history}>
             <Switch>
-                <Route path="/" component={LandingPage}/>
-                <Route path="/market-monopoly" component={MarketMonopolyPage}/>
-                <Route path="/offer-protection" component={OfferProtectionPage}/>
-                <Route path="/pitch" component={PitchForInvestorsPage}/>
+                <Route exact path="/" component={LandingPage}/>
+                <Route exact path="/market-monopoly" component={MarketMonopolyPage}/>
+                <Route exact path="/offer-protection" component={OfferProtectionPage}/>
+                <Route exact path="/pitch" component={PitchForInvestorsPage}/>
             </Switch>
         </Router>
     )
