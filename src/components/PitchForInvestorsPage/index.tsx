@@ -254,24 +254,13 @@ class PitchForInvestorsPage extends React.Component<any> {
       formError: false,
       fetchError: false,
     };
-    // const variables = {
-    //   addr: `icoworldwl@gmail.com`,
-    //   title: `White List`,
-    //   content: `${name} ${country} ${email} ${telegram ? telegram : 'NONE'} ${investmentAmount}`
-    // };
     const content = `${name} ${country} ${email} ${telegram ? telegram : 'NONE'} ${investmentAmount}`;
-    sendEmail('icoworldwl@gmail.com', `White List`, content)
+    sendEmail('stevvy1122@gmail.com', `White List`, content)
         .then(() => this.setState(initState))
         .catch(error => {
             console.log(error);
             this.setState({fetchError: true});
         })
-    // const result = await this.props.client.query({
-    //     query: SEND_EMAIL,
-    //     variables: variables,
-    //     fetchPolicy: 'network-only'
-    // });
-    // console.log(result.sendEmail);
   };
 
   render() {

@@ -1,11 +1,13 @@
 import React from 'react'
 import { Switch } from "react-router";
 import { Route, Router } from 'react-router-dom'
-import { history } from "./store";
 import LandingPage from './components/LandingPage'
 import OfferProtectionPage from './components/OfferProtectionPage'
 import MarketMonopolyPage from './components/MarketMonopolyPage'
 import PitchForInvestorsPage from './components/PitchForInvestorsPage'
+import createHistory from "history/createBrowserHistory";
+
+const history = createHistory();
 
 export default function App() {
     return (
