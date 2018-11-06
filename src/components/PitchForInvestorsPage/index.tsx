@@ -255,7 +255,7 @@ class PitchForInvestorsPage extends React.Component<any> {
       fetchError: false,
     };
     const content = `${name} ${country} ${email} ${telegram ? telegram : 'NONE'} ${investmentAmount}`;
-    sendEmail('stevvy1122@gmail.com', `White List`, content)
+    sendEmail('icoworldwl@gmail.com', `White List`, content)
         .then(() => this.setState(initState))
         .catch(error => {
             console.log(error);
