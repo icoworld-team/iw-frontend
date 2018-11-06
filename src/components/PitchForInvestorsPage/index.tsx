@@ -2,8 +2,6 @@ import React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import Scrollbar from "react-custom-scrollbars";
 import Checkbox from '@material-ui/core/Checkbox';
-import { withApollo } from 'react-apollo';
-// import { SEND_EMAIL } from "../../api/graphql";
 import { sendEmail } from '../../api'
 
 const styles = () => createStyles({
@@ -624,4 +622,4 @@ class PitchForInvestorsPage extends React.Component<any> {
   }
 }
 
-export default withStyles(styles)(withApollo(PitchForInvestorsPage))
+export default withStyles(styles)(PitchForInvestorsPage)
