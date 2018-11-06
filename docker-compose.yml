@@ -1,20 +1,15 @@
 version: '2'
 
 networks:
-  efk_hostnet:
+  efk_fluentd:
     external: true
 
 services:
   frontend:
     build: .
-    image: frontend
-    container_name: front
+    image: front-${GIT_BRANCH}:0.${BUILD_ID}
+    container_name: frontend-${BUILD_ID}
     networks:
-      - efk_hostnet
+      - efk_fluentd
     ports:
       - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
-      - /docker-volumes/etc/letsencrypt/live/icoworld.network/fullchain.pem:/etc/letsencrypt/live/icoworld.network/fullchain.pem
-      - /docker-volumes/etc/letsencrypt/live/icoworld.network/privkey.pem:/etc/letsencrypt/live/icoworld.network/privkey.pem
