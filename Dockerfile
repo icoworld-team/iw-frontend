@@ -1,8 +1,12 @@
-FROM node
+FROM node:carbon AS landingbuild
 
-WORKDIR /app
-COPY . /app
-EXPOSE 3000
-RUN npm install 
+WORKDIR /landingbuild
+COPY ./package*.json /landingbuild/
+RUN npm install
 
-CMD ["npm", "start"] 
+COPY . /landingbuild
+RUN npm run build
+
+FROM nginx
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=landingbuild /landingbuild/build /usr/share/nginx/html
