@@ -520,3 +520,15 @@ export const SEARCH_FOLLOW_POSTS = gql`
         }
     }
 `;
+
+export const COMPLAIN_POST = gql`
+	query complainPost($postId: ID!, $content: String!) {
+		complainPost(postId: $postId, content: $content)
+	}
+`;
+
+export const COMPLAIN_USER = gql`
+	query complainUser($userId: ID!, $content: String!) {
+		complainUser(userId: $userId, content: $content)
+	}
+`;
