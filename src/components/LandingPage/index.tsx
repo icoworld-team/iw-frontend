@@ -1,26 +1,35 @@
 import React from 'react'
-import { withStyles, createStyles } from '@material-ui/core/styles';
+import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 // import { Link } from 'react-scroll';
 import Scrollbar from "react-custom-scrollbars";
 
-const styles = () => createStyles({
+const styles = (theme: Theme) => createStyles({
   wrapper: {
-    minWidth: '1300px',
     width: '100%',
     backgroundColor: '#fff',
     color: '#2d3546',
+    // [theme.breakpoints.down('sm')]: {
+    //   backgroundColor: theme.palette.secondary.main,
+    // },
+    // [theme.breakpoints.up('md')]: {
+    //   backgroundColor: theme.palette.primary.main,
+    // },
+    // [theme.breakpoints.up('lg')]: {
+    //   backgroundColor: 'green',
+    // },
   },
   section: {
     width: '100%',
     boxSizing: 'border-box',
   },
   container: {
-    width: '1100px',
+    maxWidth: '1100px',
     margin: '0 auto',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '95%',
   },
   header: {
     position: 'fixed',
@@ -53,10 +62,18 @@ const styles = () => createStyles({
   },
   title: {
     fontSize: '36px',
-    fontWeight: 800,
     lineHeight: '45px',
+    fontWeight: 800,
     textAlign: 'center',
     margin: 0,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '30px',
+      lineHeight: '36px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '20px',
+      lineHeight: '26px',
+    },
   },
   subtitle: {
     fontSize: '20px',
@@ -64,12 +81,39 @@ const styles = () => createStyles({
     lineHeight: '24px',
     textAlign: 'center',
     margin: 0,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '18px',
+      lineHeight: '22px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '16px',
+      lineHeight: '20px',
+    },
   },
   buttonsList: {
     display: 'flex',
+
+    [theme.breakpoints.down('xs')]: {
+      width: '350px',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+    },
   },
   buttonsItem: {
     marginRight: '20px',
+
+    [theme.breakpoints.down('xs')]: {
+      marginRight: '0',
+
+      '&:first-child': {
+        marginRight: '10px',
+      },
+
+      '&:last-child': {
+        marginTop: '10px',
+      },
+    },
+
     '&:last-child': {
       marginRight: 0,
     },
@@ -85,6 +129,13 @@ const styles = () => createStyles({
     justifyContent: 'center',
     fontSize: '16px',
     transition: '.3s',
+
+    [theme.breakpoints.down('xs')]: {
+      width: '140px',
+      height: '38px',
+      fontSize: '14px',
+    },
+
     '&:hover': {
       boxShadow: '0 0 10px rgba(0,0,0,0.5)',
     },
@@ -102,9 +153,45 @@ const styles = () => createStyles({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
+
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
   },
   solutionsItem: {
     textAlign: 'center',
+    marginRight: '20px',
+    width: '33.3%',
+
+    '&:last-child': {
+      marginRight: 0,
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
+  },
+  peoplesImg: {
+    width: '170px',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '150px',
+    },
+  },
+  shieldImg: {
+    width: '150px',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '135px',
+    },
+  },
+  walletImg: {
+    width: '170px',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '150px',
+    },
   },
   solutionsText: {
     display: 'block',
@@ -113,6 +200,17 @@ const styles = () => createStyles({
     fontWeight: 600,
     textAlign: 'center',
     marginTop: '75px',
+
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 auto',
+      width: '180px',
+      marginTop: '40px',
+      fontSize: '24px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '20px',
+      fontSize: '20px',
+    },
   },
 
   roadmapItem: {
@@ -222,6 +320,15 @@ const styles = () => createStyles({
 
   progressBarContainer: {  
     position: 'relative',
+    marginRight: '20px',
+
+    [theme.breakpoints.down('xs')]: {
+      marginRight: '10px',
+    },
+
+    '&:last-child': {
+      marginRight: 0,
+    },
   },
   progressText: { 
     transform: 'translate(-50%, -55%)',
@@ -343,7 +450,7 @@ class LandingPage extends React.Component<any> {
       <Scrollbar autoHeight={true} autoHeightMax={'100vh'} renderThumbVertical={this.renderThumbVertical}>
         <div className={classes.wrapper} id="first">
 
-          <header className={classes.header} data-to='first' onClick={this.handleClick}>
+          {/* <header className={classes.header} data-to='first' onClick={this.handleClick}>
             <div className={classes.headerContainer}>
               <span data-to='first' onClick={this.handleClick} style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit', cursor: 'pointer'}}>
                 <img data-to='first' onClick={this.handleClick} style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
@@ -366,32 +473,34 @@ class LandingPage extends React.Component<any> {
                 </ul>
               </div>
             </div>
-          </header>
+          </header> */}
 
-          <div className={classes.section} style={{paddingTop: '280px', paddingBottom: '70px'}}>
+          {/* <div className={classes.section} style={{paddingTop: '280px', paddingBottom: '70px'}}>
             <div className={classes.container}>
               <h2 className={classes.title}>icoWorld is a social network for cryptoinvestors, asset managers and ICO-projects</h2>
               <h3 className={classes.subtitle} style={{marginTop: '60px'}}>Private sale will start in</h3>
               
               <ul style={{display: 'flex', marginTop: '60px'}}>
-                <li className={classes.progressBarContainer} style={{marginRight: '20px'}}>
+                <li className={classes.progressBarContainer}>
                   <span className={classes.progressText}>
                     <span className={classes.amount}>{this.state.days}</span>
                     <span className={classes.text}>Days</span>
                   </span>
                   <svg className={classes.progressSvg}>
                     <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
-                    <circle style={{strokeDashoffset: (283 - (this.state.days / 50) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546"></circle>
+                    <circle style={{strokeDashoffset: (283 - (this.state.days / 50) * 283)}}
+                      className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546" />
                   </svg>
                 </li>
-                <li className={classes.progressBarContainer} style={{marginRight: '20px'}}>
+                <li className={classes.progressBarContainer}>
                   <span className={classes.progressText}>
                     <span className={classes.amount}>{this.state.hours}</span>
                     <span className={classes.text}>Hours</span>
                   </span>
                   <svg className={classes.progressSvg}>
                     <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
-                    <circle style={{strokeDashoffset: (283 - (this.state.hours / 24) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546"></circle>
+                    <circle style={{strokeDashoffset: (283 - (this.state.hours / 24) * 283)}}
+                      className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546" />
                   </svg>
                 </li>
                 <li className={classes.progressBarContainer}>
@@ -401,7 +510,8 @@ class LandingPage extends React.Component<any> {
                   </span>
                   <svg className={classes.progressSvg}>
                     <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
-                    <circle style={{strokeDashoffset: (283 - (this.state.mins / 60) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546"></circle>
+                    <circle style={{strokeDashoffset: (283 - (this.state.mins / 60) * 283)}}
+                    className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546" />
                   </svg>
                 </li>
               </ul>
@@ -414,7 +524,7 @@ class LandingPage extends React.Component<any> {
                 </ul>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className={classes.section} id="solutions" style={{backgroundColor: '#2d3546', paddingTop: '80px', paddingBottom: '80px'}}>
             <div className={classes.container}>
@@ -422,15 +532,15 @@ class LandingPage extends React.Component<any> {
               <div className={classes.solutions} style={{marginTop: '80px', width: '100%'}}>
                 <ul className={classes.solutionsList}>
                   <li className={classes.solutionsItem}>
-                    <img style={{width: '170px'}} src="./icons/investors.svg" alt="investors"/>
+                    <img className={classes.peoplesImg} src="./icons/investors.svg" alt="investors"/>
                     <span className={classes.solutionsText}>Investor collaboration</span>
                   </li>
                   <li className={classes.solutionsItem}>
-                    <img style={{width: '150px'}} src="./icons/shield.svg" alt="shield"/>
+                    <img className={classes.shieldImg} src="./icons/shield.svg" alt="shield"/>
                     <span className={classes.solutionsText}>Scam-protection</span>
                   </li>
                   <li className={classes.solutionsItem}>
-                    <img style={{width: '170px'}} src="./icons/wallet.svg" alt="wallet"/>
+                    <img className={classes.walletImg} src="./icons/wallet.svg" alt="wallet"/>
                     <span className={classes.solutionsText}>Asset management</span>
                   </li>
                 </ul>
@@ -438,7 +548,7 @@ class LandingPage extends React.Component<any> {
             </div>
           </div>
 
-          <div className={classes.section} style={{paddingTop: '80px'}} id="roadmap">
+          {/* <div className={classes.section} style={{paddingTop: '80px'}} id="roadmap">
             <div className={classes.container}>
               <h2 className={classes.title}>Roadmap</h2>
               <ul className={classes.roadmapList} style={{marginTop: '40px'}}>
@@ -666,7 +776,7 @@ class LandingPage extends React.Component<any> {
                 </ul>
               </div>
             </div>
-          </footer>
+          </footer> */}
 
           {this.state.open === true ?
             <div className={`${classes.popupWrap} wrap`} onClick={this.handleClose}>
