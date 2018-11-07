@@ -1,10 +1,11 @@
 pipeline {
     agent any
     stages {
-        stage('nigtly Build') {
+        stage('frontend master Build') {
             steps {
-                echo "Removing old containers........"
-                sh 'docker rm -f $(docker ps -q)'
+                echo "Removing old containers if exist........"
+                sh 'docker ps -f name=frontend-master -q | xargs -r docker container stop'
+                sh 'docker ps -a -f name=frontend-master -q | xargs -r docker container rm'
                 echo "Building........"
                 sh 'docker-compose up -d'
                 echo "FINISHED........"
