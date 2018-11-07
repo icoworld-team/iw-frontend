@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  landing:
+    build: .
+    image: front-landing
+    container_name: landing
+    ports:
+      - "80:80"
