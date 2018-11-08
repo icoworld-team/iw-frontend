@@ -2,6 +2,8 @@ import React from "react";
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import Dialog from "@material-ui/core/Dialog";
 import Button from '@material-ui/core/Button'
+import { withApollo } from 'react-apollo'
+import { COMPLAIN_POST, COMPLAIN_USER } from "../../api/graphql";
 
 const styles = () => createStyles({
     modal: {
@@ -44,9 +46,17 @@ class ModalComplain extends React.Component<any> {
         })
     };
 
-    sendMessage = () => {
-        this.setState({message: ''});
-        this.props.onClose();
+    complain = () => {
+        const query = this.props.subject === 'post' ? COMPLAIN_POST : COMPLAIN_USER;
+        const variables = this.props.subject === 'post' ? {postId: this.props.id, content: this.state.message} : {userId: this.props.id, content: this.state.message};
+        console.log(this.props.id);
+        this.props.client.query({
+            query: query,
+            variables: variables
+        }).then(() => {
+            this.setState({message: ''});
+            this.props.onClose();
+        }, (error:any) => console.log(error));
     };
 
     render() {
@@ -67,7 +77,7 @@ class ModalComplain extends React.Component<any> {
                         <Button variant="outlined" color="secondary" className={`button outline-button ${classes.button}`} onClick={this.props.onClose} style={{marginRight: '5px'}}>
                             Cancel
                         </Button>
-                        <Button variant="contained" color="secondary" className={`button fill-button ${classes.button}`} onClick={this.sendMessage}>
+                        <Button variant="contained" color="secondary" className={`button fill-button ${classes.button}`} onClick={this.complain}>
                             Complain
                         </Button>
                     </div>
@@ -77,4 +87,4 @@ class ModalComplain extends React.Component<any> {
     }
 }
 
-export default withStyles(styles)(ModalComplain);
+export default withStyles(styles)(withApollo(ModalComplain));
