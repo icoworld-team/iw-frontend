@@ -506,7 +506,7 @@ const styles = (theme: Theme) => createStyles({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 100,
+    zIndex: 110,
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   popup: {
@@ -516,6 +516,10 @@ const styles = (theme: Theme) => createStyles({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
   },
 });
 
@@ -742,7 +746,7 @@ class LandingPage extends React.Component<any> {
                   <div className={classes.roadmapLeft}>July, 2019</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
-                    <li className={classes.roadmapLeft}>July, 2019</li>
+                    <li className={classes.roadmapRightItem}>July, 2019</li>
 
                     <li className={classes.roadmapRightItem}>Initial Coin Offering</li>
                   </ul>
