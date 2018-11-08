@@ -1,4 +1,5 @@
-export const endpoint = 'http://icoworld.projects.oktend.com:3000';
+export const endpoint = '//icoworld.network:443';
+
 
 export const handleErrors = (response:any) => {
     if(!response.ok){

@@ -1,0 +1,4 @@
+Jenkinsfile	 	merge=ours
+docker-compose.yml	merge=ours
+/nginx/default.conf	merge=ours
+/src/api/index.tsx	merge=ours

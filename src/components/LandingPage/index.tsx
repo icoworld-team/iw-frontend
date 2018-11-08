@@ -1,11 +1,9 @@
 import React from 'react'
-import { withStyles, createStyles } from '@material-ui/core/styles';
-// import { Link } from 'react-scroll';
+import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Scrollbar from "react-custom-scrollbars";
 
-const styles = () => createStyles({
+const styles = (theme: Theme) => createStyles({
   wrapper: {
-    minWidth: '1300px',
     width: '100%',
     backgroundColor: '#fff',
     color: '#2d3546',
@@ -15,12 +13,13 @@ const styles = () => createStyles({
     boxSizing: 'border-box',
   },
   container: {
-    width: '1100px',
+    maxWidth: '1100px',
     margin: '0 auto',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '95%',
   },
   header: {
     position: 'fixed',
@@ -29,12 +28,29 @@ const styles = () => createStyles({
     zIndex: 100,
   },
   headerContainer: {
-    width: '1100px',
+    maxWidth: '1100px',
+    width: '95%',
     margin: '0 auto',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '20px 0',
+
+    [theme.breakpoints.down('xs')]: {
+      padding: '8px 0',
+      flexDirection: 'column',
+    },
+  },
+  headerLeft: {
+    display: 'flex',
+    alignItems: 'center',
+    textDecoration: 'none',
+    color: 'inherit',
+    cursor: 'pointer',
+
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '7px',
+    },
   },
   headerLinksList: {
     display: 'flex',
@@ -50,13 +66,39 @@ const styles = () => createStyles({
     '&:last-child': {
       marginRight: 0,
     },
+
+    [theme.breakpoints.down('xs')]: {
+      marginRight: '15px',
+      fontSize: '14px',
+    },
   },
+
+  firstSection: {
+    paddingTop: '280px',
+    paddingBottom: '70px',
+
+    [theme.breakpoints.down('sm')]: {
+      paddingTop: '230px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: '180px',
+    },
+  },
+
   title: {
     fontSize: '36px',
-    fontWeight: 800,
     lineHeight: '45px',
+    fontWeight: 800,
     textAlign: 'center',
     margin: 0,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '30px',
+      lineHeight: '36px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '20px',
+      lineHeight: '26px',
+    },
   },
   subtitle: {
     fontSize: '20px',
@@ -64,12 +106,39 @@ const styles = () => createStyles({
     lineHeight: '24px',
     textAlign: 'center',
     margin: 0,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '18px',
+      lineHeight: '22px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '16px',
+      lineHeight: '20px',
+    },
   },
   buttonsList: {
     display: 'flex',
+
+    [theme.breakpoints.down('xs')]: {
+      width: '350px',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+    },
   },
   buttonsItem: {
     marginRight: '20px',
+
+    [theme.breakpoints.down('xs')]: {
+      marginRight: '0',
+
+      '&:first-child': {
+        marginRight: '10px',
+      },
+
+      '&:last-child': {
+        marginTop: '10px',
+      },
+    },
+
     '&:last-child': {
       marginRight: 0,
     },
@@ -85,6 +154,13 @@ const styles = () => createStyles({
     justifyContent: 'center',
     fontSize: '16px',
     transition: '.3s',
+
+    [theme.breakpoints.down('xs')]: {
+      width: '140px',
+      height: '38px',
+      fontSize: '14px',
+    },
+
     '&:hover': {
       boxShadow: '0 0 10px rgba(0,0,0,0.5)',
     },
@@ -102,9 +178,51 @@ const styles = () => createStyles({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
+
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
   },
   solutionsItem: {
     textAlign: 'center',
+    marginRight: '20px',
+    width: '33.3%',
+
+    '&:last-child': {
+      marginRight: 0,
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      marginRight: 0,
+      marginBottom: '40px',
+
+      '&:last-child': {
+        marginBottom: 0,
+      },
+    },
+  },
+  peoplesImg: {
+    width: '170px',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '150px',
+    },
+  },
+  shieldImg: {
+    width: '150px',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '135px',
+    },
+  },
+  walletImg: {
+    width: '170px',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '150px',
+    },
   },
   solutionsText: {
     display: 'block',
@@ -113,6 +231,18 @@ const styles = () => createStyles({
     fontWeight: 600,
     textAlign: 'center',
     marginTop: '75px',
+
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 auto',
+      width: '180px',
+      marginTop: '40px',
+      fontSize: '24px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '15px',
+      fontSize: '20px',
+      width: 'auto',
+    },
   },
 
   roadmapItem: {
@@ -129,31 +259,105 @@ const styles = () => createStyles({
     fontWeight: 600,
     width: '300px',
     textAlign: 'center',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '145px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
   },
   roadmapCenter: {
     marginRight: '90px',
     marginLeft: '210px',
     width: '4px',
+
+    [theme.breakpoints.down('sm')]: {
+      marginRight: '50px',
+      marginLeft: '120px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginRight: '20px',
+      marginLeft: 0,
+    },
   },
   roadmapRight: {
     marginTop: '15px',
     width: '400px',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '230px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '14px',
+      marginTop: '5px',
+    },
   },
   roadmapRightItem: {
     marginBottom: '15px',
+    '&:first-child': {
+      display: 'none',
+    },
     '&:last-child': {
       marginBottom: '20px',
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '8px',
+
+      '&:first-child': {
+        display: 'list-item',
+        fontSize: '16px',
+        fontWeight: 600,
+        marginBottom: '15px',
+      },
+      '&:last-child': {
+        marginBottom: '12px',
+      },
     },
   },
 
   photosList: {
     display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    width: '100%',
+
+    [theme.breakpoints.down(1040)]: {
+      width: '550px',
+      justifyContent: 'space-around',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: 'auto',
+      flexDirection: 'column',
+    },
   },
   photosItem: {
-    marginRight: '80px',
+    marginRight: '35px',
     textAlign: 'center',
+    
     '&:last-child': {
       marginRight: 0,
+    },
+
+    [theme.breakpoints.down(1040)]: {
+      '&:nth-child(2)': {
+        marginRight: 0,
+      },
+      '&:nth-child(3)': {
+        marginTop: '30px',
+      },
+      '&:last-child': {
+        marginTop: '30px',
+      },
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginRight: 0,
+      marginTop: '30px',
+
+      '&:first-child': {
+        marginTop: 0,
+      },
     },
   },
   teamSocialsItem: {
@@ -181,13 +385,45 @@ const styles = () => createStyles({
     },
   },
 
+  footer: {
+    borderTop: '1px solid #f1f1f1',
+    marginTop: '75px',
+    backgroundColor: '#2d3546',
+    color: '#fff',
+    width: '100%',
+  },
   footerContainer: {
-    width: '1100px',
+    maxWidth: '1100px',
+    width: '95%',
     margin: '0 auto',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     padding: '20px 0',
+
+    [theme.breakpoints.down(630)]: {
+      flexDirection: 'column',
+    },
+  },
+  footerLeft: {
+    width: '240px',
+    marginRight: '80px',
+
+    [theme.breakpoints.down(730)]: {
+      marginRight: '40px',
+    },
+    [theme.breakpoints.down(630)]: {
+      width: '100%',
+      marginRight: 0,
+    },
+  },
+  footerRight: {
+    flex: 1,
+
+    [theme.breakpoints.down(630)]: {
+      marginTop: '30px',
+      width: '100%',
+    },
   },
   footerDescription: {
     fontSize: '14px',
@@ -222,6 +458,15 @@ const styles = () => createStyles({
 
   progressBarContainer: {  
     position: 'relative',
+    marginRight: '20px',
+
+    [theme.breakpoints.down('xs')]: {
+      marginRight: '10px',
+    },
+
+    '&:last-child': {
+      marginRight: 0,
+    },
   },
   progressText: { 
     transform: 'translate(-50%, -55%)',
@@ -261,7 +506,7 @@ const styles = () => createStyles({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 100,
+    zIndex: 110,
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   popup: {
@@ -271,6 +516,10 @@ const styles = () => createStyles({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
   },
 });
 
@@ -345,7 +594,7 @@ class LandingPage extends React.Component<any> {
 
           <header className={classes.header} data-to='first' onClick={this.handleClick}>
             <div className={classes.headerContainer}>
-              <span data-to='first' onClick={this.handleClick} style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit', cursor: 'pointer'}}>
+              <span data-to='first' onClick={this.handleClick} className={classes.headerLeft}>
                 <img data-to='first' onClick={this.handleClick} style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
                 <h2 data-to='first' onClick={this.handleClick} style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
               </span>
@@ -368,30 +617,32 @@ class LandingPage extends React.Component<any> {
             </div>
           </header>
 
-          <div className={classes.section} style={{paddingTop: '280px', paddingBottom: '70px'}}>
+          <div className={`${classes.section} ${classes.firstSection}`}>
             <div className={classes.container}>
               <h2 className={classes.title}>icoWorld is a social network for cryptoinvestors, asset managers and ICO-projects</h2>
               <h3 className={classes.subtitle} style={{marginTop: '60px'}}>Private sale will start in</h3>
               
               <ul style={{display: 'flex', marginTop: '60px'}}>
-                <li className={classes.progressBarContainer} style={{marginRight: '20px'}}>
+                <li className={classes.progressBarContainer}>
                   <span className={classes.progressText}>
                     <span className={classes.amount}>{this.state.days}</span>
                     <span className={classes.text}>Days</span>
                   </span>
                   <svg className={classes.progressSvg}>
                     <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
-                    <circle style={{strokeDashoffset: (283 - (this.state.days / 50) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546"></circle>
+                    <circle style={{strokeDashoffset: (283 - (this.state.days / 50) * 283)}}
+                      className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546" />
                   </svg>
                 </li>
-                <li className={classes.progressBarContainer} style={{marginRight: '20px'}}>
+                <li className={classes.progressBarContainer}>
                   <span className={classes.progressText}>
                     <span className={classes.amount}>{this.state.hours}</span>
                     <span className={classes.text}>Hours</span>
                   </span>
                   <svg className={classes.progressSvg}>
                     <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
-                    <circle style={{strokeDashoffset: (283 - (this.state.hours / 24) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546"></circle>
+                    <circle style={{strokeDashoffset: (283 - (this.state.hours / 24) * 283)}}
+                      className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546" />
                   </svg>
                 </li>
                 <li className={classes.progressBarContainer}>
@@ -401,7 +652,8 @@ class LandingPage extends React.Component<any> {
                   </span>
                   <svg className={classes.progressSvg}>
                     <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
-                    <circle style={{strokeDashoffset: (283 - (this.state.mins / 60) * 283)}} className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546"></circle>
+                    <circle style={{strokeDashoffset: (283 - (this.state.mins / 60) * 283)}}
+                    className={`${classes.progressbar} ${classes.circle}`} r="45%" cx="50%" cy="50%" fill="transparent" stroke="#2d3546" />
                   </svg>
                 </li>
               </ul>
@@ -416,21 +668,21 @@ class LandingPage extends React.Component<any> {
             </div>
           </div>
 
-          <div className={classes.section} style={{backgroundColor: '#2d3546', paddingTop: '80px', paddingBottom: '80px'}} id="solutions">
+          <div className={classes.section} id="solutions" style={{backgroundColor: '#2d3546', paddingTop: '80px', paddingBottom: '80px'}}>
             <div className={classes.container}>
               <h2 className={classes.title} style={{color: '#fff'}}>Our solutions:</h2>
               <div className={classes.solutions} style={{marginTop: '80px', width: '100%'}}>
                 <ul className={classes.solutionsList}>
                   <li className={classes.solutionsItem}>
-                    <img style={{width: '170px'}} src="./icons/investors.svg" alt="investors"/>
+                    <img className={classes.peoplesImg} src="./icons/investors.svg" alt="investors"/>
                     <span className={classes.solutionsText}>Investor collaboration</span>
                   </li>
                   <li className={classes.solutionsItem}>
-                    <img style={{width: '150px'}} src="./icons/shield.svg" alt="shield"/>
+                    <img className={classes.shieldImg} src="./icons/shield.svg" alt="shield"/>
                     <span className={classes.solutionsText}>Scam-protection</span>
                   </li>
                   <li className={classes.solutionsItem}>
-                    <img style={{width: '170px'}} src="./icons/wallet.svg" alt="wallet"/>
+                    <img className={classes.walletImg} src="./icons/wallet.svg" alt="wallet"/>
                     <span className={classes.solutionsText}>Asset management</span>
                   </li>
                 </ul>
@@ -439,7 +691,7 @@ class LandingPage extends React.Component<any> {
           </div>
 
           <div className={classes.section} style={{paddingTop: '80px'}} id="roadmap">
-            <div className={classes.container}>
+            <li className={classes.container}>
               <h2 className={classes.title}>Roadmap</h2>
               <ul className={classes.roadmapList} style={{marginTop: '40px'}}>
 
@@ -447,6 +699,8 @@ class LandingPage extends React.Component<any> {
                   <div className={classes.roadmapLeft}>June - July, 2018</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#7ED321'}} />
                   <ul className={classes.roadmapRight}>
+                    <li className={classes.roadmapRightItem}>June - July, 2018</li>
+
                     <li className={classes.roadmapRightItem}>Creating the concept</li>
                     <li className={classes.roadmapRightItem}>Testing the concept</li>
                     <li className={classes.roadmapRightItem}>Finalizing the concept</li>
@@ -457,6 +711,8 @@ class LandingPage extends React.Component<any> {
                   <div className={classes.roadmapLeft}>August - November, 2018</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#7ED321'}} />
                   <ul className={classes.roadmapRight}>
+                    <li className={classes.roadmapRightItem}>August - November, 2018</li>
+
                     <li className={classes.roadmapRightItem}>Team building</li>
                     <li className={classes.roadmapRightItem}>Pre-seed investment raising</li>
                     <li className={classes.roadmapRightItem}>Minimum viable product development</li>
@@ -467,6 +723,8 @@ class LandingPage extends React.Component<any> {
                   <div className={classes.roadmapLeft}>December, 2018</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
+                    <li className={classes.roadmapRightItem}>December, 2018</li>
+
                     <li className={classes.roadmapRightItem}>Private Sale</li>
                   </ul>
                 </li>
@@ -475,6 +733,8 @@ class LandingPage extends React.Component<any> {
                   <div className={classes.roadmapLeft}>January, 2019 - June, 2019</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
+                    <li className={classes.roadmapRightItem}>January, 2019 - June, 2019</li>
+
                     <li className={classes.roadmapRightItem}>Completion of social part of the project</li>
                     <li className={classes.roadmapRightItem}>Attraction of first users</li>
                     <li className={classes.roadmapRightItem}>Optimization of marketing expenses</li>
@@ -486,6 +746,8 @@ class LandingPage extends React.Component<any> {
                   <div className={classes.roadmapLeft}>July, 2019</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
+                    <li className={classes.roadmapRightItem}>July, 2019</li>
+
                     <li className={classes.roadmapRightItem}>Initial Coin Offering</li>
                   </ul>
                 </li>
@@ -494,6 +756,8 @@ class LandingPage extends React.Component<any> {
                   <div className={classes.roadmapLeft}>August, 2019 - March, 2020</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
+                    <li className={classes.roadmapRightItem}>August, 2019 - March, 2020</li>
+
                     <li className={classes.roadmapRightItem}>Creating scam-protection product</li>
                     <li className={classes.roadmapRightItem}>Adding five projects to the platform</li>
                     <li className={classes.roadmapRightItem}>Optimization of research and scam-scoring expenses</li>
@@ -504,6 +768,8 @@ class LandingPage extends React.Component<any> {
                   <div className={classes.roadmapLeft}>April, 2020 - April, 2021</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
+                    <li className={classes.roadmapRightItem}>April, 2020 - April, 2021</li>
+                    
                     <li className={classes.roadmapRightItem}>Business scaling</li>
                     <li className={classes.roadmapRightItem}>Opening offices in business capitals of the world</li>
                     <li className={classes.roadmapRightItem}>Adding thirty-five projects to the platform</li>
@@ -515,12 +781,14 @@ class LandingPage extends React.Component<any> {
                   <div className={classes.roadmapLeft}>Always</div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
+                    <li className={classes.roadmapRightItem}>Always</li>
+
                     <li className={classes.roadmapRightItem}>Research new opportunities</li>
                   </ul>
                 </li>
 
               </ul>
-            </div>
+            </li>
           </div>
 
           <div className={classes.section} style={{paddingTop: '80px'}} id="team">
@@ -630,9 +898,9 @@ class LandingPage extends React.Component<any> {
             </div>
           </div>
           
-          <footer className={classes.footer} style={{borderTop: '1px solid #f1f1f1',  marginTop: '75px', backgroundColor: '#2d3546', color: '#fff'}}>
+          <footer className={classes.footer}>
             <div className={classes.footerContainer}>
-              <div style={{width: '240px', marginRight: '80px'}}>
+              <div className={classes.footerLeft}>
                 <span data-to='first' onClick={this.handleClick} style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit', cursor: 'pointer'}}>
                   <img data-to='first' onClick={this.handleClick} style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
                   <h2 data-to='first' onClick={this.handleClick} style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
@@ -640,7 +908,7 @@ class LandingPage extends React.Component<any> {
 
                 <span className={classes.footerDescription}>A social network for cryptoinvestors, asset managers and ICO-projects</span>
               </div>
-              <div className={classes.footerRight} style={{flex: 1}}>
+              <div className={classes.footerRight}>
                 <ul className={classes.footerSections}>
                   <li className={classes.footerSectionsItem}>
                     <span className={classes.footerSectionsTitle}>Product</span>
