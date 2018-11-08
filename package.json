@@ -8,6 +8,7 @@
     "@types/apollo-upload-client": "^8.1.0",
     "@types/graphql": "^14.0.2",
     "@types/react-custom-scrollbars": "^4.0.5",
+    "@types/react-intl": "^2.3.11",
     "@types/react-redux": "^6.0.6",
     "@types/react-router": "^4.0.30",
     "@types/react-router-dom": "^4.3.0",

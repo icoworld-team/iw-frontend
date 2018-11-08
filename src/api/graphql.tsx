@@ -160,6 +160,11 @@ export const PIN_POST = gql`
 		pinPost(id: $id, pin: $pin)
 	}
 `;
+export const MAKE_TOP_USER = gql`
+	mutation makeTopUser($userId: ID!, $flag: Boolean!) {
+		makeTopUser(userId: $userId, flag: $flag)
+	}
+`;
 
 export const EDIT_POST = gql`
 	mutation editPost($input: PostEditInput!) {

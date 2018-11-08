@@ -6,6 +6,7 @@ import { Route, Redirect } from 'react-router-dom'
 // import PoolCreate from "../PoolCreate";
 import InvestorsPage from "../InvestorsPage";
 import NewsPage from "../NewsPage";
+import Admin from "../AdminPage";
 import Profile from "../Profile";
 // import PoolSearch from "../PoolSearch";
 import ProjectsPage from "../ProjectsPage";
@@ -132,6 +133,7 @@ class MainApp extends Component<any> {
                 <Scrollbar autoHeight={true} autoHeightMax={'calc(100vh - 68px)'} renderThumbVertical={this.renderThumbVertical}>
                     <Switch>
                         <Route path="/profile" component={Profile}/>
+                        <Route path="/admin" component={Admin}/>
                         {/* <Route path="/pools" component={PoolSearch}/> */}
                         <Route path="/projects" component={ProjectsPage}/>
                         {/* <Route exact path="/create-pool" component={PoolCreate}/> */}
