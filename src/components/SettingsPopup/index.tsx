@@ -17,9 +17,10 @@ class SimpleDialog extends React.Component<any> {
   };
 
   render() {
+    const title = this.props.title || 'value';
     return (
       <Dialog onClose={this.handleClose} open={this.props.open}>
-        <DialogTitle id="simple-dialog-title">Select value</DialogTitle>
+        <DialogTitle id="simple-dialog-title">{`Select ${title}`}</DialogTitle>
         <div>
           <List>
             {this.props.settings.map((setting:any) => (

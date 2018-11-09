@@ -99,7 +99,7 @@ const styles = () => createStyles({
             position: 'absolute',
             width: '2px',
             height: '100%',
-            backgroundColor: '#980000',
+            backgroundColor: '#2d3546',
             top: 0,
             left: 0,
         },

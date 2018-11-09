@@ -1,10 +1,20 @@
 export const endpoint = 'http://icoworld.projects.oktend.com:3000';
 
+// export const handleErrors = (response:any) => {
+//     if(!response.ok){
+//         throw Error(response.statusText);
+//     }
+//     return response;
+// };
+
 export const handleErrors = (response:any) => {
-    if(!response.ok){
-        throw Error(response.statusText);
-    }
-    return response;
+    return response.text().then((text:any) => {
+        const data = text && JSON.parse(text);
+        if(!response.ok){
+            throw Error(data.error || response.statusText);
+        }
+        return data;
+    });
 };
 
 export const fetchPost = (url:string, data:object) => {
@@ -35,6 +45,18 @@ export const sendEmail = (addr:string, title:string, content:string) => {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify({addr, title, content}),
+        credentials: "include",
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    }).then(response => handleErrors(response));
+};
+
+export const changePassword = (oldPassword:string, newPassword:string, repeatedNewPassword:string) => {
+    return fetch(`${endpoint}/changePassword`, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify({oldPassword, newPassword, repeatedNewPassword}),
         credentials: "include",
         headers: {
             "Content-type": "application/json; charset=UTF-8"

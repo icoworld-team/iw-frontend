@@ -98,7 +98,6 @@ class SignInPage extends Component<any> {
         if(this.state.email.length > 0 && this.state.password.length > 0) {
             fetchPost(url, data)
                 .then(response => handleErrors(response))
-                .then(response => response.json())
                 .then(json => {
                     localStorage.setItem("user", JSON.stringify(json));
                     this.props.signIn(json)

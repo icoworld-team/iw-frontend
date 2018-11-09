@@ -71,6 +71,7 @@ export const SEARCH_POST = gql`
             likes
             tags
             attachments
+            reposted
         }
     }
 `;
@@ -90,6 +91,7 @@ export const GET_FOLLOWS_POSTS = gql`
             likes
             tags
             attachments
+            reposted
         }
     }
 `;
@@ -221,6 +223,7 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				comments
 				tags
 				attachments
+				reposted
 			}
 			reposts {
 			    id
@@ -234,7 +237,9 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				content
 				tags
 				reposted
+				reposted_date
 				likes
+				attachments
 			}
 		}
 	}
@@ -274,6 +279,7 @@ export const CREATE_POST = gql`
             likes
             tags
             attachments
+            reposted
         }
     }
 `;
@@ -320,6 +326,7 @@ export const GET_USER = gql`
 			twoFactorAuth
 			about
 			language
+			pwdUpdatedAt
 		}
 	}
 `;
@@ -517,6 +524,7 @@ export const SEARCH_FOLLOW_POSTS = gql`
             likes
             tags
             attachments
+            reposted
         }
     }
 `;
