@@ -26,6 +26,9 @@ import {
 } from "../../api/graphql";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ModalComplain from '../ModalComplain';
 
 import { endpoint } from "../../api";
 
@@ -239,15 +242,28 @@ class Profile extends Component<any> {
     followsAmount: false,
     openFollowers: false,
     openFollows: false,
-    openMessageModal: false
+    openMessageModal: false,
+    openComplainModal: false,
+    anchorEl: undefined,
   };
 
-  handleOpen = () => {
-    this.setState({ openMessageModal: true });
+  handleClick = (event:any)=> {
+    this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = () => {
-    this.setState({ openMessageModal: false });
+  handleClose = (event:any)=> {
+    this.setState({ anchorEl: null});
+  };
+
+  handleOpenModal = (name:string) => {
+    if (name === 'message') this.setState({ openMessageModal: true });
+    if (name === 'complain') this.setState({ openComplainModal: true });
+
+  };
+
+  handleCloseModal = (name:string) => {
+      if (name === 'message') this.setState({ openMessageModal: false });
+      if (name === 'complain') this.setState({ openComplainModal: false });
   };
 
   updateData = (value: String) => {
@@ -362,13 +378,20 @@ class Profile extends Component<any> {
                                                   }}
                                               </Query>
                                               <Button variant="outlined" color="secondary" className={`button outline-button ${classes.messageButton}`}
-                                                      onClick={this.handleOpen}>
+                                                      onClick={() => this.handleOpenModal('message')}>
                                                   Message
                                               </Button>
-                                              <Button variant="outlined" color="secondary" className={`button outline-button ${classes.moreButton}`}>
+                                              <Button variant="outlined" color="secondary" className={`button outline-button ${classes.moreButton}`} onClick={this.handleClick}>
                                                   <MoreHorizIcon className={classes.moreButtonIcon}/>
                                               </Button>
-                                              <ModalSendMessage partnerId={user.id} open={this.state.openMessageModal} onClose={this.handleClose}/>
+                                              <Menu id="fade-menu" anchorEl={this.state.anchorEl}
+                                                    open={Boolean(this.state.anchorEl)} onClose={this.handleClose}
+                                                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                                                    transformOrigin={{vertical: 'top', horizontal: 'right'}}>
+                                                  <MenuItem name="complain" id="complain" onClick={() => this.handleOpenModal('complain')}>Complain</MenuItem>
+                                                  <ModalComplain open={this.state.openComplainModal} onClose={() => this.handleCloseModal('complain')} id={user.id} subject="user"/>
+                                              </Menu>
+                                              <ModalSendMessage partnerId={user.id} open={this.state.openMessageModal} onClose={() => this.handleCloseModal('message')}/>
                                           </div>
                                       )}
                                   </li>

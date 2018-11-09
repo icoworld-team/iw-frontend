@@ -168,7 +168,7 @@ class PostInput extends Component<any> {
         const attachments = this.state.attachments.map((file:any, index:any) => (
             file.status === 'uploading' ? <CircularProgress key={index}/> :
             <div key={file.id} className={classes.attachment}>
-                <Typography className={classes.attachmentText}>{`${file.name}`}</Typography>
+                <Typography className={classes.attachmentText}>{file.name.length > 15 ? file.name.substring(0,15) + "..." : file.name}</Typography>
                 <IconButton color="primary" style={{color: '#8b8b8b'}} onClick={this.handleDeleteAttachment(index)}>
                     <Clear/>
                 </IconButton>

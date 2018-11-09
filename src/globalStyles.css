@@ -118,9 +118,17 @@ p {
   background-color: #303546!important;
 }
 
+.fill-button:hover {
+  background-color: #6e6c88!important;
+}
+
 .outline-button {
   border-color: #303546!important;
   color: #303546!important;
+}
+
+.outline-button:hover {
+  background-color: #140f6514!important;
 }
 
 .tabs-root {

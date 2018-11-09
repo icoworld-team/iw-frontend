@@ -458,7 +458,7 @@ class Post extends Component<any> {
                                 anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                                 transformOrigin={{vertical: 'top', horizontal: 'right'}}>
                                 <MenuItem name="complain" id="complain" onClick={this.handleOpenModal}>Complain</MenuItem>
-                                <ModalComplain open={this.state.openComplainModal} onClose={this.handleCloseModal}/>
+                                <ModalComplain open={this.state.openComplainModal} onClose={this.handleCloseModal} id={post.postId} subject="post"/>
                             </Menu>
                             :
                             <Menu classes={{paper: classes.paper}} id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}
