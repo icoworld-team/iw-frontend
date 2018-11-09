@@ -1,10 +1,9 @@
 import React from 'react'
-import { withStyles, createStyles } from '@material-ui/core/styles';
+import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Scrollbar from "react-custom-scrollbars";
 
-const styles = () => createStyles({
+const styles = (theme: Theme) => createStyles({
   wrapper: {
-    minWidth: '1100px',
     width: '100%',
     backgroundColor: '#fff',
   },
@@ -13,15 +12,21 @@ const styles = () => createStyles({
     boxSizing: 'border-box',
   },
   container: {
-    width: '800px',
+    maxWidth: '800px',
     margin: '0 auto',
     color: '#171717',
+    width: '95%',
   },
   title: {
     fontSize: '24px',
     fontWeight: 800,
     lineHeight: '30px',
     margin: 0,
+
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '20px',
+      lineHeight: '24px',
+    },
   },
   subtitle: {
     fontSize: '18px',
@@ -29,6 +34,11 @@ const styles = () => createStyles({
     lineHeight: '22px',
     margin: 0,
     marginBottom: '10px',
+
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '16px',
+      lineHeight: '20px',
+    },
   },
   pageHeading: {
     height: '560px',
@@ -36,6 +46,10 @@ const styles = () => createStyles({
     backgroundSize: 'cover',
     display: 'flex',
     position: 'relative',
+
+    [theme.breakpoints.down('xs')]: {
+      height: '280px',
+    },
   },
   pageHeadingFilter: {
     position: 'absolute',
@@ -46,24 +60,47 @@ const styles = () => createStyles({
     backgroundColor: '#000',
     opacity: 0.2,
   },
+  headingTitle: {
+    marginBottom: '40px',
+    color: '#fff',
+    zIndex: 10,
+
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '25px',
+    },
+  },
   pageItem: {
     marginBottom: '50px',
     '&:last-child': {
       marginBottom: 0,
     },
+
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '30px',
+    },
   },
   content: {
     fontSize: '16px',
     marginTop: '10px',
+
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '14px',
+      lineHeight: '18px',
+    },
   },
   numberList: {
     marginTop: '10px',
-    marginBottom: '10px'
   },
 
   info: {
     fontSize: '16px',
     marginTop: '50px',
+
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '14px',
+      lineHeight: '18px',
+      marginTop: '30px',
+    },
   },
   infoLink: {
     color: '#171717',
@@ -73,13 +110,45 @@ const styles = () => createStyles({
     },
   },
 
+  footer: {
+    borderTop: '1px solid #f1f1f1',
+    marginTop: '75px',
+    backgroundColor: '#2d3546',
+    color: '#fff',
+    width: '100%',
+  },
   footerContainer: {
-    width: '800px',
+    maxWidth: '1100px',
+    width: '95%',
     margin: '0 auto',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     padding: '20px 0',
+
+    [theme.breakpoints.down(630)]: {
+      flexDirection: 'column',
+    },
+  },
+  footerLeft: {
+    width: '240px',
+    marginRight: '80px',
+
+    [theme.breakpoints.down(730)]: {
+      marginRight: '40px',
+    },
+    [theme.breakpoints.down(630)]: {
+      width: '100%',
+      marginRight: 0,
+    },
+  },
+  footerRight: {
+    flex: 1,
+
+    [theme.breakpoints.down(630)]: {
+      marginTop: '30px',
+      width: '100%',
+    },
   },
   footerDescription: {
     fontSize: '14px',
@@ -172,7 +241,7 @@ class MarketMonopolyPage extends React.Component<any> {
           <div className={classes.pageHeading}>
             <div className={classes.pageHeadingFilter} />
             <div className={classes.container} style={{display: 'flex', alignItems: 'flex-end'}}>
-              <h1 className={classes.title} style={{marginBottom: '40px', color: '#fff', zIndex: 10}}>Market monopoly, or why are we developing a social network?</h1>
+              <h1 className={`${classes.title} ${classes.headingTitle}`}>Market monopoly, or why are we developing a social network?</h1>
             </div>
           </div>
 
@@ -251,16 +320,16 @@ class MarketMonopolyPage extends React.Component<any> {
             </div>
           </div>
           
-          <footer className={classes.footer} style={{borderTop: '1px solid #f1f1f1',  marginTop: '75px', backgroundColor: '#2d3546', color: '#fff'}}>
+          <footer className={classes.footer}>
             <div className={classes.footerContainer}>
-              <div style={{width: '240px', marginRight: '55px'}}>
+              <div className={classes.footerLeft}>
                 <a href='/landing' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
                   <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
                   <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
                 </a>
                 <span className={classes.footerDescription}>A social network for cryptoinvestors, asset managers and ICO-projects</span>
               </div>
-              <div className={classes.footerRight} style={{flex: 1}}>
+              <div className={classes.footerRight}>
                 <ul className={classes.footerSections}>
                   <li className={classes.footerSectionsItem}>
                     <span className={classes.footerSectionsTitle}>Product</span>
