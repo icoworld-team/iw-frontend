@@ -118,7 +118,19 @@ class MainApp extends Component<any> {
     renderThumbVertical({ style, ...props }: any) {
         const customStyle = {
             backgroundColor: `rgb(152, 159, 168)`,
-            borderRadius: "5px"
+            borderRadius: "5px",
+        };
+        return <div {...props} style={{ ...style, ...customStyle }} />;
+    }
+
+    renderTrackVertical({ style, ...props }: any) {
+        const customStyle = {
+            position: 'absolute',
+            width: '6px',
+            right: '2px',
+            bottom: '2px',
+            top: '70px',
+            borderRadius: '3px',
         };
         return <div {...props} style={{ ...style, ...customStyle }} />;
     }
@@ -129,8 +141,10 @@ class MainApp extends Component<any> {
         }
         return (
             <div>
-                <MainAppBar tab={this.state.tab}/>
-                <Scrollbar autoHeight={true} autoHeightMax={'calc(100vh - 68px)'} renderThumbVertical={this.renderThumbVertical}>
+                
+                <Scrollbar renderThumbHorizontal={this.renderThumbVertical} autoHeightMin={'100vh'} autoHeight={true} autoHeightMax={'calc(100vh)'}
+                    renderThumbVertical={this.renderThumbVertical} renderTrackVertical={this.renderTrackVertical}>
+                    <MainAppBar tab={this.state.tab}/>
                     <Switch>
                         <Route path="/profile" component={Profile}/>
                         <Route path="/admin" component={Admin}/>

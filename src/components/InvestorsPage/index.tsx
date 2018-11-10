@@ -1,5 +1,4 @@
 import React from 'react'
-import Grid from '@material-ui/core/Grid'
 import InvestorCard from '../InvestorCard'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
@@ -75,15 +74,14 @@ class InvestorsPage extends React.Component<any> {
 
         const input = {
             name: this.state.searchText,
-            ...this.props.filter
+            country: '',
+            
         };
         Object.keys(input).forEach((key) => (input[key] == "") && delete input[key]);
 
         return (
             <div>
-                <Grid container spacing={0} style={{overflowX: 'hidden'}}>
-                    <Grid item xs={1}></Grid>
-                    <Grid item xs={10}>
+                <div className={`page-wrapper`}>
 
                         <div className={`page-content`}>
                             <div className={`card ${classes.investorsBlock} ${classes.investors}`}>
@@ -118,9 +116,7 @@ class InvestorsPage extends React.Component<any> {
                                 <InvestorsFilter />
                             </div>
                         </div>
-                    </Grid>
-                    <Grid item xs={1}></Grid>
-                </Grid>
+                    </div>
             </div>
         )
     }

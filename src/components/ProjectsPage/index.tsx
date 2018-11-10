@@ -4,7 +4,6 @@ import { withStyles, createStyles } from '@material-ui/core/styles';
 // import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 // import { Link } from "react-router-dom";
-import Grid from '@material-ui/core/Grid';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -143,10 +142,7 @@ class Projects extends Component<any> {
 					</Grid>
 				</div> */}
 
-				<Grid container spacing={0}>
-					<Grid item xs={1} />
-
-					<Grid item xs={10} style={{overflowX: 'hidden'}}>
+				<div className={`page-wrapper`}>
 						<div className={`page-content`}>
 							<div className={classes.poolsLeft}>
 
@@ -222,10 +218,7 @@ class Projects extends Component<any> {
 							</div>
 
 						</div>
-					</Grid>
-
-					<Grid item xs={1} />
-				</Grid>
+					</div>
 			</>
 		);
 	}

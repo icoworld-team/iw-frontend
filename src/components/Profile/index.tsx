@@ -4,7 +4,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -341,9 +340,7 @@ class Profile extends Component<any> {
     };
 
     return (
-      <Grid container spacing={0} style={{overflowX: 'hidden'}}>
-        <Grid item xs={1} />
-        <Grid item xs={10}>
+      <div className={`page-wrapper`}>
           <div className={`page-content`}>
               <Query query={GET_USER} variables={{ userId: id }} fetchPolicy="network-only">
                 {({ loading, error, data }) => {
@@ -614,9 +611,7 @@ class Profile extends Component<any> {
               </div>
             </div>
           </div>
-        </Grid>
-        <Grid item xs={1} />
-      </Grid>
+        </div>
     );
   }
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withStyles, createStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -17,11 +16,8 @@ const styles = () => createStyles({
     subHeader: {
         padding: '20px 0',
         backgroundColor: '#edf1f5',
-    },
-    subHeaderContainer: {
+        width: '1100px',
         margin: '0 auto',
-        maxWidth: '1100px',
-        display: 'flex',
     },
     avatarContainer: {
         width: '150px',
@@ -146,93 +142,81 @@ class ProfileSettings extends Component<any> {
     const { classes } = this.props;
 
     return (
-          <Query query={GET_USER} variables={{userId: this.props.authUser.id}}>
-              {({ loading, error, data}) => {
-                  if(loading) return null;
-                  if(error) return `Error: ${error}`;
-                  const user = data.getUser;
-                  return (
-                      <>
-                          <div className={classes.subHeader}>
-                              <Grid container spacing={0} style={{overflowX: 'hidden'}}>
-                                  <Grid item xs={1} />
+        <Query query={GET_USER} variables={{userId: this.props.authUser.id}}>
+            {({ loading, error, data}) => {
+                if(loading) return null;
+                if(error) return `Error: ${error}`;
+                const user = data.getUser;
+                return (
+                    <>
+                        <div className={`page-wrapper`}>
+                            {/* <div className={`page-content`}> */}
 
-                                  <Grid item xs={10} className={classes.subHeaderContainer}>
-                                        <div className={classes.avatarContainer} onClick={this.handleOpen}>
-                                            <img className={classes.avatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
-                                            {/* <p className={classes.avatarHiddenText}>Change</p> */}
+                                <div className={classes.subHeader}>
+                                    <div className={classes.avatarContainer} onClick={this.handleOpen}>
+                                        <img className={classes.avatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"} />
+                                        {/* <p className={classes.avatarHiddenText}>Change</p> */}
+                                    </div>
+                                    <div className={classes.userInfo}>
+                                        <Typography className={classes.userName}>{user.name}</Typography>
+                                        <Typography className={classes.userLogin}>@{user.login}</Typography>
+                                    </div>
+                                    <ModalUploadPhoto open={this.state.modalOpen} onClose={this.handleClose}/>
+                                </div>
+                            {/* </div> */}
+
+                            <div style={{background: '#fff', flex: 1}}>
+                                <div className={`page-content`} style={{marginTop: 0, paddingTop: '20px'}}>
+                                    <div className={classes.profileSettingsLeft}>
+                                        <div className={classes.tabsList}>
+                                            <Tabs
+                                                value={this.state.tab}
+                                                onChange={this.handleChange}
+                                                classes={{ indicator: classes.tabsIndicator, flexContainer: classes.flexContainer }}
+                                            >
+                                                <Tab
+                                                    disableRipple
+                                                    classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.labelContainer, label: classes.label }}
+                                                    label="Personal info"
+                                                />
+                                                <Tab
+                                                    disableRipple
+                                                    classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.labelContainer, label: classes.label }}
+                                                    label="General settings"
+                                                />
+                                                <Tab
+                                                    disableRipple
+                                                    classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.labelContainer, label: classes.label }}
+                                                    label="Privacy and Security"
+                                                />
+                                            </Tabs>
                                         </div>
-                                        <div className={classes.userInfo}>
-                                            <Typography className={classes.userName}>{user.name}</Typography>
-                                            <Typography className={classes.userLogin}>@{user.login}</Typography>
-                                        </div>
-                                  </Grid>
-                                  <ModalUploadPhoto open={this.state.modalOpen} onClose={this.handleClose}/>
-                                  <Grid item xs={1} />
-                              </Grid>
-                          </div>
+                                    </div>
 
-                          <div style={{background: '#fff', flex: 1}}>
-                              <Grid container spacing={0}>
-                                  <Grid item xs={1} />
+                                    <div className={classes.profileSettingsRight}>
 
-                                  <Grid item xs={10}>
+                                        {this.state.tab === 0 &&
+                                        <>
+                                            <PersonalInfo user={user}/>
+                                        </>
+                                        }
+                                        {this.state.tab === 1 &&
+                                        <>
+                                            <GeneralSettings user={user}/>
+                                        </>}
+                                        {this.state.tab === 2 &&
+                                        <>
+                                            <PrivacyAndSecurity user={user}/>
+                                        </>}
+                                    </div>
 
-                                      <div className={`page-content`}>
-
-                                          <div className={classes.profileSettingsLeft}>
-                                              <div className={classes.tabsList}>
-                                                  <Tabs
-                                                      value={this.state.tab}
-                                                      onChange={this.handleChange}
-                                                      classes={{ indicator: classes.tabsIndicator, flexContainer: classes.flexContainer }}
-                                                  >
-                                                      <Tab
-                                                          disableRipple
-                                                          classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.labelContainer, label: classes.label }}
-                                                          label="Personal info"
-                                                      />
-                                                      <Tab
-                                                          disableRipple
-                                                          classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.labelContainer, label: classes.label }}
-                                                          label="General settings"
-                                                      />
-                                                      <Tab
-                                                          disableRipple
-                                                          classes={{ root: classes.tabRoot, selected: classes.tabSelected, labelContainer: classes.labelContainer, label: classes.label }}
-                                                          label="Privacy and Security"
-                                                      />
-                                                  </Tabs>
-                                              </div>
-                                          </div>
-
-                                          <div className={classes.profileSettingsRight}>
-
-                                              {this.state.tab === 0 &&
-                                              <>
-                                                  <PersonalInfo user={user}/>
-                                              </>
-                                              }
-                                              {this.state.tab === 1 &&
-                                              <>
-                                                  <GeneralSettings user={user}/>
-                                              </>}
-                                              {this.state.tab === 2 &&
-                                              <>
-                                                  <PrivacyAndSecurity user={user}/>
-                                              </>}
-                                          </div>
-
-                                      </div>
-                                  </Grid>
-
-                                  <Grid item xs={1} />
-                              </Grid>
-                          </div>
-                      </>
-                  )
-              }}
-          </Query>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )
+            }}
+        </Query>
     );
   }
 }

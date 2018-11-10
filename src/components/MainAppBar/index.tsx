@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import { createStyles, withStyles, Theme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar'
 import ToolBar from '@material-ui/core/Toolbar'
 import Tabs from '@material-ui/core/Tabs'
@@ -16,7 +15,7 @@ const styles = (theme: Theme) => createStyles({
 		justifyContent: 'flex-start',
 		padding: 0,
 		width: '1100px',
-		margin: '0 auto'
+		margin: '0 auto',
 	},
 	tabsIndicator: {
 		display: 'none',
@@ -78,10 +77,7 @@ class MainAppBar extends Component<any> {
 
 		return (
 			<>
-				<AppBar style={{backgroundColor: 'rgb(48, 53, 70)', zIndex: 300}} position="static">
-					<Grid container>
-						<Grid item xs={1} />
-						<Grid item xs={10}>
+				<AppBar style={{backgroundColor: 'rgb(48, 53, 70)', zIndex: 300, minWidth: '1250px', left: 0}} position="sticky">
 							<ToolBar className={classes.toolBar}>
 								<a href='/feed' style={{display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit'}}>
 									<img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
@@ -106,9 +102,6 @@ class MainAppBar extends Component<any> {
 									<HeaderAccountMenu />
 								</div>
 							</ToolBar>
-						</Grid>
-						<Grid item xs={1} />
-					</Grid>
 				</AppBar>
 			</>
 		)

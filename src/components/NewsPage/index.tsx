@@ -4,7 +4,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
 import {
     SEARCH_POST,
@@ -221,10 +220,7 @@ class News extends Component<any> {
 
     return (
       <>
-        <Grid container spacing={0} style={{overflowX: 'hidden'}}>
-          <Grid item xs={1} />
-
-          <Grid item xs={10}>
+          <div className={`page-wrapper`}>
             <div className={`page-content`}>
 
               <div className={`card ${classes.newsOfProject}`}>
@@ -380,10 +376,7 @@ class News extends Component<any> {
                 </div>
               </div>
             </div>
-            </Grid>
-
-            <Grid item xs={1} />
-        </Grid>
+          </div>
       </>
     );
   }

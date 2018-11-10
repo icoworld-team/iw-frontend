@@ -166,6 +166,12 @@ export const MAKE_TOP_USER = gql`
 	}
 `;
 
+export const CREATE_NEWS = gql`
+	mutation createNews($title: String!) {
+		createNews(title: $title)
+	}
+`;
+
 export const EDIT_POST = gql`
 	mutation editPost($input: PostEditInput!) {
 		editPost(input: $input) {
