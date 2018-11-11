@@ -1,6 +1,10 @@
 import React from 'react'
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Scrollbar from "react-custom-scrollbars";
+import { FormattedMessage } from 'react-intl';
+import { IntlProvider } from 'react-intl';
+import en from '../../i18n/en';
+import ru from '../../i18n/ru';
 
 const styles = (theme: Theme) => createStyles({
   wrapper: {
@@ -60,14 +64,21 @@ const styles = (theme: Theme) => createStyles({
     backgroundColor: '#000',
     opacity: 0.2,
   },
-  headingTitle: {
+  headingText: {
     marginBottom: '40px',
     color: '#fff',
     zIndex: 10,
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
 
     [theme.breakpoints.down('xs')]: {
       marginBottom: '25px',
     },
+  },
+  lang: {
+    cursor: 'pointer',
   },
   pageItem: {
     marginBottom: '50px',
@@ -203,6 +214,7 @@ const styles = (theme: Theme) => createStyles({
 class MarketMonopolyPage extends React.Component<any> {
   state = {
     open: false,
+    lang: localStorage.getItem('lang'),
   };
 
   handleClose = (e: any) => {
@@ -235,13 +247,21 @@ class MarketMonopolyPage extends React.Component<any> {
     const { classes } = this.props;
 
     return (
+      <IntlProvider locale="en" messages={this.state.lang === 'en' ? en : ru}>
       <Scrollbar autoHeight={true} autoHeightMax={'100vh'} renderThumbVertical={this.renderThumbVertical}>
         <div className={classes.wrapper}>
 
           <div className={classes.pageHeading}>
             <div className={classes.pageHeadingFilter} />
             <div className={classes.container} style={{display: 'flex', alignItems: 'flex-end'}}>
-              <h1 className={`${classes.title} ${classes.headingTitle}`}>Market monopoly, or why are we developing a social network?</h1>
+              <div className={classes.headingText}>
+                <h1 className={classes.title} style={{marginRight: '20px'}}><FormattedMessage id='market.monopoly' defaultMessage="" /></h1>
+
+                {this.state.lang === 'en' ? 
+                  <span className={`${classes.lang} ${classes.title}`} onClick={() => {localStorage.setItem('lang', 'ru'), this.setState({lang: 'ru'})}}>RU</span> :
+                  <span className={`${classes.lang} ${classes.title}`} onClick={() => {localStorage.setItem('lang', 'en'), this.setState({lang: 'en'})}}>EN</span>
+                }
+              </div>
             </div>
           </div>
 
@@ -250,72 +270,65 @@ class MarketMonopolyPage extends React.Component<any> {
 
               <li className={classes.pageItem}>
                 <div className={classes.content}>
-                Our project has two parts:
+                  <FormattedMessage id='market.monopoly.paragraph.first' defaultMessage="" />
                   <ol className={classes.numberList}>
-                    <li>The business part. This includes scam protection services and asset management infrastructure. This part
-                      provides trust between the ICO market stakeholders and charges a commission for the service. This is the
-                      monetization of the project.</li>
-                    <li>The social part. This is a familiar social network that unites the participants of the ICO market. The
-                      social network provides customers with a quick and simple connection and collaboration. It is free of charge.</li>
+                    <li><FormattedMessage id='market.monopoly.paragraph.first.item.first' defaultMessage="" /></li>
+                    <li><FormattedMessage id='market.monopoly.paragraph.first.item.second' defaultMessage="" /></li>
                   </ol>
-                  <p>The first point is clear. We create useful services and earn money. This is just a business and nothing more.
-                  But why are we developing a social network? Why are we delivering it free of charge?
-                  <br style={{fontSize: '24px'}}/>
-                  The answer is simple. We are doing this to attract customers to our business solutions. The social network is
-                  a part of our marketing strategy. And it is a good part.
-                  <br style={{fontSize: '24px'}}/>
-                  Look.</p>
+                  <p>
+                    <FormattedMessage id='market.monopoly.paragraph.second' defaultMessage="" />
+                    
+                    {this.state.lang === 'ru' ? null : <>
+                    <br style={{fontSize: '24px'}}/>
+                    <FormattedMessage id='market.monopoly.paragraph.third' defaultMessage="" />
+                    <br style={{fontSize: '24px'}}/>
+                    <FormattedMessage id='market.monopoly.paragraph.four' defaultMessage="" />
+                    </>}
+                  </p>
                 </div>
               </li>
 
               <li className={classes.pageItem}>
-                <h2 className={classes.title}>“Nothing except the mint can make money without advertising.”–Thomas Macaulay</h2>
+                <h2 className={classes.title}><FormattedMessage id='thomas.macaulay.quote' defaultMessage="" /></h2>
                 <div className={classes.content}>
-                  Generally, any business has two parts:
+                  <FormattedMessage id='market.monopoly.paragraph.five' defaultMessage="" />
                   <ol className={classes.numberList}>
-                    <li>Product creation</li>
-                    <li>Advertising</li>
+                    <li><FormattedMessage id='market.monopoly.paragraph.five.item.first' defaultMessage="" /></li>
+                    <li><FormattedMessage id='market.monopoly.paragraph.five.item.second' defaultMessage="" /></li>
                   </ol>
-                  <p>So, in our business, the social network is a non-trivial way of advertising. We don’t want to pay big money for marketing
-                  expenses all our lives. We are going to create and promote a popular platform once and just support it in the future.
-                  <br style={{fontSize: '24px'}}/>
-                  A social network is a self-developing ecosystem. Existing users of the social network regularly create new content to
-                  promote their own accounts. This content improves and advertises the platform too. As a result, current users attract new
-                  users. At the same time, the holder of the platform just manages one. He can use the results of advertising. And he doesn’t
-                  have to pay for this. What could be better? Nothing. Facebook, Reddit, and Medium are successful examples of such a business model.</p>
+                  <p>
+                    <FormattedMessage id='market.monopoly.paragraph.six' defaultMessage="" />
+                    {this.state.lang === 'ru' ? null : <>
+                      <br style={{fontSize: '24px'}}/>
+                      <FormattedMessage id='market.monopoly.paragraph.seven' defaultMessage="" />
+                    </>}
+                  </p>
                 </div>
               </li>
 
               <li className={classes.pageItem}>
-                <h2 className={classes.title}>“So in war, the way is to avoid what is strong, and strike at what is weak.”–Sun Tzu</h2>
+                <h2 className={classes.title}><FormattedMessage id='sun.tzu.quote' defaultMessage="" /></h2>
                 <div className={classes.content}>
-                  A social network allows us to avoid a marketing war. We want to monopolize the ICO market and protect our positions with small
-                  forces. We have the following arguments:
+                  <FormattedMessage id='market.monopoly.paragraph.eight' defaultMessage="" />
                   <ol className={classes.numberList}>
-                    <li>Today marketing wars are wars of budgets. When giants like J.P. Morgan, Goldman Sachs or Citi come to the ICO market we
-                      will not be able to defeat them in a direct battle. So we have to find another way.</li>
-                    <li>In this case, a social network is a more elegant solution. We are going to attract the initial audience to our platform
-                      because we are the first and we don’t have strong competitors. After that, new users will appear without our participation.</li>
-                    <li>But most importantly, they will stay with us forever. A social network creates a strong connection between users. A
-                      potential competitor can’t recruit one at a time. He must take them all at once. The complexity of this task will increase
-                      with the growth of users. As a result, it will be impossible for even J.P. Morgan, Goldman Sachs or Citi.</li>
-                    <li>In a long-term success case, we will have access to all ICO investors in the world through our social network.</li>
+                    <li><FormattedMessage id='market.monopoly.paragraph.eight.item.first' defaultMessage="" /></li>
+                    <li><FormattedMessage id='market.monopoly.paragraph.eight.item.second' defaultMessage="" /></li>
+                    <li><FormattedMessage id='market.monopoly.paragraph.eight.item.third' defaultMessage="" /></li>
+                    <li><FormattedMessage id='market.monopoly.paragraph.eight.item.four' defaultMessage="" /></li>
                   </ol>
-                  <p>In a long-term success case, the social network will allow us to monopolize the ICO marketplace. We will create business
-                  services and receive an inexhaustible flow of new customers. We will be able to dump competitors if necessary. At the same
-                  time, we will always remain a profitable business because of the economies of scale.</p>
+                  <p><FormattedMessage id='market.monopoly.paragraph.nine' defaultMessage="" /></p>
                 </div>
               </li>
 
             </ul>
 
             <div className={classes.info}>
-              <h3 className={classes.subtitle}>More information:</h3>
+              <h3 className={classes.subtitle}><FormattedMessage id='more.information' defaultMessage="" /></h3>
               <ul className={classes.infoList}>
-                <li className={classes.infoItem}><a href="/pitch" className={classes.infoLink}>Pitch for Investors</a></li>
-                <li className={classes.infoItem}><a href="./White Paper (english).pdf" download className={classes.infoLink}>White Paper (download)</a></li>
-                <li className={classes.infoItem}><a href="./Financial Model.xlsx" download className={classes.infoLink}>Financial Model (download)</a></li>
-                <li className={classes.infoItem}><a href="/offer-protection" className={classes.infoLink}>How are we going to offer protection from scams?</a></li>
+                <li className={classes.infoItem}><a href="/pitch" className={classes.infoLink}><FormattedMessage id='pitch' defaultMessage="" /></a></li>
+                <li className={classes.infoItem}><a href="./White Paper (english).pdf" download className={classes.infoLink}><FormattedMessage id='white.paper.download' defaultMessage="" /></a></li>
+                <li className={classes.infoItem}><a href="./Financial Model.xlsx" download className={classes.infoLink}><FormattedMessage id='financial.model.download' defaultMessage="" /></a></li>
+                <li className={classes.infoItem}><a href="/offer-protection" className={classes.infoLink}><FormattedMessage id='scams.protect' defaultMessage="" /></a></li>
               </ul>
             </div>
           </div>
@@ -327,14 +340,14 @@ class MarketMonopolyPage extends React.Component<any> {
                   <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
                   <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
                 </a>
-                <span className={classes.footerDescription}>A social network for cryptoinvestors, asset managers and ICO-projects</span>
+                <span className={classes.footerDescription}><FormattedMessage id='icoworld.desc' defaultMessage="" /></span>
               </div>
               <div className={classes.footerRight}>
                 <ul className={classes.footerSections}>
                   <li className={classes.footerSectionsItem}>
                     <span className={classes.footerSectionsTitle}>Product</span>
 
-                    <a className={classes.footerSectionsLink} href="./White Paper (english).pdf" download>White Paper</a>
+                    <a className={classes.footerSectionsLink} href={this.state.lang === 'en' ? "./White Paper (english).pdf" : "./White Paper (rus).pdf"} download>White Paper</a>
                     <a className={classes.footerSectionsLink} href="/pitch">Pitch for Investors</a>
                     <a className={classes.footerSectionsLink} href="http://www.icoworld.network">MVP</a>
                   </li>
@@ -496,6 +509,7 @@ class MarketMonopolyPage extends React.Component<any> {
           : null}
         </div>
       </Scrollbar>
+      </IntlProvider>
     )
   }
 }

@@ -73,21 +73,21 @@ const client = new ApolloClient({
 export default function App() {
     return (
         <Provider store={store}>
-            <ConnectedRouter history={history}>
-                <ApolloProvider client={client}>
-                    <Switch>
-                        <Route path="/landing" component={LandingPage}/>
-                        <Route path="/market-monopoly" component={MarketMonopolyPage}/>
-                        <Route path="/offer-protection" component={OfferProtectionPage}/>
-                        <Route path="/pitch" component={PitchForInvestorsPage}/>
-                        <Route path="/signin" component={SignInPage}/>
-                        <Route path="/signup" component={SignUpPage}/>
-                        <Route path="/contacts" component={Contacts}/>
-                        <Route path="/reset" component={PasswordRecovery}/>
-                        <PrivateRoute path="/" component={MainApp}/>
-                    </Switch>
-                </ApolloProvider>
-            </ConnectedRouter>
+                <ConnectedRouter history={history}>
+                    <ApolloProvider client={client}>
+                        <Switch>
+                            <Route path="/landing" component={LandingPage}/>
+                            <Route path="/market-monopoly" component={MarketMonopolyPage}/>
+                            <Route path="/offer-protection" component={OfferProtectionPage}/>
+                            <Route path="/pitch" component={PitchForInvestorsPage}/>
+                            <Route path="/signin" component={SignInPage}/>
+                            <Route path="/signup" component={SignUpPage}/>
+                            <Route path="/contacts" component={Contacts}/>
+                            <Route path="/reset" component={PasswordRecovery}/>
+                            <PrivateRoute path="/" component={MainApp}/>
+                        </Switch>
+                    </ApolloProvider>
+                </ConnectedRouter>
         </Provider>
     )
 }

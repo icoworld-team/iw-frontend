@@ -1,6 +1,10 @@
 import React from 'react'
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Scrollbar from "react-custom-scrollbars";
+import { FormattedMessage } from 'react-intl';
+import { IntlProvider } from 'react-intl';
+import en from '../../i18n/en';
+import ru from '../../i18n/ru';
 
 const styles = (theme: Theme) => createStyles({
   wrapper: {
@@ -60,14 +64,21 @@ const styles = (theme: Theme) => createStyles({
     backgroundColor: '#000',
     opacity: 0.2,
   },
-  headingTitle: {
+  headingText: {
     marginBottom: '40px',
     color: '#fff',
     zIndex: 10,
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
 
     [theme.breakpoints.down('xs')]: {
       marginBottom: '25px',
     },
+  },
+  lang: {
+    cursor: 'pointer',
   },
   pageItem: {
     marginBottom: '50px',
@@ -203,6 +214,7 @@ const styles = (theme: Theme) => createStyles({
 class OfferProtectionPage extends React.Component<any> {
   state = {
     open: false,
+    lang: localStorage.getItem('lang'),
   };
 
   handleClose = (e: any) => {
@@ -235,13 +247,21 @@ class OfferProtectionPage extends React.Component<any> {
     const { classes } = this.props;
 
     return (
+      <IntlProvider locale="en" messages={this.state.lang === 'en' ? en : ru}>
       <Scrollbar autoHeight={true} autoHeightMax={'100vh'} renderThumbVertical={this.renderThumbVertical}>
         <div className={classes.wrapper}>
 
           <div className={classes.pageHeading}>
             <div className={classes.pageHeadingFilter} />
             <div className={classes.container} style={{display: 'flex', alignItems: 'flex-end'}}>
-              <h1 className={`${classes.title} ${classes.headingTitle}`}>How are we going to offer protection from scams?</h1>
+              <div className={classes.headingText}>
+                <h1 className={classes.title} style={{marginRight: '20px'}}><FormattedMessage id='scams.protect' defaultMessage="" /></h1>
+
+                {this.state.lang === 'en' ? 
+                  <span className={`${classes.lang} ${classes.title}`} onClick={() => {localStorage.setItem('lang', 'ru'), this.setState({lang: 'ru'})}}>RU</span> :
+                  <span className={`${classes.lang} ${classes.title}`} onClick={() => {localStorage.setItem('lang', 'en'), this.setState({lang: 'en'})}}>EN</span>
+                }
+              </div>
             </div>
           </div>
 
@@ -250,63 +270,57 @@ class OfferProtectionPage extends React.Component<any> {
 
               <li className={classes.pageItem}>
                 <div className={classes.content}>
-                  The most frequent question is how we are going to offer protection from scams.
+                  <FormattedMessage id='scams.paragraph.first' defaultMessage="" />
                   <br style={{fontSize: '24px'}}/>
-                  The answer is below.
+                  <FormattedMessage id='scams.paragraph.second' defaultMessage="" />
                   <br style={{fontSize: '24px'}}/>
                   <br style={{fontSize: '24px'}}/>
-
-                  Firstly, our goal is not to rectify the negative effects of the scam, but rather to prevent it by making it unprofitable. Our plan for doing this is as follows:
+                  <FormattedMessage id='scams.paragraph.third' defaultMessage="" />
                   <ol className={classes.numberList}>
-                    <li>Every project passes mandatory due diligence when it is being registered on our platform.</li>
-                    <li>We do KYC on the project founders, checking the reliability of their biographies, analyzing
-                      the project in detail, writing an audit report, and attaching it to the project profile.</li>
-                    <li>We communicate with every project not only online but also offline.</li>
-                    <li>When regulation appears, we add legal support for investments.</li>
+                    <li><FormattedMessage id='scams.paragraph.third.item.first' defaultMessage="" /></li>
+                    <li><FormattedMessage id='scams.paragraph.third.item.second' defaultMessage="" /></li>
+                    <li><FormattedMessage id='scams.paragraph.third.item.third' defaultMessage="" /></li>
+                    <li><FormattedMessage id='scams.paragraph.third.item.four' defaultMessage="" /></li>
                   </ol>
 
-                  <p>This is the first level of our defense. The number of scammers will decrease by 90% because it will be
-                    impossible for them to remain anonymous. Every crypto-investor will know who took their money, and where that person is.
-                  <br style={{fontSize: '24px'}}/>
-                  <br style={{fontSize: '24px'}}/>
+                  <p>
+                    <FormattedMessage id='scams.paragraph.four' defaultMessage="" />
+                    <br style={{fontSize: '24px'}}/>
+                    <br style={{fontSize: '24px'}}/>
 
-                  The second level of scam protection is escrow service. We create a smart contract that sends money in tranches.
-                  For example, a project will state: "I need $10 million of investment. $1 million for the first stage, $2 million
-                  for the second, $3 million for the third, etc."
-                  <br style={{fontSize: '24px'}}/>
+                    <FormattedMessage id='scams.paragraph.five' defaultMessage="" />
+                    <br style={{fontSize: '24px'}}/>
 
-                  After that:</p>
+                    <FormattedMessage id='scams.paragraph.six' defaultMessage="" />
+                  </p>
                   <ol className={classes.numberList}>
-                    <li>Investors' money comes into a smart contract that we administer. Under the terms of the smart contract,
-                      we can’t take the money. We can only send it to the project or return it to the investors.</li>
-                    <li>We send the first tranche of investments into the project for passing the first stage.</li>
-                    <li>If the project fulfills its obligations at successive stages, we send the second tranche, then the third, etc.</li>
-                    <li>If the project doesn’t fulfill these obligations, we return the money to the investors.</li>
+                    <li><FormattedMessage id='scams.paragraph.six.item.first' defaultMessage="" /></li>
+                    <li><FormattedMessage id='scams.paragraph.six.item.second' defaultMessage="" /></li>
+                    <li><FormattedMessage id='scams.paragraph.six.item.third' defaultMessage="" /></li>
+                    <li><FormattedMessage id='scams.paragraph.six.item.four' defaultMessage="" /></li>
                   </ol>
+                  <p>
+                    <FormattedMessage id='scams.paragraph.seven' defaultMessage="" />
+                  </p>
                 </div>
               </li>
 
               <li className={classes.pageItem}>
-                <h2 className={classes.title}>There is also the question of why investors will trust our platform</h2>
+                <h2 className={classes.title}><FormattedMessage id='scams.why.investors.will.trust' defaultMessage="" /></h2>
                 <div className={classes.content}>
-                <p>The reason is the same: it is profitable for us to be honest. Our business is a reputable one. And
-                  only if we do our job well, can we earn the trust of investors. Thereby, we will be able to attract
-                  hundreds of projects per year. We will earn big money on commissions. Very big money. However, a
-                  few simple mistakes can destroy our reputation and instantly drive away clients. We do not want to
-                  lose hundreds of good projects over a few scams. Therefore, in our case honesty is not just a
-                  question of morality, but a matter of common sense.</p>
+                  <p><FormattedMessage id='scams.why.investors.will.trust.text' defaultMessage="" /></p>
                 </div>
               </li>
 
             </ul>
 
             <div className={classes.info}>
-              <h3 className={classes.subtitle}>More information:</h3>
+              <h3 className={classes.subtitle}><FormattedMessage id='more.information' defaultMessage="" /></h3>
               <ul className={classes.infoList}>
-                <li className={classes.infoItem}><a href="/pitch" className={classes.infoLink}>Pitch for Investors</a></li>
-                <li className={classes.infoItem}><a href="./White Paper (english).pdf" download className={classes.infoLink}>White Paper (download)</a></li>
-                <li className={classes.infoItem}><a href="./Financial Model.xlsx" download className={classes.infoLink}>Financial Model (download)</a></li>
-                <li className={classes.infoItem}><a href="/market-monopoly" className={classes.infoLink}>Market monopoly, or why are we developing a social network? </a></li>
+                <li className={classes.infoItem}><a href="/pitch" className={classes.infoLink}><FormattedMessage id='pitch' defaultMessage="" /></a></li>
+                <li className={classes.infoItem}><a href="./White Paper (english).pdf" download className={classes.infoLink}><FormattedMessage id='white.paper.download' defaultMessage="" /></a></li>
+                <li className={classes.infoItem}><a href="./Financial Model.xlsx" download className={classes.infoLink}><FormattedMessage id='financial.model.download' defaultMessage="" /></a></li>
+                <li className={classes.infoItem}><a href="/market-monopoly" className={classes.infoLink}><FormattedMessage id='market.monopoly' defaultMessage="" /></a></li>
               </ul>
             </div>
           </div>
@@ -318,14 +332,14 @@ class OfferProtectionPage extends React.Component<any> {
                   <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
                   <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
                 </a>
-                <span className={classes.footerDescription}>A social network for cryptoinvestors, asset managers and ICO-projects</span>
+                <span className={classes.footerDescription}><FormattedMessage id='icoworld.desc' defaultMessage="" /></span>
               </div>
               <div className={classes.footerRight}>
                 <ul className={classes.footerSections}>
                   <li className={classes.footerSectionsItem}>
                     <span className={classes.footerSectionsTitle}>Product</span>
 
-                    <a className={classes.footerSectionsLink} href="./White Paper (english).pdf" download>White Paper</a>
+                    <a className={classes.footerSectionsLink} href={this.state.lang === 'en' ? "./White Paper (english).pdf" : "./White Paper (rus).pdf"} download>White Paper</a>
                     <a className={classes.footerSectionsLink} href="/pitch">Pitch for Investors</a>
                     <a className={classes.footerSectionsLink} href="http://www.icoworld.network">MVP</a>
                   </li>
@@ -487,6 +501,7 @@ class OfferProtectionPage extends React.Component<any> {
           : null}
         </div>
       </Scrollbar>
+      </IntlProvider>
     )
   }
 }

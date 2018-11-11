@@ -1,6 +1,10 @@
 import React from 'react'
 import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Scrollbar from "react-custom-scrollbars";
+import { FormattedMessage } from 'react-intl';
+import { IntlProvider } from 'react-intl';
+import en from '../../i18n/en';
+import ru from '../../i18n/ru';
 
 const styles = (theme: Theme) => createStyles({
   wrapper: {
@@ -529,6 +533,7 @@ class LandingPage extends React.Component<any> {
     hours: 0,
     days: 0,
     open: false,
+    lang: localStorage.getItem('lang'),
   };
 
   handleClose = (e: any) => {
@@ -589,6 +594,7 @@ class LandingPage extends React.Component<any> {
     const { classes } = this.props;
 
     return (
+      <IntlProvider locale="en" messages={this.state.lang === 'en' ? en : ru}>
       <Scrollbar autoHeight={true} autoHeightMax={'100vh'} renderThumbVertical={this.renderThumbVertical}>
         <div className={classes.wrapper} id="first">
 
@@ -599,34 +605,57 @@ class LandingPage extends React.Component<any> {
                 <h2 data-to='first' onClick={this.handleClick} style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
               </span>
               <div className={classes.headerLinks}>
-                <ul className={classes.headerLinksList}>
-                  <li className={classes.headerLinksItem}>
-                    <span data-to='solutions' onClick={this.handleClick}>Solutions</span>
-                  </li>
-                  <li className={classes.headerLinksItem}>
-                    <span data-to='roadmap' onClick={this.handleClick}>Roadmap</span>
-                  </li>
-                  <li className={classes.headerLinksItem}>
-                    <span data-to='team' onClick={this.handleClick}>Team</span>
-                  </li>
-                  <li className={classes.headerLinksItem}>
-                    <span data-to='contacts' onClick={this.handleClick}>Contacts</span>
-                  </li>
-                </ul>
+              {this.state.lang === 'en' ? 
+                  <ul className={classes.headerLinksList}>
+                    <li className={classes.headerLinksItem}>
+                      <span data-to='solutions' onClick={this.handleClick}>Solutions</span>
+                    </li>
+                    <li className={classes.headerLinksItem}>
+                      <span data-to='roadmap' onClick={this.handleClick}>Roadmap</span>
+                    </li>
+                    <li className={classes.headerLinksItem}>
+                      <span data-to='team' onClick={this.handleClick}>Team</span>
+                    </li>
+                    <li className={classes.headerLinksItem}>
+                      <span data-to='contacts' onClick={this.handleClick}>Contacts</span>
+                    </li>
+                    <li className={classes.headerLinksItem} style={{marginLeft: '5px'}}>
+                      <span onClick={() => {localStorage.setItem('lang', 'ru'), this.setState({lang: 'ru'})}}>RU</span>
+                    </li>
+                  </ul>
+                  :
+                  <ul className={classes.headerLinksList}>
+                    <li className={classes.headerLinksItem}>
+                      <span data-to='solutions' onClick={this.handleClick}>Решения</span>
+                    </li>
+                    <li className={classes.headerLinksItem}>
+                      <span data-to='roadmap' onClick={this.handleClick}>Road Map</span>
+                    </li>
+                    <li className={classes.headerLinksItem}>
+                      <span data-to='team' onClick={this.handleClick}>Команда</span>
+                    </li>
+                    <li className={classes.headerLinksItem}>
+                      <span data-to='contacts' onClick={this.handleClick}>Контакты</span>
+                    </li>
+                    <li className={classes.headerLinksItem}>
+                      <span onClick={() => {localStorage.setItem('lang', 'en'), this.setState({lang: 'en'})}}>EN</span>
+                    </li>
+                  </ul>
+                }
               </div>
             </div>
           </header>
 
           <div className={`${classes.section} ${classes.firstSection}`}>
             <div className={classes.container}>
-              <h2 className={classes.title}>icoWorld is a social network for cryptoinvestors, asset managers and ICO-projects</h2>
-              <h3 className={classes.subtitle} style={{marginTop: '60px'}}>Private sale will start in</h3>
+              <h2 className={classes.title}><FormattedMessage id='icoworld.desc' defaultMessage="" /></h2>
+              <h3 className={classes.subtitle} style={{marginTop: '60px'}}><FormattedMessage id='private.sale.start' defaultMessage="" /></h3>
               
               <ul style={{display: 'flex', marginTop: '60px'}}>
                 <li className={classes.progressBarContainer}>
                   <span className={classes.progressText}>
                     <span className={classes.amount}>{this.state.days}</span>
-                    <span className={classes.text}>Days</span>
+                    <span className={classes.text}><FormattedMessage id='days' defaultMessage="" /></span>
                   </span>
                   <svg className={classes.progressSvg}>
                     <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
@@ -637,7 +666,7 @@ class LandingPage extends React.Component<any> {
                 <li className={classes.progressBarContainer}>
                   <span className={classes.progressText}>
                     <span className={classes.amount}>{this.state.hours}</span>
-                    <span className={classes.text}>Hours</span>
+                    <span className={classes.text}><FormattedMessage id='hours' defaultMessage="" /></span>
                   </span>
                   <svg className={classes.progressSvg}>
                     <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
@@ -648,7 +677,7 @@ class LandingPage extends React.Component<any> {
                 <li className={classes.progressBarContainer}>
                   <span className={classes.progressText}>
                     <span className={classes.amount}>{this.state.mins}</span>
-                    <span className={classes.text}>Minutes</span>
+                    <span className={classes.text}><FormattedMessage id='minutes' defaultMessage="" /></span>
                   </span>
                   <svg className={classes.progressSvg}>
                     <circle className={classes.circle} r="45%" cx="50%" cy="50%" fill="#fafafa" stroke="#e5e5e5"></circle>
@@ -660,9 +689,9 @@ class LandingPage extends React.Component<any> {
               
               <div className={classes.buttons} style={{marginTop: '60px'}}>
                 <ul className={classes.buttonsList}>
-                  <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="./White Paper (english).pdf" download>White Paper</a></li>
-                  <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="/pitch" target="_blank">Pitch for Investors</a></li>
-                  <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkFill}`} href="http://icoworld.network/" target="_blank">MVP</a></li>
+                  <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="./White Paper (english).pdf" download><FormattedMessage id='white.paper' defaultMessage="" /></a></li>
+                  <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="/pitch" target="_blank"><FormattedMessage id='pitch' defaultMessage="" /></a></li>
+                  <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkFill}`} href="http://icoworld.network/" target="_blank"><FormattedMessage id='mvp' defaultMessage="" /></a></li>
                 </ul>
               </div>
             </div>
@@ -670,20 +699,20 @@ class LandingPage extends React.Component<any> {
 
           <div className={classes.section} id="solutions" style={{backgroundColor: '#2d3546', paddingTop: '80px', paddingBottom: '80px'}}>
             <div className={classes.container}>
-              <h2 className={classes.title} style={{color: '#fff'}}>Our solutions:</h2>
+              <h2 className={classes.title} style={{color: '#fff'}}><FormattedMessage id='our.solutions' defaultMessage="" /></h2>
               <div className={classes.solutions} style={{marginTop: '80px', width: '100%'}}>
                 <ul className={classes.solutionsList}>
                   <li className={classes.solutionsItem}>
                     <img className={classes.peoplesImg} src="./icons/investors.svg" alt="investors"/>
-                    <span className={classes.solutionsText}>Investor collaboration</span>
+                    <span className={classes.solutionsText}><FormattedMessage id='investor.collaboration' defaultMessage="" /></span>
                   </li>
                   <li className={classes.solutionsItem}>
                     <img className={classes.shieldImg} src="./icons/shield.svg" alt="shield"/>
-                    <span className={classes.solutionsText}>Scam-protection</span>
+                    <span className={classes.solutionsText}><FormattedMessage id='scam.protection' defaultMessage="" /></span>
                   </li>
                   <li className={classes.solutionsItem}>
                     <img className={classes.walletImg} src="./icons/wallet.svg" alt="wallet"/>
-                    <span className={classes.solutionsText}>Asset management</span>
+                    <span className={classes.solutionsText}><FormattedMessage id='asset.management' defaultMessage="" /></span>
                   </li>
                 </ul>
               </div>
@@ -692,98 +721,98 @@ class LandingPage extends React.Component<any> {
 
           <div className={classes.section} style={{paddingTop: '80px'}} id="roadmap">
             <li className={classes.container}>
-              <h2 className={classes.title}>Roadmap</h2>
+              <h2 className={classes.title}><FormattedMessage id='roadmap' defaultMessage="" /></h2>
               <ul className={classes.roadmapList} style={{marginTop: '40px'}}>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>June - July, 2018</div>
+                  <div className={classes.roadmapLeft}><FormattedMessage id='roadmap.first' defaultMessage="" /></div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#7ED321'}} />
                   <ul className={classes.roadmapRight}>
-                    <li className={classes.roadmapRightItem}>June - July, 2018</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.first' defaultMessage="" /></li>
 
-                    <li className={classes.roadmapRightItem}>Creating the concept</li>
-                    <li className={classes.roadmapRightItem}>Testing the concept</li>
-                    <li className={classes.roadmapRightItem}>Finalizing the concept</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.first.item.first' defaultMessage="" /></li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.first.item.second' defaultMessage="" /></li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.first.item.third' defaultMessage="" /></li>
                   </ul>
                 </li>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>August - November, 2018</div>
+                  <div className={classes.roadmapLeft}><FormattedMessage id='roadmap.second' defaultMessage="" /></div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#7ED321'}} />
                   <ul className={classes.roadmapRight}>
-                    <li className={classes.roadmapRightItem}>August - November, 2018</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.second' defaultMessage="" /></li>
 
-                    <li className={classes.roadmapRightItem}>Team building</li>
-                    <li className={classes.roadmapRightItem}>Pre-seed investment raising</li>
-                    <li className={classes.roadmapRightItem}>Minimum viable product development</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.second.item.first' defaultMessage="" /></li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.second.item.second' defaultMessage="" /></li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.second.item.third' defaultMessage="" /></li>
                   </ul>
                 </li>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>December, 2018</div>
+                  <div className={classes.roadmapLeft}><FormattedMessage id='roadmap.third' defaultMessage="" /></div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
-                    <li className={classes.roadmapRightItem}>December, 2018</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.third' defaultMessage="" /></li>
 
-                    <li className={classes.roadmapRightItem}>Private Sale</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.third.item.first' defaultMessage="" /></li>
                   </ul>
                 </li>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>January, 2019 - June, 2019</div>
+                  <div className={classes.roadmapLeft}><FormattedMessage id='roadmap.four' defaultMessage="" /></div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
-                    <li className={classes.roadmapRightItem}>January, 2019 - June, 2019</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.four' defaultMessage="" /></li>
 
-                    <li className={classes.roadmapRightItem}>Completion of social part of the project</li>
-                    <li className={classes.roadmapRightItem}>Attraction of first users</li>
-                    <li className={classes.roadmapRightItem}>Optimization of marketing expenses</li>
-                    <li className={classes.roadmapRightItem}>Partnerships with suppliers</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.four.item.first' defaultMessage="" /></li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.four.item.second' defaultMessage="" /></li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.four.item.third' defaultMessage="" /></li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.four.item.four' defaultMessage="" /></li>
                   </ul>
                 </li>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>July, 2019</div>
+                  <div className={classes.roadmapLeft}><FormattedMessage id='roadmap.five' defaultMessage="" /></div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
-                    <li className={classes.roadmapRightItem}>July, 2019</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.five' defaultMessage="" /></li>
 
-                    <li className={classes.roadmapRightItem}>Initial Coin Offering</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.five.item.first' defaultMessage="" /></li>
                   </ul>
                 </li>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>August, 2019 - March, 2020</div>
+                  <div className={classes.roadmapLeft}><FormattedMessage id='roadmap.six' defaultMessage="" /></div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
-                    <li className={classes.roadmapRightItem}>August, 2019 - March, 2020</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.six' defaultMessage="" /></li>
 
-                    <li className={classes.roadmapRightItem}>Creating scam-protection product</li>
-                    <li className={classes.roadmapRightItem}>Adding five projects to the platform</li>
-                    <li className={classes.roadmapRightItem}>Optimization of research and scam-scoring expenses</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.six.item.first' defaultMessage="" /></li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.six.item.second' defaultMessage="" /></li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.six.item.third' defaultMessage="" /></li>
                   </ul>
                 </li>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>April, 2020 - April, 2021</div>
+                  <div className={classes.roadmapLeft}><FormattedMessage id='roadmap.seven' defaultMessage="" /></div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
-                    <li className={classes.roadmapRightItem}>April, 2020 - April, 2021</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.seven' defaultMessage="" /></li>
                     
-                    <li className={classes.roadmapRightItem}>Business scaling</li>
-                    <li className={classes.roadmapRightItem}>Opening offices in business capitals of the world</li>
-                    <li className={classes.roadmapRightItem}>Adding thirty-five projects to the platform</li>
-                    <li className={classes.roadmapRightItem}>Optimization of all expenses</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.seven.item.first' defaultMessage="" /></li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.seven.item.second' defaultMessage="" /></li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.seven.item.third' defaultMessage="" /></li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.seven.item.four' defaultMessage="" /></li>
                   </ul>
                 </li>
 
                 <li className={classes.roadmapItem}>
-                  <div className={classes.roadmapLeft}>Always</div>
+                  <div className={classes.roadmapLeft}><FormattedMessage id='roadmap.eight' defaultMessage="" /></div>
                   <div className={classes.roadmapCenter} style={{backgroundColor: '#FECD08'}} />
                   <ul className={classes.roadmapRight}>
-                    <li className={classes.roadmapRightItem}>Always</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.eight' defaultMessage="" /></li>
 
-                    <li className={classes.roadmapRightItem}>Research new opportunities</li>
+                    <li className={classes.roadmapRightItem}><FormattedMessage id='roadmap.eight.item.first' defaultMessage="" /></li>
                   </ul>
                 </li>
 
@@ -793,13 +822,13 @@ class LandingPage extends React.Component<any> {
 
           <div className={classes.section} style={{paddingTop: '80px'}} id="team">
             <div className={classes.container}>
-              <h2 className={classes.title}>Team</h2>
+              <h2 className={classes.title}><FormattedMessage id='team' defaultMessage="" /></h2>
               
               <ul className={classes.photosList} style={{marginTop: '40px'}}>
                 <li className={classes.photosItem}>
                   <div className={classes.itemPhoto}><img src="./Ivan.jpg" style={{width: '100%', transform: 'translateY(-30px)'}} /></div>
-                  <p className={classes.itemName}>Ivan Fedotov</p>
-                  <p style={{marginBottom: '10px'}}>Chief Executive Officer</p>
+                  <p className={classes.itemName}><FormattedMessage id='ivan.fedotov' defaultMessage="" /></p>
+                  <p style={{marginBottom: '10px'}}><FormattedMessage id='ivan.fedotov.desc' defaultMessage="" /></p>
 
                   <ul style={{display: 'flex', justifyContent: 'center'}}>
                     <li className={classes.teamSocialsItem}>
@@ -822,8 +851,8 @@ class LandingPage extends React.Component<any> {
 
                 <li className={classes.photosItem}>
                   <div className={classes.itemPhoto}><img src="./Alexey.jpg" style={{width: '100%', transform: 'translateY(-12px)'}} /></div>
-                  <p className={classes.itemName}>Aleksey Rezvov</p>
-                  <p style={{marginBottom: '10px'}}>Chief Technical Officer</p>
+                  <p className={classes.itemName}><FormattedMessage id='aleksey.rezvov' defaultMessage="" /></p>
+                  <p style={{marginBottom: '10px'}}><FormattedMessage id='aleksey.rezvov.desc' defaultMessage="" /></p>
 
                   <ul style={{display: 'flex', justifyContent: 'center'}}>
                     <li className={classes.teamSocialsItem}>
@@ -846,8 +875,8 @@ class LandingPage extends React.Component<any> {
 
                 <li className={classes.photosItem}>
                   <div className={classes.itemPhoto}><img src="./Nikolai.jpg" style={{width: '100%', transform: 'translateY(-25px)'}} /></div>
-                  <p className={classes.itemName}>Nikolay Beschastny</p>
-                  <p style={{marginBottom: '10px'}}>Team Leader</p>
+                  <p className={classes.itemName}><FormattedMessage id='nikolay.beschastny' defaultMessage="" /></p>
+                  <p style={{marginBottom: '10px'}}><FormattedMessage id='nikolay.beschastny.desc' defaultMessage="" /></p>
 
                   <ul style={{display: 'flex', justifyContent: 'center'}}>
                     <li className={classes.teamSocialsItem}>
@@ -860,8 +889,8 @@ class LandingPage extends React.Component<any> {
 
                 <li className={classes.photosItem}>
                   <div className={classes.itemPhoto}><img src="./Alexander.jpg" style={{width: '100%', transform: 'translateY(-10px)'}} /></div>
-                  <p className={classes.itemName}>Aleksandr Saveliev</p>
-                  <p style={{marginBottom: '10px'}}>Project Manager</p>
+                  <p className={classes.itemName}><FormattedMessage id='aleksandr.saveliev' defaultMessage="" /></p>
+                  <p style={{marginBottom: '10px'}}><FormattedMessage id='aleksandr.saveliev.desc' defaultMessage="" /></p>
 
                   <ul style={{display: 'flex', justifyContent: 'center'}}>
                     <li className={classes.teamSocialsItem}>
@@ -873,7 +902,7 @@ class LandingPage extends React.Component<any> {
                 </li>
               </ul>
 
-              <h2 className={classes.title} style={{marginTop: '80px'}} id="contacts">Join us!</h2>
+              <h2 className={classes.title} style={{marginTop: '80px'}} id="contacts"><FormattedMessage id='join.us' defaultMessage="" /></h2>
 
               <div className={classes.socials} style={{marginTop: '40px'}}>
                 <ul className={classes.socialsList} style={{display: 'flex'}}>
@@ -906,14 +935,14 @@ class LandingPage extends React.Component<any> {
                   <h2 data-to='first' onClick={this.handleClick} style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
                 </span>
 
-                <span className={classes.footerDescription}>A social network for cryptoinvestors, asset managers and ICO-projects</span>
+                <span className={classes.footerDescription}><FormattedMessage id='icoworld.desc' defaultMessage="" /></span>
               </div>
               <div className={classes.footerRight}>
                 <ul className={classes.footerSections}>
                   <li className={classes.footerSectionsItem}>
                     <span className={classes.footerSectionsTitle}>Product</span>
 
-                    <a className={classes.footerSectionsLink} href="./White Paper (english).pdf" download>White Paper</a>
+                    <a className={classes.footerSectionsLink} href={this.state.lang === 'en' ? "./White Paper (english).pdf" : "./White Paper (rus).pdf"} download>White Paper</a>
                     <a className={classes.footerSectionsLink} target="_blank" href="/pitch">Pitch for Investors</a>
                     <a className={classes.footerSectionsLink} href="http://www.icoworld.network" target="_blank">MVP</a>
                   </li>
@@ -1076,6 +1105,7 @@ class LandingPage extends React.Component<any> {
 
         </div>
       </Scrollbar>
+      </IntlProvider>
     )
   }
 }

@@ -4,6 +4,10 @@ import Scrollbar from "react-custom-scrollbars";
 import Checkbox from '@material-ui/core/Checkbox';
 import { withApollo } from 'react-apollo';
 import { sendEmail } from '../../api'
+import { FormattedMessage } from 'react-intl';
+import { IntlProvider } from 'react-intl';
+import en from '../../i18n/en';
+import ru from '../../i18n/ru';
 
 const styles = (theme: Theme) => createStyles({
   wrapper: {
@@ -63,14 +67,21 @@ const styles = (theme: Theme) => createStyles({
     backgroundColor: '#000',
     opacity: 0.2,
   },
-  headingTitle: {
+  headingText: {
     marginBottom: '40px',
     color: '#fff',
     zIndex: 10,
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
 
     [theme.breakpoints.down('xs')]: {
       marginBottom: '25px',
     },
+  },
+  lang: {
+    cursor: 'pointer',
   },
   pageItem: {
     marginBottom: '50px',
@@ -238,6 +249,7 @@ class PitchForInvestorsPage extends React.Component<any> {
     telegram: '',
     formError: false,
     fetchError: false,
+    lang: localStorage.getItem('lang'),
   };
 
   handlePrivacyClose = (e: any) => {
@@ -334,17 +346,29 @@ class PitchForInvestorsPage extends React.Component<any> {
         })
   };
 
+  updateData = (value: any) => {
+    this.setState({ lang: value })
+  }
+
   render() {
     const { classes } = this.props;
 
     return (
+      <IntlProvider locale="en" messages={this.state.lang === 'en' ? en : ru}>
       <Scrollbar autoHeight={true} autoHeightMax={'100vh'} renderThumbVertical={this.renderThumbVertical}>
         <div className={classes.wrapper}>
 
           <div className={classes.pageHeading}>
             <div className={classes.pageHeadingFilter} />
             <div className={classes.container} style={{display: 'flex', alignItems: 'flex-end'}}>
-              <h1 className={`${classes.title} ${classes.headingTitle}`}>Pitch for Investors</h1>
+              <div className={classes.headingText}>
+                <h1 className={classes.title} style={{marginRight: '20px'}}><FormattedMessage id='pitch' defaultMessage="" /></h1>
+
+                {this.state.lang === 'en' ? 
+                  <span className={`${classes.lang} ${classes.title}`} onClick={() => {localStorage.setItem('lang', 'ru'), this.setState({lang: 'ru'})}}>RU</span> :
+                  <span className={`${classes.lang} ${classes.title}`} onClick={() => {localStorage.setItem('lang', 'en'), this.setState({lang: 'en'})}}>EN</span>
+                }
+              </div>
             </div>
           </div>
 
@@ -352,113 +376,94 @@ class PitchForInvestorsPage extends React.Component<any> {
             <ul className={classes.pageList}>
 
               <li className={classes.pageItem}>
-                <h2 className={classes.title}>Keys</h2>
+                <h2 className={classes.title}><FormattedMessage id='keys' defaultMessage="" /></h2>
                 <div className={classes.content}>
-                  The most important:
+                  <FormattedMessage id='keys.text' defaultMessage="" />
                   <ol className={classes.numberList}>
-                    <li>Today's ICO-market is worth 18 billion</li>
-                    <li>We are going to monopolize this marketplace</li>
-                    <li>We have a development team and a minimum viable product</li>
+                    <li><FormattedMessage id='keys.item.first' defaultMessage="" /></li>
+                    <li><FormattedMessage id='keys.item.second' defaultMessage="" /></li>
+                    <li><FormattedMessage id='keys.item.third' defaultMessage="" /></li>
                   </ol>
                 </div>
               </li>
 
               <li className={classes.pageItem}>
-                <h2 className={classes.title}>Problem</h2>
+                <h2 className={classes.title}><FormattedMessage id='problem' defaultMessage="" /></h2>
                 <div className={classes.content}>
-                Today's ICO marketplace has the following problems:
+                  <FormattedMessage id='problem.text' defaultMessage="" />
                   <ol className={classes.numberList}>
-                    <li>Many scam projects</li>
-                    <li>No profitable asset management</li>
-                    <li>Total distrust between market stakeholders</li>
+                    <li><FormattedMessage id='problem.item.first' defaultMessage="" /></li>
+                    <li><FormattedMessage id='problem.item.second' defaultMessage="" /></li>
+                    <li><FormattedMessage id='problem.item.third' defaultMessage="" /></li>
                   </ol>
                 </div>
               </li>
 
               <li className={classes.pageItem}>
-                <h2 className={classes.title}>Solution</h2>
+                <h2 className={classes.title}><FormattedMessage id='solution' defaultMessage="" /></h2>
                 <div className={classes.content}>
-                  We are developing a social network for crypto investors, asset managers, and ICO projects. Our main idea
-                  is to collect all ICO-market participants in one space and obtain a scale effect. Based on this effect,
-                  we are going to create services that allow users to trust each other and to provide protection from scam projects.
+                  <FormattedMessage id='solution.paragraph.first' defaultMessage="" />
                   <br style={{fontSize: '24px'}}/>
-                  We are creating a platform that unites many cryptocurrency investors. As a result, there will be a large
-                  turnover of investment funds appearing on our platform. Collecting small commission payments from this
-                  turnover will allow us to fully maintain the infrastructure that filters out ICO scams.
+                  <FormattedMessage id='solution.paragraph.second' defaultMessage="" />
                   <br style={{fontSize: '24px'}}/>
-                  We are also creating additional escrow services and an asset management infrastructure.
+                  <FormattedMessage id='solution.paragraph.third' defaultMessage="" />
                 </div>
               </li>
 
               <li className={classes.pageItem}>
-                <h2 className={classes.title}>Business model</h2>
+                <h2 className={classes.title}><FormattedMessage id='business.model' defaultMessage="" /></h2>
                 <div className={classes.content}>
-                  We have a classic investment banking business model. We provide investors with project scoring and valuation
-                  services and receive a commission from investments for our work.
+                  <FormattedMessage id='business.model.text' defaultMessage="" />
                 </div>
               </li>
 
               <li className={classes.pageItem}>
-                <h2 className={classes.title}>Stage</h2>
+                <h2 className={classes.title}><FormattedMessage id='stage' defaultMessage="" /></h2>
                 <div className={classes.content}>
-                  We have a fifteen-member team. We are developing the platform now and have a working MVP. We presented a
-                  preliminary announcement of our project to collect feedback. The result is positive.
+                  <FormattedMessage id='stage.text' defaultMessage="" />
                 </div>
               </li>
 
               <li className={classes.pageItem}>
-                <h2 className={classes.title}>WRLD-token</h2>
+                <h2 className={classes.title}><FormattedMessage id='investment.required' defaultMessage="" /></h2>
                 <div className={classes.content}>
-                  We issue 100.000.000 WRLD-tokens. Each tokenholder gets the right to receive profit proportionally to its share.
-                  Each tokenholder gets the right to manage the company proportionally to its share. Each tokenholder gets the right
-                  to convert tokens into ordinary shares proportionally to its share.
-                </div>
-              </li>
-
-              <li className={classes.pageItem}>
-                <h2 className={classes.title}>Private Sale</h2>
-                <div className={classes.content}>
-                  In Private Sale, we sell 10.000.000 WRLD-tokens worth a total amount of $500.000. We will use the raised money for:
+                  <FormattedMessage id='investment.required.text' defaultMessage="" />
                   <ol className={classes.numberList} style={{marginBottom: '7px'}}>
-                    <li>Completion of the social part of MVP to the final version</li>
-                    <li>Recruitment of the first users</li>
-                    <li>Optimization of marketing expenses</li>
+                    <li><FormattedMessage id='investment.required.item.first' defaultMessage="" /></li>
+                    <li><FormattedMessage id='investment.required.item.second' defaultMessage="" /></li>
+                    <li><FormattedMessage id='investment.required.item.third' defaultMessage="" /></li>
                   </ol>
-                  The minimum amount of investments in the private sale stage is $30.000. The soft-cap in the private sale stage is $300.000. If we don’t reach the amount, we will refund the money to the investors. We guarantee this agreement by smart-contract. We will raise investments in Ethereum.
+                  <FormattedMessage id='investment.required.bottom.text' defaultMessage="" />
                 </div>
               </li>
 
               <li className={classes.pageItem}>
-                <h2 className={classes.title}>Estimate profit</h2>
+                <h2 className={classes.title}><FormattedMessage id='estimate.profit' defaultMessage="" /></h2>
                 <div className={classes.content}>
-                  For investments, investors will receive a 10% share of the project.
+                  <FormattedMessage id='estimate.profit.paragraph.first' defaultMessage="" />
                   <br style={{fontSize: '24px'}}/>
-                  After the Initial Coin Offering, the estimated enterprise value of the project will be $18 million.
-                  The estimated enterprise value of the share of investors will be $1.8 million. We are going to start
-                  the ICO in six months after the Private Sale.
+                  <FormattedMessage id='estimate.profit.paragraph.second' defaultMessage="" />
                   <br style={{fontSize: '24px'}}/>
-                  In the case of long-term project success, its enterprise value will exceed $540 million. The share
-                  of investors will exceed $54 million. At the same time, our global goal is to create a unicorn
-                  company (a company whose value over $1 billion).
+                  <FormattedMessage id='estimate.profit.paragraph.third' defaultMessage="" />
                 </div>
               </li>
               
               <li className={classes.pageItem}>
-                <h2 className={classes.title}>White List</h2>
+                <h2 className={classes.title}><FormattedMessage id='white.list' defaultMessage="" /></h2>
                 <div className={classes.content}>
-                  If you want to invest in our project in the Private Sale stage, please fill in our <span id="privacy" onClick={this.handleOpen} className={classes.link}>White List</span>.
+                  <FormattedMessage id='white.list.text' defaultMessage="" /> <span id="privacy" onClick={this.handleOpen} className={classes.link}><FormattedMessage id='white.list' defaultMessage="" /></span>.
                 </div>
               </li>
 
             </ul>
 
             <div className={classes.info}>
-              <h3 className={classes.subtitle}>More information:</h3>
+              <h3 className={classes.subtitle}><FormattedMessage id='more.information' defaultMessage="" /></h3>
               <ul className={classes.infoList}>
-                <li className={classes.infoItem}><a href="./White Paper (english).pdf" download className={classes.infoLink}>White Paper (download)</a></li>
-                <li className={classes.infoItem}><a href="./Financial Model.xlsx" download className={classes.infoLink}>Financial Model (download)</a></li>
-                <li className={classes.infoItem}><a href="/offer-protection" className={classes.infoLink}>How are we going to offer protection from scams?</a></li>
-                <li className={classes.infoItem}><a href="/market-monopoly" className={classes.infoLink}>Market monopoly, or why are we developing a social network?</a></li>
+                <li className={classes.infoItem}><a href="./White Paper (english).pdf" download className={classes.infoLink}><FormattedMessage id='white.paper.download' defaultMessage="" /></a></li>
+                <li className={classes.infoItem}><a href="./Financial Model.xlsx" download className={classes.infoLink}><FormattedMessage id='financial.model.download' defaultMessage="" /></a></li>
+                <li className={classes.infoItem}><a href="/offer-protection" className={classes.infoLink}><FormattedMessage id='scams.protect' defaultMessage="" /></a></li>
+                <li className={classes.infoItem}><a href="/market-monopoly" className={classes.infoLink}><FormattedMessage id='market.monopoly' defaultMessage="" /></a></li>
               </ul>
             </div>
           </div>
@@ -470,14 +475,14 @@ class PitchForInvestorsPage extends React.Component<any> {
                   <img style={{width: '30px', marginRight: '10px'}} src="./icons/logo.svg" alt="logo"/>
                   <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
                 </a>
-                <span className={classes.footerDescription}>A social network for cryptoinvestors, asset managers and ICO-projects</span>
+                <span className={classes.footerDescription}><FormattedMessage id='icoworld.desc' defaultMessage="" /></span>
               </div>
               <div className={classes.footerRight}>
                 <ul className={classes.footerSections}>
                   <li className={classes.footerSectionsItem}>
                     <span className={classes.footerSectionsTitle}>Product</span>
 
-                    <a className={classes.footerSectionsLink} href="./White Paper (english).pdf" download>White Paper</a>
+                    <a className={classes.footerSectionsLink} href={this.state.lang === 'en' ? "./White Paper (english).pdf" : "./White Paper (rus).pdf"} download>White Paper</a>
                     <a className={classes.footerSectionsLink} href="/pitch">Pitch for Investors</a>
                     <a className={classes.footerSectionsLink} href="http://www.icoworld.network">MVP</a>
                   </li>
@@ -678,6 +683,7 @@ class PitchForInvestorsPage extends React.Component<any> {
           : null}
         </div>
       </Scrollbar>
+      </IntlProvider>
     )
   }
 }
