@@ -3,10 +3,12 @@ import { withStyles, createStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { UPDATE_USER } from '../../api/graphql'
+import {GET_USER, UPDATE_USER} from '../../api/graphql'
 import { Mutation } from 'react-apollo'
 import SettingsPopup from '../SettingsPopup'
 import { withApollo } from 'react-apollo'
+import { changePassword } from "../../api";
+import {relativeTime} from "../../utils";
 
 const styles = (theme: Theme) => createStyles({
   formItemHeading: {
@@ -79,7 +81,11 @@ class GeneralSettings extends Component<any> {
     newEmail: '',
     newNumber: '',
     language: this.props.user.language,
-    open: false
+    open: false,
+    repeatedNewPassword: '',
+    oldPassword: '',
+    newPassword: '',
+    passwordChangingError: '',
   };
 
   handleClickOpen = () => {
@@ -116,9 +122,38 @@ class GeneralSettings extends Component<any> {
     this.setState({ isChangePhone: !this.state.isChangePhone });
   };
 
-  // settingsChangeLanguage = () => {
-  //   this.setState({ isChangeLanguage: !this.state.isChangeLanguage });
-  // };
+  saveNewPassword = () => {
+    const { oldPassword, newPassword, repeatedNewPassword } = this.state;
+    if (oldPassword && newPassword && repeatedNewPassword && newPassword === repeatedNewPassword) {
+        changePassword(oldPassword, newPassword, repeatedNewPassword)
+            .then((data:any) => {
+              const user = this.props.client.readQuery({
+                  query: GET_USER,
+                  variables: {userId: this.props.user.id}
+              }).getUser;
+              const updatedUser = {
+                  ...user,
+                  pwdUpdatedAt: data
+              };
+              this.props.client.writeQuery({
+                  query: GET_USER,
+                  variables: {userId: this.props.user.id},
+                  data: {getUser: updatedUser}
+              })
+            })
+            .then(() => this.setState({
+                repeatedNewPassword: '',
+                oldPassword: '',
+                newPassword: '',
+                isChangePassword: false,
+                passwordChangingError: '',
+            }))
+            .catch((error:any) => this.setState({passwordChangingError: error.message}));
+    }
+    else {
+        this.setState({passwordChangingError: 'Please correctly fill all fields and try again'})
+    }
+  };
 
   render() {
     const { classes, user } = this.props;
@@ -174,18 +209,19 @@ class GeneralSettings extends Component<any> {
                   {marginBottom: '10px'}}
                   className={classes.profileSettingsItemInfo}
                 >
-                  Changed 7 months ago
+                  {relativeTime(user.pwdUpdatedAt)}
                 </Typography>
 
                 {this.state.isChangePassword === false ? '' :
                   <>
-                    <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }}
-                      className={classes.profileSettingsItemInput} name="oldPassword" placeholder="Enter old password" />
-                    <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }}
-                      className={classes.profileSettingsItemInput} name="newPassword" placeholder="Enter new password" />
-                    <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }}
-                      className={classes.profileSettingsItemInput} name="repeatNewPassword" placeholder="Repeat new password" />
-                    <Button variant="contained" color="secondary" className={`button fill-button ${classes.profileSettingsItemSave}`}>
+                    <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }} type="password"
+                      className={classes.profileSettingsItemInput} name="oldPassword" placeholder="Enter old password" value={this.state.oldPassword} onChange={this.handleChange}/>
+                    <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }} type="password"
+                      className={classes.profileSettingsItemInput} name="newPassword" placeholder="Enter new password" value={this.state.newPassword} onChange={this.handleChange}/>
+                    <TextField InputProps={{ disableUnderline: true, classes: {input: `input border-input`} }} type="password"
+                      className={classes.profileSettingsItemInput} name="repeatedNewPassword" placeholder="Repeat new password" value={this.state.repeatedNewPassword} onChange={this.handleChange}/>
+                    {this.state.passwordChangingError && <h3 style={{fontWeight: 400, fontSize: '12px', color: 'red'}}>{this.state.passwordChangingError}</h3>}
+                    <Button variant="contained" color="secondary" className={`button fill-button ${classes.profileSettingsItemSave}`} onClick={this.saveNewPassword}>
                       Save
                     </Button>
                   </>
@@ -251,6 +287,7 @@ class GeneralSettings extends Component<any> {
               open={this.state.open}
               onClose={this.handleClose}
               settings={settings}
+              title="language"
             />
 
             {/* <li className={classes.profileSettingsItem}>

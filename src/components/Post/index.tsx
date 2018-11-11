@@ -222,6 +222,7 @@ class Post extends Component<any> {
         tags: [],
         textareaHeight: 58,
         openComplainModal: false,
+        likeDisabled: false,
     };
 
     postWithTagsReplacer = (text: string, tags: Array<string>) => {
@@ -345,12 +346,7 @@ class Post extends Component<any> {
         const createCommentControl = (
             <FormControl fullWidth={true} className={classes.textField}>
                 <Mutation mutation={CREATE_COMMENT} onCompleted={() => {
-                    if(this.state.showComments) {
-                        this.setState({comment: ''});
-                    }
-                    else {
-                        this.setState({comment: '', showInput: false});
-                    }
+                    if(!this.state.showComments) this.setState({showInput: false});
                 }} onError={(error)=>console.log(error)}
                           update={(cache, {data: { createComment }}) => {
                               const data = cache.readQuery({query: GET_COMMENTS, variables: {postId: post.postId}});
@@ -368,7 +364,8 @@ class Post extends Component<any> {
                                 onChange={this.handleChange}
                                 onKeyDown={(e) => {
                                     if (e.keyCode === 13 && this.state.comment.length) {
-                                        createComment({variables: {postId: post.postId, content: this.state.comment}})
+                                        createComment({variables: {postId: post.postId, content: this.state.comment}});
+                                        this.setState({comment: ''});
                                     }
                                 }}
                                 endAdornment={
@@ -378,7 +375,8 @@ class Post extends Component<any> {
                                             aria-label="Toggle comment input"
                                             onClick={() => {if (this.state.comment.length)
                                             {
-                                                createComment({variables: {postId: post.postId, content: this.state.comment}})
+                                                createComment({variables: {postId: post.postId, content: this.state.comment}});
+                                                this.setState({comment: ''});
                                             }
                                             }}
                                         >
@@ -415,7 +413,7 @@ class Post extends Component<any> {
                         <IconButton disableRipple classes={{ label: classes.postMenuLabel }} className={classes.postMenu} aria-label="More" aria-owns={this.state.anchorEl ? 'fade-menu' : undefined} aria-haspopup="true" onClick={this.handleClick}>
                             <MoreHorizIcon className={classes.postMenuIcon} />
                         </IconButton>
-                        {post.reposted
+                        {post.__typename === 'Repost'
                             ? <Menu classes={{paper: classes.paper}} id="fade-menu" anchorEl={this.state.anchorEl}
                                     open={Boolean(this.state.anchorEl)} onClose={this.handleClose}
                                     anchorOrigin={{vertical: 'top', horizontal: 'right'}}
@@ -538,12 +536,13 @@ class Post extends Component<any> {
                         <FormControlLabel
                             className={classes.footerIconLabel}
                             control={
-                                post.reposted
-                                    ? <Mutation mutation={LIKE_REPOST} onCompleted={() => this.setState((state:any) => ({isLiked: !state.isLiked}))} onError={(error)=>console.log(error)}
+                                post.__typename === 'Repost'
+                                    ? <Mutation mutation={LIKE_REPOST} onCompleted={() => this.setState((state:any) => ({isLiked: !state.isLiked, likeDisabled: false}))} onError={(error)=>console.log(error)}
                                                 refetchQueries={[{query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}}, {query: SEARCH_POST, variables: {searchText: ""}}]}>
                                         {likeRePost => (
                                             <Checkbox
                                                 disableRipple
+                                                disabled={this.state.likeDisabled}
                                                 classes={{
                                                     root: classes.iconRoot,
                                                 }}
@@ -551,15 +550,19 @@ class Post extends Component<any> {
                                                 checkedIcon={<Favorite className={`${classes.footerIcon} ${classes.checkedIcon}`} />}
                                                 value="like"
                                                 checked={this.state.isLiked}
-                                                onChange={() => likeRePost({variables: {id: post.id, like: !this.state.isLiked}})}
+                                                onChange={() => {
+                                                    this.setState({likeDisabled: true});
+                                                    likeRePost({variables: {id: post.id, like: !this.state.isLiked}})
+                                                }}
                                             />
                                         )}
                                     </Mutation> :
-                                <Mutation mutation={LIKE_POST} onCompleted={() => this.setState((state:any) => ({isLiked: !state.isLiked}))} onError={(error)=>console.log(error)}
+                                <Mutation mutation={LIKE_POST} onCompleted={() => this.setState((state:any) => ({isLiked: !state.isLiked, likeDisabled: false}))} onError={(error)=>console.log(error)}
                                           refetchQueries={[{query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}}, {query: SEARCH_POST, variables: {searchText: ""}}]}>
                                     {likePost => (
                                         <Checkbox
                                             disableRipple
+                                            disabled={this.state.likeDisabled}
                                             classes={{
                                                 root: classes.iconRoot,
                                             }}
@@ -567,7 +570,10 @@ class Post extends Component<any> {
                                             checkedIcon={<Favorite className={`${classes.footerIcon} ${classes.checkedIcon}`} />}
                                             value="like"
                                             checked={this.state.isLiked}
-                                            onChange={() => likePost({variables: {id: post.postId, like: !this.state.isLiked}})}
+                                            onChange={() => {
+                                                this.setState({likeDisabled: true});
+                                                likePost({variables: {id: post.postId, like: !this.state.isLiked}})
+                                            }}
                                         />
                                     )}
                                 </Mutation>
@@ -591,7 +597,8 @@ class Post extends Component<any> {
                         <FormControlLabel
                             className={classes.footerIconLabel}
                             control={
-                                <Mutation mutation={REPOST} onCompleted={() => this.setState({snackBarOpen: true})} onError={(error)=>console.log(error)}>
+                                <Mutation mutation={REPOST} onCompleted={() => this.setState({snackBarOpen: true})} onError={(error)=>console.log(error)}
+                                          refetchQueries={[{query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}}, {query: SEARCH_POST, variables: {searchText: ""}}]}>
                                     {rePost => (
                                         <Repeat
                                             style={{color: '#8b8b8b'}}
@@ -602,7 +609,7 @@ class Post extends Component<any> {
                                     )}
                                 </Mutation>
                             }
-                            label="1"
+                            label={post.reposted}
                         />
                     </div>
                     <div className={`${classes.container} ${this.state.showInput ? classes.show : classes.hidden}`}>
