@@ -129,7 +129,7 @@ const styles = (theme: Theme) => createStyles({
     width: '100%',
   },
   footerContainer: {
-    maxWidth: '1100px',
+    maxWidth: '800px',
     width: '95%',
     margin: '0 auto',
     display: 'flex',
@@ -142,10 +142,11 @@ const styles = (theme: Theme) => createStyles({
     },
   },
   footerLeft: {
-    width: '240px',
-    marginRight: '80px',
+    width: '320px',
+    marginRight: '60px',
 
     [theme.breakpoints.down(730)]: {
+      width: '280px',
       marginRight: '40px',
     },
     [theme.breakpoints.down(630)]: {
@@ -258,8 +259,8 @@ class MarketMonopolyPage extends React.Component<any> {
                 <h1 className={classes.title} style={{marginRight: '20px'}}><FormattedMessage id='market.monopoly' defaultMessage="" /></h1>
 
                 {this.state.lang === 'en' ? 
-                  <span className={`${classes.lang} ${classes.title}`} onClick={() => {localStorage.setItem('lang', 'ru'), this.setState({lang: 'ru'})}}>RU</span> :
-                  <span className={`${classes.lang} ${classes.title}`} onClick={() => {localStorage.setItem('lang', 'en'), this.setState({lang: 'en'})}}>EN</span>
+                  <span className={`${classes.lang} ${classes.title}`} onClick={() => {localStorage.setItem('lang', 'ru'), this.setState({lang: 'ru'})}}>EN</span> :
+                  <span className={`${classes.lang} ${classes.title}`} onClick={() => {localStorage.setItem('lang', 'en'), this.setState({lang: 'en'})}}>RU</span>
                 }
               </div>
             </div>
@@ -275,7 +276,7 @@ class MarketMonopolyPage extends React.Component<any> {
                     <li><FormattedMessage id='market.monopoly.paragraph.first.item.first' defaultMessage="" /></li>
                     <li><FormattedMessage id='market.monopoly.paragraph.first.item.second' defaultMessage="" /></li>
                   </ol>
-                  <p>
+                  <p style={{marginTop: '10px'}}>
                     <FormattedMessage id='market.monopoly.paragraph.second' defaultMessage="" />
                     
                     {this.state.lang === 'ru' ? null : <>
@@ -296,7 +297,7 @@ class MarketMonopolyPage extends React.Component<any> {
                     <li><FormattedMessage id='market.monopoly.paragraph.five.item.first' defaultMessage="" /></li>
                     <li><FormattedMessage id='market.monopoly.paragraph.five.item.second' defaultMessage="" /></li>
                   </ol>
-                  <p>
+                  <p style={{marginTop: '10px'}}>
                     <FormattedMessage id='market.monopoly.paragraph.six' defaultMessage="" />
                     {this.state.lang === 'ru' ? null : <>
                       <br style={{fontSize: '24px'}}/>
@@ -316,7 +317,7 @@ class MarketMonopolyPage extends React.Component<any> {
                     <li><FormattedMessage id='market.monopoly.paragraph.eight.item.third' defaultMessage="" /></li>
                     <li><FormattedMessage id='market.monopoly.paragraph.eight.item.four' defaultMessage="" /></li>
                   </ol>
-                  <p><FormattedMessage id='market.monopoly.paragraph.nine' defaultMessage="" /></p>
+                  <p style={{marginTop: '10px'}}><FormattedMessage id='market.monopoly.paragraph.nine' defaultMessage="" /></p>
                 </div>
               </li>
 
@@ -326,7 +327,7 @@ class MarketMonopolyPage extends React.Component<any> {
               <h3 className={classes.subtitle}><FormattedMessage id='more.information' defaultMessage="" /></h3>
               <ul className={classes.infoList}>
                 <li className={classes.infoItem}><a href="/pitch" className={classes.infoLink}><FormattedMessage id='pitch' defaultMessage="" /></a></li>
-                <li className={classes.infoItem}><a href="./White Paper (english).pdf" download className={classes.infoLink}><FormattedMessage id='white.paper.download' defaultMessage="" /></a></li>
+                <li className={classes.infoItem}><a href={this.state.lang === 'en' ? "./White Paper (english).pdf" : "./White Paper (rus).pdf"} download className={classes.infoLink}><FormattedMessage id='white.paper.download' defaultMessage="" /></a></li>
                 <li className={classes.infoItem}><a href="./Financial Model.xlsx" download className={classes.infoLink}><FormattedMessage id='financial.model.download' defaultMessage="" /></a></li>
                 <li className={classes.infoItem}><a href="/offer-protection" className={classes.infoLink}><FormattedMessage id='scams.protect' defaultMessage="" /></a></li>
               </ul>
@@ -355,9 +356,9 @@ class MarketMonopolyPage extends React.Component<any> {
                   <li className={classes.footerSectionsItem}>
                     <span className={classes.footerSectionsTitle}>Social</span>
 
-                    <a className={classes.footerSectionsLink} href="https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378">Bitcointalk</a>
+                    <a className={classes.footerSectionsLink} href={this.state.lang === 'en' ? "https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378" : "https://bitcointalk.org/index.php?topic=4951081.msg44619247#msg44619247"}>Bitcointalk</a>
                     <a className={classes.footerSectionsLink} href="https://github.com/pyshopml2">GitHub</a>
-                    <a className={classes.footerSectionsLink} href="https://t.me/icoWorld_EN">Telegram</a>
+                    <a className={classes.footerSectionsLink} href={this.state.lang === 'en' ? "https://t.me/icoWorld_EN" : "https://t.me/icoWorld_RU"}>Telegram</a>
                   </li>
 
                   <li className={classes.footerSectionsItem}>

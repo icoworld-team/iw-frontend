@@ -8,9 +8,9 @@ export default {
 	'solutions': 'Решения',
     'contacts': 'Контакты',
 	'private.sale.start': 'Посевной раунд начнется через',
-	'days': 'Days',
-	'hours': 'Hours',
-	'minutes': 'Minutes',
+	'days': 'Дней',
+	'hours': 'Часов',
+	'minutes': 'Минут',
 	'white.paper': 'White Paper',
 	'mvp': 'MVP',
 
@@ -26,7 +26,7 @@ export default {
 	'roadmap.first.item.second': 'Тестирование концепции',
 	'roadmap.first.item.third': 'Доработка концепции',
 
-	'roadmap.second': 'August - November, 2018',
+	'roadmap.second': 'Август - Ноябрь, 2018',
 	'roadmap.second.item.first': 'Построение команды',
 	'roadmap.second.item.second': 'Привлечение pre-seed инвестиций',
 	'roadmap.second.item.third': 'Разработка минимального жизнеспособного продукта',
@@ -38,7 +38,7 @@ export default {
 	'roadmap.four.item.first': 'Завершение разработки социальной части проекта',
 	'roadmap.four.item.second': 'Привлечение первых пользователей',
 	'roadmap.four.item.third': 'Оптимизация маркетинговых расходов',
-	'roadmap.four.item.four': 'PПартнерство с поставщиками',
+	'roadmap.four.item.four': 'Партнерство с поставщиками',
 	
 	'roadmap.five': 'Июль, 2019',
 	'roadmap.five.item.first': 'Проведение ICO или Раунда А венчурного финансирования',
@@ -73,7 +73,7 @@ export default {
 	'join.us': 'Присоединяйтесь к нам!',
 
 	// Pitch Page
-	'pitch': 'Питч icoWorld',
+	'pitch': 'Pitch for Investors',
 
 	'keys': 'Самое важное',
 	'keys.text': 'The most important',

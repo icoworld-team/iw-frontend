@@ -231,10 +231,12 @@ const styles = (theme: Theme) => createStyles({
   solutionsText: {
     display: 'block',
     color: '#fff',
+    height: '68px',
     fontSize: '28px',
+    lineHeight: '34px',
     fontWeight: 600,
     textAlign: 'center',
-    marginTop: '75px',
+    marginTop: '60px',
 
     [theme.breakpoints.down('sm')]: {
       margin: '0 auto',
@@ -410,10 +412,11 @@ const styles = (theme: Theme) => createStyles({
     },
   },
   footerLeft: {
-    width: '240px',
-    marginRight: '80px',
+    width: '320px',
+    marginRight: '60px',
 
     [theme.breakpoints.down(730)]: {
+      width: '280px',
       marginRight: '40px',
     },
     [theme.breakpoints.down(630)]: {
@@ -620,7 +623,7 @@ class LandingPage extends React.Component<any> {
                       <span data-to='contacts' onClick={this.handleClick}>Contacts</span>
                     </li>
                     <li className={classes.headerLinksItem} style={{marginLeft: '5px'}}>
-                      <span onClick={() => {localStorage.setItem('lang', 'ru'), this.setState({lang: 'ru'})}}>RU</span>
+                      <span onClick={() => {localStorage.setItem('lang', 'ru'), this.setState({lang: 'ru'})}}>EN</span>
                     </li>
                   </ul>
                   :
@@ -638,7 +641,7 @@ class LandingPage extends React.Component<any> {
                       <span data-to='contacts' onClick={this.handleClick}>Контакты</span>
                     </li>
                     <li className={classes.headerLinksItem}>
-                      <span onClick={() => {localStorage.setItem('lang', 'en'), this.setState({lang: 'en'})}}>EN</span>
+                      <span onClick={() => {localStorage.setItem('lang', 'en'), this.setState({lang: 'en'})}}>RU</span>
                     </li>
                   </ul>
                 }
@@ -689,7 +692,7 @@ class LandingPage extends React.Component<any> {
               
               <div className={classes.buttons} style={{marginTop: '60px'}}>
                 <ul className={classes.buttonsList}>
-                  <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="./White Paper (english).pdf" download><FormattedMessage id='white.paper' defaultMessage="" /></a></li>
+                  <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href={this.state.lang === 'en' ? "./White Paper (english).pdf" : "./White Paper (rus).pdf"} download><FormattedMessage id='white.paper' defaultMessage="" /></a></li>
                   <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkOutline}`} href="/pitch" target="_blank"><FormattedMessage id='pitch' defaultMessage="" /></a></li>
                   <li className={classes.buttonsItem}><a className={`${classes.buttonLink} ${classes.buttonLinkFill}`} href="http://icoworld.network/" target="_blank"><FormattedMessage id='mvp' defaultMessage="" /></a></li>
                 </ul>
@@ -912,12 +915,12 @@ class LandingPage extends React.Component<any> {
                     </a>
                   </li>
                   <li className={classes.socialsItem}>
-                    <a href='https://t.me/icoWorld_EN' target="_blank" style={{textDecoration: 'none'}}>
+                    <a href={this.state.lang === 'en' ? "https://t.me/icoWorld_EN" : "https://t.me/icoWorld_RU"} target="_blank" style={{textDecoration: 'none'}}>
                       <img src="./icons/telegram.svg" alt="telegram"/>
                     </a>
                   </li>
                   <li className={classes.socialsItem}>
-                    <a href='https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378' target="_blank" style={{textDecoration: 'none'}}>
+                    <a href={this.state.lang === 'en' ? "https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378" : "https://bitcointalk.org/index.php?topic=4951081.msg44619247#msg44619247"} target="_blank" style={{textDecoration: 'none'}}>
                       <img src="./icons/bitcoin.svg" alt="bitcoin"/>
                     </a>
                   </li>
@@ -950,9 +953,9 @@ class LandingPage extends React.Component<any> {
                   <li className={classes.footerSectionsItem}>
                     <span className={classes.footerSectionsTitle}>Social</span>
 
-                    <a className={classes.footerSectionsLink} target="_blank" href="https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378">Bitcointalk</a>
+                    <a className={classes.footerSectionsLink} target="_blank" href={this.state.lang === 'en' ? "https://bitcointalk.org/index.php?topic=4954870.msg44647378#msg44647378" : "https://bitcointalk.org/index.php?topic=4951081.msg44619247#msg44619247"}>Bitcointalk</a>
                     <a className={classes.footerSectionsLink} target="_blank" href="https://github.com/pyshopml2">GitHub</a>
-                    <a className={classes.footerSectionsLink} target="_blank" href="https://t.me/icoWorld_EN">Telegram</a>
+                    <a className={classes.footerSectionsLink} target="_blank" href={this.state.lang === 'en' ? "https://t.me/icoWorld_EN" : "https://t.me/icoWorld_RU"}>Telegram</a>
                   </li>
 
                   <li className={classes.footerSectionsItem}>
