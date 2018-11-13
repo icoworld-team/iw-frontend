@@ -6,7 +6,7 @@ export default {
 
 	// Landing Page
 	'solutions': 'Решения',
-    'contacts': 'Контакты',
+	'contacts': 'Контакты',
 	'private.sale.start': 'Посевной раунд начнется через',
 	'days': 'Дней',
 	'hours': 'Часов',
@@ -19,7 +19,7 @@ export default {
 	'scam.protection': 'Защита от мошенничества',
 	'asset.management': 'Управление активами',
 
-	'roadmap': 'Road Map',
+	'roadmap': 'Дорожная карта',
 
 	'roadmap.first': 'Июнь - Июль, 2018',
 	'roadmap.first.item.first': 'Создание концепции',
