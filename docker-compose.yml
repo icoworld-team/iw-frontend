@@ -15,7 +15,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+      - /home/utah/dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
       - /docker-volumes/etc/letsencrypt/live/icoworld.network/fullchain.pem:/etc/letsencrypt/live/icoworld.network/fullchain.pem
       - /docker-volumes/etc/letsencrypt/live/icoworld.network/privkey.pem:/etc/letsencrypt/live/icoworld.network/privkey.pem
       - /docker-volumes/data/letsencrypt:/data/letsencrypt

@@ -74,8 +74,7 @@ class InvestorsPage extends React.Component<any> {
 
         const input = {
             name: this.state.searchText,
-            country: '',
-            
+            ...this.props.filter
         };
         Object.keys(input).forEach((key) => (input[key] == "") && delete input[key]);
 
