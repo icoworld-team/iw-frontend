@@ -10,7 +10,7 @@ pipeline {
     stage('Deploy to staging') {
       steps {
         sh('''#!/bin/bash
-          ssh utah@icoworld.network /home/utah/deploy.sh
+          ssh utah@icoworld.network /home/utah/deploy.sh -v
           ''') 
       }
     }
