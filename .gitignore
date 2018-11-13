@@ -31,3 +31,4 @@ yarn-error.log*
 docker-compose-*
 /nginx/dh-param
 /repo_landing
+Jenkinsfile-*
