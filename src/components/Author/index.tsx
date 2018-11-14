@@ -61,7 +61,7 @@ class Author extends Component<any> {
           <div className={classes.author}>
             <Query query={GET_SUBSCRIBERS} variables={{userId: populars.id}}>
               {({ loading, error, data }) => {
-                if(loading) return <div>Loading</div>;
+                if(loading) return null;
                 if(error) return `Error: ${error}`;
                 return (
                   <>
