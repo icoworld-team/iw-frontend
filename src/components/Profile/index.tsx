@@ -30,6 +30,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ModalComplain from '../ModalComplain';
 
 import { endpoint } from "../../api";
+import CustomQuery from '../CustomQuery'
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -342,9 +343,8 @@ class Profile extends Component<any> {
     return (
       <div className={`page-wrapper`}>
           <div className={`page-content`}>
-              <Query query={GET_USER} variables={{ userId: id }} fetchPolicy="network-only">
-                {({ loading, error, data }) => {
-                  if (loading) return null;
+              <CustomQuery query={GET_USER} variables={{ userId: id }} fetchPolicy="network-only">
+                {({ error, data }:any) => {
                   if (error) return `Error: ${error}`;
                   const user = data.getUser;
                   return (
@@ -462,9 +462,8 @@ class Profile extends Component<any> {
                               <div className={`${classes.profileTabs}`}>
                                   {this.state.tab === 0 && (
                                       <>
-                                          <Query query={SEARCH_POST_IN_PROFILE} variables={input}>
-                                              {({ loading, error, data }) => {
-                                                  if (loading) return <div>Loading</div>;
+                                          <CustomQuery query={SEARCH_POST_IN_PROFILE} variables={input}>
+                                              {({ error, data }:any) => {
                                                   if (error) return `Error: ${error}`;
                                                   if (data.searchPostInProfile.posts.length == 0 && data.searchPostInProfile.reposts.length == 0)
                                                       return (
@@ -482,134 +481,135 @@ class Profile extends Component<any> {
                                                       <PostList updateData={this.updateData} posts={posts} pinPost={user.pined_post} location={this.props.location.pathname} />
                                                     </>)
                                               }}
-                                          </Query>
+                                          </CustomQuery>
                                       </>
                                   )}
+                              </div>
+                          </div>
+                          <div className={classes.profileFollowers}>
+                              <div className={`card ${classes.followersCard}`}>
+                                  <div className={`card-heading`}>
+                                      <Typography className={`card-title`}>Followers</Typography>
+                                  </div>
+
+                                  <CustomQuery query={GET_SUBSCRIBERS} variables={{ userId: id }}>
+                                      {({ error, data }:any) => {
+
+                                          if (error) return `Error: ${error}`;
+
+                                          if (data.getSubscribers.length == 0)
+                                              return <Typography className={classes.followerEmptyText}>No followers</Typography>
+
+                                          const followers = data.getSubscribers.map((user: any) => (
+                                              <li className={classes.followersItem}>
+                                                  <Link key={user.id} to={{pathname: "/profile", state: { id: user.id } }} className={classes.link}>
+                                                      <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
+                                                      <Typography align="center" className={classes.followerName}>{this.resize(user.name)}</Typography>
+                                                  </Link>
+                                              </li>
+                                          ));
+                                          return (
+                                              <>
+                                                  <ul className={classes.followersList}>{followers}</ul>
+                                                  <div
+                                                      style={{
+                                                          display: followers.length > 9 ? "" : "none"
+                                                      }}
+                                                      className={classes.hideComments}
+                                                      onClick={() => {
+                                                          this.setState({ openFollowers: true });
+                                                      }}
+                                                  >
+                                                      <Typography className={classes.hideCommentsText}>See more</Typography>
+                                                  </div>
+                                                  <Dialog PaperProps={{square: true}} open={this.state.openFollowers} onClose={() => this.setState({ openFollowers: false })}>
+                                                      <div className={classes.paper}>
+                                                          <div className={`card-heading`} style={{ minHeight: "35px" }}>
+                                                              <Typography className={`card-title`} style={{ fontFamily: "Open Sans" }}>Follows</Typography>
+                                                          </div>
+                                                          <Scrollbar autoHeight={true} autoHeightMax={590} renderThumbVertical={this.renderThumbVertical}>
+                                                              <ul className={classes.followersList}>
+                                                                  {data.getSubscribers.map((user: any) => (
+                                                                      <li className={classes.followersItemModal}>
+                                                                          <Link key={user.id} to={{pathname: "/profile", state: { id: user.id }}} className={classes.link}>
+                                                                              <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
+                                                                              <Typography align="center" className={classes.followerName}>{this.resize(user.name)}</Typography>
+                                                                          </Link>
+                                                                      </li>
+                                                                  ))}
+                                                              </ul>
+                                                          </Scrollbar>
+                                                      </div>
+                                                  </Dialog>
+                                              </>
+                                          );
+                                      }}
+                                  </CustomQuery>
+                              </div>
+
+                              <div className={`card ${classes.followersCard}`}>
+                                  <div className={`card-heading`}>
+                                      <Typography className={`card-title`}>Follows</Typography>
+                                  </div>
+                                  <CustomQuery query={GET_FOLLOWS} variables={{ userId: id }}>
+                                      {({ error, data }:any) => {
+
+                                          if (error) return `Error: ${error}`;
+
+                                          if (data.getFollows.length == 0)
+                                              return <Typography className={classes.followerEmptyText}>No follows</Typography>
+
+                                          const follows = data.getFollows.map((user: any) => (
+                                              <li className={classes.followersItem}>
+                                                  <Link key={user.id} to={{ pathname: "/profile", state: { id: user.id } }} className={classes.link}>
+                                                      <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
+                                                      <Typography align="center" className={classes.followerName}>{this.resize(user.name)}</Typography>
+                                                  </Link>
+                                              </li>
+                                          ));
+                                          return (
+                                              <>
+                                                  <ul className={classes.followersList}>{follows}</ul>
+                                                  <div
+                                                      style={{ display: follows.length > 9 ? "" : "none" }}
+                                                      className={classes.hideComments}
+                                                      onClick={() => {
+                                                          this.setState({ openFollows: true });
+                                                      }}
+                                                  >
+                                                      <Typography className={classes.hideCommentsText}>See more</Typography>
+                                                  </div>
+                                                  <Dialog PaperProps={{square: true}} open={this.state.openFollows} onClose={() => this.setState({ openFollows: false })}>
+                                                      <div className={classes.paper}>
+                                                          <div className={`card-heading`} style={{ minHeight: "35px" }}>
+                                                              <Typography className={`card-title`} style={{ fontFamily: "Open Sans" }}>Follows</Typography>
+                                                          </div>
+                                                          <Scrollbar autoHeight={true} autoHeightMax={590} renderThumbVertical={this.renderThumbVertical}>
+                                                              <ul className={classes.followersList}>
+                                                                  {data.getFollows.map((user: any) => (
+                                                                      <li className={classes.followersItemModal}>
+                                                                          <Link key={user.id} to={{pathname: "/profile", state: { id: user.id }}} className={classes.link}>
+                                                                              <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
+                                                                              <Typography align="center" className={classes.followerName}>{this.resize(user.name)}</Typography>
+                                                                          </Link>
+                                                                      </li>
+                                                                  ))}
+                                                              </ul>
+                                                          </Scrollbar>
+                                                      </div>
+                                                  </Dialog>
+                                              </>
+                                          );
+                                      }}
+                                  </CustomQuery>
                               </div>
                           </div>
                       </>
                   );
                 }}
-              </Query>
+              </CustomQuery>
 
-            <div className={classes.profileFollowers}>
-              <div className={`card ${classes.followersCard}`}>
-                <div className={`card-heading`}>
-                  <Typography className={`card-title`}>Followers</Typography>
-                </div>
 
-                <Query query={GET_SUBSCRIBERS} variables={{ userId: id }}>
-                  {({ loading, error, data }) => {
-                    if (loading) return <div>Loading</div>;
-                    if (error) return `Error: ${error}`;
-
-                    if (data.getSubscribers.length == 0)
-                      return <Typography className={classes.followerEmptyText}>No followers</Typography>
-
-                    const followers = data.getSubscribers.map((user: any) => (
-                        <li className={classes.followersItem}>
-                          <Link key={user.id} to={{pathname: "/profile", state: { id: user.id } }} className={classes.link}>
-                            <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
-                            <Typography align="center" className={classes.followerName}>{this.resize(user.name)}</Typography>
-                          </Link>
-                        </li>
-                    ));
-                    return (
-                      <>
-                        <ul className={classes.followersList}>{followers}</ul>
-                        <div
-                          style={{
-                            display: followers.length > 9 ? "" : "none"
-                          }}
-                          className={classes.hideComments}
-                          onClick={() => {
-                            this.setState({ openFollowers: true });
-                          }}
-                        >
-                          <Typography className={classes.hideCommentsText}>See more</Typography>
-                        </div>
-                        <Dialog PaperProps={{square: true}} open={this.state.openFollowers} onClose={() => this.setState({ openFollowers: false })}>
-                          <div className={classes.paper}>
-                            <div className={`card-heading`} style={{ minHeight: "35px" }}>
-                              <Typography className={`card-title`} style={{ fontFamily: "Open Sans" }}>Follows</Typography>
-                            </div>
-                            <Scrollbar autoHeight={true} autoHeightMax={590} renderThumbVertical={this.renderThumbVertical}>
-                              <ul className={classes.followersList}>
-                                {data.getSubscribers.map((user: any) => (
-                                  <li className={classes.followersItemModal}>
-                                    <Link key={user.id} to={{pathname: "/profile", state: { id: user.id }}} className={classes.link}>
-                                      <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
-                                      <Typography align="center" className={classes.followerName}>{this.resize(user.name)}</Typography>
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </Scrollbar>
-                          </div>
-                        </Dialog>
-                      </>
-                    );
-                  }}
-                </Query>
-              </div>
-
-              <div className={`card ${classes.followersCard}`}>
-                <div className={`card-heading`}>
-                  <Typography className={`card-title`}>Follows</Typography>
-                </div>
-                <Query query={GET_FOLLOWS} variables={{ userId: id }}>
-                  {({ loading, error, data }) => {
-                    if (loading) return <div>Loading</div>;
-                    if (error) return `Error: ${error}`;
-
-                    if (data.getFollows.length == 0)
-                      return <Typography className={classes.followerEmptyText}>No follows</Typography>
-
-                    const follows = data.getFollows.map((user: any) => (
-                      <li className={classes.followersItem}>
-                        <Link key={user.id} to={{ pathname: "/profile", state: { id: user.id } }} className={classes.link}>
-                          <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
-                          <Typography align="center" className={classes.followerName}>{this.resize(user.name)}</Typography>
-                        </Link>
-                      </li>
-                    ));
-                    return (
-                      <>
-                        <ul className={classes.followersList}>{follows}</ul>
-                        <div
-                          style={{ display: follows.length > 9 ? "" : "none" }}
-                          className={classes.hideComments}
-                          onClick={() => {
-                            this.setState({ openFollows: true });
-                          }}
-                        >
-                          <Typography className={classes.hideCommentsText}>See more</Typography>
-                        </div>
-                        <Dialog PaperProps={{square: true}} open={this.state.openFollows} onClose={() => this.setState({ openFollows: false })}>
-                          <div className={classes.paper}>
-                            <div className={`card-heading`} style={{ minHeight: "35px" }}>
-                              <Typography className={`card-title`} style={{ fontFamily: "Open Sans" }}>Follows</Typography>
-                            </div>
-                            <Scrollbar autoHeight={true} autoHeightMax={590} renderThumbVertical={this.renderThumbVertical}>
-                              <ul className={classes.followersList}>
-                                {data.getFollows.map((user: any) => (
-                                  <li className={classes.followersItemModal}>
-                                    <Link key={user.id} to={{pathname: "/profile", state: { id: user.id }}} className={classes.link}>
-                                      <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
-                                      <Typography align="center" className={classes.followerName}>{this.resize(user.name)}</Typography>
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </Scrollbar>
-                          </div>
-                        </Dialog>
-                      </>
-                    );
-                  }}
-                </Query>
-              </div>
-            </div>
           </div>
         </div>
     );
