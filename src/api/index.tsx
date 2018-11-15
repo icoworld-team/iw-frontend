@@ -1,4 +1,4 @@
-export const endpoint = 'http://icoworld.projects.oktend.com:3000';
+export const endpoint:any = process.env.REACT_APP_API_ENDPOINT;
 
 export const handleErrors = (response:any) => {
     return response.text().then((text:any) => {
