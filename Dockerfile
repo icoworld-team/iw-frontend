@@ -17,6 +17,8 @@ RUN npm run build
 #RUN npm run build
 
 FROM nginx
+RUN ulimit -n 200000
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 #COPY ./nginx/landing.conf /etc/nginx/conf.d/landing.conf
 #COPY --from=landingbuild /landingbuild/build /usr/share/nginx/landing
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
