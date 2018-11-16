@@ -209,6 +209,21 @@ const styles = (theme: Theme) => createStyles({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    paddingTop: '30px',
+
+    [theme.breakpoints.down(850)]: {
+      width: '100%',
+    },
+  },
+
+  modalClose: {
+    color: '#8b8b8b',
+    fontSize: '26px',
+    lineHeight: '18px',
+    cursor: 'pointer',
+    position: 'absolute',
+    top: '4px',
+    right: '7px',
   },
 });
 
@@ -366,6 +381,7 @@ class OfferProtectionPage extends React.Component<any> {
           {this.state.open === true ?
             <div className={`${classes.popupWrap} wrap`} onClick={this.handleClose}>
               <div className={classes.popup}>
+                <span className={classes.modalClose} onClick={() => this.setState({open: false})}>x</span>
                 <Scrollbar autoHeight={true} autoHeightMax={590} width={600} renderThumbVertical={this.renderThumbVertical}>
                   <p style={{padding: '15px'}}>
                     1. PRIVACY POLICY

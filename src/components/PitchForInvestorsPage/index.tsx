@@ -210,15 +210,31 @@ const styles = (theme: Theme) => createStyles({
     right: 0,
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    zIndex: 105,
   },
   popup: {
-    width: '380px',
     backgroundColor: '#fff',
     position: 'fixed',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    boxSizing: 'border-box',
+  },
+  whiteListPopup: {
     padding: '15px',
+    width: '380px',
+
+    [theme.breakpoints.down(390)]: {
+      width: '100%',
+    },
+  },
+  privacyPopup: {
+    width: '850px',
+    paddingTop: '30px',
+
+    [theme.breakpoints.down(850)]: {
+      width: '100%',
+    },
   },
   input: {
     height: '25px',
@@ -235,6 +251,15 @@ const styles = (theme: Theme) => createStyles({
     marginTop: '15px',
     marginBottom: '5px',
     cursor: 'pointer',
+  },
+  modalClose: {
+    color: '#8b8b8b',
+    fontSize: '26px',
+    lineHeight: '18px',
+    cursor: 'pointer',
+    position: 'absolute',
+    top: '4px',
+    right: '7px',
   },
 });
 
@@ -510,7 +535,8 @@ class PitchForInvestorsPage extends React.Component<any> {
 
           {this.state.open === true ?
             <div className={`${classes.popupWrap} wrap`} onClick={this.handleClose}>
-              <div className={classes.popup}>
+              <div className={`${classes.popup} ${classes.whiteListPopup}`}>
+                <span className={classes.modalClose} onClick={() => this.setState({open: false})}>x</span>
                 <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column', textDecoration: 'none', color: 'inherit'}}>
                   <img style={{width: '50px', marginBottom: '10px'}} src="./icons/logo.svg" alt="logo"/>
                   <h2 style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
@@ -549,7 +575,8 @@ class PitchForInvestorsPage extends React.Component<any> {
 
           {this.state.privacyModal === true ?
             <div className={`${classes.popupWrap} wrap`} onClick={this.handlePrivacyClose}>
-              <div className={classes.popup} style={{padding: 0, width: '850px'}}>
+              <div className={`${classes.popup} ${classes.privacyPopup}`}>
+                <span className={classes.modalClose} onClick={() => this.setState({privacyModal: false})}>x</span>
                 <Scrollbar autoHeight={true} autoHeightMax={590} width={600} renderThumbVertical={this.renderThumbVertical}>
                   <p style={{padding: '15px'}}>
                     1. PRIVACY POLICY
