@@ -1,16 +1,18 @@
 version: '2'
 
 networks:
-  efk_hostnet:
+  hostnet:
     external: true
 
 services:
+  
   frontend:
     build: .
     image: frontend
     container_name: front
     networks:
-      - efk_hostnet
+      hostnet:
+        ipv4_address: 172.18.0.130
     ports:
       - "80:80"
       - "443:443"

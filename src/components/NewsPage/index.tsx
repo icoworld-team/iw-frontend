@@ -20,6 +20,7 @@ import { relativeTime } from '../../utils'
 import Author from '../Author';
 import PostList from '../PostList';
 // import ModalProjectNews from '../ModalProjectNews';
+import CustomQuery from '../CustomQuery'
 
 const styles = (theme: Theme) => createStyles({
   newsOfProject: {
@@ -227,9 +228,8 @@ class News extends Component<any> {
                 <div className={`card-heading`}>
                   <Typography className={`card-title`}>News of icoWorld</Typography>
                 </div>
-                <Query query={GET_NEWS}>
-                  {({ loading, error, data }) => {
-                    if(loading) return <div>Loading</div>;
+                <CustomQuery query={GET_NEWS}>
+                  {({ loading, error, data }:any) => {
                     if(error) return `Error: ${error}`;
                     return (
                       <>
@@ -273,7 +273,7 @@ class News extends Component<any> {
                       </>
                     )
                   }}
-                </Query>
+                </CustomQuery>
               </div>
 
               <div className={classes.newsContent}>
@@ -307,28 +307,28 @@ class News extends Component<any> {
                 </div>
 
                 {this.state.tab === 0 &&
-                <Query query={SEARCH_FOLLOW_POSTS} variables={{userId: this.props.authUser.id, txt: this.state.searchText}}>
-                    {({ loading, error, data }) => {
-                        if(loading) return <div>Loading</div>;
+                <CustomQuery query={SEARCH_FOLLOW_POSTS} variables={{userId: this.props.authUser.id, txt: this.state.searchText}}>
+                    {({ error, data }:any) => {
+
                         if(error) return `Error: ${error}`;
                         if(data.searchInFollowsPosts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
                         return (
                             <PostList updateData={this.updateData} posts={data.searchInFollowsPosts} location={this.props.location.pathname} />
                         )
                     }}
-                </Query>}
+                </CustomQuery>}
 
                 {this.state.tab === 1 &&
-                <Query query={SEARCH_POST} variables={input}>
-                    {({ loading, error, data }) => {
-                        if(loading) return <div>Loading</div>;
+                <CustomQuery query={SEARCH_POST} variables={input}>
+                    {({ error, data }:any) => {
+
                         if(error) return `Error: ${error}`;
                         if(data.searchPost.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
                         return (
                             <PostList updateData={this.updateData} posts={data.searchPost} authUserId={null} location={this.props.location.pathname} />
                         )
                     }}
-                </Query>}
+                </CustomQuery>}
 
               </div>
 
@@ -339,8 +339,8 @@ class News extends Component<any> {
                     <Typography className={`card-title`}>Popular Investors</Typography>
                   </div>
                   <ul className={classes.popularInvestorsList}>
-                    <Query query={GET_TOP_USERS} variables={{flag: true}}>
-                        {({ loading, error, data }) => {
+                    <CustomQuery query={GET_TOP_USERS} variables={{flag: true}}>
+                        {({ loading, error, data }:any) => {
                             if(loading) return <div>Loading</div>;
                             if(error) return `Error: ${error}`;
                             return (
@@ -353,7 +353,7 @@ class News extends Component<any> {
                               </>
                             )
                         }}
-                    </Query>
+                    </CustomQuery>
                   </ul>
                 </div>
 
@@ -364,7 +364,7 @@ class News extends Component<any> {
                   <ul className={classes.tagList}>
                       <Query query={GET_POPULAR_TAGS} variables={{from: new Date(yearAgo).toISOString(), to: new Date().toISOString()}}>
                           {({ loading, error, data }) => {
-                              if(loading) return <div>Loading</div>;
+                              if(loading) return null;
                               if(error) return `Error: ${error}`;
                               const tags = data.getPopularTags.map((tag:any, index:number) => (
                                   <li key={index} className={classes.tagItem}><Typography onClick={this.tagSearch} className={classes.tagItemText}>{tag}</Typography></li>

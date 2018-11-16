@@ -3,11 +3,12 @@ import InvestorCard from '../InvestorCard'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import InvestorsFilter from '../InvestorsFilter'
-import { Query } from 'react-apollo'
+// import { Query } from 'react-apollo'
 import { connect } from 'react-redux'
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { GET_INVESTORS } from '../../api/graphql'
 // import { socket } from "../../api"
+import CustomQuery from '../CustomQuery'
 
 const styles = () => createStyles({
     investorsBlock: {
@@ -92,19 +93,14 @@ class InvestorsPage extends React.Component<any> {
                                 </div>
                                 <div className={classes.investorsContent}>
                                     <ul className={classes.investorsList}>
-                                        <Query query={GET_INVESTORS} variables={{input: input}}>
-                                            {({ loading, error, data }) => {
-                                                if(loading) return (
-                                                    <div className="block-label">
-                                                        <Typography variant="subheading" align='center'>Loading</Typography>
-                                                    </div>
-                                                );
+                                        <CustomQuery query={GET_INVESTORS} variables={{input: input}}>
+                                            {({ error, data }:any) => {
                                                 if(error) return `Error: ${error}`;
                                                 const investors = data.getInvestors.map((investor:any) => <li key={investor.id} className={classes.investorsItem}><InvestorCard data={investor}/></li>);
                                                 investors.length !== this.state.investorsAmount ? this.setState({investorsAmount: investors.length}) : null
                                                 return investors.length ? investors : <Typography style={{padding: '15px'}} variant="subheading" align='center'>Not results</Typography>
                                             }}
-                                        </Query>
+                                        </CustomQuery>
                                     </ul>
                                 </div>
                             </div>

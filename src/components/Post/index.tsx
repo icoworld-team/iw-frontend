@@ -457,6 +457,27 @@ class Post extends Component<any> {
                                 transformOrigin={{vertical: 'top', horizontal: 'right'}}>
                                 <MenuItem name="complain" id="complain" onClick={this.handleOpenModal}>Complain</MenuItem>
                                 <ModalComplain open={this.state.openComplainModal} onClose={this.handleCloseModal} id={post.postId} subject="post"/>
+                                {authUser.role === 'Admin' && (
+                                    <Mutation mutation={DELETE_POST} onCompleted={this.handleClose} onError={(error)=>console.log(error)}
+                                              update={(cache, {data: { deletePost }}) => {
+                                                  const data = cache.readQuery({
+                                                      query: SEARCH_POST_IN_PROFILE,
+                                                      variables: {userId: authUser.id, searchText: ""}
+                                                  });
+                                                  const posts = (data as any).searchPostInProfile.posts.filter((post:any) => post.postId !== this.props.post.postId);
+                                                  cache.writeQuery({query: SEARCH_POST_IN_PROFILE, variables: {userId: authUser.id, searchText: ""}, data: {
+                                                          searchPostInProfile: {
+                                                              ...(data as any).searchPostInProfile,
+                                                              posts: posts,
+                                                          }}});
+                                              }}>
+                                        {deletePost => {
+                                            return (
+                                                <MenuItem name="delete" id="delete" onClick={() => deletePost({variables: {id: post.postId}})}>Delete</MenuItem>
+                                            )
+                                        }}
+                                    </Mutation>
+                                )}
                             </Menu>
                             :
                             <Menu classes={{paper: classes.paper}} id="fade-menu" anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)}

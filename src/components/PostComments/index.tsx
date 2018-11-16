@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { createStyles, withStyles } from '@material-ui/core/styles';
-import { Query } from 'react-apollo'
+// import { Query } from 'react-apollo'
 import { GET_COMMENTS } from '../../api/graphql'
 import Comment from '../Comment'
+import CustomQuery from '../CustomQuery'
 
 
 const styles = () => createStyles({
@@ -63,9 +64,8 @@ class PostComments extends Component<any> {
       const { classes } = this.props;
 
     return (
-        <Query query={GET_COMMENTS} variables={{postId: this.props.postId}}>
-            {({ loading, error, data }) => {
-                if(loading) return <div>Loading</div>;
+        <CustomQuery query={GET_COMMENTS} variables={{postId: this.props.postId}}>
+            {({ error, data }:any) => {
                 if(error) return `Error: ${error}`;
 
                 const comments = data.getComments.slice().map((comment:any) => (
@@ -79,7 +79,7 @@ class PostComments extends Component<any> {
                     </div>
                 )
             }}
-        </Query>
+        </CustomQuery>
     )
   }
 }

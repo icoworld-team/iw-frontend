@@ -1,13 +1,5 @@
 export const endpoint = '//icoworld.network:443';
 
-
-// export const handleErrors = (response:any) => {
-//     if(!response.ok){
-//         throw Error(response.statusText);
-//     }
-//     return response;
-// };
-
 export const handleErrors = (response:any) => {
     return response.text().then((text:any) => {
         const data = text && JSON.parse(text);
