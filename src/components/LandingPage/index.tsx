@@ -632,7 +632,7 @@ class LandingPage extends React.Component<any> {
                       <span data-to='solutions' onClick={this.handleClick}>Решения</span>
                     </li>
                     <li className={classes.headerLinksItem}>
-                      <span data-to='roadmap' onClick={this.handleClick}>Road Map</span>
+                      <span data-to='roadmap' onClick={this.handleClick}>Дорожная карта</span>
                     </li>
                     <li className={classes.headerLinksItem}>
                       <span data-to='team' onClick={this.handleClick}>Команда</span>
