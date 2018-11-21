@@ -100,7 +100,7 @@ export default {
     'stage.text': 'We have a fifteen-member team. We are developing the platform now and have a working MVP. We presented a preliminary announcement of our project to collect feedback. The result is positive.',
     
     'investment.required': 'Investment required',
-    'investment.required.text': 'We need $250.000 send investment. We will use the raised money for:',
+    'investment.required.text': 'We need $250.000 seed investment. We will use the raised money for:',
     'investment.required.item.first': 'Completion of the social part of MVP to the final version',
     'investment.required.item.second': 'Recruitment of the first users',
     'investment.required.item.third': 'Optimization of marketing expenses',
