@@ -46,7 +46,7 @@ const styles = (theme: Theme) => createStyles({
   },
   pageHeading: {
     height: '560px',
-    background: 'url("./page.png") 50% 70%',
+    background: 'url("./page.jpg") 50% 70%',
     backgroundSize: 'cover',
     display: 'flex',
     position: 'relative',
@@ -263,7 +263,7 @@ class MarketMonopolyPage extends React.Component<any> {
     const { classes } = this.props;
 
     return (
-      <IntlProvider locale="en" messages={this.state.lang === 'en' ? en : ru}>
+      <IntlProvider locale="en" messages={this.state.lang === 'ru' ? ru : en}>
       <Scrollbar autoHeight={true} autoHeightMax={'100vh'} renderThumbVertical={this.renderThumbVertical}>
         <div className={classes.wrapper}>
 

@@ -263,7 +263,7 @@ class OfferProtectionPage extends React.Component<any> {
     const { classes } = this.props;
 
     return (
-      <IntlProvider locale="en" messages={this.state.lang === 'en' ? en : ru}>
+      <IntlProvider locale="en" messages={this.state.lang === 'ru' ? ru : en}>
       <Scrollbar autoHeight={true} autoHeightMax={'100vh'} renderThumbVertical={this.renderThumbVertical}>
         <div className={classes.wrapper}>
 
