@@ -273,7 +273,7 @@ class MarketMonopolyPage extends React.Component<any> {
               <div className={classes.headingText}>
                 <h1 className={classes.title} style={{marginRight: '20px'}}><FormattedMessage id='market.monopoly' defaultMessage="" /></h1>
 
-                {this.state.lang === 'en' ? 
+                {this.state.lang === 'ru' ? 
                   <span className={`${classes.lang} ${classes.title}`} onClick={() => {localStorage.setItem('lang', 'en'), this.setState({lang: 'en'})}}>RU</span> :
                   <span className={`${classes.lang} ${classes.title}`} onClick={() => {localStorage.setItem('lang', 'ru'), this.setState({lang: 'ru'})}}>EN</span>
                 }
