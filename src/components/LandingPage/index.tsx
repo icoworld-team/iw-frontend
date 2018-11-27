@@ -619,25 +619,7 @@ class LandingPage extends React.Component<any> {
                 <h2 data-to='first' onClick={this.handleClick} style={{fontFamily: 'HelveticaNeueCyr', margin: 0}}>icoWorld</h2>
               </span>
               <div className={classes.headerLinks}>
-              {this.state.lang === 'en' ? 
-                  <ul className={classes.headerLinksList}>
-                    <li className={classes.headerLinksItem}>
-                      <span data-to='solutions' onClick={this.handleClick}>Solutions</span>
-                    </li>
-                    <li className={classes.headerLinksItem}>
-                      <span data-to='roadmap' onClick={this.handleClick}>Roadmap</span>
-                    </li>
-                    <li className={classes.headerLinksItem}>
-                      <span data-to='team' onClick={this.handleClick}>Team</span>
-                    </li>
-                    <li className={classes.headerLinksItem}>
-                      <span data-to='contacts' onClick={this.handleClick}>Contacts</span>
-                    </li>
-                    <li className={classes.headerLinksItem} style={{marginLeft: '5px'}}>
-                      <span onClick={() => {localStorage.setItem('lang', 'ru'), this.setState({lang: 'ru'})}}>EN</span>
-                    </li>
-                  </ul>
-                  :
+              {this.state.lang === 'ru' ? 
                   <ul className={classes.headerLinksList}>
                     <li className={classes.headerLinksItem}>
                       <span data-to='solutions' onClick={this.handleClick}>Решения</span>
@@ -653,6 +635,24 @@ class LandingPage extends React.Component<any> {
                     </li>
                     <li className={classes.headerLinksItem}>
                       <span onClick={() => {localStorage.setItem('lang', 'en'), this.setState({lang: 'en'})}}>RU</span>
+                    </li>
+                  </ul>
+                  :
+                  <ul className={classes.headerLinksList}>
+                    <li className={classes.headerLinksItem}>
+                      <span data-to='solutions' onClick={this.handleClick}>Solutions</span>
+                    </li>
+                    <li className={classes.headerLinksItem}>
+                      <span data-to='roadmap' onClick={this.handleClick}>Roadmap</span>
+                    </li>
+                    <li className={classes.headerLinksItem}>
+                      <span data-to='team' onClick={this.handleClick}>Team</span>
+                    </li>
+                    <li className={classes.headerLinksItem}>
+                      <span data-to='contacts' onClick={this.handleClick}>Contacts</span>
+                    </li>
+                    <li className={classes.headerLinksItem} style={{marginLeft: '5px'}}>
+                      <span onClick={() => {localStorage.setItem('lang', 'ru'), this.setState({lang: 'ru'})}}>EN</span>
                     </li>
                   </ul>
                 }
