@@ -337,7 +337,9 @@ class Profile extends Component<any> {
 
     const input = {
       userId: id,
-      searchText: this.state.searchText
+      searchText: this.state.searchText,
+      skip: 0,
+      limit: 50
     };
 
     return (
@@ -463,7 +465,7 @@ class Profile extends Component<any> {
                                   {this.state.tab === 0 && (
                                       <>
                                           <CustomQuery query={SEARCH_POST_IN_PROFILE} variables={input}>
-                                              {({ error, data }:any) => {
+                                              {({ error, data, fetchMore }:any) => {
                                                   if (error) return `Error: ${error}`;
                                                   if (data.searchPostInProfile.posts.length == 0 && data.searchPostInProfile.reposts.length == 0)
                                                       return (
@@ -478,7 +480,20 @@ class Profile extends Component<any> {
                                                   return (
                                                     <>
                                                       <PostList updateData={this.updateData} posts={pinPost} pinPost={user.pined_post} location={this.props.location.pathname} />
-                                                      <PostList updateData={this.updateData} posts={posts} pinPost={user.pined_post} location={this.props.location.pathname} />
+                                                      <PostList updateData={this.updateData} posts={posts} pinPost={user.pined_post} location={this.props.location.pathname}
+                                                                onLoadMore={() => fetchMore({
+                                                                    variables: {skip: posts.length},
+                                                                    updateQuery: (prev:any, {fetchMoreResult}:any) => {
+                                                                        if (!fetchMoreResult) return prev;
+                                                                        return Object.assign({}, prev, {
+                                                                            searchPostInProfile: {
+                                                                                ...prev.searchPostInProfile,
+                                                                                posts: [...prev.searchPostInProfile.posts, ...fetchMoreResult.searchPostInProfile.posts],
+                                                                                reposts: [...prev.searchPostInProfile.reposts, ...fetchMoreResult.searchPostInProfile.reposts]
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                })}/>
                                                     </>)
                                               }}
                                           </CustomQuery>

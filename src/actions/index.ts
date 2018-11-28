@@ -86,3 +86,10 @@ export const tagSearch = (tag:any) => {
         payload: tag
     }
 };
+
+export const changeScrollPos = (top:any) => {
+    return {
+        type: 'SCROLL',
+        payload: top
+    }
+};

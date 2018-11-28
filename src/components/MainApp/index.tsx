@@ -14,7 +14,16 @@ import Chat from "../Chat";
 // import PoolInfo from "../PoolInfo";
 import Settings from "../ProfileSettings";
 import {socket} from "../../api";
-import {addContact, addMessage, chatUnMount, logOut, setContacts, setInitialMsg, updateContacts} from "../../actions";
+import {
+    addContact,
+    addMessage,
+    changeScrollPos,
+    chatUnMount,
+    logOut,
+    setContacts,
+    setInitialMsg,
+    updateContacts
+} from "../../actions";
 import {connect} from "react-redux";
 import {GET_CHATS} from "../../api/graphql";
 import {withApollo} from "react-apollo";
@@ -135,6 +144,10 @@ class MainApp extends Component<any> {
         return <div {...props} style={{ ...style, ...customStyle }} />;
     }
 
+    handleScroll = (values:any) => {
+        this.props.scroll(values.top);
+    };
+
     render() {
         if(this.props.location.pathname === '/'){
             return (<Redirect to={{pathname: '/feed'}}/>);
@@ -143,7 +156,7 @@ class MainApp extends Component<any> {
             <div>
                 
                 <Scrollbar renderThumbHorizontal={this.renderThumbVertical} autoHeightMin={'100vh'} autoHeight={true} autoHeightMax={'calc(100vh)'}
-                    renderThumbVertical={this.renderThumbVertical} renderTrackVertical={this.renderTrackVertical}>
+                    renderThumbVertical={this.renderThumbVertical} renderTrackVertical={this.renderTrackVertical} onScrollFrame={this.handleScroll}>
                     <MainAppBar tab={this.state.tab}/>
                     <Switch>
                         <Route path="/profile" component={Profile}/>
@@ -177,7 +190,8 @@ const mapDispatchToProps = (dispatch:any) => {
         setContacts: (contacts:any) => dispatch(setContacts(contacts)),
         setInitialMsg: (messages:any) => dispatch(setInitialMsg(messages)),
         updateContacts: (id:any) => dispatch(updateContacts(id)),
-        logOut: () => dispatch(logOut())
+        logOut: () => dispatch(logOut()),
+        scroll: (top:any) => dispatch(changeScrollPos(top)),
     }
 };
 

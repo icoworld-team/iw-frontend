@@ -1,5 +1,4 @@
 import React from 'react'
-import InvestorCard from '../InvestorCard'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import InvestorsFilter from '../InvestorsFilter'
@@ -9,6 +8,7 @@ import { withStyles, createStyles } from '@material-ui/core/styles';
 import { GET_INVESTORS } from '../../api/graphql'
 // import { socket } from "../../api"
 import CustomQuery from '../CustomQuery'
+import InvestorsList from '../InvestorsList'
 
 const styles = () => createStyles({
     investorsBlock: {
@@ -58,11 +58,6 @@ class InvestorsPage extends React.Component<any> {
         investorsAmount: 0,
     };
 
-    componentDidMount() {
-        // socket.on("newMessage", (data:any) => console.log(data));
-        // socket.on("error", (error:any) => console.log('error:' + error));
-    }
-
     handleChange = (e:any) => {
         if(e.keyCode === 13)
             this.setState({
@@ -70,14 +65,21 @@ class InvestorsPage extends React.Component<any> {
             });
     };
 
+    changeAmount = (amount:number) => {
+        this.setState({investorsAmount: amount});
+    };
+
     render() {
         const { classes } = this.props;
 
         const input = {
             name: this.state.searchText,
+            skip: 0,
+            limit: 30,
             ...this.props.filter
         };
-        Object.keys(input).forEach((key) => (input[key] == "") && delete input[key]);
+
+        Object.keys(input).forEach((key) => (input[key] == "" && input[key] !== 0) && delete input[key]);
 
         return (
             <div>
@@ -94,11 +96,21 @@ class InvestorsPage extends React.Component<any> {
                                 <div className={classes.investorsContent}>
                                     <ul className={classes.investorsList}>
                                         <CustomQuery query={GET_INVESTORS} variables={{input: input}}>
-                                            {({ error, data }:any) => {
+                                            {({ error, data, fetchMore }:any) => {
                                                 if(error) return `Error: ${error}`;
-                                                const investors = data.getInvestors.map((investor:any) => <li key={investor.id} className={classes.investorsItem}><InvestorCard data={investor}/></li>);
-                                                investors.length !== this.state.investorsAmount ? this.setState({investorsAmount: investors.length}) : null
-                                                return investors.length ? investors : <Typography style={{padding: '15px'}} variant="subheading" align='center'>Not results</Typography>
+                                                return <InvestorsList data={data.getInvestors} classes={classes} changeAmount={this.changeAmount}
+                                                                      onLoadMore={()=> fetchMore({
+                                                                          variables: {input: {...input, skip: data.getInvestors.length}},
+                                                                          updateQuery: (prev:any, {fetchMoreResult}:any) => {
+                                                                              if (!fetchMoreResult) return prev;
+                                                                              return Object.assign({}, prev, {
+                                                                                  getInvestors: [...prev.getInvestors, ...fetchMoreResult.getInvestors]
+                                                                              });
+                                                                          }
+                                                                      })}/>;
+                                                // const investors = data.getInvestors.map((investor:any) => <li key={investor.id} className={classes.investorsItem}><InvestorCard data={investor}/></li>);
+                                                // investors.length !== this.state.investorsAmount ? this.setState({investorsAmount: investors.length}) : null
+                                                // return investors.length ? investors : <Typography style={{padding: '15px'}} variant="subheading" align='center'>Not results</Typography>
                                             }}
                                         </CustomQuery>
                                     </ul>
@@ -118,9 +130,11 @@ class InvestorsPage extends React.Component<any> {
 }
 
 
+
+
 const mapStateToProps = ({investorsFilter}:any) => {
     return {
-        filter: investorsFilter.filter
+        filter: investorsFilter.filter,
     }
 };
 
