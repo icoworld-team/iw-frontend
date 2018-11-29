@@ -7,6 +7,12 @@ pipeline {
       }
     }
 
+    stage('Building new image') {
+      steps {
+        sh 'docker-compose build frontend'
+      }
+    }
+
     stage('Removing old containers') {
       steps {
         sh('''#!/bin/bash
@@ -15,15 +21,9 @@ pipeline {
       }
     }
 
-    stage('Building new image') {
-      steps {
-        sh 'docker build -t front-${GIT_BRANCH}:0.${BUILD_ID} .'
-      }
-    }
-
     stage('Deploy') {
       steps {
-        sh 'docker run -ti -d -p 3030:3000 front-${GIT_BRANCH}:0.${BUILD_ID}'
+        sh 'docker-compose start frontend'
       }
     }
   }
