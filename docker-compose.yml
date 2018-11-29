@@ -13,7 +13,7 @@ services:
     image: frontend
     container_name: front
     networks:
-      - efk_hostnet
+      - efk_fluentd
     ports:
       - "80:80"
       - "443:443"
