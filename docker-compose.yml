@@ -9,7 +9,7 @@ services:
     build:
       context: .
       args:
-        API_ENDPOINT: //icoworld.projects.oktend.com:80
+        API_ENDPOINT: "//icoworld.projects.oktend.com:80"
     image: frontend
     container_name: front
     networks:
