@@ -10,7 +10,7 @@ pipeline {
     stage('Removing old containers') {
       steps {
         sh('''#!/bin/bash
-           docker rm -f $(docker ps -a | awk '/test2/{print $1}') || echo "THERE ARE NOT ANY CONTAINER WHICH CONTAIN TEST2"
+           docker rm -f $(docker ps -a | awk '/front/{print $1}') || echo "THERE ARE NOT ANY CONTAINER WHICH CONTAIN TEST2"
           ''') 
       }
     }
