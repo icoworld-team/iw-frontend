@@ -339,7 +339,7 @@ class Profile extends Component<any> {
       userId: id,
       searchText: this.state.searchText,
       skip: 0,
-      limit: 50
+      limit: 30
     };
 
     return (

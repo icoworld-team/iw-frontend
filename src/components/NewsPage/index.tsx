@@ -211,7 +211,7 @@ class News extends Component<any> {
     const input = {
       searchText: this.state.searchText,
       skip: 0,
-      limit: 50
+      limit: 30
     };
 
     // const id = {
@@ -309,7 +309,7 @@ class News extends Component<any> {
                 </div>
 
                 {this.state.tab === 0 &&
-                <CustomQuery query={SEARCH_FOLLOW_POSTS} variables={{userId: this.props.authUser.id, txt: this.state.searchText, skip: 0, limit: 50}}>
+                <CustomQuery query={SEARCH_FOLLOW_POSTS} variables={{userId: this.props.authUser.id, txt: this.state.searchText, skip: 0, limit: 30}}>
                     {({ error, data, fetchMore }:any) => {
 
                         if(error) return `Error: ${error}`;
