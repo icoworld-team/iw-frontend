@@ -23,7 +23,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh 'docker-compose start frontend'
+        sh 'docker-compose up -d'
       }
     }
   }
