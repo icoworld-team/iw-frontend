@@ -7,10 +7,9 @@ networks:
 services:
   
   frontend:
-    build:
-      context: .
-      args:
-        API_ENDPOINT: "//icoworld.network:443"
+    build: .
+    env_file: 
+      - "/var/icoworld/front.env"
     image: frontend
     container_name: front
     networks:
