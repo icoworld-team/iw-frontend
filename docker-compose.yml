@@ -8,8 +8,6 @@ services:
   
   frontend:
     build: .
-    env_file: 
-      - "/var/icoworld/front.env"
     image: frontend
     container_name: front
     networks:
