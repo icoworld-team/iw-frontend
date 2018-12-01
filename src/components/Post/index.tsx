@@ -205,6 +205,11 @@ const styles = () => createStyles({
     },
     inputInsideComments: {
         padding: '0 15px 10px 15px',
+    },
+    showFullButton: {
+        cursor: 'pointer',
+        color: '#6e6c88',
+        fontWeight: 'bold',
     }
 });
 
@@ -223,6 +228,7 @@ class Post extends Component<any> {
         textareaHeight: 58,
         openComplainModal: false,
         likeDisabled: false,
+        fullPost: this.props.post.content.length <= 400,
     };
 
     postWithTagsReplacer = (text: string, tags: Array<string>) => {
@@ -339,6 +345,10 @@ class Post extends Component<any> {
 
     handleCloseModal = () => {
         this.setState({openComplainModal: false})
+    };
+
+    handleShowFull = () => {
+        this.setState({fullPost: true});
     };
 
     render() {
@@ -551,8 +561,12 @@ class Post extends Component<any> {
                                     </div>
                                 </div>
                             )
-                            : <Typography className={classes.postContent} onClick={this.tagSearch} dangerouslySetInnerHTML={{ __html: post.tags.length ? this.postWithTagsReplacer(post.content, post.tags) : this.postReplacer(post.content) }}></Typography>}
-
+                            : this.state.fullPost ? <Typography className={classes.postContent} onClick={this.tagSearch} dangerouslySetInnerHTML={{ __html: post.tags.length ? this.postWithTagsReplacer(post.content, post.tags) : this.postReplacer(post.content) }}></Typography>
+                                : <div className={classes.postContent}>
+                                    <Typography onClick={this.tagSearch} dangerouslySetInnerHTML={{ __html: post.tags.length ? this.postWithTagsReplacer(post.content.substring(0,400) + "...", post.tags) : this.postReplacer(post.content.substring(0,400) + "...") }}></Typography>
+                                    <span className={classes.showFullButton} onClick={this.handleShowFull}>Show full post</span>
+                                </div>
+                        }
                     <div className={classes.postFooter}>
                         <FormControlLabel
                             className={classes.footerIconLabel}

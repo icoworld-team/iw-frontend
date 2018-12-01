@@ -1,4 +1,4 @@
-export const endpoint = '//icoworld.network:443';
+export const endpoint:any = process.env.REACT_APP_API_ENDPOINT;
 
 export const handleErrors = (response:any) => {
     return response.text().then((text:any) => {

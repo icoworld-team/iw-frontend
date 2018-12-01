@@ -57,8 +57,8 @@ export const GET_INVESTORS = gql`
 `;
 
 export const SEARCH_POST = gql`
-    query searchPost($searchText: String!) {
-        searchPost(searchText: $searchText) {
+    query searchPost($searchText: String!, $skip: Int!, $limit: Int!) {
+        searchPost(searchText: $searchText, skip: $skip, limit: $limit) {
             postId
             userId
             userName
@@ -219,8 +219,8 @@ export const GET_COMMENTS = gql`
 `;
 
 export const SEARCH_POST_IN_PROFILE = gql`
-	query searchPostInProfile($userId: ID!, $searchText: String!) {
-		searchPostInProfile(userId: $userId, searchText: $searchText) {
+	query searchPostInProfile($userId: ID!, $searchText: String!, $skip: Int!, $limit: Int!) {
+		searchPostInProfile(userId: $userId, searchText: $searchText, skip: $skip, limit: $limit) {
 			posts {
 				postId
 				userId
@@ -521,8 +521,8 @@ export const ADD_IMAGE = gql`
 `;
 
 export const SEARCH_FOLLOW_POSTS = gql`
-    query searchInFollowsPosts($userId: ID!, $txt: String!) {
-        searchInFollowsPosts(userId: $userId, txt: $txt) {
+    query searchInFollowsPosts($userId: ID!, $txt: String!, $skip: Int!, $limit: Int!) {
+        searchInFollowsPosts(userId: $userId, txt: $txt, skip: $skip, limit: $limit) {
             postId
             userId
 			userName

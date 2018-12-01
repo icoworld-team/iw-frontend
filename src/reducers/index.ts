@@ -157,3 +157,14 @@ export const chat = (state=chatInitialState, action:any) => {
             return state;
     }
 };
+
+export const scroll = (state={top: 0}, action:any) => {
+    switch (action.type) {
+        case 'SCROLL':
+            return {
+                top: action.payload
+            };
+        default:
+            return state;
+    }
+};

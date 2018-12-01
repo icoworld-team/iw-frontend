@@ -210,6 +210,8 @@ class News extends Component<any> {
     const { classes } = this.props;
     const input = {
       searchText: this.state.searchText,
+      skip: 0,
+      limit: 30
     };
 
     // const id = {
@@ -307,25 +309,43 @@ class News extends Component<any> {
                 </div>
 
                 {this.state.tab === 0 &&
-                <CustomQuery query={SEARCH_FOLLOW_POSTS} variables={{userId: this.props.authUser.id, txt: this.state.searchText}}>
-                    {({ error, data }:any) => {
+                <CustomQuery query={SEARCH_FOLLOW_POSTS} variables={{userId: this.props.authUser.id, txt: this.state.searchText, skip: 0, limit: 30}}>
+                    {({ error, data, fetchMore }:any) => {
 
                         if(error) return `Error: ${error}`;
                         if(data.searchInFollowsPosts.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
                         return (
-                            <PostList updateData={this.updateData} posts={data.searchInFollowsPosts} location={this.props.location.pathname} />
+                            <PostList updateData={this.updateData} posts={data.searchInFollowsPosts} location={this.props.location.pathname}
+                                      onLoadMore={() => fetchMore({
+                                          variables: {skip: data.searchInFollowsPosts.length},
+                                          updateQuery: (prev:any, {fetchMoreResult}:any) => {
+                                              if (!fetchMoreResult) return prev;
+                                              return Object.assign({}, prev, {
+                                                  searchInFollowsPosts: [...prev.searchInFollowsPosts, ...fetchMoreResult.searchInFollowsPosts]
+                                              });
+                                          }
+                                      })}/>
                         )
                     }}
                 </CustomQuery>}
 
                 {this.state.tab === 1 &&
                 <CustomQuery query={SEARCH_POST} variables={input}>
-                    {({ error, data }:any) => {
+                    {({ error, data, fetchMore }:any) => {
 
                         if(error) return `Error: ${error}`;
                         if(data.searchPost.length == 0) return <div className={`card ${classes.noActivity}`}><Typography>No posts</Typography></div>
                         return (
-                            <PostList updateData={this.updateData} posts={data.searchPost} authUserId={null} location={this.props.location.pathname} />
+                            <PostList updateData={this.updateData} posts={data.searchPost} authUserId={null} location={this.props.location.pathname}
+                                      onLoadMore={() => fetchMore({
+                                          variables: {skip: data.searchPost.length},
+                                          updateQuery: (prev:any, {fetchMoreResult}:any) => {
+                                              if (!fetchMoreResult) return prev;
+                                              return Object.assign({}, prev, {
+                                                  searchPost: [...prev.searchPost, ...fetchMoreResult.searchPost]
+                                              });
+                                          }
+                                      })}/>
                         )
                     }}
                 </CustomQuery>}
