@@ -11,7 +11,7 @@ services:
       context: .
       args:
         API_ENDPOINT: "//icoworld.network:443"
-    image: frontend-1.$BUILD_ID
+    image: frontend
     container_name: front
     networks:
       hostnet:
