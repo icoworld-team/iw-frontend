@@ -569,7 +569,7 @@ class LandingPage extends React.Component<any> {
   }
 
   componentDidMount() {
-    let to: any = new Date("December 1 2018 00:01:00");
+    let to: any = new Date("January 1 2019 00:01:00");
     let now: any = Date.now();
       
     let remaining = to - now;
