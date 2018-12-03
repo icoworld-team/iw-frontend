@@ -68,8 +68,8 @@ class PostComments extends Component<any> {
             {({ error, data }:any) => {
                 if(error) return `Error: ${error}`;
 
-                const comments = data.getComments.slice().map((comment:any) => (
-                    <Comment comment={comment}/>
+                const comments = data.getComments.map((comment:any) => (
+                    <Comment key={comment.Id} comment={comment} postId={this.props.postId} postUserId={this.props.postUserId} />
                 ));
                 return (
                     <div className={classes.postComments}>

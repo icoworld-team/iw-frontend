@@ -13,6 +13,7 @@ import {ADD_IMAGE, CREATE_POST, SEARCH_POST, SEARCH_POST_IN_PROFILE, UPLOAD_FILE
 import { withApollo } from "react-apollo"
 import CircularProgress from '@material-ui/core/CircularProgress'
 import {endpoint} from "../../api";
+import PostTextEditor from '../PostTextEditor'
 
 const styles = () => createStyles({
     postInput: {
@@ -68,7 +69,6 @@ const styles = () => createStyles({
         alignItems: 'center',
     },
     postButton: {
-        // float: 'right',
         minWidth: '85px',
         minHeight: '30px',
         fontSize: '14px',
@@ -102,11 +102,17 @@ const styles = () => createStyles({
 
 class PostInput extends Component<any> {
     state = {
-        postBody: '',
+        postBody: '' as any,
         tags: [],
         attachments: [],
         textareaHeight: 58,
+        name: '',
+        postBodyJSON: '' as any,
     };
+
+    updateData = (editor: any) => {
+        this.setState({ postBody: editor.text, postBodyJSON: editor.value, tags: editor.tags })
+    }
 
     handleChange = (e: any) => {
         this.setState({
@@ -163,6 +169,7 @@ class PostInput extends Component<any> {
         const postInput = {
             userId: user.id,
             content: this.state.postBody,
+            contentJson: this.state.postBodyJSON !== '' ? JSON.stringify(this.state.postBodyJSON.toJSON()) : '',
             tags: this.state.tags,
         };
         const attachments = this.state.attachments.map((file:any, index:any) => (
@@ -185,20 +192,18 @@ class PostInput extends Component<any> {
                         <Typography className={classes.userLogin}>{`@${user.login}`}</Typography>
                     </div>
                 </div>
-                
+                <PostTextEditor updateData={this.updateData} />
                 <div style={{position: 'relative'}}>
-                    <textarea className={`input border-input ${classes.postTextarea}`}
+                    {/* <textarea className={`input border-input ${classes.postTextarea}`}
                         name="postBody" id="postTextarea" value={this.state.postBody} onChange={this.handleChange}
                         placeholder="Write something..." style={{minHeight: 58, height: this.state.textareaHeight}} />
 
                     <textarea className={`input border-input ${classes.postTextarea}`}
                         name="postShadowBody" id="postShadowTextarea" value={this.state.postBody}
                         placeholder="Write something..." 
-                        style={{
-                            overflow: 'hidden',
-                            position: 'absolute',
-                            visibility: 'hidden',
-                            whiteSpace: 'pre-wrap'}} rows={1} tabIndex={-1} />
+                        style={{overflow: 'hidden', position: 'absolute',
+                            visibility: 'hidden', whiteSpace: 'pre-wrap'}}
+                        rows={1} tabIndex={-1} /> */}
                 </div>
 
                 <div className={classes.inputFiles}>
@@ -243,9 +248,12 @@ class PostInput extends Component<any> {
                         {createPost => {
                             return <Button className={`button fill-button ${classes.postButton}`} variant="raised"
                                 color="primary"
-                                onClick={() => {if (this.state.postBody.length || this.state.attachments.length)
+                                onClick={() => {if (this.state.postBody || this.state.attachments.length)
                                     {
                                         createPost({ variables: { input: postInput } })
+                                        console.log(postInput)
+                                    } else {
+                                        console.log(postInput)
                                     }
                                 }}>Post</Button>
                         }}

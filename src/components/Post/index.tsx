@@ -37,6 +37,8 @@ import {
 import { relativeTime } from '../../utils'
 import { endpoint } from "../../api"
 import { Link } from "react-router-dom";
+import Html from 'slate-html-serializer'
+import { Value } from 'slate'
 
 const styles = () => createStyles({
     postCard: {
@@ -212,6 +214,74 @@ const styles = () => createStyles({
         fontWeight: 'bold',
     }
 });
+
+const rules = [
+    {
+      serialize(obj: any, children: any) {
+        if (obj.object == 'block') {
+          switch (obj.type) {
+            case 'paragraph':
+              return <p className={obj.data.get('className')}>{children}</p>
+            case 'line':
+              return <p className={obj.data.get('className')}>{children}</p>
+            case 'align-center':
+              return <p style={{textAlign: 'center'}} className={obj.data.get('className')}>{children}</p>
+            case 'align-right':
+              return <p style={{textAlign: 'right'}} className={obj.data.get('className')}>{children}</p>
+            case 'block-quote':
+              return <blockquote>{children}</blockquote>
+            case 'bulleted-list':
+              return <ul style={{listStyle: 'disc', margin: '1em 0', paddingLeft: '40px'}}>{children}</ul>
+            case 'heading-one':
+              return <h1>{children}</h1>
+            case 'heading-two':
+              return <h2>{children}</h2>
+            case 'heading-three':
+              return <h3>{children}</h3>
+            case 'list-item':
+              return <li>{children}</li>
+            case 'numbered-list':
+              return <ol>{children}</ol>
+          }
+        }
+        return
+      },
+    }, {
+      serialize(obj: any, children: any) {
+        if (obj.object == 'mark') {
+          switch (obj.type) {
+            case 'bold':
+              return <strong>{children}</strong>
+            case 'italic':
+              return <em>{children}</em>
+            case 'underline':
+              return <u>{children}</u>
+            case 'code':
+              return <code style={{fontFamily: 'monospace!important'}}>{children}</code>
+          }
+        }
+        return
+      },
+    }, {
+      serialize(obj: any, children: any) {
+        if (obj.object == 'inline') {
+          switch (obj.type) {
+            case 'hashtag':
+              return <span className="tag">{children}</span>
+            case 'link':
+              let href: string = obj.data.get('href')
+              return (
+                <a href={href.search(/https?:\/\//) === -1 ? `https:\/\/${href}` : href} target="_blank">{children}</a>
+              )
+          }
+        }
+        return
+      },
+    },
+]
+  
+const html = new Html({ rules })
+console.log(html)
 
 class Post extends Component<any> {
     state = {
@@ -549,7 +619,7 @@ class Post extends Component<any> {
                                                 visibility: 'hidden',
                                                 whiteSpace: 'pre-wrap'}} rows={1} tabIndex={-1} />
                                     </div>
-                                    {/* <textarea className={classes.textArea} name="postBody" rows={3} value={this.state.postBody} onChange={this.handleChange}></textarea> */}
+                                    
                                     <div className={classes.editButtonsBlock}>
                                         <Button variant="outlined" color="secondary" size="small" className={`button outline-button`} onClick={this.handleEdit}>Cancel</Button>
                                         <Mutation mutation={EDIT_POST} onCompleted={()=>this.setState({editMode: false})} onError={(error)=>console.log(error)}>
@@ -561,6 +631,8 @@ class Post extends Component<any> {
                                     </div>
                                 </div>
                             )
+                            : post.contentJson ? // TODO: если базу дропнут, можно будет убрать, т.к. contentJson будет у всех постов
+                            <Typography className={classes.postContent} dangerouslySetInnerHTML={{ __html: html.serialize(Value.fromJSON(JSON.parse(post.contentJson))) }}></Typography>
                             : this.state.fullPost ? <Typography className={classes.postContent} onClick={this.tagSearch} dangerouslySetInnerHTML={{ __html: post.tags.length ? this.postWithTagsReplacer(post.content, post.tags) : this.postReplacer(post.content) }}></Typography>
                                 : <div className={classes.postContent}>
                                     <Typography onClick={this.tagSearch} dangerouslySetInnerHTML={{ __html: post.tags.length ? this.postWithTagsReplacer(post.content.substring(0,400) + "...", post.tags) : this.postReplacer(post.content.substring(0,400) + "...") }}></Typography>
@@ -656,7 +728,7 @@ class Post extends Component<any> {
                         <Typography className={classes.hideCommentsText}>See comments</Typography>
                     </div>
                     : <div>
-                        <PostComments postId={post.postId} />
+                        <PostComments postId={post.postId} postUserId={post.userId} />
                         <div className={classes.inputInsideComments}>
                             {createCommentControl}
                         </div>
@@ -675,11 +747,5 @@ const mapStateToProps = ({auth}:any) => {
         authUser: auth.authUser
     }
 };
-
-// const mapDispatchToProps = (dispatch:any) => {
-//     return {
-//         tags: (tags:any) => dispatch(tagSearch(tags))
-//     }
-// };
 
 export default connect(mapStateToProps)(withStyles(styles)(Post))

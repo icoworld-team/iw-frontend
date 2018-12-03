@@ -186,6 +186,18 @@ export const EDIT_POST = gql`
 	}
 `;
 
+export const DELETE_COMMENT = gql`
+	mutation deleteComment($cmtId: ID!) {
+		deleteComment(cmtId: $cmtId)
+	}
+`;
+
+export const EDIT_COMMENT = gql`
+	mutation editComment($cmtId: ID!, $content: String!) {
+		editComment(cmtId: $cmtId, content: $content)
+	}
+`;
+
 export const CREATE_COMMENT = gql`
 	mutation createComment($postId: ID!, $content: String!) {
 		createComment(postId: $postId, content: $content) {
@@ -230,6 +242,7 @@ export const SEARCH_POST_IN_PROFILE = gql`
 				date
 				edited
 				content
+				contentJson
 				likes
 				comments
 				tags
@@ -267,6 +280,7 @@ export const GET_POST = gql`
 			date
 			edited
 			content
+			contentJson
 			comments
 			likes
 			tags
@@ -286,6 +300,7 @@ export const CREATE_POST = gql`
             date
             edited
             content
+            contentJson
             comments
             likes
             tags
