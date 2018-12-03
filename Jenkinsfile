@@ -7,23 +7,23 @@ pipeline {
       }
     }
 
-    stage('Removing old containers') {
+    stage('Building new image') {
       steps {
-        sh('''#!/bin/bash
-           docker rm -f $(docker ps -a | awk '/test2/{print $1}') || echo "THERE ARE NOT ANY CONTAINER WHICH CONTAIN TEST2"
-          ''') 
+        sh 'docker-compose build frontend'
       }
     }
 
-    stage('Building new image') {
+    stage('Removing old containers') {
       steps {
-        sh 'docker build -t front-${GIT_BRANCH}:0.${BUILD_ID} .'
+        sh('''#!/bin/bash
+           docker rm -f $(docker ps -a | awk '/front/{print $1}') || echo "THERE ARE NOT ANY CONTAINER WHICH CONTAIN TEST2"
+          ''') 
       }
     }
 
     stage('Deploy') {
       steps {
-        sh 'docker run -ti -d -p 3030:3000 front-${GIT_BRANCH}:0.${BUILD_ID}'
+        sh 'docker-compose up -d'
       }
     }
   }
