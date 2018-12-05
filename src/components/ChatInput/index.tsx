@@ -2,8 +2,39 @@ import React, { Component } from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import {socket} from "../../api";
 import Send from '@material-ui/icons/Send';
+import { withStyles, createStyles } from '@material-ui/core/styles';
 
-export default class ChatInput extends Component<any> {
+const styles = () => createStyles({
+    chatFooter: {
+        display: 'flex',
+        flexWrap: 'nowrap',
+        width: '100%',
+        backgroundColor: '#ffffff',
+        borderTop: '1px solid #e9ecef',
+    },
+    footerRow: {
+        display: 'flex',
+        width: '100%',
+        padding: '16px',
+    },
+    chatForm: {
+        width: '100%',
+        paddingLeft: '12px',
+        paddingRight: '24px',
+    },
+    chatTextArea: {
+        height: '40px',
+        width: '100%',
+        resize: 'none',
+        padding: '.375rem .75rem',
+        border: 0,
+        borderRadius: 0,
+        fontFamily: '\'Open Sans\', sans-serif',
+        fontSize: '14px',
+    },
+});
+
+class ChatInput extends Component<any> {
     state = {
         message: '',
         textAreaHeight: 60
@@ -42,16 +73,17 @@ export default class ChatInput extends Component<any> {
     };
 
     render() {
+        const { classes } = this.props;
         return (
-            <div className="chat-footer">
-                <div className="footer-row">
-                    <div className="chat-form">
+            <div className={classes.chatFooter}>
+                <div className={classes.footerRow}>
+                    <div className={classes.chatForm}>
                         <div style={{position: 'relative'}}>
-                            <textarea className={`border-input chat-textarea`}
+                            <textarea className={`border-input ${classes.chatTextArea}`}
                               name="message" id="message" value={this.state.message} onChange={this.handleChange} onKeyUp={this.handleKeyUp}
                               placeholder="Type and hit enter to send message" style={{minHeight: 60, height: this.state.textAreaHeight}} />
 
-                            <textarea className={`border-input chat-textarea`}
+                            <textarea className={`border-input ${classes.chatTextArea}`}
                                       name="shadowTextArea" id="shadowTextArea" value={this.state.message}
                                       placeholder="Type and hit enter to send message"
                                       style={{
@@ -63,13 +95,13 @@ export default class ChatInput extends Component<any> {
                             {/*<textarea name="message" className="chat-textarea" placeholder="Type and hit enter to send message"*/}
                                       {/*value={this.state.message} onChange={this.handleChange}/>*/}
                     </div>
-                    <div className="send-button">
-                        <IconButton aria-label="Send message" onClick={this.handleSendMessage}>
-                            <Send/>
-                        </IconButton>
-                    </div>
+                    <IconButton aria-label="Send message" onClick={this.handleSendMessage}>
+                        <Send/>
+                    </IconButton>
                 </div>
             </div>
         )
     }
 }
+
+export default withStyles(styles)(ChatInput)

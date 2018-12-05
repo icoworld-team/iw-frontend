@@ -1,10 +1,28 @@
 import React, {Component} from 'react'
 import ChatContactsList from '../ChatContactsList'
-import './style.css'
 import ChatWindow from '../ChatWindow'
 import Comment from '@material-ui/icons/Comment';
+import { withStyles, createStyles } from '@material-ui/core/styles';
 
-export default class Chat extends Component<any> {
+const styles = () => createStyles({
+    selectUserWindow: {
+        backgroundColor: '#f8f9fa',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        width: '785px',
+    },
+    chatSideNav: {
+        backgroundColor: '#fafafa',
+        display: 'flex',
+        flexDirection: 'column',
+        borderRight: '1px solid #e9ecef',
+        minWidth: '315px',
+    }
+});
+
+class Chat extends Component<any> {
     state = {
         selectedUser: this.props.location.state ? this.props.location.state.user : null,
     };
@@ -16,8 +34,9 @@ export default class Chat extends Component<any> {
     };
 
     render() {
+        const { classes } = this.props;
         const selectUserWindow = (
-            <div className="select-user-window">
+            <div className={classes.selectUserWindow}>
                 <Comment/>
                 <h1>Select user to start chat</h1>
             </div>
@@ -25,7 +44,7 @@ export default class Chat extends Component<any> {
         return (
             <div className={`page-wrapper`}>
                 <div className="page-content" style={{alignItems: 'stretch', height: 'calc(100vh - 108px)'}}>
-                    <div className="chat-sidenav">
+                    <div className={classes.chatSideNav}>
                         <ChatContactsList onSelectUser={this.onSelectUser}/>
                     </div>
                     {this.state.selectedUser ? <ChatWindow user={this.state.selectedUser}/> : selectUserWindow}
@@ -34,3 +53,5 @@ export default class Chat extends Component<any> {
         )
     }
 }
+
+export default withStyles(styles)(Chat)

@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import '../style.css';
-import {handleErrors, fetchPost, endpoint} from '../../api'
+import { signIn } from '../../api'
 import {userSignIn} from '../../actions'
 
 const styles = () => createStyles({
@@ -89,15 +89,13 @@ class SignInPage extends Component<any> {
     };
 
     handleClick = () => {
-        const url = `${endpoint}/login`;
         const data = {
             email: this.state.email,
             password: this.state.password
         };
 
         if(this.state.email.length > 0 && this.state.password.length > 0) {
-            fetchPost(url, data)
-                .then(response => handleErrors(response))
+            signIn(data)
                 .then(json => {
                     localStorage.setItem("user", JSON.stringify(json));
                     this.props.signIn(json)

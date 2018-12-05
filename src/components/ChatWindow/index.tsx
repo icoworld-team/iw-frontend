@@ -7,7 +7,36 @@ import {connect} from "react-redux";
 import { setMessages, addOlderMessages, readMessages, updateContacts } from "../../actions";
 import { GET_CHAT_MESSAGES } from '../../api/graphql'
 import ChatInput from '../ChatInput'
+import { withStyles, createStyles } from '@material-ui/core/styles';
 
+const styles = () => createStyles({
+    chatWindow: {
+        display: 'flex',
+        flexDirection: 'column',
+        flex: '1 1 auto',
+    },
+    chatMainHeader: {
+        display: 'flex',
+        backgroundColor: '#ffffff',
+        borderBottom: '1px solid #e9ecef',
+        padding: '16px',
+        alignItems: 'center',
+    },
+    avatarBlock: {
+        padding: '0 5px',
+    },
+    avatarMode: {
+        position: 'relative',
+    },
+    avatar: {
+        borderRadius: '50%',
+    },
+    contactName: {
+        marginLeft: '.1rem',
+        fontSize: '20px',
+        fontWeight: 500,
+    },
+});
 
 // const fetchMessages = async (client:any, chatId:any) => {
 //     const result = await client.query({
@@ -152,18 +181,18 @@ class ChatWindow extends Component<any> {
     // };
 
     render() {
-        const { user,  chatMessages } = this.props;
+        const { user, chatMessages, classes } = this.props;
         const data = chatMessages[user.chatId];
         return (
-            <div className="chat-window">
-                <div className="chat-main-header">
-                    <div className="chat-window-user-avatar">
-                        <div className="chat-user-avatar-mode">
-                            <img className="chat-avatar" width="60px" src={user.parnter.avatar ? `${endpoint}/images/${user.parnter.id}/${user.parnter.avatar}` : "profile.jpeg"}/>
+            <div className={classes.chatWindow}>
+                <div className={classes.chatMainHeader}>
+                    <div className={classes.avatarBlock}>
+                        <div className={classes.avatarMode}>
+                            <img className={classes.avatar} width="60px" src={user.parnter.avatar ? `${endpoint}/images/${user.parnter.id}/${user.parnter.avatar}` : "profile.jpeg"}/>
                             {/*<span className="chat-status online" />*/}
                         </div>
                     </div>
-                    <div className="chat-contact-name">{user.parnter.name}</div>
+                    <div className={classes.contactName}>{user.parnter.name}</div>
                 </div>
                 <Scrollbars ref={(ref)=>{ this.scrollArea = ref;}} autoHide style={{height: 650}} onScrollFrame={this.handleScroll}>
                     <Conversation messages={data} chatId={user.chatId} selectedUser={user}/>
@@ -190,4 +219,4 @@ const mapDispatchToProps = (dispatch:any) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withApollo(ChatWindow))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withApollo(ChatWindow)))

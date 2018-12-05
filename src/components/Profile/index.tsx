@@ -516,8 +516,8 @@ class Profile extends Component<any> {
                                               return <Typography className={classes.followerEmptyText}>No followers</Typography>
 
                                           const followers = data.getSubscribers.map((user: any) => (
-                                              <li className={classes.followersItem}>
-                                                  <Link key={user.id} to={{pathname: "/profile", state: { id: user.id } }} className={classes.link}>
+                                              <li key={user.id} className={classes.followersItem}>
+                                                  <Link to={{pathname: "/profile", state: { id: user.id } }} className={classes.link}>
                                                       <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
                                                       <Typography align="center" className={classes.followerName}>{this.resize(user.name)}</Typography>
                                                   </Link>
@@ -545,8 +545,8 @@ class Profile extends Component<any> {
                                                           <Scrollbar autoHeight={true} autoHeightMax={590} renderThumbVertical={this.renderThumbVertical}>
                                                               <ul className={classes.followersList}>
                                                                   {data.getSubscribers.map((user: any) => (
-                                                                      <li className={classes.followersItemModal}>
-                                                                          <Link key={user.id} to={{pathname: "/profile", state: { id: user.id }}} className={classes.link}>
+                                                                      <li key={user.id} className={classes.followersItemModal}>
+                                                                          <Link to={{pathname: "/profile", state: { id: user.id }}} className={classes.link}>
                                                                               <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
                                                                               <Typography align="center" className={classes.followerName}>{this.resize(user.name)}</Typography>
                                                                           </Link>
@@ -575,8 +575,8 @@ class Profile extends Component<any> {
                                               return <Typography className={classes.followerEmptyText}>No follows</Typography>
 
                                           const follows = data.getFollows.map((user: any) => (
-                                              <li className={classes.followersItem}>
-                                                  <Link key={user.id} to={{ pathname: "/profile", state: { id: user.id } }} className={classes.link}>
+                                              <li key={user.id} className={classes.followersItem}>
+                                                  <Link to={{ pathname: "/profile", state: { id: user.id } }} className={classes.link}>
                                                       <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
                                                       <Typography align="center" className={classes.followerName}>{this.resize(user.name)}</Typography>
                                                   </Link>
@@ -602,8 +602,8 @@ class Profile extends Component<any> {
                                                           <Scrollbar autoHeight={true} autoHeightMax={590} renderThumbVertical={this.renderThumbVertical}>
                                                               <ul className={classes.followersList}>
                                                                   {data.getFollows.map((user: any) => (
-                                                                      <li className={classes.followersItemModal}>
-                                                                          <Link key={user.id} to={{pathname: "/profile", state: { id: user.id }}} className={classes.link}>
+                                                                      <li key={user.id} className={classes.followersItemModal}>
+                                                                          <Link to={{pathname: "/profile", state: { id: user.id }}} className={classes.link}>
                                                                               <Avatar className={classes.followerAvatar} src={user.avatar ? `${endpoint}/images/${user.id}/${user.avatar}` : "profile.jpeg"}/>
                                                                               <Typography align="center" className={classes.followerName}>{this.resize(user.name)}</Typography>
                                                                           </Link>

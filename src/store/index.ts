@@ -1,19 +1,13 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import { routerReducer, routerMiddleware } from 'react-router-redux'
+import { createStore, applyMiddleware } from "redux";
+import { routerMiddleware } from 'react-router-redux'
 import createHistory from "history/createBrowserHistory";
-import { auth, investorsFilter, chat, scroll } from '../reducers'
+import rootReducer from "../reducers";
 
 const history = createHistory();
 const middleware = routerMiddleware(history);
 
-export const store = createStore(combineReducers({
-    auth: auth,
-    investorsFilter: investorsFilter,
-    chat: chat,
-    scroll: scroll,
-    router: routerReducer
-}),
-    // (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
+export const store = createStore(rootReducer,
+    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
     applyMiddleware(middleware),
 );
 

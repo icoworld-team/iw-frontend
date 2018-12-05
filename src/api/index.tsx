@@ -10,8 +10,8 @@ export const handleErrors = (response:any) => {
     });
 };
 
-export const fetchPost = (url:string, data:object) => {
-    return fetch(url, {
+export const signUp = (data:object) => {
+    return fetch(`${endpoint}/signup`, {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify(data),
@@ -19,18 +19,30 @@ export const fetchPost = (url:string, data:object) => {
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
-    });
+    }).then(response => handleErrors(response));
 };
 
-export const fetchGet =  (url:string) => {
-    return fetch(url, {
+export const signIn = (data:object) => {
+    return fetch(`${endpoint}/login`, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify(data),
+        credentials: "include",
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    }).then(response => handleErrors(response));
+};
+
+export const logout = () => {
+    return fetch(`${endpoint}/logout`, {
         method: 'GET',
         mode: 'cors',
         credentials: "include",
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
-    });
+    }).then(response => handleErrors(response));
 };
 
 export const sendEmail = (addr:string, title:string, content:string) => {

@@ -6,7 +6,7 @@ import { createStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import '../style.css'
-import {handleErrors, fetchPost, endpoint} from '../../api'
+import { signUp } from '../../api'
 import {userSignIn} from "../../actions";
 
 const styles = () => createStyles({
@@ -121,7 +121,6 @@ class SignUpPage extends Component<any> {
     };
 
     handleClick =()=> {
-        const url = `${endpoint}/signup`;
         const data = {
             firstName: this.state.name,
             lastName: this.state.lastname,
@@ -130,8 +129,7 @@ class SignUpPage extends Component<any> {
             password: this.state.password
         };
         if(this.state.name.length > 0 && this.state.lastname.length > 0 && this.state.nickname.length > 0 && this.state.email.length > 0 && this.state.password.length > 0) {
-            fetchPost(url, data)
-                .then(response => handleErrors(response))
+            signUp(data)
                 .then(json => {
                     localStorage.setItem("user", JSON.stringify(json)),
                     this.props.signIn(json)

@@ -10,7 +10,7 @@ export default function Conversation ({chatId, selectedUser, messages}:any) {
         data=[];
     }
     return (
-        <div className="conversation">
+        <div style={{backgroundColor: '#ffffff', minHeight: '650px'}}>
             {data}
         </div>
     )
